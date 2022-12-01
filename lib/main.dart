@@ -4,9 +4,11 @@
 
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/Start.dart';
+import 'package:negotiation_tracker/StartNewNegotia.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(Start());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,49 +18,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      title: 'Name Generator',
+      title: 'Negotiation App',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Name Generator'),
+          title: const Text('Hello World'),
         ),
         body: const Center(
-          child: RandomWords(),
+          child: Text('Hello World'),
         ),
       ),
     );
   }
 }
 
-class RandomWords extends StatefulWidget {
-  const RandomWords({Key? key}) : super(key: key);
 
-  @override
-  State<RandomWords> createState() => _RandomWordsState();
-}
-
-class _RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: /*1*/ (context, i) {
-        if (i.isOdd) return const Divider(); /*2*/
-
-        final index = i ~/ 2; /*3*/
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-        }
-        return ListTile(
-          title: Text(
-            _suggestions[index].asPascalCase,
-            style: _biggerFont,
-          ),
-        );
-      },
-    );
-  }
-}
 
