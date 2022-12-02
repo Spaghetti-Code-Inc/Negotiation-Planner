@@ -3,12 +3,14 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/StartNewNegotia.dart';
 
 class Start extends StatelessWidget {
+  const Start({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
       backgroundColor: Color(0xfff1f1f1),
       appBar: AppBar(
         elevation: 4,
@@ -161,7 +163,13 @@ class Start extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StartNewNegotia()),
+                  );
+                },
                 color: Color(0xffffffff),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -226,6 +234,6 @@ class Start extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 }

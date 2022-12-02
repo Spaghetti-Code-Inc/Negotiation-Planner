@@ -5,20 +5,21 @@
 import 'package:flutter/material.dart';
 
 class StartNewNegotia extends StatelessWidget {
+  const StartNewNegotia({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
       backgroundColor: Color(0xffffffff),
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Prepare A New Negotiation",
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -27,7 +28,7 @@ class StartNewNegotia extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xffffffff),
           size: 24,
@@ -42,7 +43,7 @@ class StartNewNegotia extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 child: Text(
                   "This tool is designed to help you organize your plan for negotiation. ",
@@ -57,19 +58,19 @@ class StartNewNegotia extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: TextEditingController(),
                   obscureText: false,
                   textAlign: TextAlign.left,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
                     color: Color(0xff000000),
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.zero,
                       borderSide:
@@ -115,9 +116,11 @@ class StartNewNegotia extends StatelessWidget {
                     border: Border.all(color: Color(0x4dffffff), width: 1),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       color: Color(0x54000000),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -125,7 +128,10 @@ class StartNewNegotia extends StatelessWidget {
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
                       padding: EdgeInsets.all(16),
-                      child: Text(
+                      textColor: Color(0xff000000),
+                      height: 40,
+                      minWidth: MediaQuery.of(context).size.width * 0.8,
+                      child: const Text(
                         "Next",
                         style: TextStyle(
                           fontSize: 14,
@@ -133,9 +139,6 @@ class StartNewNegotia extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: MediaQuery.of(context).size.width * 0.8,
                     ),
                   ),
                 ),
@@ -144,6 +147,6 @@ class StartNewNegotia extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    );
   }
 }
