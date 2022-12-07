@@ -1,13 +1,8 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/StartNewNegotia.dart';
 
 class Start extends StatelessWidget {
-  const Start({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +94,7 @@ class Start extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: Icon(
@@ -137,7 +132,7 @@ class Start extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                children: const [
+                children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
                     child: Icon(
@@ -163,13 +158,7 @@ class Start extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StartNewNegotia()),
-                  );
-                },
+                onPressed: () {},
                 color: Color(0xffffffff),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -177,10 +166,7 @@ class Start extends StatelessWidget {
                   side: BorderSide(color: Color(0xff000000), width: 1),
                 ),
                 padding: EdgeInsets.all(16),
-                textColor: Color(0xff000000),
-                height: 40,
-                minWidth: 140,
-                child: const Text(
+                child: Text(
                   "Get Started",
                   style: TextStyle(
                     fontSize: 14,
@@ -188,6 +174,9 @@ class Start extends StatelessWidget {
                     fontStyle: FontStyle.normal,
                   ),
                 ),
+                textColor: Color(0xff000000),
+                height: 40,
+                minWidth: 140,
               ),
             ),
             Padding(
@@ -197,7 +186,7 @@ class Start extends StatelessWidget {
                 obscureText: false,
                 textAlign: TextAlign.center,
                 maxLines: 1,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
                   fontSize: 14,
@@ -217,7 +206,7 @@ class Start extends StatelessWidget {
                     borderSide: BorderSide(color: Color(0x00000000), width: 1),
                   ),
                   hintText: "Already have an account? Log in",
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -227,7 +216,7 @@ class Start extends StatelessWidget {
                   fillColor: Color(0xfff2f2f3),
                   isDense: false,
                   contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 ),
               ),
             ),
