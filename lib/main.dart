@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/Start.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     title: 'Negotiation App',
     home: Start(),
   ));
-
-  int start = 0;
-  String keep = "hello vars";
 }
+
+
+
