@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class CpsRubrik extends StatelessWidget {
+  const CpsRubrik({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         elevation: 4,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xff000000),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Prepare New Negotiation",
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -24,7 +26,7 @@ class CpsRubrik extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xffffffff),
           size: 24,
@@ -42,16 +44,17 @@ class CpsRubrik extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: Color(0x1f000000),
+                    color: const Color(0x1f000000),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+                    border:
+                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
                   ),
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.all(10),
                     child: Align(
                       alignment: Alignment.center,
@@ -73,10 +76,10 @@ class CpsRubrik extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0x1fffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
@@ -91,7 +94,7 @@ class CpsRubrik extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -109,13 +112,13 @@ class CpsRubrik extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Expanded(
+                          const Expanded(
                             flex: 1,
                             child: Text(
                               "Issue Name: ",
@@ -136,7 +139,7 @@ class CpsRubrik extends StatelessWidget {
                               obscureText: false,
                               textAlign: TextAlign.start,
                               maxLines: 1,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14,
@@ -145,30 +148,30 @@ class CpsRubrik extends StatelessWidget {
                               decoration: InputDecoration(
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                       color: Color(0xff000000), width: 1),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                       color: Color(0xff000000), width: 1),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                       color: Color(0xff000000), width: 1),
                                 ),
                                 hintText: "Points",
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontStyle: FontStyle.normal,
                                   fontSize: 14,
                                   color: Color(0xff000000),
                                 ),
                                 filled: true,
-                                fillColor: Color(0xfff2f2f3),
+                                fillColor: const Color(0xfff2f2f3),
                                 isDense: true,
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 12),
                               ),
                             ),
@@ -181,7 +184,7 @@ class CpsRubrik extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 1,
                           child: Text(
                             "Issue Name:",
@@ -202,7 +205,7 @@ class CpsRubrik extends StatelessWidget {
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
@@ -211,30 +214,30 @@ class CpsRubrik extends StatelessWidget {
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               hintText: "Points",
-                              hintStyle: TextStyle(
+                              hintStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14,
                                 color: Color(0xff000000),
                               ),
                               filled: true,
-                              fillColor: Color(0xfff2f2f3),
+                              fillColor: const Color(0xfff2f2f3),
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 12),
                             ),
                           ),
@@ -247,30 +250,30 @@ class CpsRubrik extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Color(0x1fffffff),
+              color: const Color(0x1fffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4dffffff), width: 0),
+              border: Border.all(color: const Color(0x4dffffff), width: 0),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 1,
                           child: Text(
                             "Your counterpart's suspected target.",
@@ -285,9 +288,9 @@ class CpsRubrik extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.info_outline),
+                          icon: const Icon(Icons.info_outline),
                           onPressed: () {},
-                          color: Color(0xff000000),
+                          color: const Color(0xff000000),
                           iconSize: 24,
                         ),
                       ],
@@ -298,7 +301,7 @@ class CpsRubrik extends StatelessWidget {
                     obscureText: false,
                     textAlign: TextAlign.start,
                     maxLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
@@ -307,31 +310,31 @@ class CpsRubrik extends StatelessWidget {
                     decoration: InputDecoration(
                       disabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide:
-                            BorderSide(color: Color(0xff000000), width: 1),
+                        borderSide: const BorderSide(
+                            color: Color(0xff000000), width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide:
-                            BorderSide(color: Color(0xff000000), width: 1),
+                        borderSide: const BorderSide(
+                            color: Color(0xff000000), width: 1),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide:
-                            BorderSide(color: Color(0xff000000), width: 1),
+                        borderSide: const BorderSide(
+                            color: Color(0xff000000), width: 1),
                       ),
                       hintText: "Target",
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
                         fontSize: 14,
                         color: Color(0xff000000),
                       ),
                       filled: true,
-                      fillColor: Color(0xfff2f2f3),
+                      fillColor: const Color(0xfff2f2f3),
                       isDense: true,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                     ),
                   ),
                 ],
@@ -339,14 +342,14 @@ class CpsRubrik extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Color(0x1fffffff),
+              color: const Color(0x1fffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4dffffff), width: 1),
+              border: Border.all(color: const Color(0x4dffffff), width: 1),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -358,7 +361,7 @@ class CpsRubrik extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         "Your counterpart's BATNA?",
@@ -375,9 +378,9 @@ class CpsRubrik extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: IconButton(
-                        icon: Icon(Icons.info_outline),
+                        icon: const Icon(Icons.info_outline),
                         onPressed: () {},
-                        color: Color(0xff212435),
+                        color: const Color(0xff212435),
                         iconSize: 24,
                       ),
                     ),
@@ -388,7 +391,7 @@ class CpsRubrik extends StatelessWidget {
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -398,44 +401,44 @@ class CpsRubrik extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "BATNA",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xfff2f2f3),
+                    fillColor: const Color(0xfff2f2f3),
                     isDense: true,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Color(0x1fffffff),
+              color: const Color(0x1fffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4dffffff), width: 1),
+              border: Border.all(color: const Color(0x4dffffff), width: 1),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -443,13 +446,13 @@ class CpsRubrik extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 1,
                         child: Text(
                           "Your counter part's suspected resistance point.",
@@ -464,9 +467,9 @@ class CpsRubrik extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.info_outline),
+                        icon: const Icon(Icons.info_outline),
                         onPressed: () {},
-                        color: Color(0xff212435),
+                        color: const Color(0xff212435),
                         iconSize: 24,
                       ),
                     ],
@@ -477,7 +480,7 @@ class CpsRubrik extends StatelessWidget {
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -487,30 +490,30 @@ class CpsRubrik extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Resistance point",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xfff2f2f3),
+                    fillColor: const Color(0xfff2f2f3),
                     isDense: true,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
               ],
@@ -520,15 +523,15 @@ class CpsRubrik extends StatelessWidget {
             flex: 1,
             child: Container(
               alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.all(0),
-              padding: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width,
               height: 100,
               decoration: BoxDecoration(
-                color: Color(0x1fffffff),
+                color: const Color(0x1fffffff),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.zero,
-                border: Border.all(color: Color(0x4dffffff), width: 1),
+                border: Border.all(color: const Color(0x4dffffff), width: 1),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -539,14 +542,17 @@ class CpsRubrik extends StatelessWidget {
                     flex: 1,
                     child: MaterialButton(
                       onPressed: () {},
-                      color: Color(0xff4d4d4d),
+                      color: const Color(0xff4d4d4d),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xffffffff),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Back",
                         style: TextStyle(
                           fontSize: 14,
@@ -554,23 +560,23 @@ class CpsRubrik extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: MaterialButton(
                       onPressed: () {},
-                      color: Color(0xff4d4d4d),
+                      color: const Color(0xff4d4d4d),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xffffffff),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Next",
                         style: TextStyle(
                           fontSize: 14,
@@ -578,9 +584,6 @@ class CpsRubrik extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
                     ),
                   ),
                 ],

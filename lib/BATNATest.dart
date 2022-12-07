@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class BATNATest extends StatelessWidget {
+  const BATNATest({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         elevation: 4,
         centerTitle: false,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Prepare A New Negotiation",
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -24,7 +26,7 @@ class BATNATest extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xffffffff),
           size: 24,
@@ -45,7 +47,7 @@ class BATNATest extends StatelessWidget {
                 margin: EdgeInsets.all(0),
                 padding: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0x1f000000),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.zero,
@@ -62,7 +64,7 @@ class BATNATest extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
-                          children: [
+                          children: const [
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
@@ -79,7 +81,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -96,7 +98,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -113,7 +115,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -130,7 +132,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -147,7 +149,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -171,7 +173,7 @@ class BATNATest extends StatelessWidget {
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
@@ -180,21 +182,21 @@ class BATNATest extends StatelessWidget {
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               labelText: "Pts.",
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14,
@@ -203,12 +205,12 @@ class BATNATest extends StatelessWidget {
                               filled: true,
                               fillColor: Color(0xfff2f2f3),
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 12),
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -225,7 +227,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -242,7 +244,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -266,7 +268,7 @@ class BATNATest extends StatelessWidget {
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
@@ -275,21 +277,21 @@ class BATNATest extends StatelessWidget {
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
                               ),
                               labelText: "Pts.",
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14,
@@ -298,7 +300,7 @@ class BATNATest extends StatelessWidget {
                               filled: true,
                               fillColor: Color(0xfff2f2f3),
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 12),
                             ),
                           ),
@@ -318,7 +320,7 @@ class BATNATest extends StatelessWidget {
               padding: EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width,
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0x1f000000),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.zero,
@@ -334,12 +336,15 @@ class BATNATest extends StatelessWidget {
                       onPressed: () {},
                       color: Color(0xff4d4d4d),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
                       padding: EdgeInsets.all(16),
-                      child: Text(
+                      textColor: Color(0xffffffff),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Back",
                         style: TextStyle(
                           fontSize: 14,
@@ -347,9 +352,6 @@ class BATNATest extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
                     ),
                   ),
                   Expanded(
@@ -358,12 +360,15 @@ class BATNATest extends StatelessWidget {
                       onPressed: () {},
                       color: Color(0xff4d4d4d),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
                       padding: EdgeInsets.all(16),
-                      child: Text(
+                      textColor: Color(0xffffffff),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Start",
                         style: TextStyle(
                           fontSize: 14,
@@ -371,9 +376,6 @@ class BATNATest extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
                     ),
                   ),
                 ],

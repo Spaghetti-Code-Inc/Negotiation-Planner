@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class MyNegotiations extends StatelessWidget {
+  const MyNegotiations({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xff000000),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "My Negotiations",
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -24,12 +26,12 @@ class MyNegotiations extends StatelessWidget {
             color: Color(0xff000000),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xff212435),
           size: 24,
         ),
-        actions: [
+        actions: const [
           Icon(Icons.search, color: Color(0xff212435), size: 24),
         ],
       ),
@@ -44,21 +46,21 @@ class MyNegotiations extends StatelessWidget {
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(10),
                   width: 200,
                   height: MediaQuery.of(context).size.height * 0.3,
                   decoration: BoxDecoration(
-                    color: Color(0x64000000),
+                    color: const Color(0x64000000),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+                    border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
-                    children: [
+                    children: const [
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(

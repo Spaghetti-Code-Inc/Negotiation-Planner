@@ -3,33 +3,35 @@
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
+  const Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffc5c5c5),
+      backgroundColor: const Color(0xffc5c5c5),
       body: Stack(
         alignment: Alignment.topLeft,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 100, horizontal: 20),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+            padding: const EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
-              color: Color(0xffffffff),
+              color: const Color(0xffffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -48,13 +50,13 @@ class Login extends StatelessWidget {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 16, horizontal: 0),
+                          const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
                       child: TextField(
                         controller: TextEditingController(),
                         obscureText: false,
                         textAlign: TextAlign.left,
                         maxLines: 1,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
@@ -64,29 +66,29 @@ class Login extends StatelessWidget {
                           disabledBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),
                             borderSide:
-                                BorderSide(color: Color(0xff000000), width: 1),
+                                const BorderSide(color: Color(0xff000000), width: 1),
                           ),
                           focusedBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),
                             borderSide:
-                                BorderSide(color: Color(0xff000000), width: 1),
+                                const BorderSide(color: Color(0xff000000), width: 1),
                           ),
                           enabledBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),
                             borderSide:
-                                BorderSide(color: Color(0xff000000), width: 1),
+                                const BorderSide(color: Color(0xff000000), width: 1),
                           ),
                           hintText: "Enter Email",
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.normal,
                             fontSize: 14,
                             color: Color(0xff494646),
                           ),
                           filled: true,
-                          fillColor: Color(0xffffffff),
+                          fillColor: const Color(0xffffffff),
                           isDense: false,
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                         ),
                       ),
                     ),
@@ -95,7 +97,7 @@ class Login extends StatelessWidget {
                       obscureText: false,
                       textAlign: TextAlign.start,
                       maxLines: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
                         fontSize: 14,
@@ -105,32 +107,32 @@ class Login extends StatelessWidget {
                         disabledBorder: UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              BorderSide(color: Color(0xff000000), width: 1),
+                              const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              BorderSide(color: Color(0xff000000), width: 1),
+                              const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              BorderSide(color: Color(0xff000000), width: 1),
+                              const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         hintText: "Enter Password",
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
                           color: Color(0xff494646),
                         ),
                         filled: true,
-                        fillColor: Color(0xffffffff),
+                        fillColor: const Color(0xffffffff),
                         isDense: false,
-                        contentPadding: EdgeInsets.all(0),
+                        contentPadding: const EdgeInsets.all(0),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.fromLTRB(0, 16, 0, 30),
                       child: Align(
                         alignment: Alignment.centerRight,
@@ -149,13 +151,16 @@ class Login extends StatelessWidget {
                     ),
                     MaterialButton(
                       onPressed: () {},
-                      color: Color(0xff3e4b8c),
+                      color: const Color(0xff3e4b8c),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xffffffff),
+                      height: 40,
+                      minWidth: MediaQuery.of(context).size.width,
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                           fontSize: 16,
@@ -163,17 +168,14 @@ class Login extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xffffffff),
-                      height: 40,
-                      minWidth: MediaQuery.of(context).size.width,
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
-                        children: [
+                        children: const [
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
                             child: Text(
@@ -208,14 +210,14 @@ class Login extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Color(0xff000f31),
+              color: const Color(0xff000f31),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
           ),
         ],

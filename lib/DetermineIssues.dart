@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class DetermineIssues extends StatelessWidget {
+  const DetermineIssues({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         elevation: 4,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xff000000),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Prepare A New Negotiation",
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -24,7 +26,7 @@ class DetermineIssues extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.menu,
           color: Color(0xffffffff),
           size: 24,
@@ -36,21 +38,21 @@ class DetermineIssues extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width,
             height: 80,
             decoration: BoxDecoration(
-              color: Color(0x1f000000),
+              color: const Color(0x1f000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0xa5000000), width: 1),
+              border: Border.all(color: const Color(0xa5000000), width: 1),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
-              children: [
+              children: const [
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Text(
@@ -82,7 +84,7 @@ class DetermineIssues extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Text(
               "An issue is something the negotiators will try to reach agreement on. Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.",
@@ -99,13 +101,13 @@ class DetermineIssues extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -123,19 +125,19 @@ class DetermineIssues extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                     child: TextField(
                       controller: TextEditingController(),
                       obscureText: false,
                       textAlign: TextAlign.start,
                       maxLines: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
                         fontSize: 14,
                         color: Color(0xff000000),
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.zero,
                           borderSide:
@@ -174,17 +176,20 @@ class DetermineIssues extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: MaterialButton(
                       onPressed: () {},
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff000000), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xff000000),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Add Issue",
                         style: TextStyle(
                           fontSize: 14,
@@ -192,20 +197,17 @@ class DetermineIssues extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: 140,
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.all(0),
-                      padding: EdgeInsets.all(0),
+                      margin: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       width: MediaQuery.of(context).size.width,
                       height: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0x00000000),
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.zero,
@@ -219,15 +221,18 @@ class DetermineIssues extends StatelessWidget {
                             flex: 1,
                             child: MaterialButton(
                               onPressed: () {},
-                              color: Color(0xff4c4c4c),
+                              color: const Color(0xff4c4c4c),
                               elevation: 0,
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.zero,
                                 side: BorderSide(
                                     color: Color(0xff808080), width: 1),
                               ),
-                              padding: EdgeInsets.all(16),
-                              child: Text(
+                              padding: const EdgeInsets.all(16),
+                              textColor: const Color(0xffffffff),
+                              height: 40,
+                              minWidth: 140,
+                              child: const Text(
                                 "Back",
                                 style: TextStyle(
                                   fontSize: 14,
@@ -235,24 +240,24 @@ class DetermineIssues extends StatelessWidget {
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),
-                              textColor: Color(0xffffffff),
-                              height: 40,
-                              minWidth: 140,
                             ),
                           ),
                           Expanded(
                             flex: 1,
                             child: MaterialButton(
                               onPressed: () {},
-                              color: Color(0xff4d4d4d),
+                              color: const Color(0xff4d4d4d),
                               elevation: 0,
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.zero,
                                 side: BorderSide(
                                     color: Color(0xff808080), width: 1),
                               ),
-                              padding: EdgeInsets.all(16),
-                              child: Text(
+                              padding: const EdgeInsets.all(16),
+                              textColor: const Color(0xffffffff),
+                              height: 40,
+                              minWidth: 140,
+                              child: const Text(
                                 "Next",
                                 style: TextStyle(
                                   fontSize: 14,
@@ -260,9 +265,6 @@ class DetermineIssues extends StatelessWidget {
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),
-                              textColor: Color(0xffffffff),
-                              height: 40,
-                              minWidth: 140,
                             ),
                           ),
                         ],
