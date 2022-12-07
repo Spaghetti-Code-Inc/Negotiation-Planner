@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class RubricSummary extends StatelessWidget {
+  const RubricSummary({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         elevation: 4,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xff000000),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Prepare A New Negotiation",
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -24,7 +26,7 @@ class RubricSummary extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xffffffff),
           size: 24,
@@ -37,15 +39,15 @@ class RubricSummary extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
-              color: Color(0x1f000000),
+              color: const Color(0x1f000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -57,7 +59,7 @@ class RubricSummary extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
-                    children: [
+                    children: const [
                       Text(
                         "Rubric Summary",
                         textAlign: TextAlign.left,
@@ -151,10 +153,10 @@ class RubricSummary extends StatelessWidget {
                   flex: 1,
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.all(0),
-                    padding: EdgeInsets.all(0),
+                    margin: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0x00000000),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.zero,
@@ -168,15 +170,18 @@ class RubricSummary extends StatelessWidget {
                           flex: 1,
                           child: MaterialButton(
                             onPressed: () {},
-                            color: Color(0xff4d4d4d),
+                            color: const Color(0xff4d4d4d),
                             elevation: 0,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.zero,
                               side: BorderSide(
                                   color: Color(0xff808080), width: 1),
                             ),
-                            padding: EdgeInsets.all(16),
-                            child: Text(
+                            padding: const EdgeInsets.all(16),
+                            textColor: const Color(0xffffffff),
+                            height: 40,
+                            minWidth: 140,
+                            child: const Text(
                               "Back",
                               style: TextStyle(
                                 fontSize: 14,
@@ -184,24 +189,24 @@ class RubricSummary extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                            textColor: Color(0xffffffff),
-                            height: 40,
-                            minWidth: 140,
                           ),
                         ),
                         Expanded(
                           flex: 1,
                           child: MaterialButton(
                             onPressed: () {},
-                            color: Color(0xff4d4d4d),
+                            color: const Color(0xff4d4d4d),
                             elevation: 0,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.zero,
                               side: BorderSide(
                                   color: Color(0xff808080), width: 1),
                             ),
-                            padding: EdgeInsets.all(16),
-                            child: Text(
+                            padding: const EdgeInsets.all(16),
+                            textColor: const Color(0xffffffff),
+                            height: 40,
+                            minWidth: 140,
+                            child: const Text(
                               "Next",
                               style: TextStyle(
                                 fontSize: 14,
@@ -209,9 +214,6 @@ class RubricSummary extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                            textColor: Color(0xffffffff),
-                            height: 40,
-                            minWidth: 140,
                           ),
                         ),
                       ],

@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class Register extends StatelessWidget {
+  const Register({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xff000000),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Sign up",
           style: TextStyle(
             fontWeight: FontWeight.w700,
@@ -24,21 +26,21 @@ class Register extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xffffffff),
           size: 24,
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: Text(
                   "Let's Get Started!",
@@ -52,7 +54,7 @@ class Register extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                 child: Text(
                   "Create an account",
@@ -67,13 +69,13 @@ class Register extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                 child: TextField(
                   controller: TextEditingController(),
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -83,43 +85,43 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Name",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xffffffff),
+                    fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon:
-                        Icon(Icons.person, color: Color(0xff212435), size: 24),
+                        const Icon(Icons.person, color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextField(
                   controller: TextEditingController(),
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -129,43 +131,43 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Email Address",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xffffffff),
+                    fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon:
-                        Icon(Icons.mail, color: Color(0xff212435), size: 24),
+                        const Icon(Icons.mail, color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextField(
                   controller: TextEditingController(),
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -175,43 +177,43 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Password",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xffffffff),
+                    fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon: Icon(Icons.visibility,
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    prefixIcon: const Icon(Icons.visibility,
                         color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextField(
                   controller: TextEditingController(),
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
@@ -221,46 +223,49 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Confirm Password",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xffffffff),
+                    fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon: Icon(Icons.visibility,
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    prefixIcon: const Icon(Icons.visibility,
                         color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
                   onPressed: () {},
-                  color: Color(0xff3e4b8c),
+                  color: const Color(0xff3e4b8c),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: EdgeInsets.all(16),
-                  child: Text(
+                  padding: const EdgeInsets.all(16),
+                  textColor: const Color(0xffffffff),
+                  height: 45,
+                  minWidth: MediaQuery.of(context).size.width,
+                  child: const Text(
                     "Sign Up",
                     style: TextStyle(
                       fontSize: 16,
@@ -268,12 +273,9 @@ class Register extends StatelessWidget {
                       fontStyle: FontStyle.normal,
                     ),
                   ),
-                  textColor: Color(0xffffffff),
-                  height: 45,
-                  minWidth: MediaQuery.of(context).size.width,
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: Text(
                   "By creating an account or continuing to use  this app, you acknowledge and agree that you have accepted the Terms of  Services and  have reviewed the Privacy Policy.",
@@ -288,12 +290,12 @@ class Register extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: [
+                  children: const [
                     Text(
                       "Already have an account?",
                       textAlign: TextAlign.start,

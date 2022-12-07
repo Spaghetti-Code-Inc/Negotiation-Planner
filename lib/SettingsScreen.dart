@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffcfcfcf),
+      backgroundColor: const Color(0xffcfcfcf),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xffcfcfcf),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xffcfcfcf),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "SETTINGS",
           style: TextStyle(
             fontWeight: FontWeight.w700,
@@ -24,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
             color: Color(0xff000000),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.arrow_back,
           color: Color(0xff212435),
           size: 24,
@@ -36,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,13 +48,13 @@ class SettingsScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.2,
                   width: MediaQuery.of(context).size.width * 0.2,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: Image.network("https://picsum.photos/250?image=13",
                       fit: BoxFit.cover),
                 ),
-                ListTile(
+                const ListTile(
                   tileColor: Color(0x00000000),
                   title: Text(
                     "John Doe",
@@ -84,20 +86,20 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: Color(0xff000000),
+                    color: const Color(0xff000000),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(45.0),
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+                    border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     onPressed: () {},
-                    color: Color(0xffffffff),
+                    color: const Color(0xffffffff),
                     iconSize: 15,
                   ),
                 ),
@@ -105,18 +107,18 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+            padding: const EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width * 0.85,
             height: MediaQuery.of(context).size.height * 0.55,
             decoration: BoxDecoration(
-              color: Color(0x6c000000),
+              color: const Color(0x6c000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,12 +130,12 @@ class SettingsScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.notifications),
+                        icon: const Icon(Icons.notifications),
                         onPressed: () {},
-                        color: Color(0xffffffff),
+                        color: const Color(0xffffffff),
                         iconSize: 24,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: Text(
                           "Notifications",
@@ -150,19 +152,19 @@ class SettingsScreen extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.settings),
+                          icon: const Icon(Icons.settings),
                           onPressed: () {},
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                           iconSize: 24,
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Text(
                             "General",
@@ -180,19 +182,19 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.person),
+                          icon: const Icon(Icons.person),
                           onPressed: () {},
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                           iconSize: 24,
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Text(
                             "Account",
@@ -210,19 +212,19 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.visibility),
+                          icon: const Icon(Icons.visibility),
                           onPressed: () {},
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                           iconSize: 24,
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Text(
                             "Privacy",
@@ -240,19 +242,19 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.cancel),
+                          icon: const Icon(Icons.cancel),
                           onPressed: () {},
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                           iconSize: 24,
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Text(
                             "Block",
@@ -270,19 +272,19 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.help),
+                          icon: const Icon(Icons.help),
                           onPressed: () {},
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                           iconSize: 24,
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Text(
                             "Help",

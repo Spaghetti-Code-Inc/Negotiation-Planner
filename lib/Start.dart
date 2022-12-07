@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 
 class Start extends StatelessWidget {
+  const Start({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff1f1f1),
+      backgroundColor: const Color(0xfff1f1f1),
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000000),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xff000000),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
+        title: const Text(
           "Negotiation Planner",
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -35,24 +37,24 @@ class Start extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Container(
-                margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                padding: EdgeInsets.all(0),
+                margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                padding: const EdgeInsets.all(0),
                 width: 200,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Color(0x1f000000),
+                  color: const Color(0x1f000000),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
-                      children: [
+                      children: const [
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                           child: Icon(
@@ -79,22 +81,22 @@ class Start extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              padding: EdgeInsets.all(0),
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              padding: const EdgeInsets.all(0),
               width: 200,
               height: 100,
               decoration: BoxDecoration(
-                color: Color(0x1f000000),
+                color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: [
+                  children: const [
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: Icon(
@@ -119,12 +121,12 @@ class Start extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              padding: EdgeInsets.all(0),
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              padding: const EdgeInsets.all(0),
               width: 200,
               height: 100,
               decoration: BoxDecoration(
-                color: Color(0x1f000000),
+                color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(20.0),
               ),
@@ -132,7 +134,7 @@ class Start extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                children: [
+                children: const [
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
                     child: Icon(
@@ -156,17 +158,20 @@ class Start extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: MaterialButton(
                 onPressed: () {},
-                color: Color(0xffffffff),
+                color: const Color(0xffffffff),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  side: BorderSide(color: Color(0xff000000), width: 1),
+                  side: const BorderSide(color: Color(0xff000000), width: 1),
                 ),
-                padding: EdgeInsets.all(16),
-                child: Text(
+                padding: const EdgeInsets.all(16),
+                textColor: const Color(0xff000000),
+                height: 40,
+                minWidth: 140,
+                child: const Text(
                   "Get Started",
                   style: TextStyle(
                     fontSize: 14,
@@ -174,19 +179,16 @@ class Start extends StatelessWidget {
                     fontStyle: FontStyle.normal,
                   ),
                 ),
-                textColor: Color(0xff000000),
-                height: 40,
-                minWidth: 140,
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: TextField(
                 controller: TextEditingController(),
                 obscureText: false,
                 textAlign: TextAlign.center,
                 maxLines: 1,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
                   fontSize: 14,
@@ -195,28 +197,28 @@ class Start extends StatelessWidget {
                 decoration: InputDecoration(
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(color: Color(0x00000000), width: 1),
+                    borderSide: const BorderSide(color: Color(0x00000000), width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(color: Color(0x00000000), width: 1),
+                    borderSide: const BorderSide(color: Color(0x00000000), width: 1),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(color: Color(0x00000000), width: 1),
+                    borderSide: const BorderSide(color: Color(0x00000000), width: 1),
                   ),
                   hintText: "Already have an account? Log in",
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
                     color: Color(0xff000000),
                   ),
                   filled: true,
-                  fillColor: Color(0xfff2f2f3),
+                  fillColor: const Color(0xfff2f2f3),
                   isDense: false,
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 ),
               ),
             ),
