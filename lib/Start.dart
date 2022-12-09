@@ -1,6 +1,9 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
+
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/StartNewNegotia.dart';
 
 class Start extends StatelessWidget {
   const Start({super.key});
@@ -34,86 +37,169 @@ class Start extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Align(
-              alignment: Alignment.center,
+            Expanded(
+              flex: 2,
               child: Container(
-                margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 padding: const EdgeInsets.all(0),
-                width: 200,
-                height: 100,
+                width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
-                  color: const Color(0x1f000000),
+                  color: const Color(0xffd1d1d1),
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
                 ),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.add_to_photos,
-                            color: Color(0xff212435),
-                            size: 24,
-                          ),
-                        ),
-                        Text(
-                          "Start Negotiation",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              padding: const EdgeInsets.all(0),
-              width: 200,
-              height: 100,
-              decoration: BoxDecoration(
-                color: const Color(0x1f000000),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: Icon(
-                        Icons.book,
-                        color: Color(0xff212435),
-                        size: 24,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        icon: const Icon(Icons.add_to_photos),
+                        onPressed: () {},
+                        color: const Color(0xff212435),
+                        iconSize: 24,
                       ),
                     ),
-                    Text(
-                      "Track Progress",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14,
-                        color: Color(0xff000000),
+                    Expanded(
+                      flex: 4,
+                      child: MaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const StartNewNegotia()),
+                          );
+                        },
+                        color: const Color(0xffd1d1d1),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0)),
+                        ),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        textColor: const Color(0xff000000),
+                        height: 100,
+                        minWidth: 140,
+                        child: const Text(
+                          "Prepare Negotiation",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: const EdgeInsets.all(0),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: const Color(0xffd1d1d1),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.book),
+                      onPressed: () {},
+                      color: const Color(0xff212435),
+                      iconSize: 24,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: MaterialButton(
+                        onPressed: () {},
+                        color: const Color(0xffd1d1d1),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0)),
+                        ),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        textColor: const Color(0xff000000),
+                        height: MediaQuery.of(context).size.height,
+                        minWidth: 140,
+                        child: const Text(
+                          "Track Progress",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: const EdgeInsets.all(0),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: const Color(0xffd1d1d1),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.verified),
+                      onPressed: () {},
+                      color: const Color(0xff212435),
+                      iconSize: 24,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: MaterialButton(
+                        onPressed: () {},
+                        color: const Color(0xffd1d1d1),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0)),
+                        ),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        textColor: const Color(0xff000000),
+                        height: MediaQuery.of(context).size.height,
+                        minWidth: 100,
+                        child: const Text(
+                          "Evaluate Agreement",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -121,104 +207,75 @@ class Start extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              padding: const EdgeInsets.all(0),
-              width: 200,
-              height: 100,
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    child: Icon(
-                      Icons.verified,
-                      color: Color(0xff212435),
-                      size: 24,
-                    ),
+              child: Align(
+                alignment: Alignment.center,
+                child: MaterialButton(
+                  onPressed: () {},
+                  color: const Color(0xffd1d1d1),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    side: const BorderSide(color: Color(0xff808080), width: 1),
                   ),
-                  Text(
-                    "Evaluate Agreement",
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  textColor: const Color(0xff000000),
+                  height: 40,
+                  minWidth: MediaQuery.of(context).size.width,
+                  child: const Text(
+                    "Get Started",
                     style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
                       fontSize: 14,
-                      color: Color(0xff000000),
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: MaterialButton(
-                onPressed: () {},
-                color: const Color(0xffffffff),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  side: const BorderSide(color: Color(0xff000000), width: 1),
-                ),
-                padding: const EdgeInsets.all(16),
-                textColor: const Color(0xff000000),
-                height: 40,
-                minWidth: 140,
-                child: const Text(
-                  "Get Started",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                  ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: TextField(
-                controller: TextEditingController(),
-                obscureText: false,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14,
-                  color: Color(0xff000000),
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 100,
+                decoration: const BoxDecoration(
+                  color: Color(0x00ffffff),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.zero,
                 ),
-                decoration: InputDecoration(
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: const BorderSide(color: Color(0x00000000), width: 1),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MaterialButton(
+                    onPressed: () {},
+                    color: const Color(0xffffffff),
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Color(0xffffffff), width: 1),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    textColor: const Color(0xff000000),
+                    height: 40,
+                    minWidth: 140,
+                    child: const Text(
+                      "Already have an Account? Login. ",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: const BorderSide(color: Color(0x00000000), width: 1),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: const BorderSide(color: Color(0x00000000), width: 1),
-                  ),
-                  hintText: "Already have an account? Log in",
-                  hintStyle: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14,
-                    color: Color(0xff000000),
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xfff2f2f3),
-                  isDense: false,
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 ),
               ),
             ),

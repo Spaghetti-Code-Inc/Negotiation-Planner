@@ -1,6 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/IssueValues.dart';
 
 class WeightIssues extends StatelessWidget {
   const WeightIssues({super.key});
@@ -409,7 +410,12 @@ class WeightIssues extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const IssueValues()),
+                        );
+                      },
                       color: const Color(0xff4d4d4d),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(

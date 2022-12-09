@@ -1,10 +1,11 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/RubricSummary.dart';
 
 class BATNATest extends StatelessWidget {
   const BATNATest({super.key});
-
+  final double textSize = 18;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,12 +18,12 @@ class BATNATest extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: const Text(
+        title: Text(
           "Prepare A New Negotiation",
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontStyle: FontStyle.normal,
-            fontSize: 14,
+            fontSize: textSize,
             color: Color(0xffffffff),
           ),
         ),
@@ -357,7 +358,12 @@ class BATNATest extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const RubricSummary()),
+                        );
+                      },
                       color: Color(0xff4d4d4d),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(

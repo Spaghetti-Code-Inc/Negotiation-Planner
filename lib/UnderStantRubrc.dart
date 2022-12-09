@@ -1,6 +1,8 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/BATNATest.dart';
+import 'package:negotiation_tracker/RubricSummary.dart';
 
 class UnderStantRubrc extends StatelessWidget {
   const UnderStantRubrc({super.key});
@@ -414,7 +416,12 @@ class UnderStantRubrc extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const BATNATest()),
+                        );
+                      },
                       color: const Color(0xff4d4d4d),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(

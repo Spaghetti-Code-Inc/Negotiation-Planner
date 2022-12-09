@@ -1,10 +1,11 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/WeightIssues.dart';
 
 class DetermineIssues extends StatelessWidget {
   const DetermineIssues({super.key});
-
+  final double textSize = 18;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +63,7 @@ class DetermineIssues extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w800,
                       fontStyle: FontStyle.normal,
-                      fontSize: 25,
+                      fontSize: 28,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -76,7 +77,7 @@ class DetermineIssues extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 14,
+                      fontSize: 18,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -84,7 +85,7 @@ class DetermineIssues extends StatelessWidget {
               ],
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Text(
               "An issue is something the negotiators will try to reach agreement on. Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.",
@@ -93,7 +94,7 @@ class DetermineIssues extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.normal,
-                fontSize: 14,
+                fontSize: textSize,
                 color: Color(0xff000000),
               ),
             ),
@@ -235,8 +236,8 @@ class DetermineIssues extends StatelessWidget {
                               child: const Text(
                                 "Back",
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),
@@ -245,7 +246,12 @@ class DetermineIssues extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const WeightIssues()),
+                                );
+                              },
                               color: const Color(0xff4d4d4d),
                               elevation: 0,
                               shape: const RoundedRectangleBorder(
@@ -260,8 +266,8 @@ class DetermineIssues extends StatelessWidget {
                               child: const Text(
                                 "Next",
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),

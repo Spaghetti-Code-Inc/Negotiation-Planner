@@ -7,7 +7,7 @@ import 'package:negotiation_tracker/Start.dart';
 
 void main() {
   runApp(const MaterialApp(
-    title: 'Negotiation App',
+    title: 'Negotiation Planner',
     home: Start(),
   ));
 }
