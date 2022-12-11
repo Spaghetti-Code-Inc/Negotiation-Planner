@@ -144,8 +144,8 @@ class Start extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Evaluate Agreement",
-                    textAlign: TextAlign.start,
+                    "Evaluate",
+                    textAlign: TextAlign.center,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
