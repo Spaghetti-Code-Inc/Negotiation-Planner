@@ -42,7 +42,6 @@ class IssueValues extends StatelessWidget {
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width,
-            height: 90,
             decoration: BoxDecoration(
               color: const Color(0x1f000000),
               shape: BoxShape.rectangle,
@@ -61,9 +60,9 @@ class IssueValues extends StatelessWidget {
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       fontStyle: FontStyle.normal,
-                      fontSize: 25,
+                      fontSize: 28,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -77,7 +76,7 @@ class IssueValues extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 14,
+                      fontSize: 18,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -88,13 +87,13 @@ class IssueValues extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
             child: Text(
-              "Identify possible outcomes on each and allocate a number of points for several potential settlement on each issue. Y ou should base your range on norms, industry standards market data, etc.",
+              "Identify possible outcomes on each and allocate a number of points for several potential settlement on each issue. You should base your range on norms, industry standards market data, etc.",
               textAlign: TextAlign.start,
               overflow: TextOverflow.clip,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.normal,
-                fontSize: 14,
+                fontSize: 18,
                 color: Color(0xff000000),
               ),
             ),
@@ -774,8 +773,8 @@ class IssueValues extends StatelessWidget {
                   child: const Text(
                     "Back",
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                       fontStyle: FontStyle.normal,
                     ),
                   ),
@@ -787,7 +786,7 @@ class IssueValues extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const UnderStantRubrc()),
+                      MaterialPageRoute(builder: (context) => UnderStantRubrc()),
                     );
                   },
                   color: const Color(0xff4d4d4d),
@@ -803,8 +802,8 @@ class IssueValues extends StatelessWidget {
                   child: const Text(
                     "Next",
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                       fontStyle: FontStyle.normal,
                     ),
                   ),

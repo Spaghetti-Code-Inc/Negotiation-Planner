@@ -65,7 +65,7 @@ class WeightIssues extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontStyle: FontStyle.normal,
-                        fontSize: 25,
+                        fontSize: 28,
                         color: Color(0xff000000),
                       ),
                     ),
@@ -80,7 +80,7 @@ class WeightIssues extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 14,
+                      fontSize: 17,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -102,7 +102,7 @@ class WeightIssues extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
-                    fontSize: 14,
+                    fontSize: 18,
                     color: Color(0xff000000),
                   ),
                 ),
@@ -118,7 +118,7 @@ class WeightIssues extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontStyle: FontStyle.normal,
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -413,7 +413,7 @@ class WeightIssues extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const IssueValues()),
+                          MaterialPageRoute(builder: (context) => IssueValues()),
                         );
                       },
                       color: const Color(0xff4d4d4d),

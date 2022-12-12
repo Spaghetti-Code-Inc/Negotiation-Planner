@@ -5,7 +5,7 @@ import 'package:negotiation_tracker/WeightIssues.dart';
 
 class DetermineIssues extends StatelessWidget {
   const DetermineIssues({super.key});
-  final double textSize = 18;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +85,7 @@ class DetermineIssues extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Text(
               "An issue is something the negotiators will try to reach agreement on. Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.",
@@ -94,7 +94,7 @@ class DetermineIssues extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.normal,
-                fontSize: textSize,
+                fontSize: 18,
                 color: Color(0xff000000),
               ),
             ),
@@ -249,7 +249,7 @@ class DetermineIssues extends StatelessWidget {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const WeightIssues()),
+                                  MaterialPageRoute(builder: (context) => WeightIssues()),
                                 );
                               },
                               color: const Color(0xff4d4d4d),

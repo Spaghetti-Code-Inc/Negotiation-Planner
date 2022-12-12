@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/BATNATest.dart';
-import 'package:negotiation_tracker/RubricSummary.dart';
 
 class UnderStantRubrc extends StatelessWidget {
   const UnderStantRubrc({super.key});
@@ -48,9 +47,8 @@ class UnderStantRubrc extends StatelessWidget {
                 children: [
                   Container(
                     margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width,
-                    height: 50,
                     decoration: BoxDecoration(
                       color: const Color(0x1f000000),
                       shape: BoxShape.rectangle,
@@ -61,12 +59,12 @@ class UnderStantRubrc extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         "Understanding your rubric",
-                        textAlign: TextAlign.start,
+                        textAlign: TextAlign.center,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
-                          fontSize: 20,
+                          fontSize: 28,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -91,7 +89,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -116,7 +114,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -146,7 +144,7 @@ class UnderStantRubrc extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 14,
+                              fontSize: 18,
                               color: Color(0xff000000),
                             ),
                           ),
@@ -173,7 +171,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -198,7 +196,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.italic,
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -223,7 +221,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                         decoration: InputDecoration(
@@ -276,7 +274,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -301,7 +299,7 @@ class UnderStantRubrc extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.italic,
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -333,7 +331,7 @@ class UnderStantRubrc extends StatelessWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 14,
+                                fontSize: 18,
                                 color: Color(0xff000000),
                               ),
                               decoration: InputDecoration(
@@ -375,6 +373,7 @@ class UnderStantRubrc extends StatelessWidget {
               ),
             ),
             Container(
+              alignment: Alignment.bottomCenter,
               margin: const EdgeInsets.all(0),
               padding: const EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width,
@@ -406,8 +405,8 @@ class UnderStantRubrc extends StatelessWidget {
                       child: const Text(
                         "Back",
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                           fontStyle: FontStyle.normal,
                         ),
                       ),
@@ -419,7 +418,7 @@ class UnderStantRubrc extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BATNATest()),
+                          MaterialPageRoute(builder: (context) => BATNATest()),
                         );
                       },
                       color: const Color(0xff4d4d4d),
@@ -435,8 +434,8 @@ class UnderStantRubrc extends StatelessWidget {
                       child: const Text(
                         "Next",
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                           fontStyle: FontStyle.normal,
                         ),
                       ),

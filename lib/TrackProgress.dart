@@ -280,10 +280,10 @@ class TrackProgress extends StatelessWidget {
                   ],
                 ),
               ),
-              const LinearProgressIndicator(
-                  backgroundColor: Color(0xff808080),
+              LinearProgressIndicator(
+                  backgroundColor: const Color(0xff808080),
                   valueColor:
-                      AlwaysStoppedAnimation<Color>(Color(0xff3a57e8)),
+                      new AlwaysStoppedAnimation<Color>(const Color(0xff3a57e8)),
                   value: 0.5,
                   minHeight: 3),
             ],

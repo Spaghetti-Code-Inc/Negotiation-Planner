@@ -1,9 +1,8 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/StartNewNegotia.dart';
+
+import 'StartNewNegotia.dart';
 
 class Start extends StatelessWidget {
   const Start({super.key});
@@ -66,7 +65,7 @@ class Start extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const StartNewNegotia()),
+                            MaterialPageRoute(builder: (context) => StartNewNegotia()),
                           );
                         },
                         color: const Color(0xffd1d1d1),

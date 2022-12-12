@@ -1,7 +1,6 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/BATNATest.dart';
 import 'package:negotiation_tracker/CpsRubrik.dart';
 
 class RubricSummary extends StatelessWidget {
@@ -34,30 +33,29 @@ class RubricSummary extends StatelessWidget {
           size: 24,
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              color: const Color(0x1f000000),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SingleChildScrollView(
-                  child: Column(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: const Color(0x1f000000),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
@@ -67,9 +65,9 @@ class RubricSummary extends StatelessWidget {
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
-                          fontSize: 25,
+                          fontSize: 28,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -82,7 +80,7 @@ class RubricSummary extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.normal,
-                            fontSize: 14,
+                            fontSize: 18,
                             color: Color(0xff000000),
                           ),
                         ),
@@ -94,7 +92,7 @@ class RubricSummary extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -105,7 +103,7 @@ class RubricSummary extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -116,7 +114,7 @@ class RubricSummary extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -129,7 +127,7 @@ class RubricSummary extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.normal,
-                            fontSize: 14,
+                            fontSize: 18,
                             color: Color(0xff000000),
                           ),
                         ),
@@ -143,20 +141,17 @@ class RubricSummary extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.normal,
-                            fontSize: 14,
+                            fontSize: 18,
                             color: Color(0xff000000),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.center,
+                  Container(
+                    alignment: Alignment.bottomCenter,
                     margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       color: Color(0x00000000),
@@ -186,8 +181,8 @@ class RubricSummary extends StatelessWidget {
                             child: const Text(
                               "Back",
                               style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
@@ -199,7 +194,7 @@ class RubricSummary extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const CpsRubrik()),
+                                MaterialPageRoute(builder: (context) => CpsRubrik()),
                               );
                             },
                             color: const Color(0xff4d4d4d),
@@ -216,8 +211,8 @@ class RubricSummary extends StatelessWidget {
                             child: const Text(
                               "Next",
                               style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
@@ -226,11 +221,11 @@ class RubricSummary extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

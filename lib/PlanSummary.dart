@@ -62,7 +62,7 @@ class PlanSummary extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 24,
+                      fontSize: 28,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -101,7 +101,7 @@ class PlanSummary extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -180,7 +180,7 @@ class PlanSummary extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
-                        fontSize: 16,
+                        fontSize: 20,
                         color: Color(0xff000000),
                       ),
                     ),
@@ -189,7 +189,7 @@ class PlanSummary extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Issue 1 Name: Pts",
+                    "\"Issue 1 Name\": \"Points\"",
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -228,7 +228,7 @@ class PlanSummary extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -285,7 +285,7 @@ class PlanSummary extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyNegotiations()),
+                          MaterialPageRoute(builder: (context) => MyNegotiations()),
                         );
                       },
                       color: const Color(0xff4d4d4d),

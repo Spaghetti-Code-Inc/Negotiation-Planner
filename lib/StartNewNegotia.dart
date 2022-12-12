@@ -46,12 +46,12 @@ class StartNewNegotia extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 child: Text(
                   "This tool is designed to help you organize your plan for negotiation. ",
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
-                    fontSize: 14,
+                    fontSize: 18,
                     color: Color(0xff000000),
                   ),
                 ),
@@ -124,7 +124,7 @@ class StartNewNegotia extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 18,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -210,8 +210,8 @@ class StartNewNegotia extends StatelessWidget {
                           child: const Text(
                             "Back",
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.normal,
                             ),
                           ),
@@ -223,7 +223,7 @@ class StartNewNegotia extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const DetermineIssues()),
+                              MaterialPageRoute(builder: (context) => DetermineIssues()),
                             );
                           },
                           color: const Color(0xff4d4d4d),
@@ -240,8 +240,8 @@ class StartNewNegotia extends StatelessWidget {
                           child: const Text(
                             "Next",
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.normal,
                             ),
                           ),
