@@ -64,7 +64,7 @@ class Start extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "New Negotiation",
+                          "Start Negotiation",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
