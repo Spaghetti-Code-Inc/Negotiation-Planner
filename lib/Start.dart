@@ -54,17 +54,14 @@ class Start extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: IconButton(
-                        icon: const Icon(Icons.add_to_photos),
-                        onPressed: () {},
-                        color: const Color(0xff212435),
-                        iconSize: 24,
-                      ),
+                    IconButton(
+                      icon: const Icon(Icons.add_to_photos),
+                      onPressed: () {},
+                      color: const Color(0xff212435),
+                      iconSize: 24,
                     ),
                     Expanded(
-                      flex: 4,
+                      flex: 1,
                       child: MaterialButton(
                         onPressed: () {
                           Navigator.push(
@@ -79,15 +76,14 @@ class Start extends StatelessWidget {
                               topRight: Radius.circular(15.0),
                               bottomRight: Radius.circular(15.0)),
                         ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.all(16),
                         textColor: const Color(0xff000000),
-                        height: 100,
+                        height: MediaQuery.of(context).size.height,
                         minWidth: 140,
                         child: const Text(
                           "Prepare Negotiation",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600,
                             fontStyle: FontStyle.normal,
                           ),
@@ -133,15 +129,14 @@ class Start extends StatelessWidget {
                               topRight: Radius.circular(15.0),
                               bottomRight: Radius.circular(15.0)),
                         ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.all(16),
                         textColor: const Color(0xff000000),
                         height: MediaQuery.of(context).size.height,
                         minWidth: 140,
                         child: const Text(
                           "Track Progress",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600,
                             fontStyle: FontStyle.normal,
                           ),
@@ -187,15 +182,14 @@ class Start extends StatelessWidget {
                               topRight: Radius.circular(15.0),
                               bottomRight: Radius.circular(15.0)),
                         ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.all(16),
                         textColor: const Color(0xff000000),
                         height: MediaQuery.of(context).size.height,
                         minWidth: 100,
                         child: const Text(
                           "Evaluate Agreement",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600,
                             fontStyle: FontStyle.normal,
                           ),
@@ -207,8 +201,8 @@ class Start extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.zero,
-              padding: EdgeInsets.zero,
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 color: const Color(0x1f000000),
@@ -226,14 +220,14 @@ class Start extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.0),
                     side: const BorderSide(color: Color(0xff808080), width: 1),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.all(16),
                   textColor: const Color(0xff000000),
                   height: 40,
                   minWidth: MediaQuery.of(context).size.width,
                   child: const Text(
                     "Get Started",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
                     ),
@@ -244,8 +238,8 @@ class Start extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
+                margin: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 100,
                 decoration: const BoxDecoration(
@@ -257,13 +251,13 @@ class Start extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: MaterialButton(
                     onPressed: () {},
-                    color: const Color(0xffffffff),
+                    color: const Color(0xfff1f1f1),
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xffffffff), width: 1),
+                      side: BorderSide(color: Color(0xffd1d1d1), width: 1),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.all(16),
                     textColor: const Color(0xff000000),
                     height: 40,
                     minWidth: 140,
