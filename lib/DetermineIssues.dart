@@ -1,6 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/StartNewNegotia.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
 
 class DetermineIssues extends StatelessWidget {
@@ -14,16 +15,16 @@ class DetermineIssues extends StatelessWidget {
         elevation: 4,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
+        backgroundColor: const Color(0xFF3B66B7),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
         title: const Text(
           "Prepare A New Negotiation",
           style: TextStyle(
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
-            fontSize: 14,
+            fontSize: 18,
             color: Color(0xffffffff),
           ),
         ),
@@ -138,41 +139,41 @@ class DetermineIssues extends StatelessWidget {
                         fontSize: 14,
                         color: Color(0xff000000),
                       ),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.zero,
+                          borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              BorderSide(color: Color(0xff000000), width: 1),
+                              const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.zero,
+                          borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              BorderSide(color: Color(0xff000000), width: 1),
+                              const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.zero,
+                          borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              BorderSide(color: Color(0xff000000), width: 1),
+                              const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         labelText: "Enter Issue",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
                           color: Color(0xff000000),
                         ),
                         hintText: "Enter Text",
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
                           color: Color(0xff000000),
                         ),
                         filled: true,
-                        fillColor: Color(0xfff2f2f3),
+                        fillColor: const Color(0xfff2f2f3),
                         isDense: false,
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                            const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                       ),
                     ),
                   ),
@@ -221,7 +222,12 @@ class DetermineIssues extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const StartNewNegotia()),
+                                );
+                              },
                               color: const Color(0xff4c4c4c),
                               elevation: 0,
                               shape: const RoundedRectangleBorder(

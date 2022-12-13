@@ -15,7 +15,7 @@ class Start extends StatelessWidget {
         elevation: 4,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
+        backgroundColor: const Color(0xFF3B66B7),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),

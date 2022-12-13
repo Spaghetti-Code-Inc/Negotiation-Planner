@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/DetermineIssues.dart';
 
+import 'Start.dart';
+
 class StartNewNegotia extends StatelessWidget {
   const StartNewNegotia({super.key});
 
@@ -14,16 +16,16 @@ class StartNewNegotia extends StatelessWidget {
         elevation: 4,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
+        backgroundColor: const Color(0xFF3B66B7),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
         title: const Text(
           "Prepare A New Negotiation",
           style: TextStyle(
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
-            fontSize: 14,
+            fontSize: 18,
             color: Color(0xffffffff),
           ),
         ),
@@ -69,34 +71,34 @@ class StartNewNegotia extends StatelessWidget {
                     fontSize: 14,
                     color: Color(0xff000000),
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
+                      borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
+                      borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
+                      borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     labelText: "Negotiation Title",
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
                       color: Color(0xff000000),
                     ),
                     filled: true,
-                    fillColor: Color(0xfff2f2f3),
+                    fillColor: const Color(0xfff2f2f3),
                     isDense: false,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
               ),
@@ -107,7 +109,7 @@ class StartNewNegotia extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: const Color(0x1fffffff),
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.zero,
+                  borderRadius: BorderRadius.circular(4.0),
                   border: Border.all(color: const Color(0x4dffffff), width: 0),
                 ),
                 child: Column(
@@ -195,7 +197,12 @@ class StartNewNegotia extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const Start()),
+                            );
+                          },
                           color: const Color(0xff4d4d4d),
                           elevation: 0,
                           shape: const RoundedRectangleBorder(
