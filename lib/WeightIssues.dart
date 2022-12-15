@@ -1,8 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/DetermineIssues.dart';
-import 'package:negotiation_tracker/IssueValues.dart';
+import 'package:negotiation_tracker/UnderStantRubrc.dart';
 
 import 'main.dart';
 
@@ -348,83 +347,7 @@ class WeightIssues extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.all(0),
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              decoration: const BoxDecoration(
-                color: Color(0x1fffffff),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.zero,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const DetermineIssues()),
-                        );
-                      },
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => IssueValues()),
-                        );
-                      },
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: NextBar(const UnderStantRubrc()),
           ),
         ],
       ),
