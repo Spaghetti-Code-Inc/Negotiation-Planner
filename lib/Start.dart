@@ -1,6 +1,9 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/EvaluateAggreement.dart';
+import 'package:negotiation_tracker/TrackProgress.dart';
+import 'package:negotiation_tracker/login.dart';
 
 import 'StartNewNegotia.dart';
 
@@ -120,7 +123,12 @@ class Start extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const TrackProgress()),
+                          );
+                        },
                         color: const Color(0xffd1d1d1),
                         elevation: 0,
                         shape: const RoundedRectangleBorder(
@@ -173,7 +181,12 @@ class Start extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const EvaluateAggreement()),
+                          );
+                        },
                         color: const Color(0xffd1d1d1),
                         elevation: 0,
                         shape: const RoundedRectangleBorder(
@@ -212,7 +225,9 @@ class Start extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   color: const Color(0xffd1d1d1),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -249,7 +264,12 @@ class Start extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Login()),
+                      );
+                    },
                     color: const Color(0xfff1f1f1),
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
