@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/StartNewNegotia.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
 
+import 'main.dart';
+
 class DetermineIssues extends StatelessWidget {
   const DetermineIssues({super.key});
 
@@ -11,29 +13,7 @@ class DetermineIssues extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF3B66B7),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Prepare A New Negotiation",
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
-            color: Color(0xffffffff),
-          ),
-        ),
-        leading: const Icon(
-          Icons.menu,
-          color: Color(0xffffffff),
-          size: 24,
-        ),
-      ),
+      appBar: const PrepareBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,14 +135,13 @@ class DetermineIssues extends StatelessWidget {
                           borderSide:
                               const BorderSide(color: Color(0xff000000), width: 1),
                         ),
-                        labelText: "Enter Issue",
                         labelStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
                           color: Color(0xff000000),
                         ),
-                        hintText: "Enter Text",
+                        hintText: "Enter Issue",
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,

@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'main.dart';
+
 class EvaluateAggreement extends StatelessWidget {
   const EvaluateAggreement({super.key});
 
@@ -9,35 +11,7 @@ class EvaluateAggreement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Evaluate Aggreement",
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontStyle: FontStyle.normal,
-            fontSize: 14,
-            color: Color(0xffffffff),
-          ),
-        ),
-        leading: const Icon(
-          Icons.sort,
-          color: Color(0xffffffff),
-          size: 24,
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-            child: Icon(Icons.search, color: Color(0xffffffff), size: 24),
-          ),
-        ],
-      ),
+      appBar: const PrepareBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/DetermineIssues.dart';
+import 'package:negotiation_tracker/main.dart';
 
 import 'Start.dart';
 
@@ -12,29 +13,7 @@ class StartNewNegotia extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF3B66B7),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Prepare A New Negotiation",
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
-            color: Color(0xffffffff),
-          ),
-        ),
-        leading: const Icon(
-          Icons.arrow_back,
-          color: Color(0xffffffff),
-          size: 24,
-        ),
-      ),
+      appBar: const PrepareBar(),
       body: Align(
         alignment: Alignment.center,
         child: Padding(

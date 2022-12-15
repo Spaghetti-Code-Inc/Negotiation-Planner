@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/RubricSummary.dart';
+import 'package:negotiation_tracker/main.dart';
 
 class BATNATest extends StatelessWidget {
   const BATNATest({super.key});
@@ -10,29 +11,7 @@ class BATNATest extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Prepare A New Negotiation",
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontStyle: FontStyle.normal,
-            fontSize: 14,
-            color: Color(0xffffffff),
-          ),
-        ),
-        leading: const Icon(
-          Icons.arrow_back,
-          color: Color(0xffffffff),
-          size: 24,
-        ),
-      ),
+      appBar: PrepareBar(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
