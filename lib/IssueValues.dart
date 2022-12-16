@@ -731,66 +731,7 @@ class IssueValues extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                flex: 1,
-                child: MaterialButton(
-                  onPressed: () {},
-                  color: const Color(0xff4d4d4d),
-                  elevation: 0,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                    side: BorderSide(color: Color(0xff808080), width: 1),
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  textColor: const Color(0xffffffff),
-                  height: 40,
-                  minWidth: 140,
-                  child: const Text(
-                    "Back",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => UnderStantRubrc()),
-                    );
-                  },
-                  color: const Color(0xff4d4d4d),
-                  elevation: 0,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                    side: BorderSide(color: Color(0xff808080), width: 1),
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  textColor: const Color(0xffffffff),
-                  height: 40,
-                  minWidth: 140,
-                  child: const Text(
-                    "Next",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          NextBar(UnderStantRubrc()),
         ],
       ),
     );

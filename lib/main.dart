@@ -63,12 +63,11 @@ class NextBar extends StatelessWidget {
           .of(context)
           .size
           .width,
-      height: 100,
       decoration: BoxDecoration(
-        color: const Color(0x1fffffff),
+        color: const Color(0x00ffffff),
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.zero,
-        border: Border.all(color: const Color(0x4dffffff), width: 1),
+        border: Border.all(color: const Color(0x00ffffff), width: 0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

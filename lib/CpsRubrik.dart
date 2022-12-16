@@ -13,7 +13,8 @@ class CpsRubrik extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
-      body: SingleChildScrollView(
+      body: Column(
+      children: [SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -498,81 +499,10 @@ class CpsRubrik extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.all(0),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: const Color(0x1fffffff),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.zero,
-                border: Border.all(color: const Color(0x4dffffff), width: 1),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PlanSummary()),
-                        );
-                      },
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
-    );
+        Expanded(child: NextBar(const PlanSummary())),
+    ]));
   }
 }

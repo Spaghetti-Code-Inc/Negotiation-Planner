@@ -92,7 +92,7 @@ class PlanSummary extends StatelessWidget {
                     controller: TextEditingController(),
                     obscureText: false,
                     textAlign: TextAlign.start,
-                    maxLines: 1,
+                    maxLines: 3,
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,

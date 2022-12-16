@@ -1,6 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/IssueValues.dart';
 import 'package:negotiation_tracker/UnderStantRubrc.dart';
 
 import 'main.dart';
@@ -347,7 +348,7 @@ class WeightIssues extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: NextBar(const UnderStantRubrc()),
+            child: NextBar(const IssueValues()),
           ),
         ],
       ),

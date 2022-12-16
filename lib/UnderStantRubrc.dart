@@ -13,8 +13,7 @@ class UnderStantRubrc extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
@@ -352,81 +351,13 @@ class UnderStantRubrc extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.all(0),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: const Color(0x1f000000),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.zero,
-                border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      color: const Color(0xff4c4c4c),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BATNATest()),
-                        );
-                      },
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            Expanded(
+                child: NextBar(
+                    const BATNATest()
+                ),
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
