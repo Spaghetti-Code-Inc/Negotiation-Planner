@@ -39,8 +39,16 @@ class Start extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
+
             Expanded(
               flex: 2,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StartNewNegotia()),
+                  );
+                },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 padding: const EdgeInsets.all(0),
@@ -55,34 +63,14 @@ class Start extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.add_to_photos),
-                      onPressed: () {},
-                      color: const Color(0xff212435),
-                      iconSize: 24,
+                  children: const [
+                    Icon(Icons.add_to_photos,
+                      color: Color(0xff212435),
+                      size: 24,
                     ),
                     Expanded(
                       flex: 1,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => StartNewNegotia()),
-                          );
-                        },
-                        color: const Color(0xffd1d1d1),
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15.0),
-                              bottomRight: Radius.circular(15.0)),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xff000000),
-                        height: MediaQuery.of(context).size.height,
-                        minWidth: 140,
-                        child: const Text(
+                        child: Text(
                           "Prepare Negotiation",
                           style: TextStyle(
                             fontSize: 20,
@@ -91,10 +79,11 @@ class Start extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
+
                   ],
                 ),
               ),
+            ),
             ),
             Expanded(
               flex: 2,

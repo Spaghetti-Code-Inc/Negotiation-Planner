@@ -61,7 +61,7 @@ class WeightIssues extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
-                      fontSize: 17,
+                      fontSize: 18,
                       color: Color(0xff000000),
                     ),
                   ),

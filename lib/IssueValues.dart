@@ -20,7 +20,7 @@ class IssueValues extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(0),
+            padding: const EdgeInsets.only(bottom: 10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: const Color(0x1f000000),
@@ -162,7 +162,7 @@ class IssueValues extends StatelessWidget {
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                             child: Text(
-                              "What would be your A++ settlement on this issue? This represents the most you can reasonably justify and will be your opening offer.",
+                              "What would be your A+ settlement on this issue? This represents the most you can reasonably justify and will be your opening offer.",
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
@@ -260,7 +260,7 @@ class IssueValues extends StatelessWidget {
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                             child: Text(
-                              "What would be your A+ settlement on this issue? This represents the settlement you will strive to obtain or beat.",
+                              "What would be your A settlement on this issue? This represents the settlement you will strive to obtain or beat.",
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
@@ -378,7 +378,7 @@ class IssueValues extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.3,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: const Color(0x53000000),
+                              color: const Color(0x55000000),
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.zero,
                               border: Border.all(
