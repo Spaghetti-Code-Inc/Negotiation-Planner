@@ -6,6 +6,7 @@ import 'package:negotiation_tracker/TrackProgress.dart';
 import 'package:negotiation_tracker/login.dart';
 
 import 'StartNewNegotia.dart';
+import 'main.dart';
 
 class Start extends StatelessWidget {
   const Start({super.key});
@@ -14,24 +15,7 @@ class Start extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff1f1f1),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF3B66B7),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Negotiation Planner",
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
-            color: Color(0xffffffff),
-          ),
-        ),
-      ),
+      appBar: const TitleBar(),
       body: Align(
         alignment: Alignment.center,
         child: Column(
@@ -39,56 +23,38 @@ class Start extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.all(0),
+              height: 150,
+              width: MediaQuery.of(context).size.width * 0.8,
 
-            Expanded(
-              flex: 2,
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => StartNewNegotia()),
-                  );
-                },
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                padding: const EdgeInsets.all(0),
-                width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd1d1d1),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.add_to_photos,
+                  size: 24.0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: const [
-                    Icon(Icons.add_to_photos,
-                      color: Color(0xff212435),
-                      size: 24,
-                    ),
-                    Expanded(
-                      flex: 1,
-                        child: Text(
-                          "Prepare Negotiation",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-
-                  ],
+                label: const Center(
+                    child: Text(
+                  'Prepare Negotiation',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                  ),
+                )),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: const Color(0xFF3B66B7),
                 ),
               ),
             ),
-            ),
             Expanded(
               flex: 2,
               child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 padding: const EdgeInsets.all(0),
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 100,
@@ -115,7 +81,8 @@ class Start extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const TrackProgress()),
+                            MaterialPageRoute(
+                                builder: (context) => const TrackProgress()),
                           );
                         },
                         color: const Color(0xffd1d1d1),
@@ -146,7 +113,8 @@ class Start extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 padding: const EdgeInsets.all(0),
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 100,
@@ -173,7 +141,9 @@ class Start extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const EvaluateAggreement()),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const EvaluateAggreement()),
                           );
                         },
                         color: const Color(0xffd1d1d1),
@@ -214,9 +184,7 @@ class Start extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                 child: MaterialButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   color: const Color(0xffd1d1d1),
                   elevation: 0,
                   shape: RoundedRectangleBorder(

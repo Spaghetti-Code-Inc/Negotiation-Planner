@@ -48,6 +48,43 @@ class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(60.0);
 }
 
+// Header for all "Negotiation Planner" pages
+class TitleBar extends StatelessWidget implements PreferredSizeWidget{
+  const TitleBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 4,
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      backgroundColor: const Color(0xFF3B66B7),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      title: const Text(
+        "Negotiation Planner",
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontStyle: FontStyle.normal,
+          fontSize: 18,
+          color: Color(0xffffffff),
+        ),
+      ),
+      leading: const Icon(
+        Icons.arrow_back,
+        color: Color(0xffffffff),
+        size: 24,
+      ),
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(60.0);
+
+}
+
 // Bar that sits at bottom of "Prepare A New Negotiation" Pages
 class NextBar extends StatelessWidget {
   Widget nextPage;
