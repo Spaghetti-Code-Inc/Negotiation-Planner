@@ -30,7 +30,12 @@ class Start extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
 
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartNewNegotia()),
+                  );
+                },
                 icon: const Icon(
                   Icons.add_to_photos,
                   size: 24.0,
@@ -50,129 +55,67 @@ class Start extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                padding: const EdgeInsets.all(0),
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd1d1d1),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.all(0),
+              height: 150,
+              width: MediaQuery.of(context).size.width * 0.8,
+
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TrackProgress()),
+                  );
+                },
+                icon: const Icon(
+                  Icons.book,
+                  size: 24.0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.book),
-                      onPressed: () {},
-                      color: const Color(0xff212435),
-                      iconSize: 24,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const TrackProgress()),
-                          );
-                        },
-                        color: const Color(0xffd1d1d1),
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15.0),
-                              bottomRight: Radius.circular(15.0)),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xff000000),
-                        height: MediaQuery.of(context).size.height,
-                        minWidth: 140,
-                        child: const Text(
-                          "Track Progress",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+                label: const Center(
+                    child: Text(
+                      'Track Progress',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                padding: const EdgeInsets.all(0),
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd1d1d1),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.verified),
-                      onPressed: () {},
-                      color: const Color(0xff212435),
-                      iconSize: 24,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const EvaluateAggreement()),
-                          );
-                        },
-                        color: const Color(0xffd1d1d1),
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15.0),
-                              bottomRight: Radius.circular(15.0)),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xff000000),
-                        height: MediaQuery.of(context).size.height,
-                        minWidth: 100,
-                        child: const Text(
-                          "Evaluate Agreement",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    )),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: const Color(0xFF3B66B7),
                 ),
               ),
             ),
             Container(
-              margin: const EdgeInsets.all(0),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.all(0),
+              height: 150,
+              width: MediaQuery.of(context).size.width * 0.8,
+
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.verified,
+                  size: 24.0,
+                ),
+                label: const Center(
+                    child: Text(
+                      'Evaluate Agreement',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    )),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: const Color(0xFF3B66B7),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               padding: const EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
@@ -191,7 +134,7 @@ class Start extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.0),
                     side: const BorderSide(color: Color(0xff808080), width: 1),
                   ),
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                   textColor: const Color(0xff000000),
                   height: 40,
                   minWidth: MediaQuery.of(context).size.width,
