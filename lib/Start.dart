@@ -1,5 +1,6 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/EvaluateAggreement.dart';
 import 'package:negotiation_tracker/TrackProgress.dart';
@@ -24,10 +25,11 @@ class Start extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(0),
+              margin: const EdgeInsets.only(top: 30, bottom: 10),
+              padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
+
 
               child: ElevatedButton.icon(
                 onPressed: () {
@@ -35,10 +37,12 @@ class Start extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => const StartNewNegotia()),
                   );
+
                 },
                 icon: const Icon(
                   Icons.add_to_photos,
                   size: 24.0,
+
                 ),
                 label: const Center(
                     child: Text(
@@ -50,14 +54,15 @@ class Start extends StatelessWidget {
                   ),
                 )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFF3B66B7),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF4681f4),
+
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
 
@@ -65,7 +70,7 @@ class Start extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TrackProgress()),
+                    MaterialPageRoute(builder: (context) => const TrackProgress()),
                   );
                 },
                 icon: const Icon(
@@ -82,14 +87,14 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFF3B66B7),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF4681f4),
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
 
@@ -109,8 +114,8 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFF3B66B7),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF4681f4),
                 ),
               ),
             ),
