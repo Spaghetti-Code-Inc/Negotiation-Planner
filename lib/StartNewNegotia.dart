@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/DetermineIssues.dart';
 import 'package:negotiation_tracker/main.dart';
 
+import 'BATNATest.dart';
 import 'Start.dart';
 
 class StartNewNegotia extends StatelessWidget {
@@ -156,7 +157,8 @@ class StartNewNegotia extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: NextBar(DetermineIssues()),
+                child:
+                NextBar(const DetermineIssues()),
               ),
             ],
           ),

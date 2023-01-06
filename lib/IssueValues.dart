@@ -84,7 +84,7 @@ class IssueValues extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: 50,
             decoration: BoxDecoration(
-              color: const Color(0xff000000),
+              color: const Color(0xff1E2027),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
