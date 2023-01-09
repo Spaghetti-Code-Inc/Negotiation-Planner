@@ -118,7 +118,7 @@ class RubricSummary extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: Text(
-                              "Strive to reach an agreement that improves upon your current offer, using your BATNA as a helpful frame of reference. You shoudl be able to negotiate an agreement that exceeds the value of your BATNA and comes as close as you can to (or even eceeding) your target. ",
+                              "Strive to reach an agreement that improves upon your current offer, using your BATNA as a helpful frame of reference. You should be able to negotiate an agreement that exceeds the value of your BATNA and comes as close as you can to (or even eceeding) your target. ",
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.clip,
                               style: TextStyle(

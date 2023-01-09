@@ -66,7 +66,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
       elevation: 4,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      backgroundColor: const Color(0xFF3B66B7),
+      backgroundColor: const Color(0xFFFFFFFF),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
@@ -76,8 +76,13 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
           fontSize: 18,
-          color: Color(0xffffffff),
+          color: Color(0xFF000000),
         ),
+      ),
+      leading: const Icon(
+        Icons.arrow_back,
+        color: Color(0xff000000),
+        size: 24,
       ),
     );
   }

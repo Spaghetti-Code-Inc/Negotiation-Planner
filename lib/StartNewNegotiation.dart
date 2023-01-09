@@ -6,6 +6,7 @@ import 'package:negotiation_tracker/NegotiationDetails.dart';
 import 'package:negotiation_tracker/main.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'BATNATest.dart';
 import 'Start.dart';
 
 class StartNewNegotiation extends StatefulWidget{
@@ -186,5 +187,4 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
       ),
     );
   }
-
 }

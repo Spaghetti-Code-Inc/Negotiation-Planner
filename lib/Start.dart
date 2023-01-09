@@ -23,8 +23,8 @@ class Start extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(0),
+              margin: const EdgeInsets.only(top: 30, bottom: 10),
+              padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
 
@@ -49,14 +49,15 @@ class Start extends StatelessWidget {
                   ),
                 )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFF3B66B7),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF4681f4),
+
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
 
@@ -64,7 +65,7 @@ class Start extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EvaluateAggreement()),
+                    MaterialPageRoute(builder: (context) => const TrackProgress()),
                   );
                 },
                 icon: const Icon(
@@ -81,14 +82,14 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFF3B66B7),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF4681f4),
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
 
@@ -108,8 +109,8 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFF3B66B7),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF4681f4),
                 ),
               ),
             ),
