@@ -2,12 +2,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/DetermineIssues.dart';
+import 'package:negotiation_tracker/NegotiationDetails.dart';
 import 'package:negotiation_tracker/main.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'Start.dart';
 
-class StartNewNegotia extends StatelessWidget {
-  const StartNewNegotia({super.key});
+class StartNewNegotiation extends StatefulWidget{
+  const StartNewNegotiation({super.key});
+
+  State<StartNewNegotiation> createState() => _StartNewNegotiation();
+}
+
+class _StartNewNegotiation extends State<StartNewNegotiation>{
+  final TitleController = TextEditingController();
+  final SummaryController = TextEditingController();
+
+  void dispose(){
+    TitleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +51,14 @@ class StartNewNegotia extends StatelessWidget {
                   ),
                 ),
               ),
+              // TITLE Text field
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
-                  controller: TextEditingController(),
+                  onChanged: (newVal) {
+                    currentNegotiation?.title = newVal;
+                  },
+                  controller: TitleController,
                   obscureText: false,
                   textAlign: TextAlign.left,
                   maxLines: 1,
@@ -54,17 +72,17 @@ class StartNewNegotia extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     labelText: "Negotiation Title",
                     labelStyle: const TextStyle(
@@ -77,7 +95,7 @@ class StartNewNegotia extends StatelessWidget {
                     fillColor: const Color(0xfff2f2f3),
                     isDense: false,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
               ),
@@ -110,8 +128,12 @@ class StartNewNegotia extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // SUMMARY text field
                     TextField(
-                      controller: TextEditingController(),
+                      onChanged: (newVal) {
+                        currentNegotiation?.summary = newVal;
+                      },
+                      controller: SummaryController,
                       obscureText: false,
                       textAlign: TextAlign.start,
                       maxLines: 3,
@@ -125,17 +147,17 @@ class StartNewNegotia extends StatelessWidget {
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                         ),
                         hintText: "Summary",
                         hintStyle: const TextStyle(
@@ -148,7 +170,7 @@ class StartNewNegotia extends StatelessWidget {
                         fillColor: const Color(0xfff2f2f3),
                         isDense: true,
                         contentPadding:
-                            const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                       ),
                     ),
                   ],
@@ -156,7 +178,7 @@ class StartNewNegotia extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: NextBar(DetermineIssues()),
+                child: NextBar(const DetermineIssues()),
               ),
             ],
           ),
@@ -164,4 +186,5 @@ class StartNewNegotia extends StatelessWidget {
       ),
     );
   }
+
 }

@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'NegotiationDetails.dart';
+
 class MyNegotiations extends StatelessWidget {
   const MyNegotiations({super.key});
 
@@ -35,87 +37,23 @@ class MyNegotiations extends StatelessWidget {
           Icon(Icons.search, color: Color(0xff212435), size: 24),
         ],
       ),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(10),
-                  width: 200,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  decoration: BoxDecoration(
-                    color: const Color(0x64000000),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Negotiation Name",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Summary:",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Issues: ",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      body: Center(
+        child: FutureBuilder<List<Negotiation>>(
+            future: DatabaseHelper.instance.getNegotiations(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<Negotiation>> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: Text('Add A New Negotiation'));
+              }
+              return ListView(
+                children: snapshot.data!.map((negotiation) {
+                  return Center(
+                      child: ListTile(
+                    title: Text(negotiation.title),
+                  ));
+                }).toList(),
+              );
+            }),
       ),
     );
   }

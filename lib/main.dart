@@ -5,7 +5,13 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/Start.dart';
 
+import 'NegotiationDetails.dart';
+
+Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '');
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MaterialApp(
     title: 'Negotiation Planner',
     home: Start(),
@@ -35,10 +41,12 @@ class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
           color: Color(0xffffffff),
         ),
       ),
-      leading: const Icon(
-        Icons.arrow_back,
-        color: Color(0xffffffff),
-        size: 24,
+      leading: IconButton(
+        color: const Color(0xffffffff),
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
     );
   }
@@ -70,11 +78,6 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
           fontSize: 18,
           color: Color(0xffffffff),
         ),
-      ),
-      leading: const Icon(
-        Icons.arrow_back,
-        color: Color(0xffffffff),
-        size: 24,
       ),
     );
   }

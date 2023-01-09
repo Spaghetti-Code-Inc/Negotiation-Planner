@@ -2,10 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/EvaluateAggreement.dart';
-import 'package:negotiation_tracker/TrackProgress.dart';
 import 'package:negotiation_tracker/login.dart';
 
-import 'StartNewNegotia.dart';
+import 'StartNewNegotiation.dart';
 import 'main.dart';
 
 class Start extends StatelessWidget {
@@ -33,7 +32,7 @@ class Start extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const StartNewNegotia()),
+                    MaterialPageRoute(builder: (context) => const StartNewNegotiation()),
                   );
                 },
                 icon: const Icon(
@@ -65,7 +64,7 @@ class Start extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TrackProgress()),
+                    MaterialPageRoute(builder: (context) => EvaluateAggreement()),
                   );
                 },
                 icon: const Icon(
