@@ -133,11 +133,11 @@ class Start extends StatelessWidget {
                 alignment: Alignment.center,
                 child: MaterialButton(
                   onPressed: () {},
-                  color: const Color(0xffd1d1d1),
+                  color: const Color(0xffCFCFCF),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    side: const BorderSide(color: Color(0xff808080), width: 1),
+                    side: const BorderSide(color: Color(0x00808080), width: 1),
                   ),
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                   textColor: const Color(0xff000000),

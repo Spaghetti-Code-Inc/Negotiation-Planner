@@ -35,11 +35,7 @@ class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
           color: Color(0xffffffff),
         ),
       ),
-      leading: const Icon(
-        Icons.arrow_back,
-        color: Color(0xffffffff),
-        size: 24,
-      ),
+
     );
   }
 
@@ -70,11 +66,6 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
           fontSize: 18,
           color: Color(0xFF000000),
         ),
-      ),
-      leading: const Icon(
-        Icons.arrow_back,
-        color: Color(0xff000000),
-        size: 24,
       ),
     );
   }
