@@ -18,7 +18,7 @@ class UnderStantRubrc extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            SingleChildScrollView(
+            Expanded(child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -350,13 +350,9 @@ class UnderStantRubrc extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            Expanded(
-                child: NextBar(
-                    const BATNATest()
-                ),
-            ),
-          ],
+            )),
+            NextBar(const BATNATest())
+            ],
         ),
       );
   }
