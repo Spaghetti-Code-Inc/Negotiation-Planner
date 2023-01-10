@@ -1,12 +1,11 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/EvaluateAggreement.dart';
-import 'package:negotiation_tracker/TrackProgress.dart';
 import 'package:negotiation_tracker/login.dart';
 
-import 'StartNewNegotia.dart';
+import 'StartNewNegotiation.dart';
+import 'TrackProgress.dart';
 import 'main.dart';
 
 class Start extends StatelessWidget {
@@ -30,19 +29,16 @@ class Start extends StatelessWidget {
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
 
-
               child: ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const StartNewNegotia()),
+                    MaterialPageRoute(builder: (context) => const StartNewNegotiation()),
                   );
-
                 },
                 icon: const Icon(
                   Icons.add_to_photos,
                   size: 24.0,
-
                 ),
                 label: const Center(
                     child: Text(

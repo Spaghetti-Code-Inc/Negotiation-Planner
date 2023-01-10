@@ -1,7 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/StartNewNegotia.dart';
+import 'package:negotiation_tracker/StartNewNegotiation.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
 
 import 'main.dart';

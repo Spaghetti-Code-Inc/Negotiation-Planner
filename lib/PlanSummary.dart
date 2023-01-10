@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/MyNegotiations.dart';
 
+import 'NegotiationDetails.dart';
 import 'main.dart';
 
 class PlanSummary extends StatelessWidget {
@@ -102,18 +103,18 @@ class PlanSummary extends StatelessWidget {
                     decoration: InputDecoration(
                       disabledBorder: UnderlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide:
-                            const BorderSide(color: Color(0xff000000), width: 1),
+                        borderSide: const BorderSide(
+                            color: Color(0xff000000), width: 1),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide:
-                            const BorderSide(color: Color(0xff000000), width: 1),
+                        borderSide: const BorderSide(
+                            color: Color(0xff000000), width: 1),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide:
-                            const BorderSide(color: Color(0xff000000), width: 1),
+                        borderSide: const BorderSide(
+                            color: Color(0xff000000), width: 1),
                       ),
                       hintText: "Enter Text",
                       hintStyle: const TextStyle(
@@ -125,8 +126,8 @@ class PlanSummary extends StatelessWidget {
                       filled: false,
                       fillColor: const Color(0xfff2f2f3),
                       isDense: false,
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 12),
                     ),
                   ),
                 ),
@@ -217,9 +218,87 @@ class PlanSummary extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
-            child: NextBar(const MyNegotiations()),
-          ),
+              flex: 1,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                margin: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: const Color(0x00ffffff),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.zero,
+                  border: Border.all(color: const Color(0x00ffffff), width: 0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: MaterialButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        color: const Color(0xff4d4d4d),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Color(0xff808080), width: 1),
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        textColor: const Color(0xffffffff),
+                        height: 40,
+                        minWidth: 140,
+                        child: const Text(
+                          "Back",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: MaterialButton(
+                        onPressed: () {
+                          DatabaseHelper.instance.add(currentNegotiation);
+
+                          debugPrint(currentNegotiation.title);
+
+                          currentNegotiation = Negotiation.fromNegotiation(title: '');
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const MyNegotiations()),
+                          );
+                        },
+                        color: const Color(0xff4d4d4d),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Color(0xff808080), width: 1),
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        textColor: const Color(0xffffffff),
+                        height: 40,
+                        minWidth: 140,
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
         ],
       ),
     );

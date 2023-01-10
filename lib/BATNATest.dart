@@ -118,6 +118,9 @@ class BATNATest extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                           child: TextField(
+                            onChanged: (newVal) {
+                              currentNegotiation.BATNA = newVal as int;
+                            },
                             controller: TextEditingController(),
                             obscureText: false,
                             textAlign: TextAlign.start,
@@ -211,6 +214,9 @@ class BATNATest extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
                           child: TextField(
+                            onChanged: (newVal) {
+                              currentNegotiation.currentOffer = newVal as int;
+                            },
                             controller: TextEditingController(),
                             obscureText: false,
                             textAlign: TextAlign.start,
