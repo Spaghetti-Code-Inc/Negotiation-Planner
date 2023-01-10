@@ -18,9 +18,6 @@ class UnderStantRubrc extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            NextBar(
-                  const BATNATest()
-            ),
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -196,9 +193,6 @@ class UnderStantRubrc extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
                       child: TextField(
-                        onChanged: (newVal) {
-                          currentNegotiation.target = newVal as int?;
-                        },
                         controller: TextEditingController(),
                         obscureText: false,
                         textAlign: TextAlign.start,
@@ -309,9 +303,6 @@ class UnderStantRubrc extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                             child: TextField(
-                              onChanged: (newVal) {
-                                currentNegotiation.resistance = newVal as int?;
-                              },
                               controller: TextEditingController(),
                               obscureText: false,
                               textAlign: TextAlign.start,
