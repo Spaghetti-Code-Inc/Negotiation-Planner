@@ -57,7 +57,7 @@ class RubricSummary extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                             child: Text(
-                              "Based on your decisions on thsi tool, the 3 most important issues to you are listed below.",
+                              "Based on your decisions on this tool, the 3 most important issues to you are listed below.",
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.clip,
                               style: TextStyle(

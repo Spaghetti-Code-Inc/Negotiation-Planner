@@ -269,7 +269,23 @@ class CpsRubrik extends StatelessWidget {
                           ),
                           IconButton(
                             icon: const Icon(Icons.info_outline),
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Counterparts Suspected Target'),
+                                  content: const Text('This is your best guess at what your counterparts target value is.'),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('Okay'),
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                             color: const Color(0xff000000),
                             iconSize: 24,
                           ),

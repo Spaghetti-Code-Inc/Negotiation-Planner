@@ -5,12 +5,16 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/Start.dart';
 
+import 'NegotiationDetails.dart';
+
 void main() {
   runApp(const MaterialApp(
     title: 'Negotiation Planner',
     home: Start(),
   ));
 }
+
+Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '');
 
 // Header for all "Prepare A New Negotiation" pages
 class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
