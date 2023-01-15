@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DynamicTextFieldView extends StatelessWidget {
+  const DynamicTextFieldView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -14,9 +16,4 @@ class DynamicTextFieldView extends StatelessWidget {
       ),
     );
   }
-}
-
-class _View1 extends StatefulWidget {
-  @override
-  _View1State createState() => _View1State();
 }
