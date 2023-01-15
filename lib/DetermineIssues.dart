@@ -40,7 +40,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
           ),
         ),
       );
-    }, duration : const Duration(milliseconds: 300));
+    }, duration : const Duration(milliseconds: 290));
     _items.removeAt(index);
   }
 
