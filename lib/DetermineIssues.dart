@@ -50,41 +50,61 @@ class _DetermineIssuesState extends State<DetermineIssues> {
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       //bottomNavigationBar: NextBar(const WeightIssues()),
-
-      body: AnimatedList(
-        key: _key,
-        initialItemCount: 0,
-        padding: const EdgeInsets.all(10),
-        itemBuilder: (_, index, animation) {
-          return SizeTransition(
-            key: UniqueKey(),
-            sizeFactor: animation,
-            child: Card(
-              margin: const EdgeInsets.all(10),
-              elevation: 10,
-              color: const Color(0xff4d4d4d),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(15),
-                title: Text(_items[index],
-                  style:
-                    const TextStyle(fontSize: 24, color: Colors.white)),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Color(0xFFDB7877),
+      body: Column(
+        children: [
+          Expanded(
+            child: AnimatedList(
+                key: _key,
+                initialItemCount: 0,
+                padding: const EdgeInsets.all(10),
+                itemBuilder: (_, index, animation) {
+                  return SizeTransition(
+                      key: UniqueKey(),
+                      sizeFactor: animation,
+                      child: Card(
+                          margin: const EdgeInsets.all(10),
+                          elevation: 10,
+                          color: const Color(0xff4d4d4d),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(15),
+                            title: Text(_items[index],
+                                style:
+                                const TextStyle(fontSize: 24, color: Colors.white)),
+                            trailing: IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Color(0xFFDB7877),
+                              ),
+                              onPressed: () => _removeIssue(index),
+                            ),
+                          )
+                      )
+                  );
+                } // item builder
+            ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(20),
+                      textStyle: const TextStyle(fontSize: 20),
+                      backgroundColor: const Color(0xff4d4d4d),
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: _addIssues,
+                    child: const Text('Add Issues')
                   ),
-                  onPressed: () => _removeIssue(index),
                 ),
-              )
+                NextBar(const WeightIssues()),
+              ],
             )
-          );
-        } // item builder
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addIssues,
-        backgroundColor: const Color(0xff4d4d4d),
-        child: const Icon(Icons.add)
-      ),
+          )
+        ]
+      )
     );
   }
 }
