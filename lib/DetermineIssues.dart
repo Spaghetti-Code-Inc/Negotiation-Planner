@@ -90,7 +90,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                   margin: const EdgeInsets.only(bottom: 15),
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(22),
                       textStyle: const TextStyle(fontSize: 20),
                       backgroundColor: const Color(0xff4d4d4d),
                       foregroundColor: Colors.white,
