@@ -5,8 +5,19 @@ import 'package:negotiation_tracker/PlanSummary.dart';
 
 import 'main.dart';
 
-class CpsRubrik extends StatelessWidget {
+class CpsRubrik extends StatefulWidget{
   const CpsRubrik({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _CpsRubrikState();
+}
+
+class _CpsRubrikState extends State<CpsRubrik> {
+
+  bool iconOne = false;
+  bool iconTwo = false;
+  bool iconThree = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -269,16 +280,20 @@ class CpsRubrik extends StatelessWidget {
                           ),
                           IconButton(
                             icon: const Icon(Icons.info_outline),
+                            color: iconOne ? Colors.black : Color(0xFF3B66B7),
                             onPressed: () {
+                              setState(() {
+                                iconOne = true;
+                              });
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                   title: const Text('Counterparts Suspected Target'),
-                                  content: const Text('This is your best guess at what your counterparts target value is.'),
+                                  content: const Text("This is your best guess at what your counterparts target value is."),
                                   actions: [
                                     TextButton(
                                       child: const Text('Okay'),
-                                      onPressed: (){
+                                      onPressed: () {
                                         Navigator.pop(context);
                                       },
                                     ),
@@ -286,9 +301,8 @@ class CpsRubrik extends StatelessWidget {
                                 ),
                               );
                             },
-                            color: const Color(0xff000000),
                             iconSize: 24,
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -373,12 +387,31 @@ class CpsRubrik extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: IconButton(
-                          icon: const Icon(Icons.info_outline),
-                          onPressed: () {},
-                          color: const Color(0xff212435),
-                          iconSize: 24,
-                        ),
+                          child: IconButton(
+                            icon: const Icon(Icons.info_outline),
+                            color: iconTwo ? Colors.black : Color(0xFF3B66B7),
+                            onPressed: () {
+                              setState(() {
+                                iconTwo = true;
+                              });
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Counterparts BATNA'),
+                                  content: const Text("This is your best guess at what your Counterparts BATNA is."),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            iconSize: 24,
+                          )
                       ),
                     ],
                   ),
@@ -451,7 +484,7 @@ class CpsRubrik extends StatelessWidget {
                         const Expanded(
                           flex: 1,
                           child: Text(
-                            "Your counter part's suspected resistance point.",
+                            "Your counterpart's suspected resistance point.",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -464,10 +497,29 @@ class CpsRubrik extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(Icons.info_outline),
-                          onPressed: () {},
-                          color: const Color(0xff212435),
+                          color: iconThree ? Colors.black : Color(0xFF3B66B7),
+                          onPressed: () {
+                            setState(() {
+                              iconThree = true;
+                            });
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Counterparts suspected resistance point.'),
+                                content: const Text("This is your best guess at what your counterparts resistance point is."),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                           iconSize: 24,
-                        ),
+                        )
                       ],
                     ),
                   ),

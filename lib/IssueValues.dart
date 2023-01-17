@@ -5,8 +5,15 @@ import 'package:negotiation_tracker/UnderStantRubrc.dart';
 
 import 'main.dart';
 
-class IssueValues extends StatelessWidget {
+class IssueValues extends StatefulWidget {
   const IssueValues({super.key});
+
+  State<IssueValues> createState() => _IssueValuesState();
+}
+
+class _IssueValuesState extends State<IssueValues> {
+
+  bool iconColor = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,54 +35,75 @@ class IssueValues extends StatelessWidget {
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: const [
+            child: Row(
+              children: [
+                Expanded( child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                        child: Text(
+                          "Step 3/3",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 28,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 48),
+                        child: Text(
+                          "Establish the possibilities for each issue and their value to you",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 18,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                    ]
+                )),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                  child: Text(
-                    "Step 3/3",
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 28,
-                      color: Color(0xff000000),
-                    ),
+                    padding: EdgeInsets.only(top: 8),
+                    child: IconButton(
+                      icon: const Icon(Icons.info_outline),
+                      color: iconColor ? Colors.black : Color(0xFF3B66B7),
+                      onPressed: () {
+                        setState(() {
+                          iconColor = true;
+                        });
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Set the possibilities for each issue.'),
+                            content: const Text(
+                              "Identify possible outcomes on each and allocate a "
+                                  "number of points for several potential settlement on each issue. "
+                                  "You should base your range on norms, industry standards market data, etc."),
+                            actions: [
+                              TextButton(
+                                child: const Text('Okay'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      iconSize: 40,
+                    )
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                  child: Text(
-                    "Establish the possibilities for each issue and their value to you",
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 18,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
               ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
-            child: Text(
-              "Identify possible outcomes on each and allocate a number of points for several potential settlement on each issue. You should base your range on norms, industry standards market data, etc.",
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.clip,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontStyle: FontStyle.normal,
-                fontSize: 18,
-                color: Color(0xff000000),
-              ),
             ),
           ),
           Container(
@@ -156,8 +184,8 @@ class IssueValues extends StatelessWidget {
                             color: const Color(0x55000000),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.zero,
-                            border:
-                                Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                            border: Border.all(
+                                color: const Color(0x4d9e9e9e), width: 1),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
@@ -254,8 +282,8 @@ class IssueValues extends StatelessWidget {
                             color: const Color(0x1f000000),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.zero,
-                            border:
-                                Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                            border: Border.all(
+                                color: const Color(0x4d9e9e9e), width: 1),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
@@ -352,8 +380,8 @@ class IssueValues extends StatelessWidget {
                             color: const Color(0x55000000),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.zero,
-                            border:
-                                Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                            border: Border.all(
+                                color: const Color(0x4d9e9e9e), width: 1),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
@@ -450,8 +478,8 @@ class IssueValues extends StatelessWidget {
                             color: const Color(0x1f000000),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.zero,
-                            border:
-                                Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                            border: Border.all(
+                                color: const Color(0x4d9e9e9e), width: 1),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
@@ -548,8 +576,8 @@ class IssueValues extends StatelessWidget {
                             color: const Color(0x54000000),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.zero,
-                            border:
-                                Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                            border: Border.all(
+                                color: const Color(0x4d9e9e9e), width: 1),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
@@ -643,8 +671,8 @@ class IssueValues extends StatelessWidget {
                             color: const Color(0x1f000000),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.zero,
-                            border:
-                                Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                            border: Border.all(
+                                color: const Color(0x4d9e9e9e), width: 1),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.all(5),

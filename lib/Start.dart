@@ -1,7 +1,6 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/EvaluateAggreement.dart';
 import 'package:negotiation_tracker/login.dart';
 
 import 'StartNewNegotiation.dart';
@@ -16,9 +15,7 @@ class Start extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xfff1f1f1),
       appBar: const TitleBar(),
-      body: Align(
-        alignment: Alignment.center,
-        child: Column(
+      body: Align( alignment: Alignment.topCenter, child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
@@ -195,7 +192,6 @@ class Start extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+    ));
   }
 }

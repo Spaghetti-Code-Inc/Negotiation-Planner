@@ -13,7 +13,7 @@ class BATNATest extends StatelessWidget {
         backgroundColor: const Color(0xffffffff),
         appBar: PrepareBar(),
         body: Column(children: [
-          SingleChildScrollView(
+          Expanded(child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -264,8 +264,8 @@ class BATNATest extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          Expanded(child: NextBar(RubricSummary()))
-        ]));
+          )),
+          NextBar(RubricSummary())
+          ]));
   }
 }
