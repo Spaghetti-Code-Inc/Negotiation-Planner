@@ -110,7 +110,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                                 labelText: _items[index],
                               ),
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: Color(0xFFFFFFFF),
                               ),
                             ),
                             /*title: Text(_items[index],
