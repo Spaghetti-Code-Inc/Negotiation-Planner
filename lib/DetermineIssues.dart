@@ -23,8 +23,8 @@ class _DetermineIssuesState extends State<DetermineIssues> {
 
   void _addIssues() {
     print('Add issues button clicked');
-    _items.insert(0, "Issue ${_items.length + 1}");
-    _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 300));
+    _items.insert(0, 'Issue ${_items.length + 1}');
+    _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 200));
   }
 
   void _removeIssue(int index) {
@@ -40,7 +40,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
           ),
         ),
       );
-    }, duration : const Duration(milliseconds: 290));
+    }, duration : const Duration(milliseconds: 200));
     _items.removeAt(index);
   }
 
@@ -49,9 +49,46 @@ class _DetermineIssuesState extends State<DetermineIssues> {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
-      //bottomNavigationBar: NextBar(const WeightIssues()),
+
       body: Column(
+
         children: [
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                      title: const Text('How to Determine Issues'),
+                      content: const Text(
+                          'An issue is something the negotiators will try to reach an agreement on. Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.'
+                      ),
+                      actions: [
+                        TextButton(
+
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child:
+                          const Text('OK',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+
+                        ),
+                      ]
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff4d4d4d),
+              ),
+              child: const Text('How to Determine Issues'),
+            ),
+          ),
+
           Expanded(
             child: AnimatedList(
                 key: _key,
@@ -67,9 +104,18 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                           color: const Color(0xff4d4d4d),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
-                            title: Text(_items[index],
+                            title: TextField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: _items[index],
+                              ),
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            /*title: Text(_items[index],
                                 style:
-                                const TextStyle(fontSize: 24, color: Colors.white)),
+                                const TextStyle(fontSize: 24, color: Colors.white)),*/
                             trailing: IconButton(
                               icon: const Icon(
                                 Icons.delete,
@@ -108,3 +154,8 @@ class _DetermineIssuesState extends State<DetermineIssues> {
     );
   }
 }
+
+abstract class ListItem {
+  Widget TextField();
+}
+
