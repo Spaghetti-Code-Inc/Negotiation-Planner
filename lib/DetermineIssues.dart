@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/StartNewNegotiation.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
@@ -17,14 +18,19 @@ class DetermineIssues extends StatefulWidget {
 
 class _DetermineIssuesState extends State<DetermineIssues> {
 
+
+  //animated list stuffs
   final _items = [];
 
   final GlobalKey<AnimatedListState> _key = GlobalKey();
+
+  final Map<String,TextEditingController> _controllers = {};
 
   void _addIssues() {
     print('Add issues button clicked');
     _items.insert(0, 'Issue ${_items.length + 1}');
     _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 200));
+    _controllers[_items.length.toString()] = TextEditingController();
   }
 
   void _removeIssue(int index) {
@@ -42,10 +48,13 @@ class _DetermineIssuesState extends State<DetermineIssues> {
       );
     }, duration : const Duration(milliseconds: 200));
     _items.removeAt(index);
+    _controllers.remove(index.toString());
   }
 
   @override
   Widget build(BuildContext context) {
+
+    int OOF = 0;
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
@@ -112,6 +121,8 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                               style: const TextStyle(
                                 color: Color(0xFFFFFFFF),
                               ),
+                              controller: _controllers[index.toString()],
+                              onChanged: (text) {print(_controllers[index.toString()]?.text);},
                             ),
                             /*title: Text(_items[index],
                                 style:
@@ -129,33 +140,45 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                 } // item builder
             ),
           ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(22),
-                      textStyle: const TextStyle(fontSize: 20),
-                      backgroundColor: const Color(0xff4d4d4d),
-                      foregroundColor: Colors.white,
-                    ),
-                    onPressed: _addIssues,
-                    child: const Text('Add Issues')
+          FloatingActionButton(
+            // When the user presses the button, show an alert dialog containing
+            // the text that the user has entered into the text field.
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    // Retrieve the text that the user has entered by using the
+                    // TextEditingController.
+                    content: Text(_controllers["0"]!.text),
+                  );
+                },
+              );
+            },
+            tooltip: 'Show me the value!',
+            child: const Icon(Icons.text_fields),
+          ),
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 15),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(22),
+                    textStyle: const TextStyle(fontSize: 20),
+                    backgroundColor: const Color(0xff4d4d4d),
+                    foregroundColor: Colors.white,
                   ),
+                  onPressed: _addIssues,
+                  child: const Text('Add Issues')
                 ),
-                NextBar(const WeightIssues()),
-              ],
-            )
-          )
+              ),
+              NextBar(const WeightIssues()),
+            ],
+          ),
         ]
       )
     );
+
   }
 }
-
-abstract class ListItem {
-  Widget TextField();
-}
-
