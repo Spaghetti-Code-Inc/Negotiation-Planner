@@ -13,10 +13,11 @@ class DetermineIssues extends StatefulWidget {
 
   @override
   _DetermineIssuesState createState() => _DetermineIssuesState();
+
 }
 
 class _DetermineIssuesState extends State<DetermineIssues> {
-
+  bool iconColor = false;
   final _items = [];
 
   final GlobalKey<AnimatedListState> _key = GlobalKey();
@@ -54,39 +55,85 @@ class _DetermineIssuesState extends State<DetermineIssues> {
 
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                      title: const Text('How to Determine Issues'),
-                      content: const Text(
-                          'An issue is something the negotiators will try to reach an agreement on. Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.'
-                      ),
-                      actions: [
-                        TextButton(
-
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child:
-                          const Text('OK',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-
-                        ),
-                      ]
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff4d4d4d),
-              ),
-              child: const Text('How to Determine Issues'),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: const Color(0x1f000000),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.zero,
+              border: Border.all(color: const Color(0x7f000000), width: 1),
             ),
+            child: Row(children: [
+              Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max, children: const [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(48, 0, 0, 0),
+                      child: Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Text(
+                              "Step 1/3",
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 28,
+                                color: Color(0xff000000),
+                              ),
+                            ),
+                          )),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                      child: Text(
+                        "Determine The Issues",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 18,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    ),
+                  ],
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.info_outline),
+                    color: iconColor ? Colors.black : Color(0xFF3B66B7),
+                    onPressed: () {
+                      setState(() {
+                        iconColor = true;
+                      });
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('How To Determine Issues'),
+                          content: const Text(
+                              'An issue is something the negotiators will try to reach an agreement on. '
+                                  'Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.'),
+                          actions: [
+                            TextButton(
+                              child: const Text('Okay'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    iconSize: 40,
+                  )),
+            ]),
           ),
 
           Expanded(
@@ -101,7 +148,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                       child: Card(
                           margin: const EdgeInsets.all(10),
                           elevation: 10,
-                          color: const Color(0xff4d4d4d),
+                          color: Color.fromRGBO(50, 50, 50, 100),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextField(
@@ -158,4 +205,6 @@ class _DetermineIssuesState extends State<DetermineIssues> {
 abstract class ListItem {
   Widget TextField();
 }
+
+
 

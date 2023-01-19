@@ -57,7 +57,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   onChanged: (newVal) {
-                    currentNegotiation?.title = newVal;
+                    currentNegotiation.title = newVal;
                   },
                   controller: TitleController,
                   obscureText: false,
@@ -132,7 +132,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                     // SUMMARY text field
                     TextField(
                       onChanged: (newVal) {
-                        currentNegotiation?.summary = newVal;
+                        currentNegotiation.summary = newVal;
                       },
                       controller: SummaryController,
                       obscureText: false,
@@ -160,8 +160,8 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                           borderSide:
                           const BorderSide(color: Color(0xff000000), width: 1),
                         ),
-                        hintText: "Summary",
-                        hintStyle: const TextStyle(
+                        labelText: "Summary",
+                        labelStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,

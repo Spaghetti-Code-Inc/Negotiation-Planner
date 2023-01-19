@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/login.dart';
 
+import 'Register.dart';
 import 'StartNewNegotiation.dart';
 import 'TrackProgress.dart';
 import 'main.dart';
@@ -125,12 +126,17 @@ class Start extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Register()),
+                    );
+                  },
                   color: const Color(0xffCFCFCF),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    side: const BorderSide(color: Color(0x00808080), width: 1),
+                    side: const BorderSide(color: Colors.black, width: 1),
                   ),
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                   textColor: const Color(0xff000000),

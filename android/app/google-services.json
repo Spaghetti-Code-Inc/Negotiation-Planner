@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "425124565931",
+    "project_id": "negotiationapp-1701d",
+    "storage_bucket": "negotiationapp-1701d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425124565931:android:bb429c111bc47bf8aff8ee",
+        "android_client_info": {
+          "package_name": "com.spaghetticodeinc.negotiation_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425124565931-9gp4dr7nv9ba6icrru1c12l5vprdfn3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaX8DQEnMXnU8s2MZtJ5lRtHiRKsMnRuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425124565931-9gp4dr7nv9ba6icrru1c12l5vprdfn3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
