@@ -1,9 +1,30 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Register extends StatelessWidget {
-  const Register({super.key});
+import 'MyNegotiations.dart';
+
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
+
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController checkPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    checkPasswordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +47,11 @@ class Register extends StatelessWidget {
             color: Color(0xffffffff),
           ),
         ),
-        leading: const Icon(
-          Icons.arrow_back,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
           color: Color(0xffffffff),
-          size: 24,
+          iconSize: 24,
+          onPressed: () {Navigator.pop(context);}
         ),
       ),
       body: Padding(
@@ -71,7 +93,7 @@ class Register extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                 child: TextField(
-                  controller: TextEditingController(),
+                  controller: usernameController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
@@ -85,17 +107,17 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Name",
                     hintStyle: const TextStyle(
@@ -108,16 +130,16 @@ class Register extends StatelessWidget {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon:
-                        const Icon(Icons.person, color: Color(0xff212435), size: 24),
+                    const Icon(Icons.person, color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextField(
-                  controller: TextEditingController(),
+                  controller: emailController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
@@ -131,17 +153,17 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Email Address",
                     hintStyle: const TextStyle(
@@ -154,16 +176,16 @@ class Register extends StatelessWidget {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon:
-                        const Icon(Icons.mail, color: Color(0xff212435), size: 24),
+                    const Icon(Icons.mail, color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextField(
-                  controller: TextEditingController(),
+                  controller: passwordController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
@@ -177,17 +199,17 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Password",
                     hintStyle: const TextStyle(
@@ -200,7 +222,7 @@ class Register extends StatelessWidget {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon: const Icon(Icons.visibility,
                         color: Color(0xff212435), size: 24),
                   ),
@@ -209,7 +231,7 @@ class Register extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextField(
-                  controller: TextEditingController(),
+                  controller: checkPasswordController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
@@ -223,17 +245,17 @@ class Register extends StatelessWidget {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Confirm Password",
                     hintStyle: const TextStyle(
@@ -246,7 +268,7 @@ class Register extends StatelessWidget {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon: const Icon(Icons.visibility,
                         color: Color(0xff212435), size: 24),
                   ),
@@ -255,7 +277,7 @@ class Register extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: (){},
                   color: const Color(0xff3e4b8c),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
