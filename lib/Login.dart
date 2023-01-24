@@ -21,6 +21,7 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +148,7 @@ class _LoginState extends State<Login> {
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
                   child: TextField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     textAlign: TextAlign.start,
                     maxLines: 1,
                     style: const TextStyle(
@@ -183,8 +184,17 @@ class _LoginState extends State<Login> {
                       fillColor: const Color(0x00ffffff),
                       isDense: false,
                       contentPadding: const EdgeInsets.all(0),
-                      suffixIcon: const Icon(Icons.visibility,
-                          color: Color(0xff7b7c82), size: 24),
+                      suffixIcon: IconButton(
+                          icon: const Icon(Icons.visibility),
+                          color: const Color(0xff7b7c82),
+                          iconSize: 24,
+                        onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                        },
+                      ),
+
                     ),
                   ),
                 ),
