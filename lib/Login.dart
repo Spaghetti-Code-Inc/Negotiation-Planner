@@ -2,9 +2,11 @@
 
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'Utils.dart';
 
 import 'MyNegotiations.dart';
 import 'main.dart';
@@ -15,7 +17,6 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
-
 
 class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
@@ -105,7 +106,6 @@ class _LoginState extends State<Login> {
                 ),
                 TextField(
                   controller: emailController,
-                  obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
                   style: const TextStyle(
@@ -185,16 +185,15 @@ class _LoginState extends State<Login> {
                       isDense: false,
                       contentPadding: const EdgeInsets.all(0),
                       suffixIcon: IconButton(
-                          icon: const Icon(Icons.visibility),
-                          color: const Color(0xff7b7c82),
-                          iconSize: 24,
+                        icon: const Icon(Icons.visibility),
+                        color: const Color(0xff7b7c82),
+                        iconSize: 24,
                         onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
                         },
                       ),
-
                     ),
                   ),
                 ),
@@ -215,7 +214,9 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 30, 0, 50),
                   child: MaterialButton(
-                    onPressed: () {signIn();},
+                    onPressed: () {
+                      signIn();
+                    },
                     color: const Color(0xff3a57e8),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -244,31 +245,29 @@ class _LoginState extends State<Login> {
   }
 
   Future signIn() async {
-
     showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator())
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()));
 
-    try{
+    try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
-          password: passwordController.text.trim()
-      );
-    } on FirebaseAuthException catch (e){
-      if (kDebugMode) {
-        print(e);
-      }
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+
+      Utils.showSnackBar(e.message);
     }
 
-    Navigator.pop(context);
-
-    // Brings the user back to the page they were on before
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const MyNegotiations()),
-    );
-
+    if(FirebaseAuth.instance.currentUser?.emailVerified == true){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyNegotiations()),
+      );
+    }
+    else{
+      Navigator.pop(context);
+    }
   }
 }

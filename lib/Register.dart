@@ -2,8 +2,10 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
 import 'MyNegotiations.dart';
+import 'Utils.dart';
+import 'main.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final formKey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -92,7 +95,7 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                child: TextField(
+                child: TextFormField(
                   controller: usernameController,
                   obscureText: false,
                   textAlign: TextAlign.start,
@@ -104,6 +107,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -138,11 +142,16 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: TextField(
+                child: TextFormField(
                   controller: emailController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (email) =>
+                  email != null && !EmailValidator.validate(email)
+                      ? 'Enter a valid email'
+                      : null,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
@@ -150,6 +159,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -184,11 +194,15 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: TextField(
+                child: TextFormField(
                   controller: passwordController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) => value != null && value.length < 6
+                      ? 'Enter min. 6 character'
+                      : null,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
@@ -196,6 +210,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -230,11 +245,15 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: TextField(
+                child: TextFormField(
                   controller: checkPasswordController,
                   obscureText: false,
                   textAlign: TextAlign.start,
                   maxLines: 1,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) => value != null && value.length < 6
+                      ? 'Enter min. 6 character'
+                      : null,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
@@ -242,11 +261,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
-                    ),
+                    border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -277,7 +292,9 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    signUp();
+                  },
                   color: const Color(0xff3e4b8c),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -352,4 +369,36 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+  Future signUp() async {
+
+    if(passwordController.text != checkPasswordController.text) {
+      Utils.showSnackBar("Password do not match.");
+    }
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator())
+    );
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+
+      Utils.showSnackBar(e.message);
+    }
+
+    Navigator.pop(context);
+    if(FirebaseAuth.instance.currentUser?.emailVerified == true){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyNegotiations()),
+      );
+    }
+  }
+
 }

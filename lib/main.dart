@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/Start.dart';
 
 import 'NegotiationDetails.dart';
+import 'Utils.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -15,6 +16,7 @@ Future main() async {
   await Firebase.initializeApp();
 
   runApp(MaterialApp(
+    scaffoldMessengerKey: Utils.messengerKey,
     title: 'Negotiation Planner',
     home: Start(),
     navigatorKey: navigatorKey,
