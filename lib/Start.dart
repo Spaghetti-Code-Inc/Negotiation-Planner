@@ -1,5 +1,6 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/Login.dart';
 
@@ -29,10 +30,7 @@ class Start extends StatelessWidget {
 
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const StartNewNegotiation()),
-                  );
+                  // Register
                 },
                 icon: const Icon(
                   Icons.add_to_photos,
@@ -127,10 +125,7 @@ class Start extends StatelessWidget {
                 alignment: Alignment.center,
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Register()),
-                    );
+                    // Register
                   },
                   color: const Color(0xffCFCFCF),
                   elevation: 0,
@@ -169,10 +164,7 @@ class Start extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: MaterialButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                      );
+                      FirebaseAuth.instance.signOut();
                     },
                     color: const Color(0xfff1f1f1),
                     elevation: 0,
@@ -185,7 +177,7 @@ class Start extends StatelessWidget {
                     height: 40,
                     minWidth: 140,
                     child: const Text(
-                      "Already have an Account? Login. ",
+                      "Sign Out of Account",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

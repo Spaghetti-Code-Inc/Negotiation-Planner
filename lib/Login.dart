@@ -2,17 +2,19 @@
 
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'ForgotPasswordPage.dart';
 import 'Utils.dart';
 
-import 'MyNegotiations.dart';
 import 'main.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  final VoidCallback onClickedSignUp;
+
+  const Login({Key? key, required this.onClickedSignUp}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -45,13 +47,6 @@ class _LoginState extends State<Login> {
             color: Color(0xffffffff),
           ),
         ),
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: Color(0xffffffff),
-            iconSize: 24,
-            onPressed: () {
-              Navigator.pop(context);
-            }),
       ),
       body: Align(
         alignment: Alignment.centerLeft,
@@ -197,19 +192,43 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Forgot Password?",
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      color: Color(0xff3a57e8),
+                  child: GestureDetector(
+                      child: const Text(
+                      "Forgot Password?",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14,
+                        color: Color(0xff3a57e8),
+                      ),
                     ),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                    )
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                          text: TextSpan(
+                              style: TextStyle(color: Colors.black),
+                              text: 'No account? ',
+                              children: [
+                            TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = widget.onClickedSignUp,
+                                text: 'Sign Up',
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Color(0xff3a57e8),
+                                ))
+                          ]))),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 30, 0, 50),
@@ -217,7 +236,7 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       signIn();
                     },
-                    color: const Color(0xff3a57e8),
+                    color: const Color(0xff3e4b8c),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -255,19 +274,12 @@ class _LoginState extends State<Login> {
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
-      print(e);
-
+      if (kDebugMode) {
+        print(e);
+      }
       Utils.showSnackBar(e.message);
     }
 
-    if(FirebaseAuth.instance.currentUser?.emailVerified == true){
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyNegotiations()),
-      );
-    }
-    else{
-      Navigator.pop(context);
-    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

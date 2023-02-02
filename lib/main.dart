@@ -4,8 +4,8 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/Start.dart';
 
+import 'MainPage.dart';
 import 'NegotiationDetails.dart';
 import 'Utils.dart';
 
@@ -18,7 +18,7 @@ Future main() async {
   runApp(MaterialApp(
     scaffoldMessengerKey: Utils.messengerKey,
     title: 'Negotiation Planner',
-    home: Start(),
+    home: MainPage(),
     navigatorKey: navigatorKey,
   ));
 }

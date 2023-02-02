@@ -1,6 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'MyNegotiations.dart';
@@ -8,7 +9,12 @@ import 'Utils.dart';
 import 'main.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  final VoidCallback onClickedSignIn;
+
+  const Register({
+    Key? key,
+    required this.onClickedSignIn,
+  }) : super(key: key);
 
   @override
   State<Register> createState() => _RegisterState();
@@ -18,15 +24,18 @@ class _RegisterState extends State<Register> {
   final formKey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController checkPasswordController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController check_passwordController = TextEditingController();
+
+  bool obscurePassword = true;
 
   @override
   void dispose() {
     emailController.dispose();
     usernameController.dispose();
-    passwordController.dispose();
-    checkPasswordController.dispose();
+    _passwordController.dispose();
+    check_passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,12 +58,6 @@ class _RegisterState extends State<Register> {
             fontSize: 18,
             color: Color(0xffffffff),
           ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Color(0xffffffff),
-          iconSize: 24,
-          onPressed: () {Navigator.pop(context);}
         ),
       ),
       body: Padding(
@@ -111,17 +114,17 @@ class _RegisterState extends State<Register> {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Name",
                     hintStyle: const TextStyle(
@@ -134,9 +137,9 @@ class _RegisterState extends State<Register> {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon:
-                    const Icon(Icons.person, color: Color(0xff212435), size: 24),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    prefixIcon: const Icon(Icons.person,
+                        color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
@@ -149,9 +152,9 @@ class _RegisterState extends State<Register> {
                   maxLines: 1,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (email) =>
-                  email != null && !EmailValidator.validate(email)
-                      ? 'Enter a valid email'
-                      : null,
+                      email != null && !EmailValidator.validate(email)
+                          ? 'Enter a valid email'
+                          : null,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.normal,
@@ -163,17 +166,17 @@ class _RegisterState extends State<Register> {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Email Address",
                     hintStyle: const TextStyle(
@@ -186,17 +189,17 @@ class _RegisterState extends State<Register> {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon:
-                    const Icon(Icons.mail, color: Color(0xff212435), size: 24),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    prefixIcon: const Icon(Icons.mail,
+                        color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextFormField(
-                  controller: passwordController,
-                  obscureText: false,
+                  controller: _passwordController,
+                  obscureText: obscurePassword,
                   textAlign: TextAlign.start,
                   maxLines: 1,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -214,17 +217,17 @@ class _RegisterState extends State<Register> {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Password",
                     hintStyle: const TextStyle(
@@ -237,17 +240,24 @@ class _RegisterState extends State<Register> {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon: const Icon(Icons.visibility,
-                        color: Color(0xff212435), size: 24),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    prefixIcon: IconButton(
+                        icon: const Icon(Icons.visibility),
+                        color: Color(0xff212435),
+                        iconSize: 24,
+                        onPressed: () {
+                          setState(() {
+                            obscurePassword = !obscurePassword;
+                          });
+                        }),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextFormField(
-                  controller: checkPasswordController,
-                  obscureText: false,
+                  controller: check_passwordController,
+                  obscureText: obscurePassword,
                   textAlign: TextAlign.start,
                   maxLines: 1,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -265,12 +275,12 @@ class _RegisterState extends State<Register> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff000000), width: 1),
                     ),
                     hintText: "Confirm Password",
                     hintStyle: const TextStyle(
@@ -283,16 +293,23 @@ class _RegisterState extends State<Register> {
                     fillColor: const Color(0xffffffff),
                     isDense: false,
                     contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon: const Icon(Icons.visibility,
-                        color: Color(0xff212435), size: 24),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    prefixIcon: IconButton(
+                        icon: const Icon(Icons.visibility),
+                        color: Color(0xff212435),
+                        iconSize: 24,
+                        onPressed: () {
+                          setState(() {
+                            obscurePassword = !obscurePassword;
+                          });
+                        }),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: (){
+                  onPressed: () {
                     signUp();
                   },
                   color: const Color(0xff3e4b8c),
@@ -334,32 +351,27 @@ class _RegisterState extends State<Register> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: const [
-                    Text(
-                      "Already have an account?",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                      child: Text(
-                        "Sign In",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xff3a57e8),
-                        ),
-                      ),
-                    ),
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                          text: "Already have an account?: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14,
+                            color: Color(0xff000000),
+                          ),
+                          children: [
+                            TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = widget.onClickedSignIn,
+                                text: 'Log in',
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.blueAccent,
+                                ))
+                          ]),
+                    )
                   ],
                 ),
               ),
@@ -371,34 +383,28 @@ class _RegisterState extends State<Register> {
   }
 
   Future signUp() async {
-
-    if(passwordController.text != checkPasswordController.text) {
+    if (_passwordController.text != check_passwordController.text) {
       Utils.showSnackBar("Password do not match.");
+      return;
     }
 
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator())
-    );
+        builder: (context) => Center(child: CircularProgressIndicator()));
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
-          password: passwordController.text.trim());
+          password: _passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);
     }
 
-    Navigator.pop(context);
-    if(FirebaseAuth.instance.currentUser?.emailVerified == true){
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyNegotiations()),
-      );
-    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
-
 }
+
+//
