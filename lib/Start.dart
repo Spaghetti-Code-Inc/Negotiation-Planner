@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/Login.dart';
 
+import 'MyNegotiations.dart';
 import 'Register.dart';
 import 'StartNewNegotiation.dart';
 import 'TrackProgress.dart';
@@ -30,7 +31,10 @@ class Start extends StatelessWidget {
 
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // Register
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StartNewNegotiation()),
+                  );
                 },
                 icon: const Icon(
                   Icons.add_to_photos,
@@ -91,14 +95,19 @@ class Start extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
 
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyNegotiations()),
+                  );
+                },
                 icon: const Icon(
                   Icons.verified,
                   size: 24.0,
                 ),
                 label: const Center(
                     child: Text(
-                      'Evaluate Agreement',
+                      'My Negotiations',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -125,7 +134,10 @@ class Start extends StatelessWidget {
                 alignment: Alignment.center,
                 child: MaterialButton(
                   onPressed: () {
-                    // Register
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyNegotiations()),
+                    );
                   },
                   color: const Color(0xffCFCFCF),
                   elevation: 0,

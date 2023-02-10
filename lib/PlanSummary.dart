@@ -1,16 +1,26 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/MyNegotiations.dart';
 
 import 'NegotiationDetails.dart';
 import 'main.dart';
 
+
+
+
 class PlanSummary extends StatelessWidget {
   const PlanSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    CollectionReference negotiations = FirebaseFirestore.instance.collection('negotiations');
+    var db = FirebaseFirestore.instance;
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
@@ -264,11 +274,14 @@ class PlanSummary extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: MaterialButton(
-                        onPressed: () {
-                          DatabaseHelper.instance.add(currentNegotiation);
+                        onPressed: () async {
+                          // Sets the user id to the negotiation instance
+                          currentNegotiation.id = FirebaseAuth.instance.currentUser?.uid;
 
-                          debugPrint(currentNegotiation.title);
+                          // Adds the current negotiation to the correct user
+                          db.collection("users").doc(currentNegotiation.id).collection("Negotiations").add(currentNegotiation.toFirestore());
 
+                          // Resets the current negotiation
                           currentNegotiation = Negotiation.fromNegotiation(title: '');
 
                           Navigator.push(

@@ -2,66 +2,107 @@
 
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'NegotiationDetails.dart';
+import 'Start.dart';
 
-class MyNegotiations extends StatelessWidget {
-  const MyNegotiations({super.key});
+class MyNegotiations extends StatefulWidget {
+  const MyNegotiations({Key? key}) : super(key: key);
+
+  @override
+  State<MyNegotiations> createState() => _MyNegotiationsState();
+}
+
+class _MyNegotiationsState extends State<MyNegotiations> {
+  String? id = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "My Negotiations",
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
+        backgroundColor: const Color(0xffffffff),
+        appBar: AppBar(
+          elevation: 4,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xff000000),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          title: const Text(
+            "My Negotiations",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xffffffff),
+            ),
+          ),
+          leading: const Icon(
+            Icons.sort,
             color: Color(0xffffffff),
+            size: 24,
           ),
         ),
-        leading: const Icon(
-          Icons.sort,
-          color: Color(0xffffffff),
-          size: 24,
+        // TODO: Find out how to set issues
+        body: Column(
+          children: [
+            // Makes the stream fill 80% of the screen at most
+            Container(
+              height: .80 * MediaQuery.of(context).size.height,
+              child: StreamBuilder(
+                // Gets the users collection with their negotiations.
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(id)
+                    .collection('Negotiations')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // If there is no negotiations to the user
+                  if (!snapshot.hasData) {
+                    return const Center(child: Text('Add A New Negotiation'));
+                  }
+                  // Shows the users negotiations based, runs on the negotiation container widget
+                  return ListView.builder(
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot? docSnapshot =
+                          snapshot.data?.docs[index];
+
+                      return NegotiationContainer(
+                          negotiation: docSnapshot, docIndex: index);
+                    },
+                  );
+                },
+              ),
+            ),
+            FloatingActionButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Start()),
+                  );
+                }
+            ),
+          ],
         ),
-      ),
-      body: Center(
-        child: FutureBuilder<List<Negotiation>>(
-            future: DatabaseHelper.instance.getNegotiations(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Negotiation>> snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(child: Text('Add A New Negotiation'));
-              }
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ListView(
-                    children: snapshot.data!.map((negotiation) {
-                      return NegotiationContainer(negotiation: negotiation);
-                    }).toList(),
-                  ));
-            }),
-      ),
     );
   }
 }
 
 class NegotiationContainer extends StatefulWidget {
-  final Negotiation negotiation;
-  const NegotiationContainer({Key? key, required this.negotiation})
-      : super(key: key);
+  // Doc snapshot - has all doc data
+  final DocumentSnapshot<Object?>? negotiation;
+  // Which document the view represents
+  final int docIndex;
+  // User id of the doc
+  final id = FirebaseAuth.instance.currentUser?.uid;
 
+  NegotiationContainer(
+      {Key? key, required this.negotiation, required this.docIndex})
+      : super(key: key);
   _NegotiationContainerState createState() => _NegotiationContainerState();
 }
 
@@ -72,8 +113,10 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
     return AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.only(
-            top: (isHover) ? 18 : 20, bottom: !(isHover) ? 18 : 20,
-            right: (isHover) ? 20: 30, left: !(isHover) ? 20: 30),
+            top: (isHover) ? 18 : 20,
+            bottom: !(isHover) ? 18 : 20,
+            right: (isHover) ? 20 : 30,
+            left: !(isHover) ? 20 : 30),
         child: InkWell(
           child: Container(
             padding: EdgeInsets.zero,
@@ -95,7 +138,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        widget.negotiation.title,
+                        widget.negotiation!["title"],
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: const TextStyle(
@@ -107,15 +150,15 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "This is where the summary of the negotiation goes. ",
+                        widget.negotiation!["summary"],
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
@@ -208,7 +251,15 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       Expanded(
                         flex: 1,
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // Deletes the document
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.id)
+                                .collection('Negotiations')
+                                .doc(widget.negotiation?.id)
+                                .delete();
+                          },
                           color: const Color(0xff838383),
                           elevation: 0,
                           shape: const RoundedRectangleBorder(

@@ -28,7 +28,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       sendVerificationEmail();
 
       timer = Timer.periodic(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
         (_) => checkEmailVerified(),
       );
     }
@@ -62,7 +62,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       await user.sendEmailVerification();
 
       setState(() => canResendEmail = false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
       Utils.showSnackBar(e.toString());
@@ -71,27 +71,27 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? Start()
+      ? const Start()
       : Scaffold(
           appBar: AppBar(
-            title: Text('Verify Email to continue'),
+            title: const Text('Verify Email to continue'),
           ),
           body: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "A verification email has been sent to the email.",
                       style: TextStyle(fontSize: 20),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size.fromHeight(50),
+                        minimumSize: const Size.fromHeight(50),
                       ),
-                      icon: Icon(Icons.email, size: 32),
-                      label: Text(
+                      icon: const Icon(Icons.email, size: 32),
+                      label: const Text(
                         'Resend Email',
                         style: TextStyle(fontSize: 24),
                       ),
@@ -102,9 +102,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     ),
                     TextButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size.fromHeight(50),
+                        minimumSize: const Size.fromHeight(50),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Cancel',
                         style: TextStyle(fontSize: 24),
                       ),
