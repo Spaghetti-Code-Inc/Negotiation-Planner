@@ -109,7 +109,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -161,7 +161,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -212,7 +212,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -242,7 +242,7 @@ class _RegisterState extends State<Register> {
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon: IconButton(
                         icon: const Icon(Icons.visibility),
-                        color: Color(0xff212435),
+                        color: const Color(0xff212435),
                         iconSize: 24,
                         onPressed: () {
                           setState(() {
@@ -270,7 +270,7 @@ class _RegisterState extends State<Register> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
@@ -295,7 +295,7 @@ class _RegisterState extends State<Register> {
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     prefixIcon: IconButton(
                         icon: const Icon(Icons.visibility),
-                        color: Color(0xff212435),
+                        color: const Color(0xff212435),
                         iconSize: 24,
                         onPressed: () {
                           setState(() {
@@ -354,7 +354,7 @@ class _RegisterState extends State<Register> {
                     RichText(
                       text: TextSpan(
                           text: "Already have an account?: ",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.normal,
                             fontSize: 14,
@@ -365,7 +365,7 @@ class _RegisterState extends State<Register> {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = widget.onClickedSignIn,
                                 text: 'Log in',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Colors.blueAccent,
                                 ))
@@ -390,7 +390,7 @@ class _RegisterState extends State<Register> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+        builder: (context) => const Center(child: CircularProgressIndicator()));
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(

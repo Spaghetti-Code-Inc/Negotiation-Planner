@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/StartNewNegotiation.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
@@ -23,10 +24,18 @@ class _DetermineIssuesState extends State<DetermineIssues> {
   final GlobalKey<AnimatedListState> _key = GlobalKey();
 
   void _addIssues() {
-    print('Add issues button clicked');
+    if (kDebugMode) {
+      print('Add issues button clicked');
+    }
     _items.insert(0, 'Issue ${_items.length + 1}');
     _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 200));
-  }
+    //meant to reset issue numbers inside text box in descending order
+    for(int i = 0; i < _items.length; i++){
+      if(_items[i].contains("Issue")){
+        _items[i] = 'Issue ${i + 1}';
+      }//end if
+    }//end for
+  }//end add issues
 
   void _removeIssue(int index) {
     _key.currentState!.removeItem(index, (_, animation) {
@@ -43,11 +52,18 @@ class _DetermineIssuesState extends State<DetermineIssues> {
       );
     }, duration : const Duration(milliseconds: 200));
     _items.removeAt(index);
+    //meant to reset issue numbers inside textbox in descending order
+    for(int i = 0; i < _items.length; i++){
+      if(_items[i].contains("Issue")){
+        _items[i] = 'Issue ${i + 1}';
+      }//end if
+    }//end for
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
 
@@ -105,10 +121,10 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                   ],
                   )),
               Padding(
-                  padding: EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: IconButton(
                     icon: const Icon(Icons.info_outline),
-                    color: iconColor ? Colors.black : Color(0xFF3B66B7),
+                    color: iconColor ? Colors.black : const Color(0xFF3B66B7),
                     onPressed: () {
                       setState(() {
                         iconColor = true;
@@ -116,10 +132,15 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          title: const Text('How To Determine Issues'),
+                          title: const Text('How to Determine Issues', textAlign: TextAlign.center,),
                           content: const Text(
                               'An issue is something the negotiators will try to reach an agreement on. '
-                                  'Consider all the issues relevant to their negotiation. Be sure to include any issues that could make the deal better for you and/or your counterpart.'),
+                                  'Consider all the issues relevant to their negotiation. '
+                                  'Be sure to include any issues that could make the deal better '
+                                  'for you and/or your counterpart.'
+
+                          ),
+
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
@@ -148,7 +169,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                       child: Card(
                           margin: const EdgeInsets.all(10),
                           elevation: 10,
-                          color: Color.fromRGBO(50, 50, 50, 100),
+                          color: const Color.fromRGBO(50, 50, 50, 100),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextField(
@@ -176,25 +197,23 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                 } // item builder
             ),
           ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(22),
-                      textStyle: const TextStyle(fontSize: 20),
-                      backgroundColor: const Color(0xff4d4d4d),
-                      foregroundColor: Colors.white,
-                    ),
-                    onPressed: _addIssues,
-                    child: const Text('Add Issues')
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 15),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(22),
+                    textStyle: const TextStyle(fontSize: 20),
+                    backgroundColor: const Color(0xff4d4d4d),
+                    foregroundColor: Colors.white,
                   ),
+                  onPressed: _addIssues,
+                  child: const Text('Add Issues')
                 ),
-                NextBar(const WeightIssues()),
-              ],
-            )
+              ),
+              NextBar(const WeightIssues()),
+            ],
           )
         ]
       )
