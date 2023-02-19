@@ -6,7 +6,7 @@ class Negotiation {
   String? id;
   String title;
   String? summary;
-  List<Map<String, dynamic>>? issues;
+  Map<String, Map<String, dynamic>> issues;
   int? target;
   int? resistance;
   int? BATNA;
@@ -16,7 +16,7 @@ class Negotiation {
       {this.id, required this.title, required this.summary, required this.issues,
         required this.target, required this.resistance, required this.BATNA, required this.currentOffer});
 
-  Negotiation.fromNegotiation({this.id, required this.title});
+  Negotiation.fromNegotiation({this.id, required this.title, required this.issues});
 
   factory Negotiation.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot,

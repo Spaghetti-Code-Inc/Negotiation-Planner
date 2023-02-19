@@ -282,7 +282,7 @@ class PlanSummary extends StatelessWidget {
                           db.collection("users").doc(currentNegotiation.id).collection("Negotiations").add(currentNegotiation.toFirestore());
 
                           // Resets the current negotiation
-                          currentNegotiation = Negotiation.fromNegotiation(title: '');
+                          currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {});
 
                           Navigator.push(
                             context,

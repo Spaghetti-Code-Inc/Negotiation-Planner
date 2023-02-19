@@ -14,30 +14,34 @@ class DetermineIssues extends StatefulWidget {
 
   @override
   _DetermineIssuesState createState() => _DetermineIssuesState();
-
 }
 
 class _DetermineIssuesState extends State<DetermineIssues> {
   bool iconColor = false;
-  final _items = [];
+  final _items = ['Issue 1'];
+  final _controllers = [TextEditingController()];
 
   final GlobalKey<AnimatedListState> _key = GlobalKey();
 
   void _addIssues() {
-    if (kDebugMode) {
-      print('Add issues button clicked');
-    }
+    // Adds an issue and text editing controller for the list view
+    _controllers.insert(0, TextEditingController());
     _items.insert(0, 'Issue ${_items.length + 1}');
-    _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 200));
+
+    _key.currentState!
+        .insertItem(0, duration: const Duration(milliseconds: 200));
     //meant to reset issue numbers inside text box in descending order
-    for(int i = 0; i < _items.length; i++){
-      if(_items[i].contains("Issue")){
+    for (int i = 0; i < _items.length; i++) {
+      if (_items[i].contains("Issue")) {
         _items[i] = 'Issue ${i + 1}';
-      }//end if
-    }//end for
-  }//end add issues
+      } //end if
+    } //end for
+  } //end add issues
 
   void _removeIssue(int index) {
+    // Removes the Controller for the index removed
+    _controllers.removeAt(index);
+
     _key.currentState!.removeItem(index, (_, animation) {
       return SizeTransition(
         sizeFactor: animation,
@@ -50,26 +54,23 @@ class _DetermineIssuesState extends State<DetermineIssues> {
           ),
         ),
       );
-    }, duration : const Duration(milliseconds: 200));
+    }, duration: const Duration(milliseconds: 200));
     _items.removeAt(index);
     //meant to reset issue numbers inside textbox in descending order
-    for(int i = 0; i < _items.length; i++){
-      if(_items[i].contains("Issue")){
+    for (int i = 0; i < _items.length; i++) {
+      if (_items[i].contains("Issue")) {
         _items[i] = 'Issue ${i + 1}';
-      }//end if
-    }//end for
+      } //end if
+    } //end for
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xffffffff),
-      appBar: const PrepareBar(),
-
-      body: Column(
-
-        children: [
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xffffffff),
+        appBar: const PrepareBar(),
+        body: Column(children: [
           Container(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -83,43 +84,44 @@ class _DetermineIssuesState extends State<DetermineIssues> {
             child: Row(children: [
               Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max, children: const [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(48, 0, 0, 0),
-                      child: Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: Text(
-                              "Step 1/3",
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 28,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                          )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(48, 0, 0, 0),
+                    child: Expanded(
+                        child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Text(
-                        "Determine The Issues",
-                        textAlign: TextAlign.start,
+                        "Step 1/3",
+                        textAlign: TextAlign.center,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
-                          fontSize: 18,
+                          fontSize: 28,
                           color: Color(0xff000000),
                         ),
                       ),
+                    )),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                    child: Text(
+                      "Determine The Issues",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 18,
+                        color: Color(0xff000000),
+                      ),
                     ),
-                  ],
-                  )),
+                  ),
+                ],
+              )),
               Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: IconButton(
@@ -132,15 +134,15 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          title: const Text('How to Determine Issues', textAlign: TextAlign.center,),
+                          title: const Text(
+                            'How to Determine Issues',
+                            textAlign: TextAlign.center,
+                          ),
                           content: const Text(
                               'An issue is something the negotiators will try to reach an agreement on. '
-                                  'Consider all the issues relevant to their negotiation. '
-                                  'Be sure to include any issues that could make the deal better '
-                                  'for you and/or your counterpart.'
-
-                          ),
-
+                              'Consider all the issues relevant to their negotiation. '
+                              'Be sure to include any issues that could make the deal better '
+                              'for you and/or your counterpart.'),
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
@@ -156,7 +158,6 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                   )),
             ]),
           ),
-
           Expanded(
             child: AnimatedList(
                 key: _key,
@@ -173,6 +174,8 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextField(
+                              // TODO: Find how to work the controller into the same style as _items
+                              controller: _controllers[index],
                               decoration: InputDecoration(
                                 border: const OutlineInputBorder(),
                                 labelText: _items[index],
@@ -191,39 +194,112 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                               ),
                               onPressed: () => _removeIssue(index),
                             ),
-                          )
-                      )
-                  );
+                          )));
                 } // item builder
-            ),
+                ),
           ),
           Column(
             children: [
               Container(
                 margin: const EdgeInsets.only(bottom: 15),
                 child: TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(22),
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: const Color(0xff4d4d4d),
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: _addIssues,
-                  child: const Text('Add Issues')
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(22),
+                      textStyle: const TextStyle(fontSize: 20),
+                      backgroundColor: const Color(0xff4d4d4d),
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: _addIssues,
+                    child: const Text('Add Issues')),
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                margin: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: const Color(0x00ffffff),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.zero,
+                  border: Border.all(color: const Color(0x00ffffff), width: 0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: MaterialButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        color: const Color(0xff4d4d4d),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Color(0xff808080), width: 1),
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        textColor: const Color(0xffffffff),
+                        height: 40,
+                        minWidth: 140,
+                        child: const Text(
+                          "Back",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: MaterialButton(
+                        onPressed: () {
+                          currentNegotiation.issues.putIfAbsent("issueNames", () => {});
+                          currentNegotiation.issues["issueNames"]?.clear();
+                          // For each issue add it to the currentNegotiation list
+                          for(int i = 0; i < _controllers.length-1; i++){
+                            // Give issue a place holder map
+                            currentNegotiation.issues["issueNames"]?.putIfAbsent(_controllers[i].text, () => {});
+                          }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WeightIssues()),
+                          );
+                        },
+                        color: const Color(0xff4d4d4d),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Color(0xff808080), width: 1),
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        textColor: const Color(0xffffffff),
+                        height: 40,
+                        minWidth: 140,
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              NextBar(const WeightIssues()),
             ],
           )
-        ]
-      )
-    );
+        ]));
   }
 }
 
 abstract class ListItem {
   Widget TextField();
 }
-
-
-
