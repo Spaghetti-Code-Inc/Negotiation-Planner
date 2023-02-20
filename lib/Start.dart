@@ -11,7 +11,7 @@ import 'main.dart';
 
 class Start extends StatelessWidget {
   const Start({super.key});
-  //override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

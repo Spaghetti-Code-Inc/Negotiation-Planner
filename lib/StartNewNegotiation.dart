@@ -23,7 +23,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
     TitleController.dispose();
     super.dispose();
   }
-  //override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

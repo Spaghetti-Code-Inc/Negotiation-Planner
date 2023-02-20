@@ -29,7 +29,7 @@ Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '');
 // Header for all "Prepare A New Negotiation" pages
 class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
   const PrepareBar({super.key});
-  //override
+
   @override
   Widget build(BuildContext context) {
     return AppBar(

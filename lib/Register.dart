@@ -36,7 +36,7 @@ class _RegisterState extends State<Register> {
     check_passwordController.dispose();
     super.dispose();
   }
-  //override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
