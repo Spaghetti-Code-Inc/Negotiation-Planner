@@ -10,6 +10,9 @@ class RubricSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //TODO What to do if there are not 3 issues
+
     // Find the 3 most important issues
     List<String>? _issueNames =
       currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);

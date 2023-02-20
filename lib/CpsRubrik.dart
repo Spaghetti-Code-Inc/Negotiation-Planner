@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/PlanSummary.dart';
 
+import 'Utils.dart';
 import 'main.dart';
 
 class CpsRubrik extends StatefulWidget{
@@ -17,6 +18,10 @@ class _CpsRubrikState extends State<CpsRubrik> {
   bool iconOne = false;
   bool iconTwo = false;
   bool iconThree = false;
+
+  TextEditingController target = new TextEditingController();
+  TextEditingController BATNA = new TextEditingController();
+  TextEditingController resistance = new TextEditingController();
 
 
   @override
@@ -307,7 +312,17 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       ),
                     ),
                     TextField(
-                      controller: TextEditingController(),
+                      onChanged: (newVal){
+                        try{
+                          currentNegotiation.cpTarget = int.parse(newVal);
+                        } on FormatException catch (e){
+                          if(newVal != ""){
+                            Utils.showSnackBar("Your target value needs to be an integer.");
+                            target.text = "";
+                          }
+                        }
+                      },
+                      controller: target,
                       obscureText: false,
                       textAlign: TextAlign.start,
                       maxLines: 1,
@@ -416,7 +431,17 @@ class _CpsRubrikState extends State<CpsRubrik> {
                     ],
                   ),
                   TextField(
-                    controller: TextEditingController(),
+                    onChanged: (newVal){
+                      try{
+                        currentNegotiation.cpBATNA = int.parse(newVal);
+                      } on FormatException catch (e){
+                        if(newVal != ""){
+                          Utils.showSnackBar("Your BATNA value needs to be an integer.");
+                          BATNA.text = "";
+                        }
+                      }
+                    },
+                    controller: BATNA,
                     obscureText: false,
                     textAlign: TextAlign.start,
                     maxLines: 1,
@@ -524,7 +549,17 @@ class _CpsRubrikState extends State<CpsRubrik> {
                     ),
                   ),
                   TextField(
-                    controller: TextEditingController(),
+                    onChanged: (newVal){
+                      try{
+                        currentNegotiation.cpResistance = int.parse(newVal);
+                      } on FormatException catch (e){
+                        if(newVal != ""){
+                          Utils.showSnackBar("Your resistance value needs to be an integer.");
+                          resistance.text = "";
+                        }
+                      }
+                    },
+                    controller: resistance,
                     obscureText: false,
                     textAlign: TextAlign.start,
                     maxLines: 1,

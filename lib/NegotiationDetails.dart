@@ -12,9 +12,13 @@ class Negotiation {
   int? BATNA;
   int? currentOffer;
 
+  int? cpTarget;
+  int? cpBATNA;
+  int? cpResistance;
+
   Negotiation(
       {this.id, required this.title, required this.summary, required this.issues,
-        required this.target, required this.resistance, required this.BATNA, required this.currentOffer});
+        required this.target, required this.resistance, required this.BATNA, required this.currentOffer, required cpTarget, required cpResistance, required cpBATNA});
 
   Negotiation.fromNegotiation({this.id, required this.title, required this.issues});
 
@@ -32,6 +36,9 @@ class Negotiation {
       resistance: data?['resistance'],
       BATNA: data?['BATNA'],
       currentOffer: data?['currentOffer'],
+      cpTarget: data?['cpTarget'],
+      cpBATNA: data?['cpBATNA'],
+      cpResistance: data?['cpResistance'],
     );
   }
   
@@ -46,6 +53,10 @@ class Negotiation {
       if (resistance != null) "resistance": resistance,
       if (BATNA != null) "BATNA": BATNA,
       if (currentOffer != null) "currentOffer": currentOffer,
+      if (cpTarget != null) "cpTarget": cpTarget,
+      if (cpBATNA != null) "cpBATNA": cpBATNA,
+      if (cpResistance != null) "cpResistance": cpResistance,
+
     };
 
 
