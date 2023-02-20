@@ -10,6 +10,36 @@ class RubricSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Find the 3 most important issues
+    List<String>? _issueNames =
+      currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
+
+    List<int> _issueImportance = [];
+
+
+    int? length = _issueNames?.length;
+    for(int i = 0; i < length!; i++){
+      _issueImportance.add(int.parse(currentNegotiation.issues["issueNames"]![_issueNames![i]]["relativeValue"]));
+      print(_issueImportance[i]);
+    }
+
+    int max1 = 0;
+    int max2 = 0;
+    int max3 = 0;
+
+    for(int i = 0; i < length; i++){
+      if(_issueImportance[i] > _issueImportance[max1]) max1 = i;
+    }
+    for(int i = 0; i < length; i++){
+      if(_issueImportance[i] > _issueImportance[max2] && i != max1) max2 = i;
+    }
+    for(int i = 0; i < length; i++){
+      if(_issueImportance[i] > _issueImportance[max3] && i != max1 && i != max2) max3 = i;
+    }
+
+    print(max1.toString() + ", " + max2.toString() + ", " + max3.toString());
+
+
     return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: const PrepareBar(),
@@ -42,7 +72,7 @@ class RubricSummary extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
-                        children: const [
+                        children: [
                           Text(
                             "Rubric Summary",
                             textAlign: TextAlign.left,
@@ -69,7 +99,7 @@ class RubricSummary extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Issue One",
+                            _issueNames![max1],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -80,7 +110,7 @@ class RubricSummary extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Issue Two",
+                            _issueNames[max2],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -91,7 +121,7 @@ class RubricSummary extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Issue Three",
+                            _issueNames[max3],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
