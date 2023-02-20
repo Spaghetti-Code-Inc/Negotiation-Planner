@@ -41,26 +41,9 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Sign up",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
-            color: Color(0xffffffff),
-          ),
-        ),
-      ),
+
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 80, 16, 16),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -367,7 +350,7 @@ class _RegisterState extends State<Register> {
                                 text: 'Log in',
                                 style: const TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Colors.blueAccent,
+                                  color: Color(0xffDB7877),
                                 ))
                           ]),
                     )

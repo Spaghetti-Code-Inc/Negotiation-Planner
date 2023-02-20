@@ -170,7 +170,6 @@ class RubricSummary extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(flex: 1, child: NextBar(const CpsRubrik())),
         ])
     );
   }
