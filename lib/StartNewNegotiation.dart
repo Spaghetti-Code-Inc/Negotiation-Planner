@@ -2,12 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/DetermineIssues.dart';
-import 'package:negotiation_tracker/NegotiationDetails.dart';
 import 'package:negotiation_tracker/main.dart';
-import 'package:sqflite/sqflite.dart';
 
-import 'BATNATest.dart';
-import 'Start.dart';
 
 class StartNewNegotiation extends StatefulWidget{
   const StartNewNegotiation({super.key});
@@ -18,6 +14,14 @@ class StartNewNegotiation extends StatefulWidget{
 class _StartNewNegotiation extends State<StartNewNegotiation>{
   final TitleController = TextEditingController();
   final SummaryController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    currentNegotiation.summary = "";
+    currentNegotiation.title = "";
+    super.initState();
+  }
 
   void dispose(){
     TitleController.dispose();

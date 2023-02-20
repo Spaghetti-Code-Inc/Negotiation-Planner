@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/StartNewNegotiation.dart';
 
 import 'Start.dart';
 
@@ -78,14 +79,25 @@ class _MyNegotiationsState extends State<MyNegotiations> {
                 },
               ),
             ),
-            FloatingActionButton(
-                onPressed: (){
+            Container(
+              width: MediaQuery.of(context).size.width*.9,
+              height: 40,
+              child: TextButton(
+                onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Start()),
+                    MaterialPageRoute(builder: (context) => StartNewNegotiation())
                   );
-                }
-            ),
+                },
+                child: Text("Prepare For New Negotiation"),
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xff838383),
+                  primary: Colors.white,
+                )
+
+              )
+            )
+
           ],
         ),
     );

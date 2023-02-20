@@ -200,7 +200,7 @@ class _WeightIssuesState extends State<WeightIssues> {
             child:           Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                  "Total Points: " + totalVal.toString(),
+                  "Total Points: " + totalVal.toString() + "/100",
                   style: TextStyle(
                     fontSize: 20,
                   )
