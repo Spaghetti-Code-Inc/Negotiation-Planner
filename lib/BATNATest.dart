@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/RubricSummary.dart';
 import 'package:negotiation_tracker/main.dart';
 
+import 'Utils.dart';
+
 class BATNATest extends StatelessWidget {
   const BATNATest({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    TextEditingController BATNA = new TextEditingController();
+    TextEditingController CurrentOffer = new TextEditingController();
+
     return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: PrepareBar(),
@@ -119,9 +125,16 @@ class BATNATest extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                           child: TextField(
                             onChanged: (newVal) {
-                              currentNegotiation.BATNA = newVal as int;
+                              try{
+                                currentNegotiation.BATNA = int.parse(newVal);
+                              } on FormatException catch (e){
+                                if(newVal != ""){
+                                  Utils.showSnackBar("Your BATNA value needs to be an integer.");
+                                  BATNA.text = "";
+                                }
+                              }
                             },
-                            controller: TextEditingController(),
+                            controller: BATNA,
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -215,9 +228,16 @@ class BATNATest extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
                           child: TextField(
                             onChanged: (newVal) {
-                              currentNegotiation.currentOffer = newVal as int;
+                              try{
+                                currentNegotiation.currentOffer = int.parse(newVal);
+                              } on FormatException catch (e){
+                                if(newVal != ""){
+                                  Utils.showSnackBar("Your current offer value needs to be an integer.");
+                                  CurrentOffer.text = "";
+                                }
+                              }
                             },
-                            controller: TextEditingController(),
+                            controller: CurrentOffer,
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,

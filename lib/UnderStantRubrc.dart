@@ -13,8 +13,6 @@ class UnderStantRubrc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    currentNegotiation.target = 0;
-    currentNegotiation.resistance = 0;
     TextEditingController target = new TextEditingController();
     TextEditingController resistance = new TextEditingController();
 
