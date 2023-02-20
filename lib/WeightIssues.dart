@@ -16,7 +16,7 @@ class WeightIssues extends StatefulWidget{
 class _WeightIssuesState extends State<WeightIssues>{
   bool iconColor = false;
 
-
+  //override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -327,7 +327,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                   ],
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(19),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
