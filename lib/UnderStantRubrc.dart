@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/BATNATest.dart';
 
+
+import 'Utils.dart';
 import 'main.dart';
 
 class UnderStantRubrc extends StatelessWidget {
@@ -10,6 +12,11 @@ class UnderStantRubrc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    currentNegotiation.target = 0;
+    currentNegotiation.resistance = 0;
+    TextEditingController target = new TextEditingController();
+    TextEditingController resistance = new TextEditingController();
 
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -194,9 +201,17 @@ class UnderStantRubrc extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
                       child: TextField(
-                        controller: TextEditingController(),
-                        obscureText: false,
-                        textAlign: TextAlign.start,
+                        onChanged: (newVal){
+                          try{
+                            currentNegotiation.target = int.parse(newVal);
+                          } on FormatException catch (e){
+                            if(newVal != ""){
+                              Utils.showSnackBar("Your target value needs to be an integer.");
+                              target.text = "";
+                            }
+                          }
+                        },
+                        controller: target,
                         maxLines: 1,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
@@ -304,7 +319,17 @@ class UnderStantRubrc extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                             child: TextField(
-                              controller: TextEditingController(),
+                              onChanged:(newVal){
+                                try{
+                                  currentNegotiation.resistance = int.parse(newVal);
+                                } on FormatException catch (e){
+                                  if(newVal != ""){
+                                    Utils.showSnackBar("Your resistance value needs to be an integer.");
+                                    resistance.text = "";
+                                  }
+                                }
+                              },
+                              controller: resistance,
                               obscureText: false,
                               textAlign: TextAlign.start,
                               maxLines: 1,
