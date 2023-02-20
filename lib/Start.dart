@@ -23,7 +23,7 @@ class Start extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 30, bottom: 10),
+              margin: const EdgeInsets.only(top: 20, bottom: 0),
               padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
@@ -31,6 +31,10 @@ class Start extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   // Register
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartNewNegotiation()),
+                  );
                 },
                 icon: const Icon(
                   Icons.add_to_photos,
@@ -46,14 +50,14 @@ class Start extends StatelessWidget {
                   ),
                 )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF4681f4),
+                  foregroundColor: Color(0xff3e4b8c),
+                  backgroundColor: const Color(0xFFFFFFFF),
 
                 ),
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
               padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
@@ -79,13 +83,13 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF4681f4),
+                  foregroundColor: Color(0xff3e4b8c),
+                  backgroundColor: const Color(0xFFFFFFFF),
                 ),
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
               padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
@@ -106,8 +110,8 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF4681f4),
+                  foregroundColor: Color(0xff3e4b8c),
+                  backgroundColor: const Color(0xFFFFFFFF),
                 ),
               ),
             ),
@@ -118,7 +122,7 @@ class Start extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(45.0),
                 border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
               ),
               child: Align(
@@ -127,14 +131,14 @@ class Start extends StatelessWidget {
                   onPressed: () {
                     // Register
                   },
-                  color: const Color(0xffCFCFCF),
+                  color: const Color(0xffFFFFFF),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    side: const BorderSide(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: const BorderSide(color: Color(0x00000000), width: 0),
                   ),
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  textColor: const Color(0xff000000),
+
                   height: 40,
                   minWidth: MediaQuery.of(context).size.width,
                   child: const Text(
@@ -143,6 +147,7 @@ class Start extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -166,22 +171,24 @@ class Start extends StatelessWidget {
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
                     },
-                    color: const Color(0xfff1f1f1),
+                    color: const Color(0x00f1f1f1),
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xffd1d1d1), width: 1),
+                      side: BorderSide(color: Color(0x00d1d1d1), width: 1),
                     ),
                     padding: const EdgeInsets.all(16),
                     textColor: const Color(0xff000000),
                     height: 40,
                     minWidth: 140,
+
                     child: const Text(
                       "Sign Out of Account",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
+                        color: Color(0xffDB7877),
                       ),
                     ),
                   ),

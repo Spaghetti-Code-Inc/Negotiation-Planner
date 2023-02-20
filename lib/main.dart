@@ -36,12 +36,12 @@ class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 4,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      backgroundColor: const Color(0xFF3B66B7),
+      backgroundColor: const Color(0xff3e4b8c),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
       title: const Text(
-        "Prepare A New Negotiation",
+        "Prepare New Negotiation",
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
@@ -68,7 +68,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
       elevation: 4,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xff3e4b8c),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
@@ -78,7 +78,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
           fontSize: 18,
-          color: Color(0xFF000000),
+          color: Color(0xFFFFFFFF),
         ),
       ),
     );

@@ -11,6 +11,7 @@ class UnderStantRubrc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(

@@ -43,7 +43,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
         sizeFactor: animation,
         child: const Card(
           margin: EdgeInsets.all(10),
-          elevation: 10,
+          elevation: 0,
           color: Color(0xFFDB7877),
           child: ListTile(
             contentPadding: EdgeInsets.all(15),
@@ -75,7 +75,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: const Color(0x2000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x7f000000), width: 1),
@@ -98,7 +98,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 28,
+                                fontSize: 22,
                                 color: Color(0xff000000),
                               ),
                             ),
@@ -107,13 +107,13 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
                       child: Text(
-                        "Determine The Issues",
+                        "Determine the Issues",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -169,7 +169,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                       child: Card(
                           margin: const EdgeInsets.all(10),
                           elevation: 10,
-                          color: const Color.fromRGBO(50, 50, 50, 100),
+                          color: Color(0xffFFFFFF),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextField(
@@ -181,9 +181,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                                 color: Color(0xFFFFFFFF),
                               ),
                             ),
-                            /*title: Text(_items[index],
-                                style:
-                                const TextStyle(fontSize: 24, color: Colors.white)),*/
+
                             trailing: IconButton(
                               icon: const Icon(
                                 Icons.delete,
@@ -198,15 +196,21 @@ class _DetermineIssuesState extends State<DetermineIssues> {
             ),
           ),
           Column(
+
             children: [
               Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: Colors.black)
+                  )
+                ),
                 margin: const EdgeInsets.only(bottom: 15),
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(22),
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: const Color(0xff4d4d4d),
-                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                    textStyle: const TextStyle(fontSize: 16),
+                    backgroundColor: const Color(0x9BFFFFFF),
+                    foregroundColor: const Color(0xff3e4b8c),
                   ),
                   onPressed: _addIssues,
                   child: const Text('Add Issues')

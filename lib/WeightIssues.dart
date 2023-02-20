@@ -20,6 +20,7 @@ class _WeightIssuesState extends State<WeightIssues>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -55,7 +56,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
-                          fontSize: 28,
+                          fontSize: 22,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -70,7 +71,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
-                        fontSize: 18,
+                        fontSize: 16,
                         color: Color(0xff000000),
                       ),
                     ),
@@ -127,11 +128,11 @@ class _WeightIssuesState extends State<WeightIssues>{
                         width: 200,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0x9a000000),
+                          color: const Color(0xFFFFFFFF),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.zero,
                           border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 0),
+                              color: const Color(0xFFffffff), width: 0),
                         ),
                         child: const Align(
                           alignment: Alignment.center,
@@ -142,8 +143,8 @@ class _WeightIssuesState extends State<WeightIssues>{
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 25,
-                              color: Color(0xffffffff),
+                              fontSize: 20,
+                              color: Color(0xff3e4b8c),
                             ),
                           ),
                         ),
@@ -157,7 +158,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                         width: 200,
                         height: 40,
                         decoration: const BoxDecoration(
-                          color: Color(0x99000000),
+                          color: Color(0xFFFFFFFF),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.zero,
                         ),
@@ -170,8 +171,8 @@ class _WeightIssuesState extends State<WeightIssues>{
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 25,
-                              color: Color(0xffffffff),
+                              fontSize: 20,
+                              color: Color(0xff3e4b8c),
                             ),
                           ),
                         ),
@@ -185,6 +186,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     const Expanded(
+
                       flex: 1,
                       child: Align(
                         alignment: Alignment.center,
@@ -204,7 +206,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                        padding: const EdgeInsets.fromLTRB(0, 20, 10, 10),
                         child: Align(
                           alignment: Alignment.center,
                           child: TextField(
@@ -325,7 +327,7 @@ class _WeightIssuesState extends State<WeightIssues>{
                   ],
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(20),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(

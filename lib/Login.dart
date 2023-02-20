@@ -30,28 +30,11 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: const Text(
-          "Login",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
-            color: Color(0xffffffff),
-          ),
-        ),
-      ),
+
       body: Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -83,16 +66,14 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 0),
                   child: Align(
                     alignment: Alignment.center,
                     child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                      image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8QidTe3QwykkCOV_Pb0UnvF7rbzyGq0sNcGXxMmpWXX2mC73f1AKaYQdxiIzZYZ-spew&usqp=CAU"),
+                    ///***If you have exported images you must have to copy those images in assets/images directory.
+                    Image.asset(
+                      'assets/icons/icon.png',
                       height: 120,
                       width: 120,
                       fit: BoxFit.contain,
@@ -203,7 +184,7 @@ class _LoginState extends State<Login> {
                         fontWeight: FontWeight.w700,
                         fontStyle: FontStyle.normal,
                         fontSize: 14,
-                        color: Color(0xff3a57e8),
+                        color: Color(0xffDB7877),
                       ),
                     ),
                     onTap: () => Navigator.of(context).push(
@@ -212,7 +193,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: RichText(
@@ -226,34 +207,38 @@ class _LoginState extends State<Login> {
                                 text: 'Sign Up',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Color(0xff3a57e8),
+                                  color: Color(0xffDB7877),
                                 ))
                           ]))),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 50),
-                  child: MaterialButton(
-                    onPressed: () {
-                      signIn();
-                    },
-                    color: const Color(0xff3e4b8c),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 50,
-                    minWidth: MediaQuery.of(context).size.width,
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
+                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: MaterialButton(
+                      onPressed: () {
+                        signIn();
+                      },
+                      color: const Color(0xff3e4b8c),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xffffffff),
+                      height: 50,
+                      minWidth: MediaQuery.of(context).size.width,
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                        ),
                       ),
                     ),
-                  ),
+                  )
+
                 ),
               ],
             ),
