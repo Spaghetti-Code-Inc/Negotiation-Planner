@@ -61,6 +61,7 @@ class DetermineIssues extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),
         appBar: const PrepareBar(),
         body: Column(children: [
@@ -160,7 +161,7 @@ class DetermineIssues extends StatelessWidget {
                       sizeFactor: animation,
                       child: Card(
                           margin: const EdgeInsets.all(10),
-                          elevation: 10,
+                          elevation: 4,
                           color: Color(0xffFFFFFF),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
@@ -185,15 +186,15 @@ class DetermineIssues extends StatelessWidget {
           ),
           Column(
             children: [
+              const Divider(
+                height: 0,
+                thickness: 1,
+                indent: 0,
+                endIndent: 0,
+                color: Color(0xff3e4b8c),
+              ),
               // "Add Issues" At bottom
-              Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(color: Colors.black),
-                    )
-                ),
-                margin: const EdgeInsets.only(bottom: 15),
-                child: TextButton(
+              TextButton(
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                       textStyle: const TextStyle(fontSize: 18),
@@ -202,7 +203,7 @@ class DetermineIssues extends StatelessWidget {
                     ),
                     onPressed: _addIssues,
                     child: const Text('Add Issue')),
-              ),
+
               // Next and Back buttons
               Container(
                 alignment: Alignment.bottomCenter,
