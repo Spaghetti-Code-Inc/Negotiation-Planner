@@ -22,7 +22,7 @@ class Start extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 30, bottom: 10),
+              margin: const EdgeInsets.only(top: 30, bottom: 0),
               padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
@@ -48,14 +48,14 @@ class Start extends StatelessWidget {
                   ),
                 )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF4681f4),
+                  foregroundColor: Color(0xff3e4b8c),
+                  backgroundColor: Colors.white,
 
                 ),
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
               padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
@@ -81,13 +81,13 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF4681f4),
+                  foregroundColor: Color(0xff3e4b8c),
+                  backgroundColor: Colors.white,
                 ),
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
               padding: const EdgeInsets.all(20),
               height: 150,
               width: MediaQuery.of(context).size.width * 0.8,
@@ -108,8 +108,8 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF4681f4),
+                  foregroundColor: Color(0xff3e4b8c),
+                  backgroundColor: Colors.white,
                 ),
               ),
             ),
@@ -121,7 +121,7 @@ class Start extends StatelessWidget {
                 color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                border: Border.all(color: const Color(0xff3e4b8c), width: 1),
               ),
               child: Align(
                 alignment: Alignment.center,
@@ -132,14 +132,13 @@ class Start extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MyNegotiations())
                     );
                   },
-                  color: const Color(0xffCFCFCF),
+                  color: const Color(0xffffffff),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    side: const BorderSide(color: Colors.black, width: 1),
                   ),
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  textColor: const Color(0xff000000),
+                  textColor: const Color(0xff3e4b8c),
                   height: 40,
                   minWidth: MediaQuery.of(context).size.width,
                   child: const Text(
@@ -177,8 +176,8 @@ class Start extends StatelessWidget {
                       borderRadius: BorderRadius.zero,
                       side: BorderSide(color: Color(0xffd1d1d1), width: 1),
                     ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xff000000),
+                    padding: const EdgeInsets.all(12),
+                    textColor: const Color(0xffDB7877),
                     height: 40,
                     minWidth: 140,
                     child: const Text(
