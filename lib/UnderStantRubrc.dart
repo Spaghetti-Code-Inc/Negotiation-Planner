@@ -8,16 +8,17 @@ import 'Utils.dart';
 import 'main.dart';
 
 class UnderStantRubrc extends StatelessWidget {
-  const UnderStantRubrc({super.key});
+  UnderStantRubrc({super.key});
+  TextEditingController _target = new TextEditingController();
+  TextEditingController _resistance = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController target = new TextEditingController();
-    TextEditingController resistance = new TextEditingController();
 
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset : true,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -206,11 +207,11 @@ class UnderStantRubrc extends StatelessWidget {
                           } on FormatException catch (e){
                             if(newVal != ""){
                               Utils.showSnackBar("Your target value needs to be an integer.");
-                              target.text = "";
+                             // _target.text = "";
                             }
                           }
                         },
-                        controller: target,
+                        controller: _target,
                         maxLines: 1,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
@@ -324,11 +325,11 @@ class UnderStantRubrc extends StatelessWidget {
                                 } on FormatException catch (e){
                                   if(newVal != ""){
                                     Utils.showSnackBar("Your resistance value needs to be an integer.");
-                                    resistance.text = "";
+                                    _resistance.text = "";
                                   }
                                 }
                               },
-                              controller: resistance,
+                              controller: _resistance,
                               obscureText: false,
                               textAlign: TextAlign.start,
                               maxLines: 1,

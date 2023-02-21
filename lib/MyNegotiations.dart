@@ -119,9 +119,11 @@ class NegotiationContainer extends StatefulWidget {
 }
 
 class _NegotiationContainerState extends State<NegotiationContainer> {
+
   bool isHover = false;
   @override
   Widget build(BuildContext context) {
+
     return AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.only(

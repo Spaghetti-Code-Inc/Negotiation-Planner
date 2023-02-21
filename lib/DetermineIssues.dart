@@ -9,20 +9,13 @@ import 'package:negotiation_tracker/WeightIssues.dart';
 
 import 'main.dart';
 
-class DetermineIssues extends StatefulWidget {
-  const DetermineIssues({Key? key}) : super(key: key);
-
-  @override
-  _DetermineIssuesState createState() => _DetermineIssuesState();
-}
-
-
-class _DetermineIssuesState extends State<DetermineIssues> {
+class DetermineIssues extends StatelessWidget {
   bool iconColor = false;
   final _items = ['Issue 1'];
   final _controllers = [TextEditingController()];
 
-  final GlobalKey<AnimatedListState> _key = GlobalKey();
+  static final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
+
 
   void _addIssues() {
     // Adds an issue and text editing controller for the list view
@@ -48,7 +41,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
         sizeFactor: animation,
         child: const Card(
           margin: EdgeInsets.all(10),
-          elevation: 10,
+          elevation: 0,
           color: Color(0xFFDB7877),
           child: ListTile(
             contentPadding: EdgeInsets.all(15),
@@ -68,16 +61,16 @@ class _DetermineIssuesState extends State<DetermineIssues> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),
         appBar: const PrepareBar(),
         body: Column(children: [
+          // Top bar
           Container(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: const Color(0x2000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x7f000000), width: 1),
@@ -85,53 +78,51 @@ class _DetermineIssuesState extends State<DetermineIssues> {
             child: Row(children: [
               Expanded(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(48, 0, 0, 0),
-                    child: Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Text(
-                        "Step 1/3",
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 28,
-                          color: Color(0xff000000),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(48, 10, 0, 0),
+                        child: Expanded(
+                          child: Text(
+                            "Step 1/3",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 22,
+                              color: Color(0xff000000),
+                            ),
+                          ),
                         ),
                       ),
-                    )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
-                    child: Text(
-                      "Determine The Issues",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18,
-                        color: Color(0xff000000),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                        child: Text(
+                          "Determine the Issues",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16,
+                            color: Color(0xff000000),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              )),
+                    ],
+                  )),
               Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: IconButton(
                     icon: const Icon(Icons.info_outline),
                     color: iconColor ? Colors.black : const Color(0xFF3B66B7),
                     onPressed: () {
-                      setState(() {
-                        iconColor = true;
-                      });
+
+                      iconColor = true;
+
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
@@ -141,9 +132,9 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                           ),
                           content: const Text(
                               'An issue is something the negotiators will try to reach an agreement on. '
-                              'Consider all the issues relevant to their negotiation. '
-                              'Be sure to include any issues that could make the deal better '
-                              'for you and/or your counterpart.'),
+                                  'Consider all the issues relevant to their negotiation. '
+                                  'Be sure to include any issues that could make the deal better '
+                                  'for you and/or your counterpart.'),
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
@@ -166,28 +157,21 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                 padding: const EdgeInsets.all(10),
                 itemBuilder: (_, index, animation) {
                   return SizeTransition(
-                      key: UniqueKey(),
                       sizeFactor: animation,
                       child: Card(
                           margin: const EdgeInsets.all(10),
                           elevation: 10,
-                          color: const Color.fromRGBO(50, 50, 50, 100),
+                          color: Color(0xffFFFFFF),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
-                            title: TextField(
-                              // TODO: Find how to work the controller into the same style as _items
+                            title: TextFormField(
                               controller: _controllers[index],
                               decoration: InputDecoration(
                                 border: const OutlineInputBorder(),
                                 labelText: _items[index],
                               ),
-                              style: const TextStyle(
-                                color: Color(0xFFFFFFFF),
-                              ),
                             ),
-                            /*title: Text(_items[index],
-                                style:
-                                const TextStyle(fontSize: 24, color: Colors.white)),*/
+
                             trailing: IconButton(
                               icon: const Icon(
                                 Icons.delete,
@@ -197,22 +181,29 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                             ),
                           )));
                 } // item builder
-                ),
+            ),
           ),
           Column(
             children: [
+              // "Add Issues" At bottom
               Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Colors.black),
+                    )
+                ),
                 margin: const EdgeInsets.only(bottom: 15),
                 child: TextButton(
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(22),
-                      textStyle: const TextStyle(fontSize: 20),
-                      backgroundColor: const Color(0xff4d4d4d),
-                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                      textStyle: const TextStyle(fontSize: 18),
+                      backgroundColor: const Color(0x9BFFFFFF),
+                      foregroundColor: const Color(0xff3e4b8c),
                     ),
                     onPressed: _addIssues,
-                    child: const Text('Add Issues')),
+                    child: const Text('Add Issue')),
               ),
+              // Next and Back buttons
               Container(
                 alignment: Alignment.bottomCenter,
                 margin: const EdgeInsets.all(0),
@@ -300,6 +291,8 @@ class _DetermineIssuesState extends State<DetermineIssues> {
         ]));
   }
 }
+
+
 
 abstract class ListItem {
   Widget TextField();

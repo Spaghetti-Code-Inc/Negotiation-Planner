@@ -19,14 +19,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
   bool iconTwo = false;
   bool iconThree = false;
 
-  TextEditingController target = new TextEditingController();
-  TextEditingController BATNA = new TextEditingController();
-  TextEditingController resistance = new TextEditingController();
+  TextEditingController cpTargetController = new TextEditingController();
+  TextEditingController cpBATNAController = new TextEditingController();
+  TextEditingController cpResistanceController = new TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset : true,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -318,11 +319,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
                         } on FormatException catch (e){
                           if(newVal != ""){
                             Utils.showSnackBar("Your target value needs to be an integer.");
-                            target.text = "";
+                            cpTargetController.text = "";
                           }
                         }
                       },
-                      controller: target,
+                      controller: cpTargetController,
                       obscureText: false,
                       textAlign: TextAlign.start,
                       maxLines: 1,
@@ -437,11 +438,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       } on FormatException catch (e){
                         if(newVal != ""){
                           Utils.showSnackBar("Your BATNA value needs to be an integer.");
-                          BATNA.text = "";
+                          cpBATNAController.text = "";
                         }
                       }
                     },
-                    controller: BATNA,
+                    controller: cpBATNAController,
                     obscureText: false,
                     textAlign: TextAlign.start,
                     maxLines: 1,
@@ -555,11 +556,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       } on FormatException catch (e){
                         if(newVal != ""){
                           Utils.showSnackBar("Your resistance value needs to be an integer.");
-                          resistance.text = "";
+                          cpResistanceController.text = "";
                         }
                       }
                     },
-                    controller: resistance,
+                    controller: cpResistanceController,
                     obscureText: false,
                     textAlign: TextAlign.start,
                     maxLines: 1,
@@ -605,7 +606,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
           ],
         ),
       ),
-        Expanded(child: NextBar(const PlanSummary())),
+      Expanded( child: NextBar(const PlanSummary())),
     ]));
   }
 }
