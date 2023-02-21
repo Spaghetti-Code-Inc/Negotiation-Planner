@@ -139,6 +139,9 @@ class DetermineIssues extends StatelessWidget {
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Color(0xFF6DC090),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },

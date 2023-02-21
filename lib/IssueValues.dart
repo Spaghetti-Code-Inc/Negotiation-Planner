@@ -31,7 +31,7 @@ class _IssueValuesState extends State<IssueValues> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset : true,
+      resizeToAvoidBottomInset : false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -74,7 +74,7 @@ class _IssueValuesState extends State<IssueValues> {
                       Padding(
                         padding: EdgeInsets.only(left: 48),
                         child: Text(
-                          "Establish the possibilities for each issue and their value to you",
+                          "Assign the amount of points for each potential settlement",
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
@@ -107,6 +107,9 @@ class _IssueValuesState extends State<IssueValues> {
                             actions: [
                               TextButton(
                                 child: const Text('Okay'),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Color(0xFF6DC090),
+                                ),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -269,19 +272,19 @@ class EnterValues extends StatelessWidget {
             border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
           ),
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: Text(
                       issueName!,
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.center,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -292,7 +295,7 @@ class EnterValues extends StatelessWidget {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: Text(
                       "Points Possible: " +
                           currentNegotiation.issues["issueNames"]![issueName]

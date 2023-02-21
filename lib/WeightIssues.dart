@@ -42,6 +42,7 @@ class _WeightIssuesState extends State<WeightIssues> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -119,6 +120,9 @@ class _WeightIssuesState extends State<WeightIssues> {
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Color(0xFF6DC090),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
