@@ -1,11 +1,13 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/PlanSummary.dart';
 
 import 'Utils.dart';
 import 'main.dart';
 
+// TODO: Fix render flex error
 class CpsRubrik extends StatefulWidget{
   const CpsRubrik({super.key});
 
@@ -27,12 +29,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset : true,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
-      children: [SingleChildScrollView(
-        child: Column(
+        children: [
+        Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
@@ -108,144 +109,25 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            const Expanded(
-                              flex: 1,
-                              child: Text(
-                                "Issue Name: ",
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 18,
-                                  color: Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: TextField(
-                                controller: TextEditingController(),
-                                obscureText: false,
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                decoration: InputDecoration(
-                                  disabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff000000), width: 1),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff000000), width: 1),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff000000), width: 1),
-                                  ),
-                                  hintText: "Points",
-                                  hintStyle: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14,
-                                    color: Color(0xff000000),
-                                  ),
-                                  filled: true,
-                                  fillColor: const Color(0xfff2f2f3),
-                                  isDense: true,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 12),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: currentNegotiation.issues["issueNames"]?.keys.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return Padding(
+                              padding: EdgeInsetsDirectional.only(bottom: 8),
+                              child: EnterValues(
+                                issueName: currentNegotiation.issues["issueNames"]?.keys.elementAt(index)
+                              )
+                          );
+                        }
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          const Expanded(
-                            flex: 1,
-                            child: Text(
-                              "Issue Name:",
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: TextField(
-                              controller: TextEditingController(),
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                hintText: "Points",
-                                hintStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                   ],
                   ),
                 ],
               ),
             ),
+
+
             Container(
               margin: const EdgeInsets.all(0),
               padding: const EdgeInsets.all(0),
@@ -313,6 +195,16 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       ),
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                            RegExp(_getRegexString())),
+                        TextInputFormatter.withFunction(
+                                (oldValue, newValue) => newValue.copyWith(
+                              text:
+                              newValue.text.replaceAll('.', ','),
+                            ))
+                      ],
                       onChanged: (newVal){
                         try{
                           currentNegotiation.cpTarget = int.parse(newVal);
@@ -432,6 +324,16 @@ class _CpsRubrikState extends State<CpsRubrik> {
                     ],
                   ),
                   TextField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(_getRegexString())),
+                      TextInputFormatter.withFunction(
+                              (oldValue, newValue) => newValue.copyWith(
+                            text:
+                            newValue.text.replaceAll('.', ','),
+                          ))
+                    ],
                     onChanged: (newVal){
                       try{
                         currentNegotiation.cpBATNA = int.parse(newVal);
@@ -550,6 +452,16 @@ class _CpsRubrikState extends State<CpsRubrik> {
                     ),
                   ),
                   TextField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(_getRegexString())),
+                      TextInputFormatter.withFunction(
+                              (oldValue, newValue) => newValue.copyWith(
+                            text:
+                            newValue.text.replaceAll('.', ','),
+                          ))
+                    ],
                     onChanged: (newVal){
                       try{
                         currentNegotiation.cpResistance = int.parse(newVal);
@@ -605,8 +517,100 @@ class _CpsRubrikState extends State<CpsRubrik> {
             ),
           ],
         ),
-      ),
       Expanded( child: NextBar(const PlanSummary())),
     ]));
   }
+  String _getRegexString() => r'[0-9]';
+}
+
+class EnterValues extends StatelessWidget{
+  final String? issueName;
+  final ctrl = TextEditingController();
+
+  EnterValues({required this.issueName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          flex: 1,
+          child: Text(
+            issueName!,
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                  RegExp(_getRegexString())),
+              TextInputFormatter.withFunction(
+                      (oldValue, newValue) => newValue.copyWith(
+                    text:
+                    newValue.text.replaceAll('.', ','),
+                  ))
+            ],
+            onChanged: (newVal) {
+              currentNegotiation.cpIssues[issueName] = int.parse(newVal);
+            },
+            controller: ctrl,
+            obscureText: false,
+            textAlign: TextAlign.start,
+            maxLines: 1,
+            style: const TextStyle(
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+              fontSize: 14,
+              color: Color(0xff000000),
+            ),
+            decoration: InputDecoration(
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: const BorderSide(
+                    color: Color(0xff000000), width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: const BorderSide(
+                    color: Color(0xff000000), width: 1),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: const BorderSide(
+                    color: Color(0xff000000), width: 1),
+              ),
+              hintText: "Points",
+              hintStyle: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                fontSize: 14,
+                color: Color(0xff000000),
+              ),
+              filled: true,
+              fillColor: const Color(0xfff2f2f3),
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                  vertical: 8, horizontal: 12),
+            ),
+          ),
+        ),
+      ],
+    );
+
+  }
+
+  String _getRegexString() => r'[0-9]';
 }

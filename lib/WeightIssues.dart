@@ -22,13 +22,13 @@ class _WeightIssuesState extends State<WeightIssues> {
   List<TextEditingController> _controllers = [TextEditingController()];
 
   int totalVal = 0;
-  int total(){
+  int total() {
     int total = 0;
-    for(TextEditingController cont in _controllers){
-      try{
+    for (TextEditingController cont in _controllers) {
+      try {
         total += int.parse(cont.text);
-      } on FormatException catch (_){};
-
+      } on FormatException catch (_) {}
+      ;
     }
 
     return total;
@@ -37,7 +37,7 @@ class _WeightIssuesState extends State<WeightIssues> {
   @override
   Widget build(BuildContext context) {
     int? length = _issueNames?.length;
-    for(int i = 0; i < length!; i++){
+    for (int i = 0; i < length!; i++) {
       _controllers.add(new TextEditingController());
     }
 
@@ -201,18 +201,14 @@ class _WeightIssuesState extends State<WeightIssues> {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-            child:           Align(
+            child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                  "Total Points: " + totalVal.toString() + "/100",
+              child: Text("Total Points: " + totalVal.toString() + "/100",
                   style: TextStyle(
                     fontSize: 20,
-                  )
-              ),
+                  )),
             ),
           ),
-
-
 
           Expanded(
             child: ListView.builder(
@@ -239,17 +235,18 @@ class _WeightIssuesState extends State<WeightIssues> {
                       Expanded(
                         child: Center(
                             child: TextFormField(
-                              onChanged: (newVal) {
-                                totalVal = total();
-                              } ,
+                          onChanged: (newVal) {
+                            totalVal = total();
+                          },
                           keyboardType: TextInputType.number,
                           controller: _controllers[index],
                           decoration: InputDecoration(
-                            enabledBorder: (OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 3, color: Colors.black),
-                              borderRadius: BorderRadius.circular(20),
-                            )),
+                            enabledBorder: (
+                              OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              )
+                            ),
                           ),
                         )),
                       ),
@@ -307,19 +304,22 @@ class _WeightIssuesState extends State<WeightIssues> {
                   flex: 1,
                   child: MaterialButton(
                     onPressed: () {
-                      if(totalVal == 100){
+                      if (totalVal == 100) {
                         // length represents _issueNames
-                        for(int i = 0; i < length; i++){
+                        for (int i = 0; i < length; i++) {
                           print(_issueNames![i]);
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("relativeValue", () => _controllers[i].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent(
+                                  "relativeValue", () => _controllers[i].text);
                         }
 
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => IssueValues()),
+                          MaterialPageRoute(
+                              builder: (context) => IssueValues()),
                         );
-                      }
-                      else{
+                      } else {
                         Utils.showSnackBar("Total must equal exactly 100.");
                       }
                     },

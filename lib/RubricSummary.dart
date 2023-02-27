@@ -11,8 +11,6 @@ class RubricSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    //TODO What to do if there are not 3 issues
-
     // Find the 3 most important issues
     List<String>? _issueNames =
       currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
@@ -26,22 +24,58 @@ class RubricSummary extends StatelessWidget {
       print(_issueImportance[i]);
     }
 
-    int max1 = 0;
-    int max2 = 0;
-    int max3 = 0;
+    List<String> vals = ["", "", ""];
 
-    for(int i = 0; i < length; i++){
-      if(_issueImportance[i] > _issueImportance[max1]) max1 = i;
+    // If only 1 issue
+    if(_issueNames?.length == 1){
+      vals[0] = _issueNames![0];
     }
-    for(int i = 0; i < length; i++){
-      if(_issueImportance[i] > _issueImportance[max2] && i != max1) max2 = i;
+    // If two issues
+    else if(_issueNames?.length == 2){
+      if(_issueImportance[0] > _issueImportance[1]){
+        vals[0] = _issueNames![0];
+        vals[1] = _issueNames[1];
+      }
+      else{
+        vals[0] = _issueNames![1];
+        vals[1] = _issueNames[0];
+      }
     }
-    for(int i = 0; i < length; i++){
-      if(_issueImportance[i] > _issueImportance[max3] && i != max1 && i != max2) max3 = i;
+    // If 3 or more issues
+    else{
+      int max1 = 0;
+      int max2 = 0;
+      int max3 = 0;
+      // Finds the highest three values
+      for(int i = 0; i < length; i++){
+        print("$max1 : $max2 : $max3");
+        if(_issueImportance[i] > max1) {
+          if(max1 > max2){
+            if(max2 > max3){
+              max3 = max2;
+              vals[2] = vals[1];
+            }
+            max2 = max1;
+            vals[1] = vals[0];
+          }
+          max1 = _issueImportance[i];
+          vals[0] = _issueNames![i];
+        }
+        else if(_issueImportance[i] > max2){
+          if(max2 > max3){
+            max3 = max2;
+            vals[2] = vals[1];
+          }
+          max2 = _issueImportance[i];
+          vals[1] = _issueNames![i];
+        }
+        else if (_issueImportance[i] > max3){
+          max3 = _issueImportance[i];
+          vals[2] = _issueNames![i];
+        }
+      }
+      print("$max1 : $max2 : $max3");
     }
-
-    print(max1.toString() + ", " + max2.toString() + ", " + max3.toString());
-
 
     return Scaffold(
         backgroundColor: const Color(0xffffffff),
@@ -102,7 +136,7 @@ class RubricSummary extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _issueNames![max1],
+                            vals[0],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -113,7 +147,7 @@ class RubricSummary extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _issueNames[max2],
+                            vals[1],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -124,7 +158,7 @@ class RubricSummary extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _issueNames[max3],
+                            vals[2],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(

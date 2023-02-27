@@ -1,25 +1,26 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/RubricSummary.dart';
 import 'package:negotiation_tracker/main.dart';
 
 import 'Utils.dart';
 
 class BATNATest extends StatelessWidget {
-  const BATNATest({super.key});
+  BATNATest({super.key});
+  TextEditingController BATNA = new TextEditingController();
+  TextEditingController CurrentOffer = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-    TextEditingController BATNA = new TextEditingController();
-    TextEditingController CurrentOffer = new TextEditingController();
-
     return Scaffold(
-        backgroundColor: const Color(0xffffffff),
-        appBar: PrepareBar(),
-        body: Column(children: [
-          Expanded(child: SingleChildScrollView(
+      backgroundColor: const Color(0xffffffff),
+      appBar: PrepareBar(),
+      body: Column(
+        children: [
+          Expanded(
+              child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,12 +125,23 @@ class BATNATest extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                           child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                  (oldValue, newValue) => newValue.copyWith(
+                                        text:
+                                            newValue.text.replaceAll('.', ','),
+                                      ))
+                            ],
                             onChanged: (newVal) {
-                              try{
+                              try {
                                 currentNegotiation.BATNA = int.parse(newVal);
-                              } on FormatException catch (e){
-                                if(newVal != ""){
-                                  Utils.showSnackBar("Your BATNA value needs to be an integer.");
+                              } on FormatException catch (e) {
+                                if (newVal != "") {
+                                  Utils.showSnackBar(
+                                      "Your BATNA value needs to be an integer.");
                                   BATNA.text = "";
                                 }
                               }
@@ -227,12 +239,24 @@ class BATNATest extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
                           child: TextField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                  (oldValue, newValue) => newValue.copyWith(
+                                        text:
+                                            newValue.text.replaceAll('.', ','),
+                                      ))
+                            ],
+                            keyboardType: TextInputType.number,
                             onChanged: (newVal) {
-                              try{
-                                currentNegotiation.currentOffer = int.parse(newVal);
-                              } on FormatException catch (e){
-                                if(newVal != ""){
-                                  Utils.showSnackBar("Your current offer value needs to be an integer.");
+                              try {
+                                currentNegotiation.currentOffer =
+                                    int.parse(newVal);
+                              } on FormatException catch (e) {
+                                if (newVal != "") {
+                                  Utils.showSnackBar(
+                                      "Your current offer value needs to be an integer.");
                                   CurrentOffer.text = "";
                                 }
                               }
@@ -285,7 +309,91 @@ class BATNATest extends StatelessWidget {
               ],
             ),
           )),
-          NextBar(RubricSummary())
-          ]));
+          Container(
+            alignment: Alignment.bottomCenter,
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: const Color(0x00ffffff),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.zero,
+              border: Border.all(color: const Color(0x00ffffff), width: 0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: const Color(0xff4d4d4d),
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Color(0xff808080), width: 1),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    textColor: const Color(0xffffffff),
+                    height: 40,
+                    minWidth: 140,
+                    child: const Text(
+                      "Back",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: MaterialButton(
+                    onPressed: () {
+
+                      if(BATNA.text == "" || CurrentOffer.text == ""){
+                        Utils.showSnackBar("You need to fill out BATNA and Current Offer values.");
+                      }
+                      else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RubricSummary()),
+                        );
+                      }
+                    },
+                    color: const Color(0xff4d4d4d),
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Color(0xff808080), width: 1),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    textColor: const Color(0xffffffff),
+                    height: 40,
+                    minWidth: 140,
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
+
+  String _getRegexString() => r'[0-9]';
 }

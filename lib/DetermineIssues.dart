@@ -14,8 +14,8 @@ class DetermineIssues extends StatelessWidget {
   final _items = ['Issue 1'];
   final _controllers = [TextEditingController()];
 
-  static final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
-
+  static final GlobalKey<AnimatedListState> _key =
+      GlobalKey<AnimatedListState>();
 
   void _addIssues() {
     // Adds an issue and text editing controller for the list view
@@ -61,7 +61,6 @@ class DetermineIssues extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),
         appBar: const PrepareBar(),
         body: Column(children: [
@@ -79,49 +78,48 @@ class DetermineIssues extends StatelessWidget {
             child: Row(children: [
               Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(48, 10, 0, 0),
-                        child: Expanded(
-                          child: Text(
-                            "Step 1/3",
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 22,
-                              color: Color(0xff000000),
-                            ),
-                          ),
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(48, 10, 0, 0),
+                    child: Expanded(
+                      child: Text(
+                        "Step 1/3",
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 22,
+                          color: Color(0xff000000),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
-                        child: Text(
-                          "Determine the Issues",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16,
-                            color: Color(0xff000000),
-                          ),
-                        ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                    child: Text(
+                      "Determine the Issues",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16,
+                        color: Color(0xff000000),
                       ),
-                    ],
-                  )),
+                    ),
+                  ),
+                ],
+              )),
               Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: IconButton(
                     icon: const Icon(Icons.info_outline),
                     color: iconColor ? Colors.black : const Color(0xFF3B66B7),
                     onPressed: () {
-
                       iconColor = true;
 
                       showDialog(
@@ -133,9 +131,9 @@ class DetermineIssues extends StatelessWidget {
                           ),
                           content: const Text(
                               'An issue is something the negotiators will try to reach an agreement on. '
-                                  'Consider all the issues relevant to their negotiation. '
-                                  'Be sure to include any issues that could make the deal better '
-                                  'for you and/or your counterpart.'),
+                              'Consider all the issues relevant to their negotiation. '
+                              'Be sure to include any issues that could make the deal better '
+                              'for you and/or your counterpart.'),
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
@@ -175,7 +173,6 @@ class DetermineIssues extends StatelessWidget {
                                 labelText: _items[index],
                               ),
                             ),
-
                             trailing: IconButton(
                               icon: const Icon(
                                 Icons.delete,
@@ -185,7 +182,7 @@ class DetermineIssues extends StatelessWidget {
                             ),
                           )));
                 } // item builder
-            ),
+                ),
           ),
           Column(
             children: [
@@ -197,15 +194,18 @@ class DetermineIssues extends StatelessWidget {
                 color: Color(0xff3e4b8c),
               ),
               // "Add Issues" At bottom
-              TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                      textStyle: const TextStyle(fontSize: 18),
-                      backgroundColor: const Color(0x9BFFFFFF),
-                      foregroundColor: const Color(0xff3e4b8c),
-                    ),
-                    onPressed: _addIssues,
-                    child: const Text('Add Issue')),
+              Container(
+                width: MediaQuery.of(context).size.height,
+                  child: TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                  textStyle: const TextStyle(fontSize: 18),
+                  backgroundColor: const Color(0x9BFFFFFF),
+                  foregroundColor: const Color(0xff3e4b8c),
+                ),
+                onPressed: _addIssues,
+                child: const Text('Add Issue'),
+              )),
 
               // Next and Back buttons
               Container(
@@ -254,13 +254,24 @@ class DetermineIssues extends StatelessWidget {
                       flex: 1,
                       child: MaterialButton(
                         onPressed: () {
-                          currentNegotiation.issues.putIfAbsent("issueNames", () => {});
+                          currentNegotiation.issues
+                              .putIfAbsent("issueNames", () => {});
                           currentNegotiation.issues["issueNames"]?.clear();
+
                           // For each issue add it to the currentNegotiation list
-                          for(int i = 0; i < _controllers.length-1; i++){
+                          for (int i = 0; i < _controllers.length - 1; i++) {
                             // Give issue a place holder map
-                            currentNegotiation.issues["issueNames"]?.putIfAbsent(_controllers[i].text, () => {});
+                            if (_controllers[i].text != "") {
+                              currentNegotiation.issues["issueNames"]
+                                  ?.putIfAbsent(_controllers[i].text, () => {});
+
+                              currentNegotiation.cpIssues.putIfAbsent(_controllers[i].text, () => null);
+                            }
+
+
+
                           }
+                          print(currentNegotiation.toString());
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -295,8 +306,6 @@ class DetermineIssues extends StatelessWidget {
         ]));
   }
 }
-
-
 
 abstract class ListItem {
   Widget TextField();

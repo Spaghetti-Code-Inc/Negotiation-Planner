@@ -23,7 +23,7 @@ Future main() async {
   ));
 }
 
-Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {});
+Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {});
 
 // Header for all "Prepare A New Negotiation" pages
 class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
