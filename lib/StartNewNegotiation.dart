@@ -61,6 +61,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
+                  textInputAction: TextInputAction.next,
                   onChanged: (newVal) {
                     currentNegotiation.title = newVal;
                   },
