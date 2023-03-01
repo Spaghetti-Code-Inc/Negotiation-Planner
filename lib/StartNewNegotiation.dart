@@ -61,6 +61,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
+                  cursorColor: Color(0xff3e4b8c),
                   textInputAction: TextInputAction.next,
                   onChanged: (newVal) {
                     currentNegotiation.title = newVal;
@@ -79,24 +80,24 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff3e4b8c), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff3e4b8c), width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
-                      const BorderSide(color: Color(0xff000000), width: 1),
+                      const BorderSide(color: Color(0xff3e4b8c), width: 1),
                     ),
                     labelText: "Negotiation Title",
                     labelStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 14,
-                      color: Color(0xff000000),
+                      color: Color(0xff3e4b8c),
                     ),
                     filled: true,
                     fillColor: const Color(0xfff2f2f3),
@@ -137,6 +138,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                     ),
                     // SUMMARY text field
                     TextField(
+                      cursorColor: Color(0xff3e4b8c),
                       onChanged: (newVal) {
                         currentNegotiation.summary = newVal;
                       },
@@ -154,24 +156,24 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff3e4b8c), width: 1),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff3e4b8c), width: 1),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
+                          const BorderSide(color: Color(0xff3e4b8c), width: 1),
                         ),
                         labelText: "Summary",
                         labelStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: Color(0xff3e4b8c),
                         ),
                         filled: true,
                         fillColor: const Color(0xfff2f2f3),
