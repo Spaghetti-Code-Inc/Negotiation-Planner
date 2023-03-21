@@ -81,6 +81,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 TextField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   textAlign: TextAlign.start,
                   maxLines: 1,

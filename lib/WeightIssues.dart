@@ -230,7 +230,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                       ),
                       // Sets slight area between points and issue column
                       Container(
-                        width: 10,
+                        width: 70,
                       ),
                       Expanded(
                         child: Center(
@@ -238,17 +238,31 @@ class _WeightIssuesState extends State<WeightIssues> {
                           onChanged: (newVal) {
                             totalVal = total();
                           },
+                              textAlign: TextAlign.center,
+                              textInputAction: TextInputAction.next,
+                              cursorColor: Color(0xff3e4b8c),
                           keyboardType: TextInputType.number,
                           controller: _controllers[index],
                           decoration: InputDecoration(
                             enabledBorder: (
                               OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Colors.black),
+                                borderSide: BorderSide(width: 3, color: Color(0xff3e4b8c)),
                                 borderRadius: BorderRadius.circular(20),
                               )
                             ),
+                            focusedBorder: (
+                              OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(width: 3, color: Color(0xff3e4b8c))
+                              )
+                            )
+
                           ),
                         )),
+                      ),
+                      //adds padding between input field and right side of screen
+                      Container(
+                        width: 10,
                       ),
                     ]),
                   ),

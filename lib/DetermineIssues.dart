@@ -63,6 +63,7 @@ class DetermineIssues extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),
         appBar: const PrepareBar(),
         body: Column(children: [
@@ -169,10 +170,17 @@ class DetermineIssues extends StatelessWidget {
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextFormField(
+                              cursorColor: Color(0xff3e4b8c),
                               controller: _controllers[index],
                               decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Color(0xff3e4b8c), width: 0.0),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Color(0xff3e4b8c)),
+                                ),
                                 labelText: _items[index],
+                                labelStyle: TextStyle(color: Color(0xff3e4b8c)),
                               ),
                             ),
                             trailing: IconButton(

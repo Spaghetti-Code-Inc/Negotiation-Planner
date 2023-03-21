@@ -128,6 +128,7 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   obscureText: false,
                   textAlign: TextAlign.start,
