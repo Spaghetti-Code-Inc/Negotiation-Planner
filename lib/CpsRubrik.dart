@@ -7,7 +7,8 @@ import 'package:negotiation_tracker/PlanSummary.dart';
 import 'Utils.dart';
 import 'main.dart';
 
-// TODO: Fix render flex error
+// TODO: Make total points equal 100
+// TODO: Counterparts resistance is greater than target
 class CpsRubrik extends StatefulWidget{
   const CpsRubrik({super.key});
 
@@ -325,6 +326,20 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               )
                           ),
                         ],
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "(Enter 0 if no BATNA exists)",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14,
+                            color: Color(0xff000000),
+                          ),
+                        ),
                       ),
                       TextField(
                         keyboardType: TextInputType.number,

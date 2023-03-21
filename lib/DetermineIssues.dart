@@ -9,6 +9,8 @@ import 'package:negotiation_tracker/WeightIssues.dart';
 
 import 'main.dart';
 
+// TODO: Need to enter at least one issue
+
 class DetermineIssues extends StatelessWidget {
   bool iconColor = false;
   final _items = ['Issue 1'];

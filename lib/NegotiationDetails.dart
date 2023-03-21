@@ -29,23 +29,22 @@ class Negotiation {
   }
 
   factory Negotiation.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options,
+      DocumentSnapshot<Object?>? snapshot,
+
       ){
-    final data = snapshot.data();
     return Negotiation(
-      id: data?['id'],
-      title: data?['title'],
-      summary: data?['summary'],
-      issues: data?['issues'],
-      target: data?['target'],
-      resistance: data?['resistance'],
-      BATNA: data?['BATNA'],
-      currentOffer: data?['currentOffer'],
-      cpIssues: data?['cpIssues'],
-      cpTarget: data?['cpTarget'],
-      cpBATNA: data?['cpBATNA'],
-      cpResistance: data?['cpResistance'],
+      id: snapshot?.get("id"),
+      title: snapshot?.get("title"),
+      summary: snapshot?.get(""),
+      issues: snapshot?.get(""),
+      target: snapshot?.get(""),
+      resistance: snapshot?.get(""),
+      BATNA: snapshot?.get(""),
+      currentOffer: snapshot?.get(""),
+      cpIssues: snapshot?.get(""),
+      cpTarget: snapshot?.get(""),
+      cpBATNA: snapshot?.get(""),
+      cpResistance: snapshot?.get(""),
     );
   }
   

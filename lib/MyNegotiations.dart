@@ -8,7 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/StartNewNegotiation.dart';
 
-import 'Start.dart';
+import 'ViewNegotiation.dart';
+
+// TODO: Navigator pops until beginning, then moves to my negotiations page
 
 class MyNegotiations extends StatefulWidget {
   const MyNegotiations({Key? key}) : super(key: key);
@@ -47,7 +49,6 @@ class _MyNegotiationsState extends State<MyNegotiations> {
             size: 24,
           ),
         ),
-        // TODO: Find out how to set issues
         body: Column(
           children: [
             // Makes the stream fill 80% of the screen at most
@@ -92,7 +93,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
                 child: Text("Prepare For New Negotiation"),
                 style: TextButton.styleFrom(
                   backgroundColor: const Color(0xff838383),
-                  primary: Colors.white,
+                  foregroundColor: Colors.white,
                 )
 
               )
@@ -123,6 +124,70 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
   bool isHover = false;
   @override
   Widget build(BuildContext context) {
+
+    Map<String, dynamic> issueField = widget.negotiation?.get("issues");
+
+    // Find the 3 most important issues
+    List<String>? _issueNames =
+    issueField["issueNames"]?.keys.toList(growable: true);
+
+    List<int> _issueImportance = [];
+
+    int? length = _issueNames?.length;
+    for(int i = 0; i < length!; i++){
+      _issueImportance.add(int.parse(issueField["issueNames"][_issueNames![i]]["relativeValue"]));
+    }
+
+    List<String> vals = ["", "", ""];
+
+    // If only 1 issue
+    if(_issueNames?.length == 1){
+      vals[0] = _issueNames![0];
+    }
+    // If two issues
+    else if(_issueNames?.length == 2){
+      if(_issueImportance[0] > _issueImportance[1]){
+        vals[0] = _issueNames![0];
+        vals[1] = _issueNames[1];
+      }
+      else{
+        vals[0] = _issueNames![1];
+        vals[1] = _issueNames[0];
+      }
+    }
+    // If 3 or more issues
+    else{
+      int max1 = 0;
+      int max2 = 0;
+      int max3 = 0;
+      // Finds the highest three values
+      for(int i = 0; i < length; i++){
+        if(_issueImportance[i] > max1) {
+          if(max1 > max2){
+            if(max2 > max3){
+              max3 = max2;
+              vals[2] = vals[1];
+            }
+            max2 = max1;
+            vals[1] = vals[0];
+          }
+          max1 = _issueImportance[i];
+          vals[0] = _issueNames![i];
+        }
+        else if(_issueImportance[i] > max2){
+          if(max2 > max3){
+            max3 = max2;
+            vals[2] = vals[1];
+          }
+          max2 = _issueImportance[i];
+          vals[1] = _issueNames![i];
+        }
+        else if (_issueImportance[i] > max3){
+          max3 = _issueImportance[i];
+          vals[2] = _issueNames![i];
+        }
+      }
+    }
 
     return AnimatedContainer(
         duration: const Duration(milliseconds: 200),
@@ -165,11 +230,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        widget.negotiation!["summary"],
+                        widget.negotiation!["summary"] + "\n",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: const TextStyle(
@@ -181,12 +246,29 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Most important issue",
+                        "Negotiation Issues: ",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        vals[0],
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -198,12 +280,12 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Second important issue",
+                        vals[1],
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -215,12 +297,12 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Third issue",
+                        vals[2],
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -240,7 +322,12 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       Expanded(
                         flex: 1,
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: widget.negotiation))
+                            );
+                          },
                           color: const Color(0xff838383),
                           elevation: 0,
                           shape: const RoundedRectangleBorder(

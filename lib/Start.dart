@@ -28,6 +28,7 @@ class Start extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
 
               child: ElevatedButton.icon(
+
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -49,7 +50,7 @@ class Start extends StatelessWidget {
                 )),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Color(0xff3e4b8c),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(0xffe4e7fd),
 
                 ),
               ),
