@@ -135,39 +135,10 @@ class RubricSummary extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
-                            vals[0],
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                          Text(
-                            vals[1],
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                          Text(
-                            vals[2],
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
+
+                          // Displays the important issues
+                          DisplayImportantIssues(vals: vals),
+
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: Text(
@@ -209,3 +180,100 @@ class RubricSummary extends StatelessWidget {
     );
   }
 }
+
+class DisplayImportantIssues extends StatelessWidget {
+  final List<String> vals;
+  const DisplayImportantIssues({Key? key, required this.vals}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Only 1 issue : Only use 1 line for display
+    if(vals[1] == ""){
+      return Column(
+        children: [
+          Text(
+            vals[0],
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+        ],
+      );
+    }
+    // Only 2 issues: Only use 2 lines for display
+    else if(vals[2] == ""){
+      return Column(
+        children: [
+          Text(
+            vals[0],
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+          Text(
+            vals[1],
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+        ],
+      );
+    }
+    // All 3 main issues being used: Use 3 lines for display
+    else{
+      return Column(
+        children: [
+          Text(
+            vals[0],
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+          Text(
+            vals[1],
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+          Text(
+            vals[2],
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              color: Color(0xff000000),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+}
+

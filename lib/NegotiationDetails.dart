@@ -7,22 +7,23 @@ class Negotiation {
   String title;
   String? summary;
   Map<String, Map<String, dynamic>> issues;
-  int? target;
-  int? resistance;
+  int target;
+  int resistance;
   int? BATNA;
   int? currentOffer;
 
-  int? cpTarget;
-  int? cpBATNA;
-  int? cpResistance;
+  int cpTarget;
+  int cpBATNA;
+  int cpResistance;
 
   Map<String?, int?> cpIssues;
 
   Negotiation(
       {this.id, required this.title, required this.summary, required this.issues,
-        required this.target, required this.resistance, required this.BATNA, required this.currentOffer, required this.cpIssues, required cpTarget, required cpResistance, required cpBATNA});
+        required this.target, required this.resistance, required this.BATNA, required this.currentOffer, required this.cpIssues, required this.cpTarget, required this.cpResistance, required this.cpBATNA});
 
-  Negotiation.fromNegotiation({this.id, required this.title, required this.issues, required this.cpIssues});
+  Negotiation.fromNegotiation({this.id, required this.title, required this.issues, required this.cpIssues, required this.cpTarget, required this.cpResistance, required this.cpBATNA,
+    required this.target, required this.resistance});
 
   String toString(){
     return "Title: $title, Summary: $summary, Issues: ${issues.toString()}, Counter Part Issues: ${cpIssues.toString()}";

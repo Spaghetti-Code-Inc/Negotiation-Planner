@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/MyNegotiations.dart';
+import 'package:negotiation_tracker/ViewNegotiationCurrent.dart';
 
 import 'NegotiationDetails.dart';
 import 'main.dart';
@@ -159,7 +160,7 @@ class PlanSummary extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
-              children: const [
+              children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Align(
@@ -177,55 +178,12 @@ class PlanSummary extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "\"Issue 1 Name\": \"Points\"",
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            decoration: BoxDecoration(
-              color: const Color(0x1f000000),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: const [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "3. Bargaining Range for Entire Negotiation",
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 20,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            height: 160,
+            child: ViewNegotiationCurrent(negotiation: currentNegotiation),
           ),
           Expanded(
               flex: 1,
@@ -282,7 +240,7 @@ class PlanSummary extends StatelessWidget {
                           db.collection("users").doc(currentNegotiation.id).collection("Negotiations").add(currentNegotiation.toFirestore());
 
                           // Resets the current negotiation
-                          currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {});
+                          currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {}, cpBATNA: -1, cpResistance: -1, cpTarget: -1, target: -1, resistance: -1);
 
                           Navigator.push(
                             context,
