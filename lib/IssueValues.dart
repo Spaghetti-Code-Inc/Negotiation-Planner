@@ -366,7 +366,8 @@ class EnterValues extends StatelessWidget {
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                         child: Text(
-                          "What would be your A+ settlement on this issue? This represents the most you can reasonably justify and will be your opening offer.",
+                          "What would be your A+ settlement on this issue? This represents the most you can reasonably justify and will be your opening offer."
+                              "(Also your target on the issue)",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
@@ -798,7 +799,7 @@ class EnterValues extends StatelessWidget {
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                         child: Text(
-                          "What would be your D settlement on this issue?",
+                          "What would be your D settlement on this issue? (Also your resistance point on the issue)",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
