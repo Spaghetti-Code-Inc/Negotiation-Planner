@@ -40,6 +40,10 @@ class _WeightIssuesState extends State<WeightIssues> {
     for (int i = 0; i < length!; i++) {
       _controllers.add(new TextEditingController());
     }
+    if(length == 1){
+      _controllers[0].text = "100";
+      totalVal = 100;
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
