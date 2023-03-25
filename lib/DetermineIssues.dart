@@ -1,15 +1,10 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/StartNewNegotiation.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
 
+import 'Utils.dart';
 import 'main.dart';
-
-// TODO: Need to enter at least one issue
 
 class DetermineIssues extends StatelessWidget {
   bool iconColor = false;
@@ -158,7 +153,7 @@ class DetermineIssues extends StatelessWidget {
           Expanded(
             child: AnimatedList(
                 key: _key,
-                initialItemCount: 0,
+                initialItemCount: 1,
                 padding: const EdgeInsets.all(10),
                 itemBuilder: (_, index, animation) {
                   return SizeTransition(
@@ -264,29 +259,34 @@ class DetermineIssues extends StatelessWidget {
                       flex: 1,
                       child: MaterialButton(
                         onPressed: () {
-                          currentNegotiation.issues
-                              .putIfAbsent("issueNames", () => {});
-                          currentNegotiation.issues["issueNames"]?.clear();
+                          if(_controllers.length != 0){
+                            currentNegotiation.issues
+                                .putIfAbsent("issueNames", () => {});
+                            currentNegotiation.issues["issueNames"]?.clear();
 
-                          // For each issue add it to the currentNegotiation list
-                          for (int i = 0; i < _controllers.length - 1; i++) {
-                            // Give issue a place holder map
-                            if (_controllers[i].text != "") {
-                              currentNegotiation.issues["issueNames"]
-                                  ?.putIfAbsent(_controllers[i].text, () => {});
+                            // For each issue add it to the currentNegotiation list
+                            for (int i = 0; i < _controllers.length - 1; i++) {
+                              // Give issue a place holder map
+                              if (_controllers[i].text != "") {
+                                currentNegotiation.issues["issueNames"]
+                                    ?.putIfAbsent(_controllers[i].text, () => {});
 
-                              currentNegotiation.cpIssues.putIfAbsent(_controllers[i].text, () => null);
+                                currentNegotiation.cpIssues.putIfAbsent(_controllers[i].text, () => null);
+                              }
+
+
+
                             }
-
-
-
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WeightIssues()),
+                            );
                           }
-                          print(currentNegotiation.toString());
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WeightIssues()),
-                          );
+                          else{
+                            Utils.showSnackBar("You must have at least 1 issue");
+                          }
+
                         },
                         color: const Color(0xff4d4d4d),
                         elevation: 0,
