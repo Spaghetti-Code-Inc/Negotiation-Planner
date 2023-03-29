@@ -43,8 +43,8 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                     },
                     overdragBehaviour: ThumbOverdragBehaviour.cross,
                     // Optional: Lock behaviour of the first an last thumb.
-                    // Defaults to ThumbLockBehaviour.stop
-                    lockBehaviour: ThumbLockBehaviour.both,
+                    // WHENEVER IT SAYS START IT LOCKS ALL
+                    lockBehaviour: ThumbLockBehaviour.start,
                     thumbBuilder: (BuildContext context, int index, double value) {
                       return WholeBargainSliders(index: index, value: value);
                     },

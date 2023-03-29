@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/DetermineIssues.dart';
 import 'package:negotiation_tracker/main.dart';
 
+import 'NegotiationDetails.dart';
 
 class StartNewNegotiation extends StatefulWidget{
   const StartNewNegotiation({super.key});
@@ -64,6 +65,8 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                   cursorColor: Color(0xff3e4b8c),
                   textInputAction: TextInputAction.next,
                   onChanged: (newVal) {
+                    currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {}, cpTarget: -1, cpBATNA: -1, cpResistance: -1, target: -1, resistance: -1);
+                    currentNegotiation.summary = SummaryController.text;
                     currentNegotiation.title = newVal;
                   },
                   controller: TitleController,
@@ -140,6 +143,8 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                     TextField(
                       cursorColor: Color(0xff3e4b8c),
                       onChanged: (newVal) {
+                        currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {}, cpTarget: -1, cpBATNA: -1, cpResistance: -1, target: -1, resistance: -1);
+                        currentNegotiation.title = TitleController.text;
                         currentNegotiation.summary = newVal;
                       },
                       controller: SummaryController,

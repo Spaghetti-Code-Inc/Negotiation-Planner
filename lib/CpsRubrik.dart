@@ -7,8 +7,7 @@ import 'package:negotiation_tracker/PlanSummary.dart';
 import 'Utils.dart';
 import 'main.dart';
 
-// TODO: Make total points equal 100
-// TODO: Counterparts resistance is greater than target
+//TODO: Button that makes the cp issues points spread evenly
 class CpsRubrik extends StatefulWidget {
   const CpsRubrik({super.key});
 
@@ -29,6 +28,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
   late int _BATNA;
   late int _resistance;
 
+  List<int> points =
+      List.filled(currentNegotiation.issues["issueNames"]!.keys.length, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
                               child: Align(
                                 alignment: Alignment.centerLeft,
@@ -116,18 +117,43 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: FilledButton(
+                                  onPressed: () {
+                                    EvenlyDistribute();
+
+                                    // Refreshes the page to show new vals
+                                    setState((){});
+                                  },
+                                  child: Text("Evenly distribute points"),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll<Color>(
+                                            Color(0x99000000)),
+                                  ),
+                                ),
+                              ),
+                            ),
                             ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: currentNegotiation
                                     .issues["issueNames"]?.keys.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
-                                      padding:
-                                          EdgeInsetsDirectional.only(bottom: 8),
-                                      child: EnterValues(
-                                          issueName: currentNegotiation
-                                              .issues["issueNames"]?.keys
-                                              .elementAt(index)));
+                                    padding:
+                                        EdgeInsetsDirectional.only(bottom: 8),
+                                    child: EnterValues(
+                                      issueName: currentNegotiation
+                                          .issues["issueNames"]?.keys
+                                          .elementAt(index),
+                                      index: index,
+                                      points: points,
+                                    ),
+                                  );
                                 }),
                           ],
                         ),
@@ -191,8 +217,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                             'Counterparts Suspected Target'),
                                         content: const Text(
                                             "This is your best guess at what your counterparts target value is. \n \n"
-                                                "This value should be lower than your suspected resistance because his 'target'"
-                                                "is a lower score for you"),
+                                            "This value should be lower than your suspected resistance because his 'target'"
+                                            "is a lower score for you"),
                                         actions: [
                                           TextButton(
                                             child: const Text('Okay'),
@@ -225,7 +251,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                 setState(() {
                                   _target = int.parse(newVal);
                                 });
-                              } on FormatException catch (e) {
+                              } on FormatException {
                                 if (newVal != "") {
                                   Utils.showSnackBar(
                                       "Your target value needs to be an integer.");
@@ -374,7 +400,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               setState(() {
                                 _BATNA = int.parse(newVal);
                               });
-                            } on FormatException catch (e) {
+                            } on FormatException {
                               if (newVal != "") {
                                 Utils.showSnackBar(
                                     "Your BATNA value needs to be an integer.");
@@ -479,8 +505,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                           'Counterparts suspected resistance point.'),
                                       content: const Text(
                                           "This is your best guess at what your counterparts resistance point is. \n \n"
-                                              "This value should be higher than your suspected target because a higher resistance"
-                                              "for him means more value for you."),
+                                          "This value should be higher than your suspected target because a higher resistance"
+                                          "for him means more value for you."),
                                       actions: [
                                         TextButton(
                                           child: const Text('Okay'),
@@ -513,11 +539,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             try {
                               setState(() {
                                 _resistance = int.parse(newVal);
-                                if(newVal == ""){
+                                if (newVal == "") {
                                   _resistance == 0;
                                 }
                               });
-                            } on FormatException catch (e) {
+                            } on FormatException {
                               if (newVal != "") {
                                 Utils.showSnackBar(
                                     "Your resistance value needs to be an integer.");
@@ -620,38 +646,35 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       // Check if all the issues add up to 100
                       // Target is lower than resistance
                       int added = 0;
-                      for(String? current in currentNegotiation.cpIssues.keys){
+                      for (String? current
+                          in currentNegotiation.cpIssues.keys) {
                         added += currentNegotiation.cpIssues[current]!;
                       }
-                      if(added == 100){
-                        if(_target != -1 || _resistance != -1 || _BATNA != -1 || _target == null || _resistance == null){
-                          print(_resistance);
-                          if(_target < _resistance){
+                      if (added == 100) {
+                        if (_target != -1 ||
+                            _resistance != -1 ||
+                            _BATNA != -1) {
+                          if (_target < _resistance) {
                             currentNegotiation.cpTarget = _target;
                             currentNegotiation.cpBATNA = _BATNA;
                             currentNegotiation.cpResistance = _resistance;
-
-                            print(currentNegotiation.target);
 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const PlanSummary()),
                             );
+                          } else {
+                            Utils.showSnackBar(
+                                "The CP target should be lower in points than the CP resistance.");
                           }
-                          else{
-                            Utils.showSnackBar("The CP target should be lower in points than the CP resistance.");
-                          }
+                        } else {
+                          Utils.showSnackBar(
+                              "You must enter value for each field.");
                         }
-                        else{
-                          Utils.showSnackBar("You must enter value for each field.");
-                        }
-                      }
-                      else{
+                      } else {
                         Utils.showSnackBar("The issue points must add to 100");
                       }
-
-
                     },
                     color: const Color(0xff4d4d4d),
                     elevation: 0,
@@ -679,17 +702,46 @@ class _CpsRubrikState extends State<CpsRubrik> {
         ]));
   }
 
+  EvenlyDistribute() {
+    int length = points.length;
+
+    int step = (100 / length).round();
+    int count = 0;
+    for (int i = 1; i < length; i++) {
+      print(i);
+      points[i - 1] = step;
+      count += step;
+    }
+
+    // Last issue gains 1 if the rounding takes the usual split to 99
+    points[length - 1] = (100 - count);
+
+  }
+
   String _getRegexString() => r'[0-9]';
 }
 
-class EnterValues extends StatelessWidget {
+class EnterValues extends StatefulWidget {
   final String? issueName;
-  final ctrl = TextEditingController();
+  final TextEditingController ctrl = TextEditingController();
+  final int index;
+  final List<int> points;
 
-  EnterValues({required this.issueName});
+  EnterValues(
+      {required this.issueName, required this.index, required this.points});
 
   @override
+  State<EnterValues> createState() => _EnterValuesState();
+}
+
+class _EnterValuesState extends State<EnterValues> {
+  @override
   Widget build(BuildContext context) {
+    print(widget.index);
+    print(widget.points.toString());
+    widget.ctrl.text = widget.points[widget.index].toString();
+    currentNegotiation.cpIssues[widget.issueName] = widget.points[widget.index];
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -698,7 +750,7 @@ class EnterValues extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            issueName!,
+            widget.issueName!,
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
@@ -721,9 +773,10 @@ class EnterValues extends StatelessWidget {
                       ))
             ],
             onChanged: (newVal) {
-              currentNegotiation.cpIssues[issueName] = int.parse(newVal);
+              currentNegotiation.cpIssues[widget.issueName] = int.parse(newVal);
+              widget.points[widget.index] = int.parse(newVal);
             },
-            controller: ctrl,
+            controller: widget.ctrl,
             obscureText: false,
             textAlign: TextAlign.start,
             maxLines: 1,

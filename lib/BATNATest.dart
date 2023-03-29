@@ -7,6 +7,7 @@ import 'package:negotiation_tracker/main.dart';
 
 import 'Utils.dart';
 
+//TODO: If you go back the values should still save
 class BATNATest extends StatelessWidget {
   BATNATest({super.key});
   TextEditingController BATNA = new TextEditingController();
@@ -395,5 +396,13 @@ class BATNATest extends StatelessWidget {
     );
   }
 
+  innitBATNAandCurrentOffer(){
+    if(currentNegotiation.BATNA != null){
+      BATNA.text = currentNegotiation.BATNA.toString();
+    }
+    else if(currentNegotiation.currentOffer != null){
+      CurrentOffer.text = currentNegotiation.currentOffer.toString();
+    }
+  }
   String _getRegexString() => r'[0-9]';
 }

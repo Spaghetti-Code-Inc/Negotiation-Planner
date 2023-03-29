@@ -22,7 +22,8 @@ class _WeightIssuesState extends State<WeightIssues> {
   List<TextEditingController> _controllers = [TextEditingController()];
 
   int totalVal = 0;
-  int total() {
+
+  total() {
     int total = 0;
     for (TextEditingController cont in _controllers) {
       try {
@@ -31,7 +32,10 @@ class _WeightIssuesState extends State<WeightIssues> {
       ;
     }
 
-    return total;
+    setState((){
+      totalVal = total;
+    });
+
   }
 
   @override
@@ -203,17 +207,35 @@ class _WeightIssuesState extends State<WeightIssues> {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Total Points: " + totalVal.toString() + "/100",
-                  style: TextStyle(
-                    fontSize: 20,
-                  )),
-            ),
-          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Total Points: " + totalVal.toString() + "/100",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                ),
+              ),
 
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                child: FilledButton(
+                  onPressed: () { EvenlyDistribute(); },
+                  child: Text("Evenly distribute points"),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(Color(0x99000000)),
+                  ),
+
+                ),
+              ),
+
+            ],
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: _issueNames?.length,
@@ -326,10 +348,8 @@ class _WeightIssuesState extends State<WeightIssues> {
                         // length represents _issueNames
                         for (int i = 0; i < length; i++) {
                           print(_issueNames![i]);
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
-                              ?.putIfAbsent(
-                                  "relativeValue", () => _controllers[i].text);
+                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]
+                            ["relativeValue"] = _controllers[i].text;
                         }
 
                         Navigator.push(
@@ -368,4 +388,22 @@ class _WeightIssuesState extends State<WeightIssues> {
       ),
     );
   }
+
+
+  EvenlyDistribute(){
+    int length = _issueNames!.length;
+
+    int step = (100/length).round();
+    int count = 0;
+    for(int i = 1; i < length; i++){
+      print(i);
+      _controllers[i-1].text = (step).toString();
+      count += step;
+    }
+
+    // Last issue gains 1 if the rounding takes the usual split to 99
+   _controllers[length-1].text = (100-count).toString();
+    total();
+  }
+
 }

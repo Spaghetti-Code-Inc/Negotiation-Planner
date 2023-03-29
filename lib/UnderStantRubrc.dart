@@ -9,8 +9,12 @@ import 'main.dart';
 
 class UnderStantRubrc extends StatelessWidget {
   UnderStantRubrc({super.key});
-  TextEditingController _target = new TextEditingController();
-  TextEditingController _resistance = new TextEditingController();
+  TextEditingController totalTarget = new TextEditingController();
+  TextEditingController totalResistance = new TextEditingController();
+
+  int points = initPoints();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +71,7 @@ class UnderStantRubrc extends StatelessWidget {
                     border:
                         Border.all(color: const Color(0x4d9e9e9e), width: 1),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
                       "If you were to receive an A+ on every deal you would score a 100 (a perfect score!)",
@@ -93,10 +97,10 @@ class UnderStantRubrc extends StatelessWidget {
                     border:
                         Border.all(color: const Color(0x4dffffff), width: 0),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive __ points.",
+                      "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive $points points.",
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
@@ -217,11 +221,11 @@ class UnderStantRubrc extends StatelessWidget {
                           if (newVal != "") {
                             Utils.showSnackBar(
                                 "Your target value needs to be an integer.");
-                            // _target.text = "";
+                            // totalTarget.text = "";
                           }
                         }
                       },
-                      controller: _target,
+                      controller: totalTarget,
                       maxLines: 1,
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
@@ -346,11 +350,11 @@ class UnderStantRubrc extends StatelessWidget {
                                 if (newVal != "") {
                                   Utils.showSnackBar(
                                       "Your resistance value needs to be an integer.");
-                                  _resistance.text = "";
+                                  totalResistance.text = "";
                                 }
                               }
                             },
-                            controller: _resistance,
+                            controller: totalResistance,
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -445,16 +449,16 @@ class UnderStantRubrc extends StatelessWidget {
                   child: MaterialButton(
                     onPressed: () {
 
-                      if(_target.text == "" || _resistance.text == ""){
+                      if(totalTarget.text == "" || totalResistance.text == ""){
                         Utils.showSnackBar("You need to fill out target and resistance values.");
                       }
-                      else if(int.parse(_target.text) <= int.parse(_resistance.text)){
+                      else if(int.parse(totalTarget.text) <= int.parse(totalResistance.text)){
                         Utils.showSnackBar("Your target value must be higher than your resistance value.");
                       }
-                      else if(int.parse(_target.text) > 100){
+                      else if(int.parse(totalTarget.text) > 100){
                         Utils.showSnackBar("Your target can not exceed 100.");
                       }
-                      else if(int.parse(_resistance.text) < 0){
+                      else if(int.parse(totalResistance.text) < 0){
                         Utils.showSnackBar("Your resistance can not be below 0.");
                       }
                       else{
@@ -493,5 +497,28 @@ class UnderStantRubrc extends StatelessWidget {
     );
   }
 
+  static int initPoints(){
+
+    num counter = 0;
+
+    print(currentNegotiation.issues["issueNames"]);
+
+    bool firstRun = true;
+    for(String name in currentNegotiation.issues["issueNames"]!.keys){
+      if(!firstRun){
+        print(currentNegotiation.issues["issueNames"]?[name]["D"].runtimeType);
+        counter += int.parse(currentNegotiation.issues["issueNames"]?[name]["D"]);
+      }
+      else{
+        counter += int.parse(currentNegotiation.issues["issueNames"]?[name]["A+"]);
+        firstRun = false;
+      }
+    }
+    return counter.toInt();
+  }
+
+
   String _getRegexString() => r'[0-9]';
 }
+
+

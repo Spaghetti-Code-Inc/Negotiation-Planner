@@ -10,48 +10,46 @@ class RubricSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // Find the 3 most important issues
     List<String>? _issueNames =
-      currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
+        currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
 
     List<int> _issueImportance = [];
 
-
     int? length = _issueNames?.length;
-    for(int i = 0; i < length!; i++){
-      _issueImportance.add(int.parse(currentNegotiation.issues["issueNames"]![_issueNames![i]]["relativeValue"]));
+    for (int i = 0; i < length!; i++) {
+      _issueImportance.add(int.parse(currentNegotiation
+          .issues["issueNames"]![_issueNames![i]]["relativeValue"]));
       print(_issueImportance[i]);
     }
 
     List<String> vals = ["", "", ""];
 
     // If only 1 issue
-    if(_issueNames?.length == 1){
+    if (_issueNames?.length == 1) {
       vals[0] = _issueNames![0];
     }
     // If two issues
-    else if(_issueNames?.length == 2){
-      if(_issueImportance[0] > _issueImportance[1]){
+    else if (_issueNames?.length == 2) {
+      if (_issueImportance[0] > _issueImportance[1]) {
+        vals[0] = _issueNames![0];
+        vals[1] = _issueNames[1];
+      } else {
         vals[0] = _issueNames![0];
         vals[1] = _issueNames[1];
       }
-      else{
-        vals[0] = _issueNames![1];
-        vals[1] = _issueNames[0];
-      }
     }
     // If 3 or more issues
-    else{
+    else {
       int max1 = 0;
       int max2 = 0;
       int max3 = 0;
       // Finds the highest three values
-      for(int i = 0; i < length; i++){
+      for (int i = 0; i < length; i++) {
         print("$max1 : $max2 : $max3");
-        if(_issueImportance[i] > max1) {
-          if(max1 > max2){
-            if(max2 > max3){
+        if (_issueImportance[i] > max1) {
+          if (max1 > max2) {
+            if (max2 > max3) {
               max3 = max2;
               vals[2] = vals[1];
             }
@@ -60,16 +58,14 @@ class RubricSummary extends StatelessWidget {
           }
           max1 = _issueImportance[i];
           vals[0] = _issueNames![i];
-        }
-        else if(_issueImportance[i] > max2){
-          if(max2 > max3){
+        } else if (_issueImportance[i] > max2) {
+          if (max2 > max3) {
             max3 = max2;
             vals[2] = vals[1];
           }
           max2 = _issueImportance[i];
           vals[1] = _issueNames![i];
-        }
-        else if (_issueImportance[i] > max3){
+        } else if (_issueImportance[i] > max3) {
           max3 = _issueImportance[i];
           vals[2] = _issueNames![i];
         }
@@ -78,9 +74,10 @@ class RubricSummary extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: const Color(0xffffffff),
-        appBar: const PrepareBar(),
-        body: Column(children: [
+      backgroundColor: const Color(0xffffffff),
+      appBar: const PrepareBar(),
+      body: Column(
+        children: [
           SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -175,20 +172,115 @@ class RubricSummary extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(child: NextBar(CpsRubrik()))
-        ])
+          Expanded(
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: const Color(0x00ffffff),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.zero,
+                border: Border.all(color: const Color(0x00ffffff), width: 0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      color: const Color(0xff4d4d4d),
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                        side: BorderSide(color: Color(0xff808080), width: 1),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xffffffff),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
+                        "Back",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: MaterialButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              AlertDialog(
+                               title: const Text('Counter Parts Rubric'),
+                                content: const Text(
+                                    "Consider the issues you identified earlier. How do you"
+                                        "think your counter part would assign points to these issues ?"),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Next'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => CpsRubrik()),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                      color: const Color(0xff4d4d4d),
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                        side: BorderSide(color: Color(0xff808080), width: 1),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xffffffff),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
+                        "Next",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class DisplayImportantIssues extends StatelessWidget {
   final List<String> vals;
-  const DisplayImportantIssues({Key? key, required this.vals}) : super(key: key);
+  const DisplayImportantIssues({Key? key, required this.vals})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Only 1 issue : Only use 1 line for display
-    if(vals[1] == ""){
+    if (vals[1] == "") {
       return Column(
         children: [
           Text(
@@ -206,7 +298,7 @@ class DisplayImportantIssues extends StatelessWidget {
       );
     }
     // Only 2 issues: Only use 2 lines for display
-    else if(vals[2] == ""){
+    else if (vals[2] == "") {
       return Column(
         children: [
           Text(
@@ -235,7 +327,7 @@ class DisplayImportantIssues extends StatelessWidget {
       );
     }
     // All 3 main issues being used: Use 3 lines for display
-    else{
+    else {
       return Column(
         children: [
           Text(
@@ -276,4 +368,3 @@ class DisplayImportantIssues extends StatelessWidget {
     }
   }
 }
-

@@ -8,8 +8,8 @@ import 'main.dart';
 
 class DetermineIssues extends StatelessWidget {
   bool iconColor = false;
-  final _items = ['Issue 1'];
-  final _controllers = [TextEditingController()];
+  final _items = ['Issue 1', 'Issue 2'];
+  final _controllers = [TextEditingController(), TextEditingController()];
 
   static final GlobalKey<AnimatedListState> _key =
       GlobalKey<AnimatedListState>();
@@ -17,7 +17,7 @@ class DetermineIssues extends StatelessWidget {
   void _addIssues() {
     // Adds an issue and text editing controller for the list view
     _controllers.insert(0, TextEditingController());
-    _items.insert(0, 'Issue ${_items.length + 1}');
+    _items.insert(_controllers.length-1, 'Issue ${_items.length + 1}');
 
     _key.currentState!
         .insertItem(0, duration: const Duration(milliseconds: 200));
@@ -57,6 +57,7 @@ class DetermineIssues extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(currentNegotiation.toString());
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),
