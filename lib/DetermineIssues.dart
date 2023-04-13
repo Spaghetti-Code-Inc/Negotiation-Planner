@@ -17,7 +17,7 @@ class DetermineIssues extends StatelessWidget {
   void _addIssues() {
     // Adds an issue and text editing controller for the list view
     _controllers.insert(0, TextEditingController());
-    _items.insert(_controllers.length-1, 'Issue ${_items.length + 1}');
+    _items.insert(0, 'Issue ${_items.length + 1}');
 
     _key.currentState!
         .insertItem(0, duration: const Duration(milliseconds: 200));

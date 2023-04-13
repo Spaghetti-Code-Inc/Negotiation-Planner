@@ -20,22 +20,21 @@ class RubricSummary extends StatelessWidget {
     for (int i = 0; i < length!; i++) {
       _issueImportance.add(int.parse(currentNegotiation
           .issues["issueNames"]![_issueNames![i]]["relativeValue"]));
-      print(_issueImportance[i]);
     }
 
     List<String> vals = ["", "", ""];
 
     // If only 1 issue
-    if (_issueNames?.length == 1) {
-      vals[0] = _issueNames![0];
+    if (_issueNames!.length == 1) {
+      vals[0] = _issueNames[0];
     }
     // If two issues
-    else if (_issueNames?.length == 2) {
+    else if (_issueNames.length == 2) {
       if (_issueImportance[0] > _issueImportance[1]) {
-        vals[0] = _issueNames![0];
+        vals[0] = _issueNames[0];
         vals[1] = _issueNames[1];
       } else {
-        vals[0] = _issueNames![0];
+        vals[0] = _issueNames[0];
         vals[1] = _issueNames[1];
       }
     }
@@ -46,10 +45,9 @@ class RubricSummary extends StatelessWidget {
       int max3 = 0;
       // Finds the highest three values
       for (int i = 0; i < length; i++) {
-        print("$max1 : $max2 : $max3");
         if (_issueImportance[i] > max1) {
-          if (max1 > max2) {
-            if (max2 > max3) {
+          if (max1 >= max2) {
+            if (max2 >= max3) {
               max3 = max2;
               vals[2] = vals[1];
             }
@@ -57,20 +55,19 @@ class RubricSummary extends StatelessWidget {
             vals[1] = vals[0];
           }
           max1 = _issueImportance[i];
-          vals[0] = _issueNames![i];
+          vals[0] = _issueNames[i];
         } else if (_issueImportance[i] > max2) {
           if (max2 > max3) {
             max3 = max2;
             vals[2] = vals[1];
           }
           max2 = _issueImportance[i];
-          vals[1] = _issueNames![i];
+          vals[1] = _issueNames[i];
         } else if (_issueImportance[i] > max3) {
           max3 = _issueImportance[i];
-          vals[2] = _issueNames![i];
+          vals[2] = _issueNames[i];
         }
       }
-      print("$max1 : $max2 : $max3");
     }
 
     return Scaffold(
@@ -226,7 +223,7 @@ class RubricSummary extends StatelessWidget {
                                title: const Text('Counter Parts Rubric'),
                                 content: const Text(
                                     "Consider the issues you identified earlier. How do you"
-                                        "think your counter part would assign points to these issues ?"),
+                                        "think your counter part would assign points to these issues?"),
                                 actions: [
                                   TextButton(
                                     child: const Text('Next'),

@@ -6,6 +6,8 @@ import 'NegotiationDetails.dart';
 class ViewNegotiationCurrent extends StatefulWidget {
   final Negotiation negotiation;
 
+
+
   ViewNegotiationCurrent({Key? key, required this.negotiation}) : super(key: key);
 
   @override
@@ -13,6 +15,8 @@ class ViewNegotiationCurrent extends StatefulWidget {
 }
 
 class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
+  // The values that the sliders are based off of
+  // The code takes for granted that cpTarget: 1, resistance: 2, cpResistance: 3, target: 4
   late List<double> _issueState = [
     0,
     widget.negotiation.cpTarget * .01,
@@ -24,8 +28,6 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
 
   @override
   Widget build(BuildContext context) {
-    print(_issueState);
-
     MultiThumbSliderController sliderController = MultiThumbSliderController();
 
     return Column(
@@ -54,14 +56,12 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                     // Optional: MultiThumbSliderController can be used to control the slider after build. E.g adding/removing thumbs, get current values, move thumb, etc.
                     controller: MultiThumbSliderController()),
               ])),
-          Column(children: [
-            Text("CP Target: " + (_issueState[1]*100).toInt().toString()),
-            Text("Your Resistance: " + (_issueState[2]*100).toInt().toString()),
-            Text("CP Resistance: " + (_issueState[3]*100).toInt().toString()),
-            Text("Your Target: " + (_issueState[4]*100).toInt().toString()),
-            Text("Entire Bargaining Arrangement: " + (_issueState[3]-_issueState[2] > 0 ?
+          Padding( padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+          child: Column(children: [
+            Text("Entire Bargaining Range: " + (_issueState[3]-_issueState[2] > 0 ?
             ((_issueState[2]-_issueState[3])*100*(-1)).toInt().toString() : "0")),
           ]),
+          )
         ],
 
       );
@@ -81,16 +81,16 @@ class WholeBargainSliders extends StatelessWidget {
       case 0:
         return FrontBackSlider(front: true);
     // User Resistance
-      case 1:
+      case 2:
         return UserSlider(value: value, name: "Your Resistance");
     // CP Target
-      case 2:
+      case 1:
         return CPSlider(value: value, name: "CP Target");
     // User Target
-      case 3:
+      case 4:
         return UserSlider(value: value, name: "Your Target");
     // CP Resistance
-      case 4:
+      case 3:
         return CPSlider(value: value, name: "CP Resistance");
     // Back barrier slider
       case 5:

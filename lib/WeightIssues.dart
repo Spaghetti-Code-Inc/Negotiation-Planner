@@ -347,7 +347,6 @@ class _WeightIssuesState extends State<WeightIssues> {
                       if (totalVal == 100) {
                         // length represents _issueNames
                         for (int i = 0; i < length; i++) {
-                          print(_issueNames![i]);
                           currentNegotiation.issues["issueNames"]?[_issueNames![i]]
                             ["relativeValue"] = _controllers[i].text;
                         }
@@ -396,7 +395,6 @@ class _WeightIssuesState extends State<WeightIssues> {
     int step = (100/length).round();
     int count = 0;
     for(int i = 1; i < length; i++){
-      print(i);
       _controllers[i-1].text = (step).toString();
       count += step;
     }

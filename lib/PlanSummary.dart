@@ -6,21 +6,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/MyNegotiations.dart';
+import 'package:negotiation_tracker/ViewCurrentIssues.dart';
 import 'package:negotiation_tracker/ViewNegotiationCurrent.dart';
 
 import 'NegotiationDetails.dart';
 import 'main.dart';
-
-
-
 
 class PlanSummary extends StatelessWidget {
   const PlanSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    CollectionReference negotiations = FirebaseFirestore.instance.collection('negotiations');
+    CollectionReference negotiations =
+        FirebaseFirestore.instance.collection('negotiations');
     var db = FirebaseFirestore.instance;
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -68,105 +66,131 @@ class PlanSummary extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            decoration: BoxDecoration(
-              color: const Color(0x1f000000),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "1. Tradeoffs",
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 20,
-                      color: Color(0xff000000),
+
+          // Start of content on page
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.zero,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width,
+                      height: 128,
+
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "1. Tradeoffs",
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 20,
+                                color: Color(0xff000000),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: TextField(
+                              controller: TextEditingController(),
+                              obscureText: false,
+                              textAlign: TextAlign.start,
+                              maxLines: 5,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                              ),
+                              decoration: InputDecoration(
+                                disabledBorder: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xff000000), width: 1),
+                                ),
+                                hintText: "Enter Pros/Cons",
+                                hintStyle: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14,
+                                  color: Color(0xff000000),
+                                ),
+                                filled: false,
+                                fillColor: const Color(0xfff2f2f3),
+                                isDense: false,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 12),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                  child: TextField(
-                    controller: TextEditingController(),
-                    obscureText: false,
-                    textAlign: TextAlign.start,
-                    maxLines: 3,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      color: Color(0xff000000),
+                    Container(
+                      margin: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "2. Bargaining Range for Each Issue",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    decoration: InputDecoration(
-                      disabledBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xff000000), width: 1),
+                    Container(
+                      height: currentNegotiation.cpIssues.keys.length * 100,
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: currentNegotiation.cpIssues.keys.length,
+                        prototypeItem: ViewCurrentIssues(
+                            issueName:
+                                currentNegotiation.cpIssues.keys.elementAt(0)!),
+                        itemBuilder: (context, index) {
+                          print(index);
+                          return ViewCurrentIssues(
+                              issueName: currentNegotiation.cpIssues.keys
+                                  .elementAt(index)!);
+                        },
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xff000000), width: 1),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xff000000), width: 1),
-                      ),
-                      hintText: "Enter Text",
-                      hintStyle: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14,
-                        color: Color(0xff000000),
-                      ),
-                      filled: false,
-                      fillColor: const Color(0xfff2f2f3),
-                      isDense: false,
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 12),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            decoration: BoxDecoration(
-              color: const Color(0x1f000000),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "2. Bargaining Range for Each Issue",
+                    Text(
+                      "3. Bargaining Range for Entire Negotiation",
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
@@ -176,100 +200,113 @@ class PlanSummary extends StatelessWidget {
                         color: Color(0xff000000),
                       ),
                     ),
+                    Container(
+                      child: ViewNegotiationCurrent(
+                          negotiation: currentNegotiation),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Next and Back Buttons
+          Container(
+            alignment: Alignment.bottomCenter,
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: const Color(0x00ffffff),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.zero,
+              border: Border.all(color: const Color(0x00ffffff), width: 0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: const Color(0xff4d4d4d),
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Color(0xff808080), width: 1),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    textColor: const Color(0xffffffff),
+                    height: 40,
+                    minWidth: 140,
+                    child: const Text(
+                      "Back",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: MaterialButton(
+                    onPressed: () async {
+                      // Sets the user id to the negotiation instance
+                      currentNegotiation.id =
+                          FirebaseAuth.instance.currentUser?.uid;
+
+                      // Adds the current negotiation to the correct user
+                      db
+                          .collection("users")
+                          .doc(currentNegotiation.id)
+                          .collection("Negotiations")
+                          .add(currentNegotiation.toFirestore());
+
+                      // Resets the current negotiation
+                      currentNegotiation = Negotiation.fromNegotiation(
+                          title: '',
+                          issues: {},
+                          cpIssues: {},
+                          cpBATNA: -1,
+                          cpResistance: -1,
+                          cpTarget: -1,
+                          target: -1,
+                          resistance: -1);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyNegotiations()),
+                      );
+                    },
+                    color: const Color(0xff4d4d4d),
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Color(0xff808080), width: 1),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    textColor: const Color(0xffffffff),
+                    height: 40,
+                    minWidth: 140,
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            height: 160,
-            child: ViewNegotiationCurrent(negotiation: currentNegotiation),
-          ),
-          Expanded(
-              flex: 1,
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                margin: const EdgeInsets.all(0),
-                padding: const EdgeInsets.all(0),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: const Color(0x00ffffff),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.zero,
-                  border: Border.all(color: const Color(0x00ffffff), width: 0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        color: const Color(0xff4d4d4d),
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                          side: BorderSide(color: Color(0xff808080), width: 1),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xffffffff),
-                        height: 40,
-                        minWidth: 140,
-                        child: const Text(
-                          "Back",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: MaterialButton(
-                        onPressed: () async {
-                          // Sets the user id to the negotiation instance
-                          currentNegotiation.id = FirebaseAuth.instance.currentUser?.uid;
-
-                          // Adds the current negotiation to the correct user
-                          db.collection("users").doc(currentNegotiation.id).collection("Negotiations").add(currentNegotiation.toFirestore());
-
-                          // Resets the current negotiation
-                          currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {}, cpBATNA: -1, cpResistance: -1, cpTarget: -1, target: -1, resistance: -1);
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const MyNegotiations()),
-                          );
-                        },
-                        color: const Color(0xff4d4d4d),
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                          side: BorderSide(color: Color(0xff808080), width: 1),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xffffffff),
-                        height: 40,
-                        minWidth: 140,
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
         ],
       ),
     );

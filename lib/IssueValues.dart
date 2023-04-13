@@ -1051,6 +1051,8 @@ class EnterValues extends StatelessWidget {
     int total = int.parse(ctrl[0].text);
     int step = (total/length).round();
 
+    print(step);
+
     for(int i = 1; i < length; i++){
       ctrl[i].text = (total-step*i).toString();
     }

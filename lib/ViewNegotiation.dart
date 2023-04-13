@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_thumb_slider/multi_thumb_slider.dart';
 
@@ -102,7 +101,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Prepare For New Negotiation"),
+              child: Text(""),
               style: TextButton.styleFrom(
                 backgroundColor: const Color(0xff838383),
                 foregroundColor: Colors.white,
