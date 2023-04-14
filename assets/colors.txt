@@ -1,4 +1,4 @@
-Blue main color: color: Color(0xff3e4b8c)
+Blue main color: color: Color(0xff0A0A5B)
 Red color for links/highlights: Color(0xFFDB7877)
 White for text and boxes/highlights: Color(0xFFFFFFFF)
 Black accent color: Color(0xFF1E2027)

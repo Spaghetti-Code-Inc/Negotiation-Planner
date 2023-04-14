@@ -320,14 +320,14 @@ class _WeightIssuesState extends State<WeightIssues> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    color: const Color(0xff4d4d4d),
+                    color: const Color(0xffffffff),
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
+                      side: BorderSide(color: Color(0xff3e4b8c), width: 1),
                     ),
                     padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
+                    textColor: const Color(0xff3e4b8c),
                     height: 40,
                     minWidth: 140,
                     child: const Text(
@@ -361,14 +361,14 @@ class _WeightIssuesState extends State<WeightIssues> {
                         Utils.showSnackBar("Total must equal exactly 100.");
                       }
                     },
-                    color: const Color(0xff4d4d4d),
+                    color: const Color(0xffffffff),
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
+                      side: BorderSide(color: Color(0xff3e4b8c), width: 1),
                     ),
                     padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
+                    textColor: const Color(0xff3e4b8c),
                     height: 40,
                     minWidth: 140,
                     child: const Text(

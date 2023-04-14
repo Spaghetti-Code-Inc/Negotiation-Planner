@@ -236,14 +236,14 @@ class DetermineIssues extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        color: const Color(0xff4d4d4d),
+                        color: const Color(0xffffffff),
                         elevation: 0,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
-                          side: BorderSide(color: Color(0xff808080), width: 1),
+                          side: BorderSide(color: Color(0xff0A0A5B), width: 1),
                         ),
                         padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xffffffff),
+                        textColor: const Color(0xff0A0A5B),
                         height: 40,
                         minWidth: 140,
                         child: const Text(
@@ -289,14 +289,14 @@ class DetermineIssues extends StatelessWidget {
                           }
 
                         },
-                        color: const Color(0xff4d4d4d),
+                        color: const Color(0xffffffff),
                         elevation: 0,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
-                          side: BorderSide(color: Color(0xff808080), width: 1),
+                          side: BorderSide(color: Color(0xff0A0A5B), width: 1),
                         ),
                         padding: const EdgeInsets.all(16),
-                        textColor: const Color(0xffffffff),
+                        textColor: const Color(0xff0A0A5B),
                         height: 40,
                         minWidth: 140,
                         child: const Text(

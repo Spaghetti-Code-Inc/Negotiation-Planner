@@ -35,10 +35,11 @@ class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 4,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      backgroundColor: const Color(0xff3e4b8c),
+      backgroundColor: const Color(0xff0A0A5B),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
+
       title: const Text(
         "Prepare New Negotiation",
         style: TextStyle(
@@ -66,7 +67,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
       elevation: 4,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      backgroundColor: const Color(0xff3e4b8c),
+      backgroundColor: const Color(0xff0A0A5B),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
@@ -120,24 +121,17 @@ class NextBar extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: const Color(0xff4d4d4d),
+              color: const Color(0xffffffff),
               elevation: 0,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
-                side: BorderSide(color: Color(0xff808080), width: 1),
+                side: BorderSide(color: Color(0xff0A0A5B), width: 1),
               ),
               padding: const EdgeInsets.all(16),
-              textColor: const Color(0xffffffff),
+              textColor: const Color(0xff0A0A5B),
               height: 40,
               minWidth: 140,
-              child: const Text(
-                "Back",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
+              child: const Icon(Icons.arrow_back),
             ),
           ),
           Expanded(
@@ -149,24 +143,18 @@ class NextBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => nextPage),
                 );
               },
-              color: const Color(0xff4d4d4d),
+              color: const Color(0xffffffff),
               elevation: 0,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
-                side: BorderSide(color: Color(0xff808080), width: 1),
+                side: BorderSide(color: Color(0xff0A0A5B), width: 1),
               ),
               padding: const EdgeInsets.all(16),
-              textColor: const Color(0xffffffff),
+              textColor: const Color(0xff0A0A5B),
               height: 40,
               minWidth: 140,
-              child: const Text(
-                "Next",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
+
+              child: const Icon(Icons.arrow_forward),
             ),
           ),
         ],

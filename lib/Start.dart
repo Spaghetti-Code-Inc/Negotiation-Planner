@@ -42,6 +42,7 @@ class Start extends StatelessWidget {
                 label: const Center(
                     child: Text(
                   'Prepare Negotiation',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -49,7 +50,7 @@ class Start extends StatelessWidget {
                   ),
                 )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xff3e4b8c),
+                  foregroundColor: Color(0xff0A0A5B),
                   backgroundColor: Color(0xffe4e7fd),
 
                 ),
@@ -75,6 +76,7 @@ class Start extends StatelessWidget {
                 label: const Center(
                     child: Text(
                       'Track Progress',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -82,7 +84,7 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xff3e4b8c),
+                  foregroundColor: Color(0xff0A0A5B),
                   backgroundColor: Colors.white,
                 ),
               ),
@@ -102,6 +104,7 @@ class Start extends StatelessWidget {
                 label: const Center(
                     child: Text(
                       'Evaluate Agreement',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -109,7 +112,7 @@ class Start extends StatelessWidget {
                       ),
                     )),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xff3e4b8c),
+                  foregroundColor: Color(0xff0A0A5B),
                   backgroundColor: Colors.white,
                 ),
               ),
@@ -122,7 +125,7 @@ class Start extends StatelessWidget {
                 color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(color: const Color(0xff3e4b8c), width: 1),
+                border: Border.all(color: const Color(0xff0A0A5B), width: 1),
               ),
               child: Align(
                 alignment: Alignment.center,
@@ -139,7 +142,7 @@ class Start extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  textColor: const Color(0xff3e4b8c),
+                  textColor: const Color(0xff0A0A5B),
                   height: 40,
                   minWidth: MediaQuery.of(context).size.width,
                   child: const Text(
