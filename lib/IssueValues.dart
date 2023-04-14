@@ -22,16 +22,20 @@ class _IssueValuesState extends State<IssueValues> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(currentNegotiation.toString());
+
     int? length = _issueNames?.length;
     for (int i = 0; i < length!; i++) {
       _controllers.add([]);
-      // 6 because that is the number of settlement opportunities
+      // 6 because that is the number of settlement oppurtunites
       for (int j = 0; j < 6; j++) {
         _controllers[i].add(TextEditingController());
       }
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -134,7 +138,7 @@ class _IssueValuesState extends State<IssueValues> {
                             .elementAt(index),
                         ctrl: _controllers[index],
                       ),
-                      height: 455);
+                      height: 435);
                 }),
           ),
           Container(
@@ -185,51 +189,68 @@ class _IssueValuesState extends State<IssueValues> {
                     onPressed: () {
                       bool moveOn = true;
                       // Checks if all values are in right format
-                      for(int i = 0; i < length; i++){
-                        for(int j = 0; j < 6; j++){
-                          try{
+                      for (int i = 0; i < length; i++) {
+                        for (int j = 0; j < 6; j++) {
+                          try {
                             int greater = int.parse(_controllers[i][j].text);
                             int less;
 
                             // Checks to make sure lower is not off out of bounds
-                            if(j+1 == 6){
+                            if (j + 1 == 6) {
                               less = greater;
                             } else {
-                              less = int.parse(_controllers[i]
-                                  [j+1].text);
-                             }
+                              less = int.parse(_controllers[i][j + 1].text);
+                            }
 
                             print(greater.toString() + " : " + less.toString());
 
-                            if(greater < less){
+                            if (greater < less) {
                               moveOn = false;
-                              Utils.showSnackBar("One of your issues does not have the right order of value.");
+                              Utils.showSnackBar(
+                                  "One of your issues does not have the right order of value.");
                             }
-                          } on FormatException catch(e){
+                          } on FormatException catch (e) {
                             print(i.toString() + ", " + j.toString());
                             print(e);
-                            Utils.showSnackBar("One of your values is not an integer.");
+                            Utils.showSnackBar(
+                                "One of your values is not an integer.");
                             moveOn = false;
                           }
                         }
                         // Checks if any value is too big
-                        if(int.parse(_controllers[i][0].text) > int.parse(currentNegotiation.issues["issueNames"]?[_issueNames![i]]["relativeValue"])){
-                          Utils.showSnackBar("One of your A+ settlement values exceeds the points possible.");
+                        if (int.parse(_controllers[i][0].text) >
+                            int.parse(currentNegotiation.issues["issueNames"]
+                                ?[_issueNames![i]]["relativeValue"])) {
+                          Utils.showSnackBar(
+                              "One of your A+ settlement values exceeds the points possible.");
                           moveOn = false;
                         }
                       }
 
                       // If data is in right format
-                      if(moveOn){
+                      if (moveOn) {
                         // Length is the length of "issueNames" keys
-                        for(int i = 0; i < length; i++){
+                        for (int i = 0; i < length; i++) {
                           // Puts value in for all the possible settlements
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("A+", () => _controllers[i][0].text);
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("A", () => _controllers[i][1].text);
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("B", () => _controllers[i][2].text);
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("C", () => _controllers[i][3].text);
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("D", () => _controllers[i][4].text);
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]?.putIfAbsent("F", () => _controllers[i][5].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent(
+                                  "A+", () => _controllers[i][0].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent("A", () => _controllers[i][1].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent("B", () => _controllers[i][2].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent("C", () => _controllers[i][3].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent("D", () => _controllers[i][4].text);
+                          currentNegotiation.issues["issueNames"]
+                                  ?[_issueNames![i]]
+                              ?.putIfAbsent("F", () => _controllers[i][5].text);
                         }
 
                         Navigator.push(
@@ -277,7 +298,9 @@ class EnterValues extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Keeps the A+ settlement at the max possible points
-    ctrl[0].text = currentNegotiation.issues["issueNames"]![issueName]!["relativeValue"].toString();
+    ctrl[0].text = currentNegotiation
+        .issues["issueNames"]![issueName]!["relativeValue"]
+        .toString();
     ctrl[5].text = "0";
     return Column(
       children: [
@@ -295,39 +318,58 @@ class EnterValues extends StatelessWidget {
           child: Align(
             alignment: Alignment.center,
             child: Padding(
+              // TODO: Center title and add button on side to evenly distribute items
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+              child: Row(
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      issueName!,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14,
-                        color: Color(0xffffffff),
-                      ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            issueName!,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xffffffff),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Points Possible: " +
+                                currentNegotiation
+                                        .issues["issueNames"]![issueName]
+                                    ["relativeValue"],
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xffffffff),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Points Possible: " +
-                          currentNegotiation.issues["issueNames"]![issueName]
-                              ["relativeValue"],
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14,
-                        color: Color(0xffffffff),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                    child: FilledButton(
+                      onPressed: () { EvenlyDistribute(); },
+                      child: Text("Evenly distribute points"),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.grey),
                       ),
                     ),
                   ),
@@ -353,9 +395,8 @@ class EnterValues extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.all(0),
                       padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width *
-                          0.7 ,
-                      height: 100,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 80,
                       decoration: BoxDecoration(
                         color: const Color(0x55000000),
                         shape: BoxShape.rectangle,
@@ -384,7 +425,7 @@ class EnterValues extends StatelessWidget {
                         margin: const EdgeInsets.all(0),
                         padding: const EdgeInsets.all(0),
                         width: MediaQuery.of(context).size.width * 0.2,
-                        height: 100,
+                        height: 80,
                         decoration: BoxDecoration(
                           color: const Color(0x53000000),
                           shape: BoxShape.rectangle,
@@ -397,18 +438,15 @@ class EnterValues extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.center,
                             child: TextField(
-                              onChanged: (newVal){
-                                Utils.showSnackBar("A+ settlemet should be the max points possible.");
-                                ctrl[0].text = currentNegotiation.issues["issueNames"]![issueName]!["relativeValue"].toString();
-                              },
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(_getRegexString())),
                                 TextInputFormatter.withFunction(
                                     (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    )
-                                )
+                                          text: newValue.text
+                                              .replaceAll('.', ','),
+                                        ))
                               ],
                               controller: ctrl[0],
                               obscureText: false,
@@ -466,7 +504,7 @@ class EnterValues extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       width: MediaQuery.of(context).size.width *
                           0.7000000000000001,
-                      height: 90,
+                      height: 80,
                       decoration: BoxDecoration(
                         color: const Color(0x1f000000),
                         shape: BoxShape.rectangle,
@@ -477,7 +515,7 @@ class EnterValues extends StatelessWidget {
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                         child: Text(
-                          "What would be your A settlement on this issue? This represents the settlement you will strive to obtain or beat.",
+                          "What would be your A settlement on this issue? This represents the settlement you will strive to obtain or beat. (Also knwon as your target on the issue)",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
@@ -495,7 +533,7 @@ class EnterValues extends StatelessWidget {
                         margin: const EdgeInsets.all(0),
                         padding: const EdgeInsets.all(0),
                         width: 200,
-                        height: 90,
+                        height: 80,
                         decoration: BoxDecoration(
                           color: const Color(0x1f000000),
                           shape: BoxShape.rectangle,
@@ -510,12 +548,13 @@ class EnterValues extends StatelessWidget {
                             child: TextField(
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(_getRegexString())),
                                 TextInputFormatter.withFunction(
-                                        (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    )
-                                )
+                                    (oldValue, newValue) => newValue.copyWith(
+                                          text: newValue.text
+                                              .replaceAll('.', ','),
+                                        ))
                               ],
                               controller: ctrl[1],
                               obscureText: false,
@@ -617,12 +656,13 @@ class EnterValues extends StatelessWidget {
                             child: TextField(
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(_getRegexString())),
                                 TextInputFormatter.withFunction(
-                                        (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    )
-                                )
+                                    (oldValue, newValue) => newValue.copyWith(
+                                          text: newValue.text
+                                              .replaceAll('.', ','),
+                                        ))
                               ],
                               controller: ctrl[2],
                               obscureText: false,
@@ -724,12 +764,13 @@ class EnterValues extends StatelessWidget {
                             child: TextField(
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(_getRegexString())),
                                 TextInputFormatter.withFunction(
-                                        (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    )
-                                )
+                                    (oldValue, newValue) => newValue.copyWith(
+                                          text: newValue.text
+                                              .replaceAll('.', ','),
+                                        ))
                               ],
                               controller: ctrl[3],
                               obscureText: false,
@@ -787,7 +828,7 @@ class EnterValues extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       width: MediaQuery.of(context).size.width *
                           0.7000000000000001,
-                      height: 50,
+                      height: 60,
                       decoration: BoxDecoration(
                         color: const Color(0x54000000),
                         shape: BoxShape.rectangle,
@@ -798,7 +839,7 @@ class EnterValues extends StatelessWidget {
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                         child: Text(
-                          "What would be your D settlement on this issue?",
+                          "What would be your D settlement on this issue? (Also your resistance point on the issue)",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
@@ -816,7 +857,7 @@ class EnterValues extends StatelessWidget {
                         margin: const EdgeInsets.all(0),
                         padding: const EdgeInsets.all(0),
                         width: MediaQuery.of(context).size.width * 0.3,
-                        height: 50,
+                        height: 60,
                         decoration: BoxDecoration(
                           color: const Color(0x53000000),
                           shape: BoxShape.rectangle,
@@ -829,12 +870,13 @@ class EnterValues extends StatelessWidget {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
                               TextInputFormatter.withFunction(
-                                      (oldValue, newValue) => newValue.copyWith(
-                                    text: newValue.text.replaceAll('.', ','),
-                                  )
-                              )
+                                  (oldValue, newValue) => newValue.copyWith(
+                                        text:
+                                            newValue.text.replaceAll('.', ','),
+                                      ))
                             ],
                             controller: ctrl[4],
                             obscureText: false,
@@ -933,18 +975,20 @@ class EnterValues extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.center,
                             child: TextField(
-                              onChanged: (newVal){
-                                Utils.showSnackBar("Your F deal should be the least amount of points possible.");
+                              onChanged: (newVal) {
+                                Utils.showSnackBar(
+                                    "Your F deal should be the least amount of points possible.");
                                 ctrl[5].text = "0";
                               },
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(_getRegexString())),
                                 TextInputFormatter.withFunction(
-                                        (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    )
-                                )
+                                    (oldValue, newValue) => newValue.copyWith(
+                                          text: newValue.text
+                                              .replaceAll('.', ','),
+                                        ))
                               ],
                               controller: ctrl[5],
                               obscureText: false,
@@ -998,10 +1042,19 @@ class EnterValues extends StatelessWidget {
         ),
       ],
     );
-
-
   }
 
+  EvenlyDistribute(){
+    int length = 5;
+
+    // Gets how much the pts should change by in each step
+    int total = int.parse(ctrl[0].text);
+    int step = (total/length).round();
+
+    for(int i = 1; i < length; i++){
+      ctrl[i].text = (total-step*i).toString();
+    }
+  }
 
   String _getRegexString() => r'[0-9]';
 }

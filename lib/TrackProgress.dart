@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'DetermineIssues.dart';
 import 'main.dart';
 
 class TrackProgress extends StatelessWidget {
