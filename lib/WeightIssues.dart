@@ -63,7 +63,7 @@ class _WeightIssuesState extends State<WeightIssues> {
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: const Color(0xffffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x7f000000), width: 1),
@@ -87,7 +87,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
-                          fontSize: 28,
+                          fontSize: 22,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -102,7 +102,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
-                        fontSize: 18,
+                        fontSize: 14,
                         color: Color(0xff000000),
                       ),
                     ),
@@ -113,7 +113,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                   padding: EdgeInsets.only(top: 8),
                   child: IconButton(
                     icon: const Icon(Icons.info_outline),
-                    color: iconColor ? Colors.black : Color(0xFF3B66B7),
+                    color: iconColor ? Colors.black : Color(0xff0A0A5B),
                     onPressed: () {
                       setState(() {
                         iconColor = true;
@@ -151,15 +151,17 @@ class _WeightIssuesState extends State<WeightIssues> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.all(0),
+                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
                   padding: EdgeInsets.all(0),
                   width: 200,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Color(0x9a000000),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 0),
+                    color: Color(0xffffffff),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      bottomLeft: Radius.circular(10)
+                    ),
+                    border: Border.all(color: Color(0xff0A0A5B), width: 1),
                   ),
                   child: Align(
                     alignment: Alignment.center,
@@ -170,8 +172,8 @@ class _WeightIssuesState extends State<WeightIssues> {
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        fontSize: 25,
-                        color: Color(0xffffffff),
+                        fontSize: 20,
+                        color: Color(0xff0A0A5B),
                       ),
                     ),
                   ),
@@ -180,14 +182,17 @@ class _WeightIssuesState extends State<WeightIssues> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.all(0),
+                  margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
                   padding: EdgeInsets.all(0),
                   width: 200,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Color(0x99000000),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
+                    color: Color(0xffffffff),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10)
+                    ),
+                    border: Border.all(color: Color(0xff0A0A5B), width: 1),
                   ),
                   child: Align(
                     alignment: Alignment.center,
@@ -198,8 +203,8 @@ class _WeightIssuesState extends State<WeightIssues> {
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        fontSize: 25,
-                        color: Color(0xffffffff),
+                        fontSize: 20,
+                        color: Color(0xff0A0A5B),
                       ),
                     ),
                   ),
@@ -226,9 +231,9 @@ class _WeightIssuesState extends State<WeightIssues> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                 child: FilledButton(
                   onPressed: () { EvenlyDistribute(); },
-                  child: Text("Evenly distribute points"),
+                  child: Text("Distribute Evenly"),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(Color(0x99000000)),
+                      backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
                   ),
 
                 ),
@@ -266,20 +271,20 @@ class _WeightIssuesState extends State<WeightIssues> {
                           },
                               textAlign: TextAlign.center,
                               textInputAction: TextInputAction.next,
-                              cursorColor: Color(0xff3e4b8c),
+                              cursorColor: Color(0xff0A0A5B),
                           keyboardType: TextInputType.number,
                           controller: _controllers[index],
                           decoration: InputDecoration(
                             enabledBorder: (
                               OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Color(0xff3e4b8c)),
+                                borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
                                 borderRadius: BorderRadius.circular(20),
                               )
                             ),
                             focusedBorder: (
                               OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(width: 3, color: Color(0xff3e4b8c))
+                                borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B))
                               )
                             )
 
@@ -324,20 +329,13 @@ class _WeightIssuesState extends State<WeightIssues> {
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff3e4b8c), width: 1),
+                      side: BorderSide(color: Color(0xff0A0A5B), width: 1),
                     ),
                     padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xff3e4b8c),
+                    textColor: const Color(0xff0A0A5B),
                     height: 40,
                     minWidth: 140,
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
+                    child: const Icon(Icons.arrow_back)
                   ),
                 ),
                 Expanded(
@@ -364,20 +362,13 @@ class _WeightIssuesState extends State<WeightIssues> {
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff3e4b8c), width: 1),
+                      side: BorderSide(color: Color(0xff0A0A5B), width: 1),
                     ),
                     padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xff3e4b8c),
+                    textColor: const Color(0xff0A0A5B),
                     height: 40,
                     minWidth: 140,
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
+                    child: const Icon(Icons.arrow_forward)
                   ),
                 ),
               ],

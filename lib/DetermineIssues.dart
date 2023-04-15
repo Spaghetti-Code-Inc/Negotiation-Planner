@@ -106,7 +106,7 @@ class DetermineIssues extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Color(0xff000000),
                       ),
                     ),
@@ -117,7 +117,7 @@ class DetermineIssues extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8),
                   child: IconButton(
                     icon: const Icon(Icons.info_outline),
-                    color: iconColor ? Colors.black : const Color(0xFF3B66B7),
+                    color: iconColor ? Colors.black : const Color(0xff0A0A5B),
                     onPressed: () {
                       iconColor = true;
 
@@ -166,17 +166,17 @@ class DetermineIssues extends StatelessWidget {
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextFormField(
-                              cursorColor: Color(0xff3e4b8c),
+                              cursorColor: Color(0xff0A0A5B),
                               controller: _controllers[index],
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Color(0xff3e4b8c), width: 0.0),
+                                  borderSide: const BorderSide(color: Color(0xff0A0A5B), width: 0.0),
                                 ),
                                 focusedBorder: const OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Color(0xff3e4b8c)),
+                                  borderSide: const BorderSide(color: Color(0xff0A0A5B)),
                                 ),
                                 labelText: _items[index],
-                                labelStyle: TextStyle(color: Color(0xff3e4b8c)),
+                                labelStyle: TextStyle(color: Color(0xff0A0A5B)),
                               ),
                             ),
                             trailing: IconButton(
@@ -197,7 +197,7 @@ class DetermineIssues extends StatelessWidget {
                 thickness: 1,
                 indent: 0,
                 endIndent: 0,
-                color: Color(0xff3e4b8c),
+                color: Color(0xff0A0A5B),
               ),
               // "Add Issues" At bottom
               Container(
@@ -207,7 +207,7 @@ class DetermineIssues extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                   textStyle: const TextStyle(fontSize: 18),
                   backgroundColor: const Color(0x9BFFFFFF),
-                  foregroundColor: const Color(0xff3e4b8c),
+                  foregroundColor: const Color(0xff0A0A5B),
                 ),
                 onPressed: _addIssues,
                 child: const Text('Add Issue'),
@@ -246,14 +246,7 @@ class DetermineIssues extends StatelessWidget {
                         textColor: const Color(0xff0A0A5B),
                         height: 40,
                         minWidth: 140,
-                        child: const Text(
-                          "Back",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+                        child: const Icon(Icons.arrow_back)
                       ),
                     ),
                     Expanded(
@@ -299,14 +292,7 @@ class DetermineIssues extends StatelessWidget {
                         textColor: const Color(0xff0A0A5B),
                         height: 40,
                         minWidth: 140,
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+                        child: const Icon(Icons.arrow_forward)
                       ),
                     ),
                   ],
