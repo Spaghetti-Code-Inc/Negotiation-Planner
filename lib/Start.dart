@@ -51,7 +51,7 @@ class Start extends StatelessWidget {
                 )),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Color(0xff0A0A5B),
-                  backgroundColor: Color(0xffe4e7fd),
+                  backgroundColor: Colors.white,
 
                 ),
               ),
