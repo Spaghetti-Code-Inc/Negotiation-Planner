@@ -57,7 +57,6 @@ class DetermineIssues extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(currentNegotiation.toString());
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),
@@ -254,16 +253,13 @@ class DetermineIssues extends StatelessWidget {
                       child: MaterialButton(
                         onPressed: () {
                           if(_controllers.length != 0){
-                            currentNegotiation.issues
-                                .putIfAbsent("issueNames", () => {});
-                            currentNegotiation.issues["issueNames"]?.clear();
+                            currentNegotiation.issues.clear();
 
                             // For each issue add it to the currentNegotiation list
                             for (int i = 0; i < _controllers.length - 1; i++) {
                               // Give issue a place holder map
                               if (_controllers[i].text != "") {
-                                currentNegotiation.issues["issueNames"]
-                                    ?.putIfAbsent(_controllers[i].text, () => {});
+                                currentNegotiation.issues.putIfAbsent(_controllers[i].text, () => {});
 
                                 currentNegotiation.cpIssues.putIfAbsent(_controllers[i].text, () => null);
                               }

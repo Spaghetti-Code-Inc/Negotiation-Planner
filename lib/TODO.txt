@@ -6,6 +6,7 @@ Random quality of life changes:
 4. Remove async gap between finishing the new negotiation and going to my negotiations
 5. Make ViewNegotiation compatible with future - negotiation snap
 6. Add info buttons to more places on app
+7. Save the negotiation whenever the user wants to exit a negotiation in the middle of creating one
 
 Editing the Values on the viewing screen:
 1. Certain values should not be able to pass on top of one another: user Target and User resistance

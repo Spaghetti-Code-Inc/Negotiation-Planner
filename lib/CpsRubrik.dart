@@ -29,7 +29,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
   late int _resistance;
 
   List<int> points =
-      List.filled(currentNegotiation.issues["issueNames"]!.keys.length, 0);
+      List.filled(currentNegotiation.issues.keys.length, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -141,14 +141,14 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: currentNegotiation
-                                    .issues["issueNames"]?.keys.length,
+                                    .issues.keys.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding:
                                         EdgeInsetsDirectional.only(bottom: 8),
                                     child: EnterValues(
                                       issueName: currentNegotiation
-                                          .issues["issueNames"]?.keys
+                                          .issues.keys
                                           .elementAt(index),
                                       index: index,
                                       points: points,
@@ -645,10 +645,10 @@ class _CpsRubrikState extends State<CpsRubrik> {
                     onPressed: () {
                       // Check if all the issues add up to 100
                       // Target is lower than resistance
-                      int added = 0;
-                      for (String? current
+                      num added = 0;
+                      for (String current
                           in currentNegotiation.cpIssues.keys) {
-                        added += currentNegotiation.cpIssues[current]!;
+                        added += currentNegotiation.cpIssues[current];
                       }
                       if (added == 100) {
                         if (_target != -1 ||
@@ -708,7 +708,6 @@ class _CpsRubrikState extends State<CpsRubrik> {
     int step = (100 / length).round();
     int count = 0;
     for (int i = 1; i < length; i++) {
-      print(i);
       points[i - 1] = step;
       count += step;
     }
@@ -737,10 +736,8 @@ class EnterValues extends StatefulWidget {
 class _EnterValuesState extends State<EnterValues> {
   @override
   Widget build(BuildContext context) {
-    print(widget.index);
-    print(widget.points.toString());
     widget.ctrl.text = widget.points[widget.index].toString();
-    currentNegotiation.cpIssues[widget.issueName] = widget.points[widget.index];
+    currentNegotiation.cpIssues[widget.issueName!] = widget.points[widget.index];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -773,7 +770,7 @@ class _EnterValuesState extends State<EnterValues> {
                       ))
             ],
             onChanged: (newVal) {
-              currentNegotiation.cpIssues[widget.issueName] = int.parse(newVal);
+              currentNegotiation.cpIssues[widget.issueName!] = int.parse(newVal);
               widget.points[widget.index] = int.parse(newVal);
             },
             controller: widget.ctrl,
