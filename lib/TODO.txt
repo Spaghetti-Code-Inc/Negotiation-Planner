@@ -1,0 +1,15 @@
+List of small TODO items
+
+Random quality of life changes:
+1. Add counter of how many points are used on CP Rubric
+2. Make sure all the inputs can not go over 100 points or a max value
+4. Remove async gap between finishing the new negotiation and going to my negotiations
+5. Make ViewNegotiation compatible with future - negotiation snap
+6. Add info buttons to more places on app
+
+Editing the Values on the viewing screen:
+1. Certain values should not be able to pass on top of one another: user Target and User resistance
+2. The issues need to be editable as well
+3. Show letter evaluation on view negotiation screen
+4. Show the current value of the negotiation on the sliders as well
+
