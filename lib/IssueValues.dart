@@ -16,7 +16,7 @@ class IssueValues extends StatefulWidget {
 class _IssueValuesState extends State<IssueValues> {
   bool iconColor = false;
   List<String>? _issueNames =
-      currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
+      currentNegotiation.issues.keys.toList(growable: true);
 
   List<List<TextEditingController>> _controllers = [];
 
@@ -130,11 +130,11 @@ class _IssueValuesState extends State<IssueValues> {
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: currentNegotiation.issues["issueNames"]?.keys.length,
+                itemCount: currentNegotiation.issues.keys.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                       child: EnterValues(
-                        issueName: currentNegotiation.issues["issueNames"]?.keys
+                        issueName: currentNegotiation.issues.keys
                             .elementAt(index),
                         ctrl: _controllers[index],
                       ),
@@ -219,8 +219,7 @@ class _IssueValuesState extends State<IssueValues> {
                         }
                         // Checks if any value is too big
                         if (int.parse(_controllers[i][0].text) >
-                            int.parse(currentNegotiation.issues["issueNames"]
-                                ?[_issueNames![i]]["relativeValue"])) {
+                            int.parse(currentNegotiation.issues[_issueNames![i]]["relativeValue"])) {
                           Utils.showSnackBar(
                               "One of your A+ settlement values exceeds the points possible.");
                           moveOn = false;
@@ -232,24 +231,18 @@ class _IssueValuesState extends State<IssueValues> {
                         // Length is the length of "issueNames" keys
                         for (int i = 0; i < length; i++) {
                           // Puts value in for all the possible settlements
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent(
                                   "A+", () => _controllers[i][0].text);
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent("A", () => _controllers[i][1].text);
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent("B", () => _controllers[i][2].text);
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent("C", () => _controllers[i][3].text);
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent("D", () => _controllers[i][4].text);
-                          currentNegotiation.issues["issueNames"]
-                                  ?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent("F", () => _controllers[i][5].text);
                         }
 
@@ -299,7 +292,7 @@ class EnterValues extends StatelessWidget {
   Widget build(BuildContext context) {
     // Keeps the A+ settlement at the max possible points
     ctrl[0].text = currentNegotiation
-        .issues["issueNames"]![issueName]!["relativeValue"]
+        .issues[issueName]!["relativeValue"]
         .toString();
     ctrl[5].text = "0";
     return Column(
@@ -347,7 +340,7 @@ class EnterValues extends StatelessWidget {
                           child: Text(
                             "Points Possible: " +
                                 currentNegotiation
-                                        .issues["issueNames"]![issueName]
+                                        .issues[issueName]
                                     ["relativeValue"],
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,

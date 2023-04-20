@@ -129,29 +129,29 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
 
     // Find the 3 most important issues
     List<String>? _issueNames =
-    issueField["issueNames"]?.keys.toList(growable: true);
+    issueField.keys.toList(growable: true);
 
     List<int> _issueImportance = [];
 
-    int? length = _issueNames?.length;
-    for(int i = 0; i < length!; i++){
-      _issueImportance.add(int.parse(issueField["issueNames"][_issueNames![i]]["relativeValue"]));
+    int? length = _issueNames.length;
+    for(int i = 0; i < length; i++){
+      _issueImportance.add(int.parse(issueField[_issueNames[i]]["relativeValue"]));
     }
 
     List<String> vals = ["", "", ""];
 
     // If only 1 issue
-    if(_issueNames?.length == 1){
-      vals[0] = _issueNames![0];
+    if(_issueNames.length == 1){
+      vals[0] = _issueNames[0];
     }
     // If two issues
-    else if(_issueNames?.length == 2){
+    else if(_issueNames.length == 2){
       if(_issueImportance[0] > _issueImportance[1]){
-        vals[0] = _issueNames![0];
+        vals[0] = _issueNames[0];
         vals[1] = _issueNames[1];
       }
       else{
-        vals[0] = _issueNames![1];
+        vals[0] = _issueNames[1];
         vals[1] = _issueNames[0];
       }
     }
@@ -172,7 +172,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
             vals[1] = vals[0];
           }
           max1 = _issueImportance[i];
-          vals[0] = _issueNames![i];
+          vals[0] = _issueNames[i];
         }
         else if(_issueImportance[i] > max2){
           if(max2 > max3){
@@ -180,11 +180,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
             vals[2] = vals[1];
           }
           max2 = _issueImportance[i];
-          vals[1] = _issueNames![i];
+          vals[1] = _issueNames[i];
         }
         else if (_issueImportance[i] > max3){
           max3 = _issueImportance[i];
-          vals[2] = _issueNames![i];
+          vals[2] = _issueNames[i];
         }
       }
     }
@@ -332,7 +332,9 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           elevation: 0,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(15.0)),
+                              bottomLeft: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0),
+                            ),
                           ),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 8),
@@ -341,39 +343,6 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           minWidth: 140,
                           child: const Text(
                             "View",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: MaterialButton(
-                          onPressed: () {
-                            // Deletes the document
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(widget.id)
-                                .collection('Negotiations')
-                                .doc(widget.negotiation?.id)
-                                .delete();
-                          },
-                          color: const Color(0xff838383),
-                          elevation: 0,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(15.0)),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          textColor: const Color(0xffffffff),
-                          height: 45,
-                          minWidth: 140,
-                          child: const Text(
-                            "Delete",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -400,3 +369,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
         ));
   }
 }
+
+// How to delete the document on firestore
+//                             FirebaseFirestore.instance
+//                                 .collection('users')
+//                                 .doc(widget.id)
+//                                 .collection('Negotiations')
+//                                 .doc(widget.negotiation?.id)
+//                                 .delete();

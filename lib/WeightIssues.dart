@@ -17,7 +17,7 @@ class _WeightIssuesState extends State<WeightIssues> {
   bool iconColor = false;
 
   List<String>? _issueNames =
-      currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
+      currentNegotiation.issues.keys.toList(growable: true);
 
   List<TextEditingController> _controllers = [TextEditingController()];
 
@@ -345,7 +345,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                       if (totalVal == 100) {
                         // length represents _issueNames
                         for (int i = 0; i < length; i++) {
-                          currentNegotiation.issues["issueNames"]?[_issueNames![i]]
+                          currentNegotiation.issues[_issueNames![i]]
                             ["relativeValue"] = _controllers[i].text;
                         }
 

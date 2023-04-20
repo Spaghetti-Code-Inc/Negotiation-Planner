@@ -501,16 +501,14 @@ class UnderStantRubrc extends StatelessWidget {
 
     num counter = 0;
 
-    print(currentNegotiation.issues["issueNames"]);
 
     bool firstRun = true;
-    for(String name in currentNegotiation.issues["issueNames"]!.keys){
+    for(String name in currentNegotiation.issues.keys){
       if(!firstRun){
-        print(currentNegotiation.issues["issueNames"]?[name]["D"].runtimeType);
-        counter += int.parse(currentNegotiation.issues["issueNames"]?[name]["D"]);
+        counter += int.parse(currentNegotiation.issues[name]["D"]);
       }
       else{
-        counter += int.parse(currentNegotiation.issues["issueNames"]?[name]["A+"]);
+        counter += int.parse(currentNegotiation.issues[name]["A+"]);
         firstRun = false;
       }
     }

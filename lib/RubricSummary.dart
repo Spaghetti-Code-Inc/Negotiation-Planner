@@ -12,20 +12,20 @@ class RubricSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     // Find the 3 most important issues
     List<String>? _issueNames =
-        currentNegotiation.issues["issueNames"]?.keys.toList(growable: true);
+        currentNegotiation.issues.keys.toList(growable: true);
 
     List<int> _issueImportance = [];
 
-    int? length = _issueNames?.length;
-    for (int i = 0; i < length!; i++) {
+    int? length = _issueNames.length;
+    for (int i = 0; i < length; i++) {
       _issueImportance.add(int.parse(currentNegotiation
-          .issues["issueNames"]![_issueNames![i]]["relativeValue"]));
+          .issues[_issueNames[i]]["relativeValue"]));
     }
 
     List<String> vals = ["", "", ""];
 
     // If only 1 issue
-    if (_issueNames!.length == 1) {
+    if (_issueNames.length == 1) {
       vals[0] = _issueNames[0];
     }
     // If two issues
