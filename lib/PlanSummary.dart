@@ -83,7 +83,6 @@ class PlanSummary extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width,
                       height: 128,
-
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,18 +173,22 @@ class PlanSummary extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: currentNegotiation.cpIssues.keys.length * 100,
+                      height: currentNegotiation.cpIssues.keys.length * 110,
                       child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: currentNegotiation.cpIssues.keys.length,
                         prototypeItem: ViewCurrentIssues(
-                            issueName:
-                                currentNegotiation.cpIssues.keys.elementAt(0)!),
+                          issueName:
+                              currentNegotiation.cpIssues.keys.elementAt(0),
+                          negotiation: currentNegotiation,
+                        ),
                         itemBuilder: (context, index) {
                           print(index);
                           return ViewCurrentIssues(
-                              issueName: currentNegotiation.cpIssues.keys
-                                  .elementAt(index)!);
+                            issueName: currentNegotiation.cpIssues.keys
+                                .elementAt(index),
+                            negotiation: currentNegotiation,
+                          );
                         },
                       ),
                     ),
@@ -202,7 +205,9 @@ class PlanSummary extends StatelessWidget {
                     ),
                     Container(
                       child: ViewNegotiationCurrent(
-                          negotiation: currentNegotiation),
+                          negotiation: currentNegotiation,
+                          editing: false,
+                      ),
                     ),
                   ],
                 ),

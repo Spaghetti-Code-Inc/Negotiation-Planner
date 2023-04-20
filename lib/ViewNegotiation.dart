@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_thumb_slider/multi_thumb_slider.dart';
+
+import 'NegotiationDetails.dart';
+import 'ViewCurrentIssues.dart';
+import 'ViewNegotiationCurrent.dart';
 
 class ViewNegotiation extends StatefulWidget {
-  final DocumentSnapshot<Object?>? negotiation;
-
+  DocumentSnapshot<Object?>? negotiation;
   ViewNegotiation({Key? key, required this.negotiation}) : super(key: key);
 
   @override
@@ -12,20 +14,16 @@ class ViewNegotiation extends StatefulWidget {
 }
 
 class _ViewNegotiationState extends State<ViewNegotiation> {
-  late List<double> _issueState = [
-    0,
-    widget.negotiation?.get("cpTarget") * .01,
-    widget.negotiation?.get("resistance") * .01,
-    widget.negotiation?.get("cpResistance") * .01,
-    widget.negotiation?.get("target") * .01,
-    100,
-  ];
+  bool editing = false;
+  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
+  late Negotiation lastSnap = Negotiation.fromFirestore(widget.negotiation);
+
 
   @override
   Widget build(BuildContext context) {
-    print(_issueState);
+    var db = FirebaseFirestore.instance;
 
-    MultiThumbSliderController sliderController = MultiThumbSliderController();
+    print(negotiationSnap.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -53,58 +51,180 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       ),
       body: Column(
         children: [
-          Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-              width: MediaQuery.of(context).size.width * .8,
-              child: Column(children: [
-                Text(
-                  "Bargaining Range for the Entire Negotiation",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Bargaining Range for Entire Negotiation",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 20,
+                        color: Color(0xff000000),
+                      ),
+                    ),
                   ),
-                ),
-                MultiThumbSlider(
-                    initalSliderValues: _issueState,
-                    valuesChanged: (List<double> values) {
-                      setState(() {
-                        _issueState = values;
-                      });
-                    },
-                    overdragBehaviour: ThumbOverdragBehaviour.cross,
-                    // Optional: Lock behaviour of the first an last thumb.
-                    // Defaults to ThumbLockBehaviour.stop
-                    lockBehaviour: ThumbLockBehaviour.both,
-                    thumbBuilder: (BuildContext context, int index, double value) {
-                      return WholeBargainSliders(index: index, value: value);
-                    },
-                    // Optional: Background widget of the slider.
-                    // Optional: Height of the Widget. Defaults to 48.
-                    height: 70,
-                    // Optional: MultiThumbSliderController can be used to control the slider after build. E.g adding/removing thumbs, get current values, move thumb, etc.
-                    controller: MultiThumbSliderController()),
-              ])),
 
-          Column(children: [
-            Text("CP Target: " + (_issueState[1]*100).toInt().toString()),
-            Text("Your Resistance: " + (_issueState[2]*100).toInt().toString()),
-            Text("CP Resistance: " + (_issueState[3]*100).toInt().toString()),
-            Text("Your Target: " + (_issueState[4]*100).toInt().toString()),
-            Text("Entire Bargaining Arrangement: " + (_issueState[3]-_issueState[2] > 0 ?
-            ((_issueState[2]-_issueState[3])*100*(-1)).toInt().toString() : "0")),
-          ]),
+                  // Widget changed the negotiationSnap whenever editing mode is on
+                  ViewNegotiationCurrent(
+                    negotiation: negotiationSnap,
+                    editing: editing,
+                  ),
 
-          Container(
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(""),
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xff838383),
-                foregroundColor: Colors.white,
+                  Container(
+                    margin: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Bargaining Range for Each Issue",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 20,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                    height: negotiationSnap.cpIssues.keys.length * 100,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: negotiationSnap.cpIssues.keys.length,
+                      prototypeItem: ViewCurrentIssues(
+                          issueName: negotiationSnap.cpIssues.keys.elementAt(0),
+                          negotiation: negotiationSnap),
+                      itemBuilder: (context, index) {
+                        return ViewCurrentIssues(
+                            issueName:
+                                negotiationSnap.issues.keys.elementAt(index),
+                            negotiation: negotiationSnap);
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsetsDirectional.only(bottom: 20),
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 40,
+                    // If editing is not being done, show the edit button
+                    // Else show the save or discard options
+                    child: !editing
+                        ? TextButton(
+                            onPressed: () {
+                              setState(() {
+                                editing = !editing;
+                              });
+                            },
+                            child: Text("Edit Negotiation"),
+                            style: TextButton.styleFrom(
+                              backgroundColor: const Color(0xff838383),
+                              foregroundColor: Colors.white,
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      editing = !editing;
+                                    });
+
+                                    negotiationSnap = Negotiation(
+                                      BATNA: lastSnap.BATNA,
+                                      cpBATNA: lastSnap.cpBATNA,
+                                      cpIssues: lastSnap.cpIssues,
+                                      cpResistance: lastSnap.cpResistance,
+                                      cpTarget: lastSnap.cpTarget,
+                                      currentOffer: lastSnap.currentOffer,
+                                      id: lastSnap.id,
+                                      issues: lastSnap.issues,
+                                      resistance: lastSnap.resistance,
+                                      summary: lastSnap.summary,
+                                      target: lastSnap.target,
+                                      title: lastSnap.title,
+                                    );
+
+                                  },
+                                  child: Text("Discard Edits"),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: const Color(0xff838383),
+                                    foregroundColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      editing = !editing;
+                                    });
+                                    db.collection("users").doc(negotiationSnap.id)
+                                      .collection("Negotiations").doc(widget.negotiation?.id)
+                                      .set(negotiationSnap.toFirestore());
+
+                                    lastSnap = Negotiation(
+                                      BATNA: negotiationSnap.BATNA,
+                                      cpBATNA: negotiationSnap.cpBATNA,
+                                      cpIssues: negotiationSnap.cpIssues,
+                                      cpResistance: negotiationSnap.cpResistance,
+                                      cpTarget: negotiationSnap.cpTarget,
+                                      currentOffer: negotiationSnap.currentOffer,
+                                      id: negotiationSnap.id,
+                                      issues: negotiationSnap.issues,
+                                      resistance: negotiationSnap.resistance,
+                                      summary: negotiationSnap.summary,
+                                      target: negotiationSnap.target,
+                                      title: negotiationSnap.title,
+                                    );
+                                  },
+
+
+                                  child: Text("Save Edits"),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: const Color(0xff838383),
+                                    foregroundColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
+                  // TODO: Show the letter evaluation updating on the change of ths slider
+
+                  Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 40,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Exit Negotiation"),
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color(0xff838383),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ]),
               ),
             ),
           ),
@@ -114,15 +234,16 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   }
 }
 
-
 class WholeBargainSliders extends StatelessWidget {
   final int index;
   final double value;
-  const WholeBargainSliders({Key? key, required this.index, required this.value}) : super(key: key);
+  const WholeBargainSliders(
+      {Key? key, required this.index, required this.value})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    switch (index){
+    switch (index) {
       // Front barrier slider
       case 0:
         return FrontBackSlider(front: true);
@@ -144,7 +265,6 @@ class WholeBargainSliders extends StatelessWidget {
       default:
         return FrontBackSlider(front: true);
     }
-
   }
 }
 
@@ -154,7 +274,8 @@ class WholeBargainSliders extends StatelessWidget {
 class CPSlider extends StatelessWidget {
   final double value;
   final String name;
-  const CPSlider({Key? key, required this.value, required this.name}) : super(key: key);
+  const CPSlider({Key? key, required this.value, required this.name})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -187,8 +308,9 @@ class CPSlider extends StatelessWidget {
     ]);
   }
 }
+
 // Blue with value on bottom
-class UserSlider extends StatelessWidget{
+class UserSlider extends StatelessWidget {
   final double value;
   final String name;
 
@@ -223,8 +345,8 @@ class UserSlider extends StatelessWidget{
       )
     ]);
   }
-
 }
+
 // Black with value on bottom
 class FrontBackSlider extends StatelessWidget {
   final bool front;
@@ -256,5 +378,3 @@ class FrontBackSlider extends StatelessWidget {
     ]);
   }
 }
-
-

@@ -5,10 +5,9 @@ import 'NegotiationDetails.dart';
 
 class ViewNegotiationCurrent extends StatefulWidget {
   final Negotiation negotiation;
+  final bool editing;
 
-
-
-  ViewNegotiationCurrent({Key? key, required this.negotiation}) : super(key: key);
+  ViewNegotiationCurrent({Key? key, required this.negotiation, required this.editing}) : super(key: key);
 
   @override
   State<ViewNegotiationCurrent> createState() => _ViewNegotiationCurrentState();
@@ -28,7 +27,18 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
 
   @override
   Widget build(BuildContext context) {
-    MultiThumbSliderController sliderController = MultiThumbSliderController();
+
+    // If this widget is not currently being edited then it should equal the same as the negotiation passed to it
+    if(!widget.editing){
+      _issueState = [
+        0,
+        widget.negotiation.cpTarget * .01,
+        widget.negotiation.resistance * .01,
+        widget.negotiation.cpResistance * .01,
+        widget.negotiation.target * .01,
+        100,
+      ];
+    }
 
     return Column(
         children: [
@@ -42,11 +52,17 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                       setState(() {
                         _issueState = values;
                       });
+
+                      // This sets the negotiationSnap in ViewNegotiation to the new value
+                      widget.negotiation.cpTarget = (_issueState[1]*100).truncate();
+                      widget.negotiation.resistance = (_issueState[2]*100).truncate();
+                      widget.negotiation.cpResistance = (_issueState[3]*100).truncate();
+                      widget.negotiation.target = (_issueState[4]*100).truncate();
                     },
                     overdragBehaviour: ThumbOverdragBehaviour.cross,
                     // Optional: Lock behaviour of the first an last thumb.
                     // WHENEVER IT SAYS START IT LOCKS ALL
-                    lockBehaviour: ThumbLockBehaviour.start,
+                    lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
                     thumbBuilder: (BuildContext context, int index, double value) {
                       return WholeBargainSliders(index: index, value: value);
                     },
@@ -56,17 +72,38 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                     // Optional: MultiThumbSliderController can be used to control the slider after build. E.g adding/removing thumbs, get current values, move thumb, etc.
                     controller: MultiThumbSliderController()),
               ])),
-          Padding( padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-          child: Column(children: [
-            Text("Entire Bargaining Range: " + (_issueState[3]-_issueState[2] > 0 ?
-            ((_issueState[2]-_issueState[3])*100*(-1)).toInt().toString() : "0")),
-          ]),
-          )
+          valueNamesUnderneath(issueState: _issueState, editing: widget.editing),
         ],
 
       );
   }
 }
+
+class valueNamesUnderneath extends StatelessWidget {
+  final editing;
+  final List<double> issueState;
+  const valueNamesUnderneath({Key? key, this.editing, required this.issueState}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if(editing){
+      return Padding( padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+        child: Column(children: [
+          Text("CP Target: " + (issueState[1]*100).toInt().toString()),
+          Text("Your Resistance: " + (issueState[2]*100).toInt().toString()),
+          Text("CP Resistance: " + (issueState[3]*100).toInt().toString()),
+          Text("Your Target: " + (issueState[4]*100).toInt().toString()),
+
+          Text("Entire Bargaining Range: " + (issueState[3]-issueState[2] > 0 ?
+          ((issueState[2]-issueState[3])*100*(-1)).toInt().toString() : "0")),
+
+        ]),
+      );
+    }
+    return Container();
+  }
+}
+
 
 
 class WholeBargainSliders extends StatelessWidget {
@@ -101,8 +138,6 @@ class WholeBargainSliders extends StatelessWidget {
 
   }
 }
-
-//TODO: Make sure no values are greater than 100 when creating new negotiation
 
 // Red with value on top
 class CPSlider extends StatelessWidget {

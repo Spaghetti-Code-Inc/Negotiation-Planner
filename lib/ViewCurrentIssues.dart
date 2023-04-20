@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_thumb_slider/multi_thumb_slider.dart';
 
+import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
-import 'main.dart';
 
 class ViewCurrentIssues extends StatefulWidget {
   final String issueName;
-  const ViewCurrentIssues({Key? key, required this.issueName})
+  final Negotiation negotiation;
+  ViewCurrentIssues({Key? key, required this.issueName, required this.negotiation})
       : super(key: key);
 
   @override
@@ -15,16 +16,19 @@ class ViewCurrentIssues extends StatefulWidget {
 }
 
 class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
+
+  late Negotiation negotiation = widget.negotiation;
+
   late double userRes = double.parse(
-      currentNegotiation.issues["issueNames"]![widget.issueName]["D"]);
+      negotiation.issues[widget.issueName]["D"]);
   late double userTar = double.parse(
-      currentNegotiation.issues["issueNames"]![widget.issueName]["A"]);
+      negotiation.issues[widget.issueName]["A"]);
 
-  late double cpRes = currentNegotiation.cpResistance*1.0;
-  late double cpTar = currentNegotiation.cpTarget * 1.0;
+  late double cpRes = negotiation.cpResistance*1.0;
+  late double cpTar = negotiation.cpTarget * 1.0;
 
-  late double userWeight = 100/int.parse(currentNegotiation.issues["issueNames"]![widget.issueName]["relativeValue"]);
-  late double cpWeight = currentNegotiation.cpIssues[widget.issueName]! / 100;
+  late double userWeight = 100/int.parse(negotiation.issues[widget.issueName]["relativeValue"]);
+  late double cpWeight = negotiation.cpIssues[widget.issueName]! / 100;
 
   late List<double> _issueVals = [
     0,
@@ -34,6 +38,9 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
     cpRes / 100,
     100
   ];
+
+  late String _bargainingRange = widget.issueName + ": " + (_issueVals[4]-_issueVals[1] > 0 ?
+  ((_issueVals[1]-_issueVals[4])*100*(-1)).toInt().toString(): "0");
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +66,19 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
           ),
       ),
 
-      Column(children: [
-        Text("Bargaining Range on " + widget.issueName + ": " + (_issueVals[4]-_issueVals[1] > 0 ?
-        ((_issueVals[1]-_issueVals[4])*100*(-1)).toInt().toString() : "0")),
-      ]),
+      Text(
+        _bargainingRange,
+        textAlign: TextAlign.start,
+        overflow: TextOverflow.clip,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontStyle: FontStyle.normal,
+          fontSize: 18,
+          color: Color(0xff000000),
+        ),
+      ),
+
+
 
     ]);
   }
