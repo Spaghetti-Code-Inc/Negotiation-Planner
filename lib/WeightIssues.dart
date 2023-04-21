@@ -77,8 +77,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                 children: const [
                   Padding(
                     padding: EdgeInsets.fromLTRB(48, 0, 0, 0),
-                    child: Expanded(
-                        child: Padding(
+                    child: Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Text(
                         "Step 2/3",
@@ -91,7 +90,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                           color: Color(0xff000000),
                         ),
                       ),
-                    )),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(48, 8, 0, 0),

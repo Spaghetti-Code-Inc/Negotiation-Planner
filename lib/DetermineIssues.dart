@@ -76,14 +76,13 @@ class DetermineIssues extends StatelessWidget {
             child: Row(children: [
               Expanded(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
                 children: const [
                   Padding(
                     padding: EdgeInsets.fromLTRB(48, 10, 0, 0),
-                    child: Expanded(
-                      child: Text(
+                    child: Text(
                         "Step 1/3",
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.clip,
@@ -94,7 +93,7 @@ class DetermineIssues extends StatelessWidget {
                           color: Color(0xff000000),
                         ),
                       ),
-                    ),
+
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
