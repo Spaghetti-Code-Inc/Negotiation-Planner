@@ -17,8 +17,7 @@ class PlanSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference negotiations =
-        FirebaseFirestore.instance.collection('negotiations');
+    print(currentNegotiation.toString());
     var db = FirebaseFirestore.instance;
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -181,13 +180,14 @@ class PlanSummary extends StatelessWidget {
                           issueName:
                               currentNegotiation.cpIssues.keys.elementAt(0),
                           negotiation: currentNegotiation,
+                          editing: false
                         ),
                         itemBuilder: (context, index) {
-                          print(index);
                           return ViewCurrentIssues(
                             issueName: currentNegotiation.cpIssues.keys
                                 .elementAt(index),
                             negotiation: currentNegotiation,
+                            editing: false
                           );
                         },
                       ),
@@ -283,6 +283,8 @@ class PlanSummary extends StatelessWidget {
                           target: -1,
                           resistance: -1);
 
+
+                      navigatorKey.currentState!.popUntil((route) => route.isFirst);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
