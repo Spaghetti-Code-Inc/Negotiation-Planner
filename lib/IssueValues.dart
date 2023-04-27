@@ -218,8 +218,7 @@ class _IssueValuesState extends State<IssueValues> {
                           }
                         }
                         // Checks if any value is too big
-                        if (int.parse(_controllers[i][0].text) >
-                            int.parse(currentNegotiation.issues[_issueNames![i]]["relativeValue"])) {
+                        if (int.parse(_controllers[i][0].text) > 100) {
                           Utils.showSnackBar(
                               "One of your A+ settlement values exceeds the points possible.");
                           moveOn = false;
@@ -291,9 +290,7 @@ class EnterValues extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Keeps the A+ settlement at the max possible points
-    ctrl[0].text = currentNegotiation
-        .issues[issueName]!["relativeValue"]
-        .toString();
+    ctrl[0].text = "100";
     ctrl[5].text = "0";
     return Column(
       children: [
@@ -311,8 +308,7 @@ class EnterValues extends StatelessWidget {
           child: Align(
             alignment: Alignment.center,
             child: Padding(
-              // TODO: Center title and add button on side to evenly distribute items
-              padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: Row(
                 children: [
                   Expanded(
@@ -330,24 +326,7 @@ class EnterValues extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xffffffff),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Points Possible: " +
-                                currentNegotiation
-                                        .issues[issueName]
-                                    ["relativeValue"],
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
+                              fontSize: 20,
                               color: Color(0xffffffff),
                             ),
                           ),

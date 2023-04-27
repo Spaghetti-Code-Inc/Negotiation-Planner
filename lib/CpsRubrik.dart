@@ -7,7 +7,6 @@ import 'package:negotiation_tracker/PlanSummary.dart';
 import 'Utils.dart';
 import 'main.dart';
 
-//TODO: Button that makes the cp issues points spread evenly
 class CpsRubrik extends StatefulWidget {
   const CpsRubrik({super.key});
 
@@ -81,6 +80,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       ),
                     ],
                   ),
+                  // List of counter part values
                   Container(
                     margin: const EdgeInsets.all(0),
                     padding: const EdgeInsets.all(10),
@@ -160,6 +160,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       ],
                     ),
                   ),
+                  // Counter Parts Target
                   Container(
                     margin: const EdgeInsets.all(0),
                     padding: const EdgeInsets.all(0),
@@ -303,6 +304,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       ),
                     ),
                   ),
+                  // Counter Parts BATNA
                   Container(
                     margin: const EdgeInsets.all(0),
                     padding: const EdgeInsets.all(10),
@@ -451,6 +453,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       ],
                     ),
                   ),
+                  // Counter Parts resistance
                   Container(
                     margin: const EdgeInsets.all(0),
                     padding: const EdgeInsets.all(10),
@@ -533,8 +536,6 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                       text: newValue.text.replaceAll('.', ','),
                                     ))
                           ],
-                          //TODO: the resistance and target value are not set to 0 when everything is deleted
-                          // TODO: Just set to the last digit left
                           onChanged: (newVal) {
                             try {
                               setState(() {
@@ -597,6 +598,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
               ),
             ),
           ),
+
+          // Next and Back Button
           Container(
             alignment: Alignment.bottomCenter,
             margin: const EdgeInsets.all(0),
@@ -648,7 +651,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       num added = 0;
                       for (String current
                           in currentNegotiation.cpIssues.keys) {
-                        added += currentNegotiation.cpIssues[current];
+                        added += currentNegotiation.cpIssues[current]["relativeValue"];
+                        currentNegotiation.cpIssues[current]["target"] = _target as int;
+                        currentNegotiation.cpIssues[current]["resistance"] = _resistance as int;
+
+                        print(currentNegotiation.cpIssues[current]["resistance"]);
                       }
                       if (added == 100) {
                         if (_target != -1 ||
@@ -659,6 +666,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             currentNegotiation.cpBATNA = _BATNA;
                             currentNegotiation.cpResistance = _resistance;
 
+                            print(currentNegotiation.toString());
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -737,7 +745,7 @@ class _EnterValuesState extends State<EnterValues> {
   @override
   Widget build(BuildContext context) {
     widget.ctrl.text = widget.points[widget.index].toString();
-    currentNegotiation.cpIssues[widget.issueName!] = widget.points[widget.index];
+    currentNegotiation.cpIssues[widget.issueName!] = {"relativeValue": widget.points[widget.index]};
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
