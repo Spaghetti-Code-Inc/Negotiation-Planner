@@ -85,6 +85,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
               height: 40,
               child: TextButton(
                 onPressed: () {
+                  Navigator.popUntil(context, (route) => true);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => StartNewNegotiation())
@@ -369,11 +370,3 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
         ));
   }
 }
-
-// How to delete the document on firestore
-//                             FirebaseFirestore.instance
-//                                 .collection('users')
-//                                 .doc(widget.id)
-//                                 .collection('Negotiations')
-//                                 .doc(widget.negotiation?.id)
-//                                 .delete();

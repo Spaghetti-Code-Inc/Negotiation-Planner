@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'NegotiationDetails.dart';
+import 'Utils.dart';
 import 'ViewCurrentIssues.dart';
 import 'ViewNegotiationCurrent.dart';
 
@@ -16,15 +17,14 @@ class ViewNegotiation extends StatefulWidget {
 class _ViewNegotiationState extends State<ViewNegotiation> {
   bool editing = false;
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
-  late Negotiation lastSnap = Negotiation.fromFirestore(widget.negotiation);
+  late Negotiation lastSnap;
+  late Map<String, dynamic> lastIssue = {"target": 0, "resistance": 0};
 
 
   @override
   Widget build(BuildContext context) {
+
     var db = FirebaseFirestore.instance;
-
-    print(negotiationSnap.toString());
-
     return Scaffold(
       appBar: AppBar(
         elevation: 4,
@@ -105,18 +105,22 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                   ),
                   Container(
                     margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
-                    height: negotiationSnap.cpIssues.keys.length * 100,
+                    height: (editing) ? negotiationSnap.cpIssues.keys.length * 210 : negotiationSnap.cpIssues.keys.length * 100,
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: negotiationSnap.cpIssues.keys.length,
                       prototypeItem: ViewCurrentIssues(
                           issueName: negotiationSnap.cpIssues.keys.elementAt(0),
-                          negotiation: negotiationSnap),
+                          negotiation: negotiationSnap,
+                          editing: editing
+                      ),
                       itemBuilder: (context, index) {
                         return ViewCurrentIssues(
                             issueName:
                                 negotiationSnap.issues.keys.elementAt(index),
-                            negotiation: negotiationSnap);
+                            negotiation: negotiationSnap,
+                            editing: editing
+                        );
                       },
                     ),
                   ),
@@ -132,6 +136,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                               setState(() {
                                 editing = !editing;
                               });
+
+                              lastSnap = Negotiation.fromFirestore(widget.negotiation);
+
                             },
                             child: Text("Edit Negotiation"),
                             style: TextButton.styleFrom(
@@ -141,28 +148,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           )
                         : Row(
                             children: [
+                              // Discard Button
                               Expanded(
                                 child: TextButton(
                                   onPressed: () {
                                     setState(() {
                                       editing = !editing;
+                                      negotiationSnap = lastSnap;
                                     });
-
-                                    negotiationSnap = Negotiation(
-                                      BATNA: lastSnap.BATNA,
-                                      cpBATNA: lastSnap.cpBATNA,
-                                      cpIssues: lastSnap.cpIssues,
-                                      cpResistance: lastSnap.cpResistance,
-                                      cpTarget: lastSnap.cpTarget,
-                                      currentOffer: lastSnap.currentOffer,
-                                      id: lastSnap.id,
-                                      issues: lastSnap.issues,
-                                      resistance: lastSnap.resistance,
-                                      summary: lastSnap.summary,
-                                      target: lastSnap.target,
-                                      title: lastSnap.title,
-                                    );
-
                                   },
                                   child: Text("Discard Edits"),
                                   style: TextButton.styleFrom(
@@ -171,30 +164,59 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                   ),
                                 ),
                               ),
+                              // Save Button
                               Expanded(
                                 child: TextButton(
                                   onPressed: () {
-                                    setState(() {
-                                      editing = !editing;
-                                    });
-                                    db.collection("users").doc(negotiationSnap.id)
-                                      .collection("Negotiations").doc(widget.negotiation?.id)
-                                      .set(negotiationSnap.toFirestore());
 
-                                    lastSnap = Negotiation(
-                                      BATNA: negotiationSnap.BATNA,
-                                      cpBATNA: negotiationSnap.cpBATNA,
-                                      cpIssues: negotiationSnap.cpIssues,
-                                      cpResistance: negotiationSnap.cpResistance,
-                                      cpTarget: negotiationSnap.cpTarget,
-                                      currentOffer: negotiationSnap.currentOffer,
-                                      id: negotiationSnap.id,
-                                      issues: negotiationSnap.issues,
-                                      resistance: negotiationSnap.resistance,
-                                      summary: negotiationSnap.summary,
-                                      target: negotiationSnap.target,
-                                      title: negotiationSnap.title,
-                                    );
+                                    // Set document from negotiation snap
+                                    int totalUser = 0;
+                                    int totalCp = 0;
+
+                                    bool tarAndResUS = true;
+                                    bool tarAndResCP = true;
+
+
+                                    // Checks if the weight totals are right
+                                    // Checks if resistance and target are right
+                                    for(String name in negotiationSnap.issues.keys){
+                                      totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"]);
+                                      totalCp += int.parse(negotiationSnap.cpIssues[name]["relativeValue"].toString());
+
+                                      if(int.parse(negotiationSnap.issues[name]["A"]) <= int.parse(negotiationSnap.issues[name]["D"])){
+                                        tarAndResUS = false;
+                                      }
+                                      else if(negotiationSnap.cpIssues[name]["target"] >= negotiationSnap.cpIssues[name]["resistance"]){
+                                        tarAndResCP = false;
+                                      }
+                                    }
+
+                                    if(totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP){
+                                      setState(() {
+                                        editing = !editing;
+                                      });
+
+                                      db.collection("users").doc(negotiationSnap.id)
+                                          .collection("Negotiations").doc(widget.negotiation?.id)
+                                          .set(negotiationSnap.toFirestore());
+                                      
+                                    } else {
+                                      if(!tarAndResUS){
+                                        Utils.showSnackBar("Your targets must be greater than your resistance for all user issues.");
+                                      }
+                                      else if(!tarAndResCP){
+                                        Utils.showSnackBar("Your targets must be less than your resistance for all counterpart issues.");
+                                      }
+                                      else if(totalUser != 100 && totalCp != 100){
+                                        Utils.showSnackBar("Your weights for both user and counter part must add to 100.");
+                                      }
+                                      else if(totalUser != 100){
+                                        Utils.showSnackBar("Your weights for user must add to 100.");
+                                      }
+                                      else{
+                                        Utils.showSnackBar("Your weights for counter part must add to 100");
+                                      }
+                                    }
                                   },
 
 
@@ -208,8 +230,24 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                             ],
                           ),
                   ),
-                  // TODO: Show the letter evaluation updating on the change of ths slider
+                  Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 40,
+                    child: TextButton(
+                      onPressed: () {
 
+                        db.collection("users").doc(negotiationSnap.id)
+                            .collection("Negotiations").doc(widget.negotiation?.id)
+                            .delete();
+                        Navigator.pop((context));
+                      },
+                      child: Text("Delete Negotiation"),
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color(0xff838383),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * .9,
                     height: 40,
@@ -268,8 +306,6 @@ class WholeBargainSliders extends StatelessWidget {
   }
 }
 
-//TODO: Make sure that CP Resistance is higher than its target
-
 // Red with value on top
 class CPSlider extends StatelessWidget {
   final double value;
@@ -319,6 +355,7 @@ class UserSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+
       // Container(
       //   margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
       //   child: Text(name),
@@ -346,6 +383,16 @@ class UserSlider extends StatelessWidget {
     ]);
   }
 }
+
+class ShowTitle extends StatelessWidget {
+  const ShowTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 
 // Black with value on bottom
 class FrontBackSlider extends StatelessWidget {

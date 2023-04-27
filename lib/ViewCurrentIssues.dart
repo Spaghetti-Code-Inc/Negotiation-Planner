@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_thumb_slider/multi_thumb_slider.dart';
-
 import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
 
 class ViewCurrentIssues extends StatefulWidget {
   final String issueName;
   final Negotiation negotiation;
-  ViewCurrentIssues({Key? key, required this.issueName, required this.negotiation})
+  final bool editing;
+
+  ViewCurrentIssues(
+      {Key? key,
+      required this.issueName,
+      required this.negotiation,
+      required this.editing})
       : super(key: key);
 
   @override
@@ -16,58 +21,91 @@ class ViewCurrentIssues extends StatefulWidget {
 }
 
 class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
-
   late Negotiation negotiation = widget.negotiation;
 
-  late double userRes = double.parse(
-      negotiation.issues[widget.issueName]["D"]);
-  late double userTar = double.parse(
-      negotiation.issues[widget.issueName]["A"]);
+  late double userRes = double.parse(negotiation.issues[widget.issueName]["D"]);
+  late double userTar = double.parse(negotiation.issues[widget.issueName]["A"]);
 
-  late double cpRes = negotiation.cpResistance*1.0;
-  late double cpTar = negotiation.cpTarget * 1.0;
+  late double cpRes = double.parse(negotiation.cpIssues[widget.issueName]["resistance"].toString());
+  late double cpTar = double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
 
-  late double userWeight = 100/int.parse(negotiation.issues[widget.issueName]["relativeValue"]);
-  late double cpWeight = negotiation.cpIssues[widget.issueName]! / 100;
+  late double usWeight = 100/double.parse(negotiation.issues[widget.issueName]["relativeValue"]);
+  late double cpWeight = 100/negotiation.cpIssues[widget.issueName]["relativeValue"];
 
   late List<double> _issueVals = [
     0,
-    userRes / 100 * userWeight,
+    userRes / 100,
     cpTar / 100,
-    userTar / 100 * userWeight,
+    userTar / 100,
     cpRes / 100,
     100
   ];
 
-  late String _bargainingRange = widget.issueName + ": " + (_issueVals[4]-_issueVals[1] > 0 ?
-  ((_issueVals[1]-_issueVals[4])*100*(-1)).toInt().toString(): "0");
+  String bargainingRange(){
+    return widget.issueName +
+        ": " +
+        (_issueVals[4] - _issueVals[1] > 0
+            ? ((_issueVals[1] - _issueVals[4]) * 100 * (-1)).toInt().toString()
+            : "0");
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    if(!widget.editing){
+      late Negotiation negotiation = widget.negotiation;
+
+      late double userRes = double.parse(negotiation.issues[widget.issueName]["D"]);
+      late double userTar = double.parse(negotiation.issues[widget.issueName]["A"]);
+
+      late double cpRes = double.parse(negotiation.cpIssues[widget.issueName]["resistance"].toString());
+      late double cpTar = double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
+
+      _issueVals = [
+        0,
+        userRes / 100.0,
+        cpTar / 100.0,
+        userTar / 100.0,
+        cpRes / 100.0,
+        100
+      ];
+    }
+
+
+
     return Column(children: [
       Container(
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-          width: MediaQuery.of(context).size.width * .8,
-          child: MultiThumbSlider(
-            initalSliderValues: _issueVals,
-            valuesChanged: (List<double> values) {
-              setState(() {
-                _issueVals = values;
-              });
-            },
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        width: MediaQuery.of(context).size.width * .8,
+        child: MultiThumbSlider(
+          initalSliderValues: _issueVals,
+          valuesChanged: (List<double> values) {
+            setState(() {
+              _issueVals = values;
+            });
+            widget.negotiation.issues[widget.issueName]["D"] =
+                (_issueVals[1] * 100).truncate().toString();
+            widget.negotiation.issues[widget.issueName]["A"] =
+                (_issueVals[3] * 100).truncate().toString();
+            widget.negotiation.cpIssues[widget.issueName]["resistance"] =
+                (_issueVals[4] * 100).truncate();
+            widget.negotiation.cpIssues[widget.issueName]["target"] =
+                (_issueVals[2] * 100).truncate();
+          },
 
-            overdragBehaviour: ThumbOverdragBehaviour.cross,
-            // Locks all of the slider, must be changed to edit the slider
-            lockBehaviour: ThumbLockBehaviour.start,
-            thumbBuilder: (BuildContext context, int index, double value) {
-              return WholeBargainSliders(index: index, value: value);
-            },
-            height: 70,
-          ),
+          overdragBehaviour: ThumbOverdragBehaviour.cross,
+          // Locks all of the slider, must be changed to edit the slider
+          lockBehaviour: widget.editing
+              ? ThumbLockBehaviour.end
+              : ThumbLockBehaviour.start,
+          thumbBuilder: (BuildContext context, int index, double value) {
+            return WholeBargainSliders(index: index, value: value);
+          },
+          height: 70,
+        ),
       ),
-
       Text(
-        _bargainingRange,
+        bargainingRange(),
         textAlign: TextAlign.start,
         overflow: TextOverflow.clip,
         style: TextStyle(
@@ -77,9 +115,130 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
           color: Color(0xff000000),
         ),
       ),
-
-
-
+      ChangeRelativeValues(editing: widget.editing, issueName: widget.issueName, negotiation: widget.negotiation)
     ]);
+  }
+}
+
+class ChangeRelativeValues extends StatelessWidget {
+  final bool editing;
+  final String issueName;
+  final Negotiation negotiation;
+  ChangeRelativeValues({Key? key, required this.editing, required this.issueName, required this.negotiation}) : super(key: key);
+
+  TextEditingController userCtrl = TextEditingController();
+  TextEditingController cpCtrl = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    if (!editing) {
+      return Container();
+    }
+
+    userCtrl.text = negotiation.issues[issueName]["relativeValue"].toString();
+    cpCtrl.text = negotiation.cpIssues[issueName]["relativeValue"].toString();
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(children: [
+          // Change Relative Value for the User
+          Row(children: [
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: Text(
+                  "User Weight: ",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            // Sets slight area between points and issue column
+            Container(
+              width: 70,
+            ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                  child: TextFormField(
+                    onChanged: (newVal) {
+                      negotiation.issues[issueName]["relativeValue"] = userCtrl.text;
+                    },
+                    textAlign: TextAlign.center,
+                    textInputAction: TextInputAction.next,
+                    cursorColor: Color(0xff0A0A5B),
+                    keyboardType: TextInputType.number,
+                    controller: userCtrl,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsetsDirectional.zero,
+                        enabledBorder: (
+                            OutlineInputBorder(
+                              borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                              borderRadius: BorderRadius.circular(20),
+                            )
+                        ),
+                        focusedBorder: (
+                            OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B))
+                            )
+                        )
+
+                    ),
+                  )),
+            ),
+             ]),
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Text(
+                    "Counter Part Weight: ",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+              // Sets slight area between points and issue column
+              Container(
+                width: 70,
+              ),
+              Expanded(
+                flex: 1,
+                child: Center(
+                    child: TextFormField(
+                      onChanged: (newVal) {
+                        negotiation.cpIssues[issueName]["relativeValue"] = int.parse(cpCtrl.text);
+                      },
+                      textAlign: TextAlign.center,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: Color(0xff0A0A5B),
+                      keyboardType: TextInputType.number,
+                      controller: cpCtrl,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsetsDirectional.zero,
+                          enabledBorder: (
+                              OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                                borderRadius: BorderRadius.circular(20),
+                              )
+                          ),
+                          focusedBorder: (
+                              OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                              )
+                          )
+
+                      ),
+                    )),
+              ),
+
+            ]
+          )
+        ],
+        ),
+    );
   }
 }
