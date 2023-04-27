@@ -232,17 +232,17 @@ class _IssueValuesState extends State<IssueValues> {
                           // Puts value in for all the possible settlements
                           currentNegotiation.issues[_issueNames![i]]
                               ?.putIfAbsent(
-                                  "A+", () => _controllers[i][0].text);
+                                  "A+", () => int.parse(_controllers[i][0].text));
                           currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("A", () => _controllers[i][1].text);
+                              ?.putIfAbsent("A", () => int.parse(_controllers[i][1].text));
                           currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("B", () => _controllers[i][2].text);
+                              ?.putIfAbsent("B", () => int.parse(_controllers[i][2].text));
                           currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("C", () => _controllers[i][3].text);
+                              ?.putIfAbsent("C", () => int.parse(_controllers[i][3].text));
                           currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("D", () => _controllers[i][4].text);
+                              ?.putIfAbsent("D", () => int.parse(_controllers[i][4].text));
                           currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("F", () => _controllers[i][5].text);
+                              ?.putIfAbsent("F", () => int.parse(_controllers[i][5].text));
                         }
 
                         Navigator.push(
