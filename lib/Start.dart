@@ -96,7 +96,12 @@ class Start extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
 
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyNegotiations())
+                  );
+                },
                 icon: const Icon(
                   Icons.verified,
                   size: 24.0,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'EvaluateAgreement.dart';
 import 'NegotiationDetails.dart';
 import 'Utils.dart';
 import 'ViewCurrentIssues.dart';
@@ -71,38 +72,28 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     ),
                   ),
 
-                  // Widget changed the negotiationSnap whenever editing mode is on
                   ViewNegotiationCurrent(
                     negotiation: negotiationSnap,
                     editing: editing,
                   ),
 
-                  Container(
-                    margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Bargaining Range for Each Issue",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 20,
-                            color: Color(0xff000000),
-                          ),
-                        ),
+
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Bargaining Range for Individual Issues",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 20,
+                        color: Color(0xff000000),
                       ),
                     ),
                   ),
+
+
                   Container(
                     margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
                     height: (editing) ? negotiationSnap.cpIssues.keys.length * 210 : negotiationSnap.cpIssues.keys.length * 100,
@@ -124,6 +115,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                       },
                     ),
                   ),
+                  // Contains the edit (discard/save) button
                   Container(
                     margin: EdgeInsetsDirectional.only(bottom: 20),
                     width: MediaQuery.of(context).size.width * .9,
@@ -183,7 +175,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                       totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"]);
                                       totalCp += int.parse(negotiationSnap.cpIssues[name]["relativeValue"].toString());
 
-                                      if(int.parse(negotiationSnap.issues[name]["A"]) <= int.parse(negotiationSnap.issues[name]["D"])){
+                                      if(negotiationSnap.issues[name]["A"] <= negotiationSnap.issues[name]["D"]){
                                         tarAndResUS = false;
                                       }
                                       else if(negotiationSnap.cpIssues[name]["target"] >= negotiationSnap.cpIssues[name]["resistance"]){
@@ -230,6 +222,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                             ],
                           ),
                   ),
+                  // Delete the negotiation button
                   Container(
                     width: MediaQuery.of(context).size.width * .9,
                     height: 40,
@@ -248,6 +241,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                       ),
                     ),
                   ),
+                  // Exit negotiation button
                   Container(
                     width: MediaQuery.of(context).size.width * .9,
                     height: 40,
@@ -256,6 +250,24 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                         Navigator.pop(context);
                       },
                       child: Text("Exit Negotiation"),
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color(0xff838383),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                  // Evaluate agreement button
+                  Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 40,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => EvaluateAgreement(negotiation: negotiationSnap)),
+                        );
+                      },
+                      child: Text("Track Progress"),
                       style: TextButton.styleFrom(
                         backgroundColor: const Color(0xff838383),
                         foregroundColor: Colors.white,
@@ -271,6 +283,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
     );
   }
 }
+
 
 class WholeBargainSliders extends StatelessWidget {
   final int index;

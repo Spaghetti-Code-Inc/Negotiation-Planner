@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'AuthPage.dart';
-import 'Login.dart';
-import 'Start.dart';
 import 'VerifyEmailPage.dart';
 
 class MainPage extends StatelessWidget{
