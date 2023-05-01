@@ -24,7 +24,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
   @override
   Widget build(BuildContext context) {
-
     var db = FirebaseFirestore.instance;
     return Scaffold(
       appBar: AppBar(
@@ -172,7 +171,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                     // Checks if the weight totals are right
                                     // Checks if resistance and target are right
                                     for(String name in negotiationSnap.issues.keys){
-                                      totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"]);
+                                      totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"].toString());
                                       totalCp += int.parse(negotiationSnap.cpIssues[name]["relativeValue"].toString());
 
                                       if(negotiationSnap.issues[name]["A"] <= negotiationSnap.issues[name]["D"]){
@@ -262,9 +261,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     height: 40,
                     child: TextButton(
                       onPressed: () {
+                        String name = widget.negotiation!.id;
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => EvaluateAgreement(negotiation: negotiationSnap)),
+                          MaterialPageRoute(builder: (context) => EvaluateAgreement(negotiation: negotiationSnap, docId: name)),
                         );
                       },
                       child: Text("Track Progress"),
