@@ -180,14 +180,16 @@ class PlanSummary extends StatelessWidget {
                           issueName:
                               currentNegotiation.cpIssues.keys.elementAt(0),
                           negotiation: currentNegotiation,
-                          editing: false
+                          editing: false,
+                          comesFromMyNegotiations: false,
                         ),
                         itemBuilder: (context, index) {
                           return ViewCurrentIssues(
                             issueName: currentNegotiation.cpIssues.keys
                                 .elementAt(index),
                             negotiation: currentNegotiation,
-                            editing: false
+                            editing: false,
+                            comesFromMyNegotiations: false,
                           );
                         },
                       ),

@@ -8,12 +8,13 @@ class ViewCurrentIssues extends StatefulWidget {
   final String issueName;
   final Negotiation negotiation;
   final bool editing;
+  final bool comesFromMyNegotiations;
 
   ViewCurrentIssues(
       {Key? key,
       required this.issueName,
       required this.negotiation,
-      required this.editing})
+      required this.editing, required this.comesFromMyNegotiations})
       : super(key: key);
 
   @override
@@ -79,23 +80,9 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
     }
 
     return Column(children: [
-      Container(
-        margin: EdgeInsets.fromLTRB(30, 10, 0, 0),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            bargainingRange(),
-            textAlign: TextAlign.start,
-            overflow: TextOverflow.clip,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontStyle: FontStyle.normal,
-              fontSize: 18,
-              color: Color(0xff000000),
-            ),
-          ),
-        ),
-      ),
+
+      TitleContainer(getRange: bargainingRange(), addButtons: widget.comesFromMyNegotiations),
+
       Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
         width: MediaQuery.of(context).size.width * .8,
@@ -274,3 +261,105 @@ class ChangeRelativeValues extends StatelessWidget {
 
 
 }
+
+class TitleContainer extends StatefulWidget {
+  String getRange;
+  bool addButtons;
+
+  TitleContainer({Key? key, required this.getRange, required this.addButtons}) : super(key: key);
+
+
+  @override
+  State<TitleContainer> createState() => _TitleContainerState();
+}
+
+class _TitleContainerState extends State<TitleContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(30, 10, 0, 0),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                widget.getRange,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18,
+                  color: Color(0xff000000),
+                ),
+              ),
+            ),
+          ),
+        ),
+        if(widget.addButtons) ButtonAddons(),
+      ],
+    );
+
+  }
+}
+
+class ButtonAddons extends StatefulWidget {
+  const ButtonAddons({Key? key}) : super(key: key);
+
+  @override
+  State<ButtonAddons> createState() => _ButtonAddonsState();
+}
+
+class _ButtonAddonsState extends State<ButtonAddons> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // Edit Whole Negotiation Button
+        Container(
+            width: 32,
+            height: 32,
+            margin: EdgeInsets.only(right: 5),
+            padding: EdgeInsets.all(0),
+            decoration: BoxDecoration(
+              border: Border.all(color: navyBlue),
+              borderRadius: BorderRadius.circular(5.0),
+              color: Colors.transparent,
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.edit,
+                size: 22,
+              ),
+              onPressed: () {  },
+              padding: EdgeInsets.all(0),
+            )
+        ),
+
+        // Info Button
+        Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              border: Border.all(color: navyBlue),
+              borderRadius: BorderRadius.circular(5.0),
+              color: Colors.transparent,
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.info_outlined,
+                size: 28,
+              ),
+              onPressed: () {  },
+              padding: EdgeInsets.all(0),
+            )
+        ),
+      ]
+    );
+  }
+}
+
+Color navyBlue = Color(0xff0A0A5B);
+

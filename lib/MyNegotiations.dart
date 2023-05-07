@@ -8,9 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/StartNewNegotiation.dart';
 
+import 'EvaluateAgreement.dart';
+import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
-
-// TODO: Navigator pops until beginning, then moves to my negotiations page
 
 class MyNegotiations extends StatefulWidget {
   const MyNegotiations({Key? key}) : super(key: key);
@@ -123,8 +123,13 @@ class NegotiationContainer extends StatefulWidget {
 class _NegotiationContainerState extends State<NegotiationContainer> {
 
   bool isHover = false;
+
   @override
   Widget build(BuildContext context) {
+
+    Color _bottomColor = Color(0xff0A0A5B);
+    Color _mainColor = Colors.white;
+    Color _topTextColor = Color(0xff000000);
 
     Map<String, dynamic> issueField = widget.negotiation?.get("issues");
 
@@ -202,9 +207,21 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
             padding: EdgeInsets.zero,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: _mainColor,
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(15.0),
+
+              boxShadow: [
+                BoxShadow(
+                  color: _bottomColor,
+                  offset: const Offset(
+                    3.0,
+                    3.0,
+                  ),
+                  blurRadius: 5.0,
+                  spreadRadius: 1.0,
+                ), //BoxShadow//BoxShadow
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -221,11 +238,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                         widget.negotiation!["title"],
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontStyle: FontStyle.normal,
                           fontSize: 18,
-                          color: Color(0xff000000),
+                          color: _topTextColor,
                         ),
                       ),
                     ),
@@ -238,11 +255,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                         widget.negotiation!["summary"] + "\n",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: _topTextColor,
                         ),
                       ),
                     ),
@@ -259,7 +276,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: _topTextColor,
                         ),
                       ),
                     ),
@@ -276,7 +293,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: _topTextColor,
                         ),
                       ),
                     ),
@@ -293,7 +310,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: _topTextColor,
                         ),
                       ),
                     ),
@@ -310,7 +327,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: _topTextColor,
                         ),
                       ),
                     ),
@@ -320,6 +337,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      // View Rubric
                       Expanded(
                         flex: 1,
                         child: MaterialButton(
@@ -329,12 +347,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                               MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: widget.negotiation))
                             );
                           },
-                          color: const Color(0xff838383),
+                          color: _bottomColor,
                           elevation: 0,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(15.0),
-                              bottomRight: Radius.circular(15.0),
                             ),
                           ),
                           padding: const EdgeInsets.symmetric(
@@ -343,7 +360,42 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                           height: 45,
                           minWidth: 140,
                           child: const Text(
-                            "View",
+                            "View Rubric",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // White space between
+                      Container(width: 1,),
+                      // Track Progress
+                      Expanded(
+                        flex: 1,
+                        child: MaterialButton(
+                          onPressed: () {
+                            String name = widget.negotiation!.id;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EvaluateAgreement(
+                                      negotiation: widget.negotiation, docId: name)),
+                            );
+                          },
+                          color: _bottomColor,
+                          elevation: 0,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(15.0),
+                            ),
+                          ),
+                          textColor: Colors.white,
+                          height: 45,
+                          minWidth: 140,
+                          child: const Text(
+                            "Track Progress",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,

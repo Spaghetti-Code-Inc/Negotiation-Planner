@@ -19,8 +19,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   bool editing = false;
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
   late Negotiation lastSnap;
-  late Map<String, dynamic> lastIssue = {"target": 0, "resistance": 0};
 
+
+  Color navyBlue = Color(0xff0A0A5B);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         elevation: 4,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xff000000),
+        backgroundColor: navyBlue,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
         title: Text(
-          widget.negotiation?.get("title"),
+          negotiationSnap.title,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
@@ -43,11 +44,56 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             color: Color(0xffffffff),
           ),
         ),
-        leading: const Icon(
-          Icons.sort,
-          color: Color(0xffffffff),
-          size: 24,
+        leading: IconButton(
+          icon: Icon(Icons.check_box_outlined, size: 24),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+            String? name = widget.negotiation?.id;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EvaluateAgreement(
+                      negotiation: widget.negotiation, docId: name!)),
+            );
+          },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete_outline_outlined),
+            onPressed: () {
+              print("pressed");
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text(
+                      'Are you sure you\'d like to delete the negotiation?'),
+                  actions: [
+                    TextButton(
+                      child: const Text('Yes'),
+                      onPressed: () {
+                        db
+                            .collection("users")
+                            .doc(negotiationSnap.id)
+                            .collection("Negotiations")
+                            .doc(widget.negotiation?.id)
+                            .delete();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('No'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -56,26 +102,69 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Column(children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Bargaining Range for Entire Negotiation",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 20,
-                        color: Color(0xff000000),
+                  Row(children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Whole Negotiation Rubric",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 20,
+                            color: Color(0xff000000),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+
+                    // Edit Whole Negotiation Button
+                    Container(
+                        width: 32,
+                        height: 32,
+                        margin: EdgeInsets.only(right: 5),
+                        padding: EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: navyBlue),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Colors.transparent,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            size: 24,
+                          ),
+                          onPressed: () {},
+                          padding: EdgeInsets.all(0),
+                        )),
+
+                    // Info Button
+                    Container(
+                        width: 32,
+                        height: 32,
+                        margin: EdgeInsets.all(0),
+                        padding: EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: navyBlue),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Colors.transparent,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.info_outlined,
+                            size: 28,
+                          ),
+                          onPressed: () {},
+                          padding: EdgeInsets.all(0),
+                        )),
+                  ]),
 
                   ViewNegotiationCurrent(
                     negotiation: negotiationSnap,
                     editing: editing,
                   ),
-
 
                   Align(
                     alignment: Alignment.centerLeft,
@@ -92,24 +181,27 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     ),
                   ),
 
-
                   Container(
                     margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
-                    height: (editing) ? negotiationSnap.cpIssues.keys.length * 210 : negotiationSnap.cpIssues.keys.length * 100,
+                    height: (editing)
+                        ? negotiationSnap.cpIssues.keys.length * 210
+                        : negotiationSnap.cpIssues.keys.length * 120,
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: negotiationSnap.cpIssues.keys.length,
                       prototypeItem: ViewCurrentIssues(
-                          issueName: negotiationSnap.cpIssues.keys.elementAt(0),
-                          negotiation: negotiationSnap,
-                          editing: editing
+                        issueName: negotiationSnap.cpIssues.keys.elementAt(0),
+                        negotiation: negotiationSnap,
+                        editing: editing,
+                        comesFromMyNegotiations: true,
                       ),
                       itemBuilder: (context, index) {
                         return ViewCurrentIssues(
-                            issueName:
-                                negotiationSnap.issues.keys.elementAt(index),
-                            negotiation: negotiationSnap,
-                            editing: editing
+                          issueName:
+                              negotiationSnap.issues.keys.elementAt(index),
+                          negotiation: negotiationSnap,
+                          editing: editing,
+                          comesFromMyNegotiations: true,
                         );
                       },
                     ),
@@ -128,8 +220,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                 editing = !editing;
                               });
 
-                              lastSnap = Negotiation.fromFirestore(widget.negotiation);
 
+
+                              lastSnap = Negotiation.fromFirestore(widget.negotiation);
                             },
                             child: Text("Edit Negotiation"),
                             style: TextButton.styleFrom(
@@ -159,7 +252,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                               Expanded(
                                 child: TextButton(
                                   onPressed: () {
-
                                     // Set document from negotiation snap
                                     int totalUser = 0;
                                     int totalCp = 0;
@@ -167,50 +259,62 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                     bool tarAndResUS = true;
                                     bool tarAndResCP = true;
 
-
                                     // Checks if the weight totals are right
                                     // Checks if resistance and target are right
-                                    for(String name in negotiationSnap.issues.keys){
-                                      totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"].toString());
-                                      totalCp += int.parse(negotiationSnap.cpIssues[name]["relativeValue"].toString());
+                                    for (String name
+                                        in negotiationSnap.issues.keys) {
+                                      totalUser += int.parse(negotiationSnap
+                                          .issues[name]["relativeValue"]
+                                          .toString());
+                                      totalCp += int.parse(negotiationSnap
+                                          .cpIssues[name]["relativeValue"]
+                                          .toString());
 
-                                      if(negotiationSnap.issues[name]["A"] <= negotiationSnap.issues[name]["D"]){
+                                      if (negotiationSnap.issues[name]["A"] <=
+                                          negotiationSnap.issues[name]["D"]) {
                                         tarAndResUS = false;
-                                      }
-                                      else if(negotiationSnap.cpIssues[name]["target"] >= negotiationSnap.cpIssues[name]["resistance"]){
+                                      } else if (negotiationSnap.cpIssues[name]
+                                              ["target"] >=
+                                          negotiationSnap.cpIssues[name]
+                                              ["resistance"]) {
                                         tarAndResCP = false;
                                       }
                                     }
 
-                                    if(totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP){
+                                    if (totalUser == 100 &&
+                                        totalCp == 100 &&
+                                        tarAndResUS &&
+                                        tarAndResCP) {
                                       setState(() {
                                         editing = !editing;
                                       });
 
-                                      db.collection("users").doc(negotiationSnap.id)
-                                          .collection("Negotiations").doc(widget.negotiation?.id)
+                                      db
+                                          .collection("users")
+                                          .doc(negotiationSnap.id)
+                                          .collection("Negotiations")
+                                          .doc(widget.negotiation?.id)
                                           .set(negotiationSnap.toFirestore());
-                                      
                                     } else {
-                                      if(!tarAndResUS){
-                                        Utils.showSnackBar("Your targets must be greater than your resistance for all user issues.");
-                                      }
-                                      else if(!tarAndResCP){
-                                        Utils.showSnackBar("Your targets must be less than your resistance for all counterpart issues.");
-                                      }
-                                      else if(totalUser != 100 && totalCp != 100){
-                                        Utils.showSnackBar("Your weights for both user and counter part must add to 100.");
-                                      }
-                                      else if(totalUser != 100){
-                                        Utils.showSnackBar("Your weights for user must add to 100.");
-                                      }
-                                      else{
-                                        Utils.showSnackBar("Your weights for counter part must add to 100");
+                                      if (!tarAndResUS) {
+                                        Utils.showSnackBar(
+                                            "Your targets must be greater than your resistance for all user issues.");
+                                      } else if (!tarAndResCP) {
+                                        Utils.showSnackBar(
+                                            "Your targets must be less than your resistance for all counterpart issues.");
+                                      } else if (totalUser != 100 &&
+                                          totalCp != 100) {
+                                        Utils.showSnackBar(
+                                            "Your weights for both user and counter part must add to 100.");
+                                      } else if (totalUser != 100) {
+                                        Utils.showSnackBar(
+                                            "Your weights for user must add to 100.");
+                                      } else {
+                                        Utils.showSnackBar(
+                                            "Your weights for counter part must add to 100");
                                       }
                                     }
                                   },
-
-
                                   child: Text("Save Edits"),
                                   style: TextButton.styleFrom(
                                     backgroundColor: const Color(0xff838383),
@@ -227,47 +331,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     height: 40,
                     child: TextButton(
                       onPressed: () {
-
-                        db.collection("users").doc(negotiationSnap.id)
-                            .collection("Negotiations").doc(widget.negotiation?.id)
-                            .delete();
                         Navigator.pop((context));
                       },
-                      child: Text("Delete Negotiation"),
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color(0xff838383),
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  // Exit negotiation button
-                  Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: 40,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
                       child: Text("Exit Negotiation"),
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color(0xff838383),
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  // Evaluate agreement button
-                  Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: 40,
-                    child: TextButton(
-                      onPressed: () {
-                        String name = widget.negotiation!.id;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => EvaluateAgreement(negotiation: negotiationSnap, docId: name)),
-                        );
-                      },
-                      child: Text("Track Progress"),
                       style: TextButton.styleFrom(
                         backgroundColor: const Color(0xff838383),
                         foregroundColor: Colors.white,
@@ -283,7 +349,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
     );
   }
 }
-
 
 class WholeBargainSliders extends StatelessWidget {
   final int index;
@@ -368,7 +433,6 @@ class UserSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-
       // Container(
       //   margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
       //   child: Text(name),
@@ -405,7 +469,6 @@ class ShowTitle extends StatelessWidget {
     return Container();
   }
 }
-
 
 // Black with value on bottom
 class FrontBackSlider extends StatelessWidget {
