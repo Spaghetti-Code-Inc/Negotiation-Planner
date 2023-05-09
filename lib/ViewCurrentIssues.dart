@@ -14,7 +14,8 @@ class ViewCurrentIssues extends StatefulWidget {
       {Key? key,
       required this.issueName,
       required this.negotiation,
-      required this.editing, required this.comesFromMyNegotiations})
+      required this.editing,
+      required this.comesFromMyNegotiations})
       : super(key: key);
 
   @override
@@ -24,27 +25,16 @@ class ViewCurrentIssues extends StatefulWidget {
 class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
   late Negotiation negotiation = widget.negotiation;
 
-  late double userRes = double.parse(negotiation.issues[widget.issueName]["D"]);
-  late double userTar = double.parse(negotiation.issues[widget.issueName]["A"]);
+  late double userRes = double.parse(negotiation.issues[widget.issueName]["D"].toString());
+  late double userTar = double.parse(negotiation.issues[widget.issueName]["A"].toString());
 
-  late double cpRes = double.parse(
-      negotiation.cpIssues[widget.issueName]["resistance"].toString());
-  late double cpTar =
-      double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
+  late double cpRes = double.parse(negotiation.cpIssues[widget.issueName]["resistance"].toString());
+  late double cpTar = double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
 
-  late double usWeight =
-      100 / double.parse(negotiation.issues[widget.issueName]["relativeValue"]);
-  late double cpWeight =
-      100 / negotiation.cpIssues[widget.issueName]["relativeValue"];
+  late double usWeight = 100 / double.parse(negotiation.issues[widget.issueName]["relativeValue"]);
+  late double cpWeight = 100 / negotiation.cpIssues[widget.issueName]["relativeValue"];
 
-  late List<double> _issueVals = [
-    0,
-    userRes / 100,
-    cpTar / 100,
-    userTar / 100,
-    cpRes / 100,
-    100
-  ];
+  late List<double> _issueVals = [0, userRes / 100, cpTar / 100, userTar / 100, cpRes / 100, 1];
 
   String bargainingRange() {
     return widget.issueName +
@@ -59,33 +49,21 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
     if (!widget.editing) {
       late Negotiation negotiation = widget.negotiation;
 
-      late double userRes =
-          double.parse(negotiation.issues[widget.issueName]["D"].toString());
-      late double userTar =
-          double.parse(negotiation.issues[widget.issueName]["A"].toString());
+      late double userRes = double.parse(negotiation.issues[widget.issueName]["D"].toString());
+      late double userTar = double.parse(negotiation.issues[widget.issueName]["A"].toString());
 
-      late double cpRes = double.parse(
-          negotiation.cpIssues[widget.issueName]["resistance"].toString());
-      late double cpTar = double.parse(
-          negotiation.cpIssues[widget.issueName]["target"].toString());
+      late double cpRes =
+          double.parse(negotiation.cpIssues[widget.issueName]["resistance"].toString());
+      late double cpTar = double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
 
-      _issueVals = [
-        0,
-        userRes / 100.0,
-        cpTar / 100.0,
-        userTar / 100.0,
-        cpRes / 100.0,
-        100
-      ];
+      _issueVals = [0, userRes / 100.0, cpTar / 100.0, userTar / 100.0, cpRes / 100.0, 1];
     }
 
     return Column(children: [
-
       TitleContainer(getRange: bargainingRange(), addButtons: widget.comesFromMyNegotiations),
-
       Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
-        width: MediaQuery.of(context).size.width * .8,
+        width: MediaQuery.of(context).size.width * .85,
         child: MultiThumbSlider(
           initalSliderValues: _issueVals,
           valuesChanged: (List<double> values) {
@@ -93,13 +71,13 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
               _issueVals = values;
             });
 
-            List<int> vals = EvenlyDistribute((_issueVals[3]*100).truncate(), (_issueVals[1]*100).truncate());
+            List<int> vals = EvenlyDistribute(
+                (_issueVals[3] * 100).truncate(), (_issueVals[1] * 100).truncate());
 
             widget.negotiation.issues[widget.issueName]["D"] = vals[0];
             widget.negotiation.issues[widget.issueName]["C"] = vals[1];
             widget.negotiation.issues[widget.issueName]["B"] = vals[2];
             widget.negotiation.issues[widget.issueName]["A"] = vals[3];
-
 
             widget.negotiation.cpIssues[widget.issueName]["resistance"] =
                 (_issueVals[4] * 100).truncate();
@@ -109,9 +87,7 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
 
           overdragBehaviour: ThumbOverdragBehaviour.cross,
           // Locks all of the slider, must be changed to edit the slider
-          lockBehaviour: widget.editing
-              ? ThumbLockBehaviour.end
-              : ThumbLockBehaviour.start,
+          lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
           thumbBuilder: (BuildContext context, int index, double value) {
             return WholeBargainSliders(index: index, value: value);
           },
@@ -119,22 +95,19 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
         ),
       ),
       ChangeRelativeValues(
-          editing: widget.editing,
-          issueName: widget.issueName,
-          negotiation: widget.negotiation)
+          editing: widget.editing, issueName: widget.issueName, negotiation: widget.negotiation)
     ]);
   }
 
-  List<int> EvenlyDistribute(int high, int low){
-
+  List<int> EvenlyDistribute(int high, int low) {
     int length = 3;
     List<int> vals = <int>[low, 0, 0, high];
     // Gets how much the pts should change by in each step
-    int total = high-low;
-    int step = (total/length).round();
+    int total = high - low;
+    int step = (total / length).round();
 
-    for(int i = 1; i < length; i++){
-      vals[3-i] = (total-step*i) + low;
+    for (int i = 1; i < length; i++) {
+      vals[3 - i] = (total - step * i) + low;
     }
 
     return vals;
@@ -146,10 +119,7 @@ class ChangeRelativeValues extends StatelessWidget {
   final String issueName;
   final Negotiation negotiation;
   ChangeRelativeValues(
-      {Key? key,
-      required this.editing,
-      required this.issueName,
-      required this.negotiation})
+      {Key? key, required this.editing, required this.issueName, required this.negotiation})
       : super(key: key);
 
   TextEditingController userCtrl = TextEditingController();
@@ -163,103 +133,100 @@ class ChangeRelativeValues extends StatelessWidget {
     userCtrl.text = negotiation.issues[issueName]["relativeValue"].toString();
     cpCtrl.text = negotiation.cpIssues[issueName]["relativeValue"].toString();
     return Container(
+      height: 80,
+      margin: EdgeInsets.only(bottom: 15),
       width: MediaQuery.of(context).size.width,
-      child: Column(
+      child: Row(
         children: [
           // Change Relative Value for the User
-          Row(children: [
-            Expanded(
-              flex: 3,
-              child: Center(
-                child: Text(
-                  "User Weight: ",
-                  style: TextStyle(
-                    fontSize: 20,
+          Expanded(
+            child: Row(children: [
+              // User Weight text
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Text(
+                    "User Weight: ",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Sets slight area between points and issue column
-            Container(
-              width: 70,
-            ),
-            Expanded(
-              flex: 1,
-              child: Center(
-                  child: TextFormField(
-                onChanged: (newVal) {
-                  negotiation.issues[issueName]["relativeValue"] =
-                      userCtrl.text;
-                },
-                textAlign: TextAlign.center,
-                textInputAction: TextInputAction.next,
-                cursorColor: Color(0xff0A0A5B),
-                keyboardType: TextInputType.number,
-                controller: userCtrl,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsetsDirectional.zero,
-                    enabledBorder: (OutlineInputBorder(
-                      borderSide:
-                          BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-                    focusedBorder: (OutlineInputBorder(
+
+              // User Input Weight
+              Expanded(
+                child: Center(
+                    child: TextFormField(
+                  onChanged: (newVal) {
+                    negotiation.issues[issueName]["relativeValue"] = userCtrl.text;
+                  },
+                  textAlign: TextAlign.center,
+                  textInputAction: TextInputAction.next,
+                  cursorColor: Color(0xff0A0A5B),
+                  keyboardType: TextInputType.number,
+                  controller: userCtrl,
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsetsDirectional.zero,
+                      enabledBorder: (OutlineInputBorder(
+                        borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
                         borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(width: 3, color: Color(0xff0A0A5B))))),
-              )),
-            ),
-          ]),
-          Row(children: [
-            Expanded(
-              flex: 3,
-              child: Center(
-                child: Text(
-                  "Counter Part Weight: ",
-                  style: TextStyle(
-                    fontSize: 20,
+                      )),
+                      focusedBorder: (OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B))))),
+                )),
+              ),
+
+              // Sets slight area between points and issue column
+              Container(
+                width: 20,
+              ),
+
+              // Counter Part text
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Text(
+                    "Counter Part Weight: ",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Sets slight area between points and issue column
-            Container(
-              width: 70,
-            ),
-            Expanded(
-              flex: 1,
-              child: Center(
-                  child: TextFormField(
-                onChanged: (newVal) {
-                  negotiation.cpIssues[issueName]["relativeValue"] =
-                      int.parse(cpCtrl.text);
-                },
-                textAlign: TextAlign.center,
-                textInputAction: TextInputAction.next,
-                cursorColor: Color(0xff0A0A5B),
-                keyboardType: TextInputType.number,
-                controller: cpCtrl,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsetsDirectional.zero,
-                    enabledBorder: (OutlineInputBorder(
-                      borderSide:
-                          BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                      borderRadius: BorderRadius.circular(20),
+
+              // Counter Part Weight input
+              Expanded(
+                child: Center(
+                    child: TextFormField(
+                      onChanged: (newVal) {
+                        negotiation.cpIssues[issueName]["relativeValue"] = int.parse(cpCtrl.text);
+                      },
+                      textAlign: TextAlign.center,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: Color(0xff0A0A5B),
+                      keyboardType: TextInputType.number,
+                      controller: cpCtrl,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsetsDirectional.zero,
+                        enabledBorder: (OutlineInputBorder(
+                          borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                        focusedBorder: (OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                        )),
+                      ),
                     )),
-                    focusedBorder: (OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide:
-                          BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                    ))),
-              )),
-            ),
-          ])
+              ),
+            ]),
+          ),
         ],
       ),
     );
   }
-
-
 }
 
 class TitleContainer extends StatefulWidget {
@@ -268,7 +235,6 @@ class TitleContainer extends StatefulWidget {
 
   TitleContainer({Key? key, required this.getRange, required this.addButtons}) : super(key: key);
 
-
   @override
   State<TitleContainer> createState() => _TitleContainerState();
 }
@@ -276,31 +242,27 @@ class TitleContainer extends StatefulWidget {
 class _TitleContainerState extends State<TitleContainer> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.fromLTRB(30, 10, 0, 0),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                widget.getRange,
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.clip,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 18,
-                  color: Color(0xff000000),
-                ),
+    return Container(
+      width: MediaQuery.of(context).size.width * .85,
+      child: Row(
+        children: [
+          // Issue Name Text
+          Expanded(
+            child: Text(
+              widget.getRange,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                fontSize: 22,
+                color: Color(0xff000000),
               ),
             ),
           ),
-        ),
-        if(widget.addButtons) ButtonAddons(),
-      ],
-    );
 
+          if (widget.addButtons) ButtonAddons(),
+        ],
+      ),
+    );
   }
 }
 
@@ -312,54 +274,48 @@ class ButtonAddons extends StatefulWidget {
 }
 
 class _ButtonAddonsState extends State<ButtonAddons> {
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Edit Whole Negotiation Button
-        Container(
-            width: 32,
-            height: 32,
-            margin: EdgeInsets.only(right: 5),
+    return Row(children: [
+      // Edit Whole Negotiation Button
+      Container(
+          width: 32,
+          height: 32,
+          margin: EdgeInsets.only(right: 5),
+          padding: EdgeInsets.all(0),
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.edit,
+              size: 22,
+            ),
+            onPressed: () {},
             padding: EdgeInsets.all(0),
-            decoration: BoxDecoration(
-              border: Border.all(color: navyBlue),
-              borderRadius: BorderRadius.circular(5.0),
-              color: Colors.transparent,
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.edit,
-                size: 22,
-              ),
-              onPressed: () {  },
-              padding: EdgeInsets.all(0),
-            )
-        ),
+          )),
 
-        // Info Button
-        Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              border: Border.all(color: navyBlue),
-              borderRadius: BorderRadius.circular(5.0),
-              color: Colors.transparent,
+      // Info Button
+      Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.info_outlined,
+              size: 28,
             ),
-            child: IconButton(
-              icon: Icon(
-                Icons.info_outlined,
-                size: 28,
-              ),
-              onPressed: () {  },
-              padding: EdgeInsets.all(0),
-            )
-        ),
-      ]
-    );
+            onPressed: () {},
+            padding: EdgeInsets.all(0),
+          )),
+    ]);
   }
 }
 
 Color navyBlue = Color(0xff0A0A5B);
-

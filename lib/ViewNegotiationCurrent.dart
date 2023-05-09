@@ -43,8 +43,7 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
     return Column(
         children: [
           Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-              width: MediaQuery.of(context).size.width * .8,
+              width: MediaQuery.of(context).size.width * .85,
               child: Column(children: [
                 MultiThumbSlider(
                     initalSliderValues: _issueState,
@@ -87,7 +86,7 @@ class valueNamesUnderneath extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(editing){
-      return Padding( padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+      return Padding( padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
         child: Column(children: [
           Text("CP Target: " + (issueState[1]*100).toInt().toString()),
           Text("Your Resistance: " + (issueState[2]*100).toInt().toString()),

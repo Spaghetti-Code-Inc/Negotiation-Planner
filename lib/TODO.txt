@@ -1,16 +1,32 @@
-List of small TODO items
-
 Random quality of life changes:
 1. Add counter of how many points are used on CP Rubric
+1.1 Make counter = 100 if theres only on issue on CP Rubric
 2. Make sure all the inputs can not go over 100 points or a max value
-4. Remove async gap between finishing the new negotiation and going to my negotiations
-5. Make ViewNegotiation compatible with future - negotiation snap
 6. Add info buttons to more places on app
 7. Save the negotiation whenever the user wants to exit a negotiation in the middle of creating one
+8. Error on determine the issues page
+9. Make the 100 on the multithumbsliders all the way to the right
+10. Evaluate Agreement page the issue sliders have there own scrollview
+11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
 
-Editing the Values on the viewing screen:
-1. Certain values should not be able to pass on top of one another: user Target and User resistance
-2. The issues need to be editable as well
+Lucas:
+TODO - Evaluate Agreement points at rubric page
+
+
+Edit Negotiation:
+1. Make it actually looks decent
+
+Evaluate Negotiation Page:
 3. Show letter evaluation on view negotiation screen
 4. Show the current value of the negotiation on the sliders as well
+5. Change Tradeoff button to send to tradeoffs, not just pop
 
+Cleaning Code:
+1. Combine the ViewCurrentIssues and ViewNegotiationCurrent classes
+2. Organizing lib folder better
+3. Make all of values in Firebase the right type of data (remove parse(type.toString())
+4. Create an issue class
+5. Make Scaffold's shorter - use more helper classes
+
+Backlog:
+1. Sliders should not pass over each other in edit negotiation page.

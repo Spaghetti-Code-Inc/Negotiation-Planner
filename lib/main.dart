@@ -10,6 +10,7 @@ import 'NegotiationDetails.dart';
 import 'Utils.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+Color navyBlue = Color(0xff0A0A5B);
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

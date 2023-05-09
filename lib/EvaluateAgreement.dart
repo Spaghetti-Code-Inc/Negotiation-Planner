@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'MyNegotiations.dart';
 import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
 import 'main.dart';
@@ -14,8 +13,7 @@ List<int> _values = [0];
 class EvaluateAgreement extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
   String docId;
-  EvaluateAgreement({Key? key, required this.negotiation, required this.docId})
-      : super(key: key);
+  EvaluateAgreement({Key? key, required this.negotiation, required this.docId}) : super(key: key);
 
   @override
   State<EvaluateAgreement> createState() => _EvaluateAgreementState();
@@ -33,23 +31,162 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
       appBar: TopBar(negotiation: negotiationSnap, id: widget.docId, snapshot: widget.negotiation),
       body: SingleChildScrollView(
         child: Column(children: [
+          // Track Progress Text
           Container(
-            margin: EdgeInsets.only(top: 20),
-            height: negotiationSnap.cpIssues.keys.length * 200,
+            margin: EdgeInsets.only(top: 15, bottom: 12),
+            padding: EdgeInsets.only(),
+            child:
+                Text("Track Progress", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+          ),
+
+          // Divider
+          Divider(
+            thickness: 3,
+            color: Colors.black,
+          ),
+
+          // Padding between divider and issues
+          Container(margin: EdgeInsets.only(bottom: 15)),
+
+          // Sliders changing issue values
+          Container(
+            height: negotiationSnap.cpIssues.keys.length * 80,
             child: ListView.builder(
               itemCount: negotiationSnap.cpIssues.keys.length,
               itemBuilder: (context, index) {
-                return EvaluateSlider(
-                    negotiation: negotiationSnap, index: index);
+                return EvaluateSlider(negotiation: negotiationSnap, index: index);
               },
             ),
           ),
 
+          // Contains "Total User and Counterpart Values"
+          Container(
+            width: MediaQuery.of(context).size.width*.85,
+            padding: EdgeInsets.only(top: 25, bottom: 20),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Total User and Counterpart Values",
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 24,
+                  color: Color(0xff000000),
+                ),
+              ),
+            ),
+          ),
+
+
+          // Header for entire negotiation value for user
+          Container(
+            width: MediaQuery.of(context).size.width*.85,
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "Your Total Value",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 22,
+                      color: Color(0xff000000),
+                    ),
+                  ),
+                ),
+                // Info Button
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: navyBlue),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.transparent,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.info_outlined,
+                      size: 28,
+                      color: navyBlue,
+                    ),
+                    onPressed: () {},
+                    padding: EdgeInsets.all(0),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Slider for Entire Negotiation Value
+          Container(
+              width: MediaQuery.of(context).size.width * .95,
+              child: Slider(
+                activeColor: Colors.blue,
+                inactiveColor: Colors.red,
+                value: .5,
+                onChanged: (double value) {
+                  value = value;
+                },
+              )),
+
+          // Header for entire negotiation value for Counter part
+          Container(
+            width: MediaQuery.of(context).size.width*.85,
+            margin: EdgeInsets.only(top: 20, bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "Counter Parts Total Value",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 22,
+                      color: Color(0xff000000),
+                    ),
+                  ),
+                ),
+                // Info Button
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: navyBlue),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.transparent,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.info_outlined,
+                      size: 28,
+                      color: navyBlue,
+                    ),
+                    onPressed: () {},
+                    padding: EdgeInsets.all(0),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Slider for Entire Negotiation Value
+          Container(
+              margin: EdgeInsets.only(bottom: 30),
+              width: MediaQuery.of(context).size.width * .95,
+              child: Slider(
+                activeColor: Colors.red,
+                inactiveColor: Colors.blue,
+                value: .5,
+                onChanged: (double value) {
+                  value = value;
+                },
+              )),
+
           // Flag, Save/Discard buttons
-          UpdateAgreement(
-              negotiation: negotiationSnap,
-              refresh: refresh,
-              docId: widget.docId),
+          UpdateAgreement(negotiation: negotiationSnap, refresh: refresh, docId: widget.docId),
 
           // Calculate Current Negotiation Value
           Container(
@@ -83,23 +220,19 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
             ),
           ),
 
-          // Exit Negotiation Button
+          // Exit the negotiation button
           Container(
-            margin: EdgeInsets.only(top: 10),
             width: MediaQuery.of(context).size.width * .9,
             height: 40,
             child: TextButton(
               onPressed: () {
-                navigatorKey.currentState!.popUntil((route) => route.isFirst);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyNegotiations()),
-                );
+                Navigator.pop((context));
               },
               child: Text("Exit Negotiation"),
               style: TextButton.styleFrom(
-                backgroundColor: const Color(0xff838383),
+                backgroundColor: navyBlue,
                 foregroundColor: Colors.white,
+                elevation: 5,
               ),
             ),
           ),
@@ -119,11 +252,7 @@ class UpdateAgreement extends StatefulWidget {
   final Function() refresh;
   String docId;
   Negotiation negotiation;
-  UpdateAgreement(
-      {Key? key,
-      required this.negotiation,
-      required this.refresh,
-      required this.docId})
+  UpdateAgreement({Key? key, required this.negotiation, required this.refresh, required this.docId})
       : super(key: key);
 
   @override
@@ -142,8 +271,7 @@ class _UpdateAgreementState extends State<UpdateAgreement> {
           onPressed: () {
             setState(() {
               for (String name in widget.negotiation.issues.keys) {
-                int adding = widget.negotiation.issues[name]["currentAgreement"]
-                    .truncate();
+                int adding = widget.negotiation.issues[name]["currentAgreement"].truncate();
                 print(adding);
                 _values.add(adding);
               }
@@ -171,8 +299,7 @@ class _UpdateAgreementState extends State<UpdateAgreement> {
                   setState(() {
                     int i = 0;
                     for (String name in widget.negotiation.issues.keys) {
-                      widget.negotiation.issues[name]["currentAgreement"] =
-                          _values.elementAt(i);
+                      widget.negotiation.issues[name]["currentAgreement"] = _values.elementAt(i);
                       i++;
                     }
 
@@ -227,16 +354,14 @@ class EvaluateSlider extends StatefulWidget {
   Negotiation negotiation;
   int index;
 
-  EvaluateSlider({Key? key, required this.negotiation, required this.index})
-      : super(key: key);
+  EvaluateSlider({Key? key, required this.negotiation, required this.index}) : super(key: key);
 
   @override
   State<EvaluateSlider> createState() => _EvaluateSliderState();
 }
 
 class _EvaluateSliderState extends State<EvaluateSlider> {
-  late String issueName =
-      widget.negotiation.issues.keys.elementAt(widget.index);
+  late String issueName = widget.negotiation.issues.keys.elementAt(widget.index);
   late Map issues = widget.negotiation.issues[issueName];
 
   @override
@@ -247,25 +372,65 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(children: [
-          Row(
-            children: [
-              Align(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20),
+          Container(
+            width: MediaQuery.of(context).size.width * .85,
+            // Header Bar above issue slider
+            child: Row(
+              children: [
+                // Issue Name Text
+                Expanded(
                   child: Text(
-                      issueName +
-                          ": " +
-                          issues["currentAgreement"].truncate().toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 22,
-                        color: Color(0xff000000),
-                      )),
+                    issueName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 22,
+                      color: Color(0xff000000),
+                    ),
+                  ),
                 ),
-                alignment: Alignment.bottomLeft,
-              ),
-            ],
+
+                // Edit Issue Button
+                Container(
+                    width: 32,
+                    height: 32,
+                    margin: EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: navyBlue),
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.transparent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        size: 24,
+                      ),
+                      onPressed: () {},
+                      padding: EdgeInsets.all(0),
+                    ),
+                ),
+
+                // Info Button
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: navyBlue),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.transparent,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.info_outlined,
+                      size: 28,
+                      color: navyBlue,
+                    ),
+                    onPressed: () {},
+                    padding: EdgeInsets.all(0),
+                  ),
+                ),
+              ],
+            ),
           ),
           Slider(
             min: 0.0,
@@ -318,10 +483,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: () {
           Navigator.pop(context);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: snapshot))
-          );
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: snapshot)));
         },
       ),
       actions: [
@@ -332,8 +495,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                title: const Text(
-                    'Are you sure you\'d like to delete the negotiation?'),
+                title: const Text('Are you sure you\'d like to delete the negotiation?'),
                 actions: [
                   TextButton(
                     child: const Text('Yes'),
