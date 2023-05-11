@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
 import 'multi_thumb_slider/src/multi_thumb_slider.dart';
@@ -13,6 +12,8 @@ class ViewCurrentIssues extends StatefulWidget {
   final Negotiation negotiation;
   final bool editing;
   final bool comesFromMyNegotiations;
+
+  List lastVals = [4];
 
   ViewCurrentIssues(
       {Key? key,
@@ -64,7 +65,7 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
     }
 
     return Column(children: [
-      TitleContainer(getRange: bargainingRange(), addButtons: widget.comesFromMyNegotiations),
+
       Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
         width: MediaQuery.of(context).size.width * .85,
@@ -93,7 +94,7 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
           // Locks all of the slider, must be changed to edit the slider
           lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
           thumbBuilder: (BuildContext context, int index, double value) {
-            return WholeBargainSliders(index: index, value: value);
+            return WholeNegotiationSliders(index: index, value: value);
           },
           height: 70,
         ),
@@ -204,121 +205,32 @@ class ChangeRelativeValues extends StatelessWidget {
               Expanded(
                 child: Center(
                     child: TextFormField(
-                      onChanged: (newVal) {
-                        negotiation.cpIssues[issueName]["relativeValue"] = int.parse(cpCtrl.text);
-                      },
-                      textAlign: TextAlign.center,
-                      textInputAction: TextInputAction.next,
-                      cursorColor: Color(0xff0A0A5B),
-                      keyboardType: TextInputType.number,
-                      controller: cpCtrl,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsetsDirectional.zero,
-                        enabledBorder: (OutlineInputBorder(
-                          borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                        focusedBorder: (OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                        )),
-                      ),
+                  onChanged: (newVal) {
+                    negotiation.cpIssues[issueName]["relativeValue"] = int.parse(cpCtrl.text);
+                  },
+                  textAlign: TextAlign.center,
+                  textInputAction: TextInputAction.next,
+                  cursorColor: Color(0xff0A0A5B),
+                  keyboardType: TextInputType.number,
+                  controller: cpCtrl,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsetsDirectional.zero,
+                    enabledBorder: (OutlineInputBorder(
+                      borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                      borderRadius: BorderRadius.circular(20),
                     )),
+                    focusedBorder: (OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                    )),
+                  ),
+                )),
               ),
             ]),
           ),
         ],
       ),
     );
-  }
-}
-
-class TitleContainer extends StatefulWidget {
-  String getRange;
-  bool addButtons;
-
-  TitleContainer({Key? key, required this.getRange, required this.addButtons}) : super(key: key);
-
-  @override
-  State<TitleContainer> createState() => _TitleContainerState();
-}
-
-class _TitleContainerState extends State<TitleContainer> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * .85,
-      child: Row(
-        children: [
-          // Issue Name Text
-          Expanded(
-            child: Text(
-              widget.getRange,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontStyle: FontStyle.normal,
-                fontSize: 22,
-                color: Color(0xff000000),
-              ),
-            ),
-          ),
-
-          if (widget.addButtons) ButtonAddons(),
-        ],
-      ),
-    );
-  }
-}
-
-class ButtonAddons extends StatefulWidget {
-  const ButtonAddons({Key? key}) : super(key: key);
-
-  @override
-  State<ButtonAddons> createState() => _ButtonAddonsState();
-}
-
-class _ButtonAddonsState extends State<ButtonAddons> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(children: [
-      // Edit Whole Negotiation Button
-      Container(
-          width: 32,
-          height: 32,
-          margin: EdgeInsets.only(right: 5),
-          padding: EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.edit,
-              size: 22,
-            ),
-            onPressed: () {},
-            padding: EdgeInsets.all(0),
-          )),
-
-      // Info Button
-      Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.info_outlined,
-              size: 28,
-            ),
-            onPressed: () {},
-            padding: EdgeInsets.all(0),
-          )),
-    ]);
   }
 }
 

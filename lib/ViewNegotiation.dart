@@ -9,6 +9,8 @@ import 'ViewNegotiationCurrent.dart';
 
 class ViewNegotiation extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
+  List lastNegotiationVals = [4];
+
   ViewNegotiation({Key? key, required this.negotiation}) : super(key: key);
 
   @override
@@ -16,9 +18,12 @@ class ViewNegotiation extends StatefulWidget {
 }
 
 class _ViewNegotiationState extends State<ViewNegotiation> {
-  bool editing = false;
+  bool _wholeNegotiationEditing = false;
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
-  late Negotiation lastSnap;
+
+  late var issueVals = Map.fromIterable(negotiationSnap.issues.keys);
+
+  late var issueEdits = Map.fromIterable(negotiationSnap.issues.keys, value: (i) => false);
 
   Color navyBlue = Color(0xff0A0A5B);
 
@@ -61,7 +66,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
           IconButton(
             icon: Icon(Icons.delete_outline_outlined),
             onPressed: () {
-              print("pressed");
               showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -113,12 +117,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Column(children: [
-                  // Contains the "Whole Negotiation Rubric"
+                  /// Contains the "Whole Negotiation Rubric"
                   Container(
                     width: MediaQuery.of(context).size.width * .85,
                     child: Row(
                       children: [
-                        // Issue Name Text
+                        /// Text
                         Expanded(
                           child: Text(
                             "Whole Negotiation",
@@ -131,58 +135,25 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           ),
                         ),
 
-                        // Edit Issue Button
-                        Container(
-                          width: 32,
-                          height: 32,
-                          margin: EdgeInsets.only(right: 5),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: navyBlue),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.transparent,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              size: 24,
-                            ),
-                            onPressed: () {},
-                            padding: EdgeInsets.all(0),
-                          ),
-                        ),
-
-                        // Info Button
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: navyBlue),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.transparent,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.info_outlined,
-                              size: 28,
-                              color: navyBlue,
-                            ),
-                            onPressed: () {},
-                            padding: EdgeInsets.all(0),
-                          ),
+                        /// Edit Issue / Info Buttons
+                        ButtonAddons(
+                          updateEdit: updateEdit,
+                          editing: _wholeNegotiationEditing,
+                          issueName: "whole",
                         ),
                       ],
                     ),
                   ),
 
-                  // Sliders for the Whole Negotiation
+                  /// Sliders for the Whole Negotiation
                   ViewNegotiationCurrent(
                     negotiation: negotiationSnap,
-                    editing: editing,
+                    editing: _wholeNegotiationEditing,
                   ),
 
-                  // Contains "Bargaining Range for Individual Issues"
+                  /// Contains "Bargaining Range for Individual Issues"
                   Container(
-                    width: MediaQuery.of(context).size.width*.85,
+                    width: MediaQuery.of(context).size.width * .85,
                     padding: EdgeInsets.only(top: 30, bottom: 20),
                     child: Align(
                       alignment: Alignment.center,
@@ -200,145 +171,57 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     ),
                   ),
 
-                  // Contains The Issue Sliders
+                  /// Contains The Issue Sliders
                   Container(
-                    height: (editing)
-                        ? negotiationSnap.cpIssues.keys.length * 220
-                        : negotiationSnap.cpIssues.keys.length * 120,
+                    height: determineListViewHeight(),
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: negotiationSnap.cpIssues.keys.length,
-                      prototypeItem: ViewCurrentIssues(
-                        issueName: negotiationSnap.cpIssues.keys.elementAt(0),
-                        negotiation: negotiationSnap,
-                        editing: editing,
-                        comesFromMyNegotiations: true,
-                      ),
                       itemBuilder: (context, index) {
-                        return ViewCurrentIssues(
-                          issueName: negotiationSnap.issues.keys.elementAt(index),
-                          negotiation: negotiationSnap,
-                          editing: editing,
-                          comesFromMyNegotiations: true,
-                        );
+
+                        String issueName = negotiationSnap.issues.keys.elementAt(index);
+
+                        /// Builds out Issue header (name, info) and then the slider
+                        return Column(children: [
+                          /// Header for issue slider
+                          Container(
+                            width: MediaQuery.of(context).size.width * .85,
+                            child: Row(
+                              children: [
+                                /// Issue Name Text
+                                Expanded(
+                                  child: Text(
+                                    issueName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 22,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+
+                                /// Buttons on right side
+                                ButtonAddons(
+                                    editing: issueEdits[issueName]!,
+                                    issueName: issueName,
+                                    updateEdit: updateEdit),
+                              ],
+                            ),
+                          ),
+                          /// Issue Sliders
+                          ViewCurrentIssues(
+                            issueName: issueName,
+                            negotiation: negotiationSnap,
+                            editing: issueEdits[issueName]!,
+                            comesFromMyNegotiations: true,
+                          ),
+                        ]);
                       },
                     ),
                   ),
 
-                  // Contains the edit (discard/save) button
-                  Container(
-                    margin: EdgeInsetsDirectional.only(bottom: 20),
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: 40,
-                    // If editing is not being done, show the edit button
-                    // Else show the save or discard options
-                    child: !editing
-                        ? TextButton(
-                            onPressed: () {
-                              setState(() {
-                                editing = !editing;
-                              });
-
-                              lastSnap = Negotiation.fromFirestore(widget.negotiation);
-                            },
-                            child: Text("Edit Negotiation"),
-                            style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xff838383),
-                              foregroundColor: Colors.white,
-                            ),
-                          )
-                        : Row(
-                            children: [
-                              // Discard Button
-                              Expanded(
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      editing = !editing;
-                                      negotiationSnap = lastSnap;
-                                    });
-                                  },
-                                  child: Text("Discard Edits"),
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: const Color(0xff838383),
-                                    foregroundColor: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              // Save Button
-                              Expanded(
-                                child: TextButton(
-                                  onPressed: () {
-                                    // Set document from negotiation snap
-                                    int totalUser = 0;
-                                    int totalCp = 0;
-
-                                    bool tarAndResUS = true;
-                                    bool tarAndResCP = true;
-
-                                    // Checks if the weight totals are right
-                                    // Checks if resistance and target are right
-                                    for (String name in negotiationSnap.issues.keys) {
-                                      totalUser += int.parse(
-                                          negotiationSnap.issues[name]["relativeValue"].toString());
-                                      totalCp += int.parse(negotiationSnap.cpIssues[name]
-                                              ["relativeValue"]
-                                          .toString());
-
-                                      if (negotiationSnap.issues[name]["A"] <=
-                                          negotiationSnap.issues[name]["D"]) {
-                                        tarAndResUS = false;
-                                      } else if (negotiationSnap.cpIssues[name]["target"] >=
-                                          negotiationSnap.cpIssues[name]["resistance"]) {
-                                        tarAndResCP = false;
-                                      }
-                                    }
-
-                                    if (totalUser == 100 &&
-                                        totalCp == 100 &&
-                                        tarAndResUS &&
-                                        tarAndResCP) {
-                                      setState(() {
-                                        editing = !editing;
-                                      });
-
-                                      db
-                                          .collection("users")
-                                          .doc(negotiationSnap.id)
-                                          .collection("Negotiations")
-                                          .doc(widget.negotiation?.id)
-                                          .set(negotiationSnap.toFirestore());
-                                    } else {
-                                      if (!tarAndResUS) {
-                                        Utils.showSnackBar(
-                                            "Your targets must be greater than your resistance for all user issues.");
-                                      } else if (!tarAndResCP) {
-                                        Utils.showSnackBar(
-                                            "Your targets must be less than your resistance for all counterpart issues.");
-                                      } else if (totalUser != 100 && totalCp != 100) {
-                                        Utils.showSnackBar(
-                                            "Your weights for both user and counter part must add to 100.");
-                                      } else if (totalUser != 100) {
-                                        Utils.showSnackBar(
-                                            "Your weights for user must add to 100.");
-                                      } else {
-                                        Utils.showSnackBar(
-                                            "Your weights for counter part must add to 100");
-                                      }
-                                    }
-                                  },
-                                  child: Text("Save Edits"),
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: const Color(0xff838383),
-                                    foregroundColor: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                  ),
-
-                  // Exit the negotiation button
+                  /// Exit the negotiation button
                   Container(
                     width: MediaQuery.of(context).size.width * .9,
                     height: 40,
@@ -362,12 +245,269 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       ),
     );
   }
+
+  /// Defines what the height of the list view widget should be
+  determineListViewHeight(){
+    double total = 0.0;
+    for(int i = 0; i < issueEdits.length; i++){
+      if(issueEdits.values.elementAt(i)) total += 210;
+      else total += 120;
+    }
+
+    return total;
+  }
+
+  /// Uploads the negotiationSnap to Firestore - Used in updateEdit
+  uploadNegotiationSnap(String uploadFrom){
+    // Set document from negotiation snap
+    int totalUser = 0;
+    int totalCp = 0;
+
+    bool tarAndResUS = true;
+    bool tarAndResCP = true;
+
+    // Checks if the weight totals are right
+    // Checks if resistance and target are right
+    for (String name in negotiationSnap.issues.keys) {
+      totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"].toString());
+      totalCp += int.parse(negotiationSnap.cpIssues[name]["relativeValue"].toString());
+
+      if (negotiationSnap.issues[name]["A"] <= negotiationSnap.issues[name]["D"]) {
+        tarAndResUS = false;
+      } else if (negotiationSnap.cpIssues[name]["target"] >=
+          negotiationSnap.cpIssues[name]["resistance"]) {
+        tarAndResCP = false;
+      }
+    }
+
+    if (totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP) {
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(negotiationSnap.id)
+          .collection("Negotiations")
+          .doc(widget.negotiation?.id)
+          .set(negotiationSnap.toFirestore());
+    } else {
+
+      if(uploadFrom == "whole"){
+        setState(() {
+          _wholeNegotiationEditing = !_wholeNegotiationEditing;
+        });
+      }
+      else{
+        setState((){
+          issueEdits[uploadFrom] = true;
+        });
+      }
+
+      if (!tarAndResUS) {
+        Utils.showSnackBar(
+            "Your targets must be greater than your resistance for all user issues.");
+      } else if (!tarAndResCP) {
+        Utils.showSnackBar(
+            "Your targets must be less than your resistance for all counterpart issues.");
+      } else if (totalUser != 100 && totalCp != 100) {
+        Utils.showSnackBar("Your weights for both user and counter part must add to 100.");
+      } else if (totalUser != 100) {
+        Utils.showSnackBar("Your weights for user must add to 100.");
+      } else {
+        Utils.showSnackBar("Your weights for counter part must add to 100");
+      }
+    }
+  }
+
+  /// Defines what 'edit' button presses should do according to name given
+  updateEdit(String name, bool save) {
+    //TODO change name for "whole" to something random
+    if (name == "whole") {
+      setState(() {
+        _wholeNegotiationEditing = !_wholeNegotiationEditing;
+      });
+
+      // If it is false, then user just pressed to end the editing resulting in discard or save
+      if (!_wholeNegotiationEditing) {
+        if (!save) {
+          negotiationSnap.cpTarget = widget.lastNegotiationVals[0];
+          negotiationSnap.resistance = widget.lastNegotiationVals[1];
+          negotiationSnap.cpResistance = widget.lastNegotiationVals[2];
+          negotiationSnap.target = widget.lastNegotiationVals[3];
+        }
+        // Uploads the save to firestore
+        else {
+          uploadNegotiationSnap(name);
+        }
+      } else {
+        widget.lastNegotiationVals = [
+          negotiationSnap.cpTarget,
+          negotiationSnap.resistance,
+          negotiationSnap.cpResistance,
+          negotiationSnap.target
+        ];
+      }
+
+      return;
+    }
+
+    /// Changes edit state of whichever issue sent this
+    setState(() {
+      issueEdits[name] = !issueEdits[name]!;
+    });
+
+    /// Means user just pressed discard or save. This set it to stop editing.
+    if (!issueEdits[name]!) {
+      if (!save) {
+        negotiationSnap.issues[name]["A"] = issueVals[name]![0];
+        negotiationSnap.issues[name]["D"] = issueVals[name]![1];
+        negotiationSnap.cpIssues[name]["target"] = issueVals[name]![2];
+        negotiationSnap.cpIssues[name]["resistance"] = issueVals[name]![3];
+      }
+      else {
+        uploadNegotiationSnap(name);
+      }
+    }
+    /// User just pressed to start editing. Save the current state.
+    else {
+      issueVals[name] = [0, 0, 0, 0];
+      issueVals[name]![0] = negotiationSnap.issues[name]["A"];
+      issueVals[name]![1] = negotiationSnap.issues[name]["D"];
+      issueVals[name]![2] = negotiationSnap.cpIssues[name]["target"];
+      issueVals[name]![3] = negotiationSnap.cpIssues[name]["resistance"];
+    }
+  }
 }
 
-class WholeBargainSliders extends StatelessWidget {
+/// Contains edit functions for each slider
+class ButtonAddons extends StatelessWidget {
+  Function updateEdit;
+  bool editing;
+  String issueName;
+
+  ButtonAddons({Key? key, required this.updateEdit, required this.editing, required this.issueName})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print(editing);
+    if (!editing) {
+      return Row(children: [
+        /// Just Edit Button
+        Container(
+          width: 32,
+          height: 32,
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.edit,
+              size: 24,
+            ),
+            onPressed: () {
+              print(issueName);
+              updateEdit(issueName, false);
+            },
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+
+        /// Info Button
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.info_outlined,
+              size: 28,
+              color: navyBlue,
+            ),
+            onPressed: () {},
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+      ]);
+    } else {
+      return Row(children: [
+        /// Cancel Edit
+        Container(
+          width: 32,
+          height: 32,
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.close,
+              size: 24,
+            ),
+            onPressed: () {
+              updateEdit(issueName, false);
+            },
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+
+        /// Save Edit
+        Container(
+          width: 32,
+          height: 32,
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.save_alt,
+              size: 24,
+            ),
+            onPressed: () {
+              updateEdit(issueName, true);
+            },
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+
+        /// Info Button
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.info_outlined,
+              size: 28,
+              color: navyBlue,
+            ),
+            onPressed: () {},
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+      ]);
+    }
+  }
+}
+
+class WholeNegotiationSliders extends StatelessWidget {
   final int index;
   final double value;
-  const WholeBargainSliders({Key? key, required this.index, required this.value}) : super(key: key);
+  const WholeNegotiationSliders({Key? key, required this.index, required this.value})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
