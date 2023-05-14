@@ -1,5 +1,3 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +5,6 @@ import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
 import 'main.dart';
 
-bool _editing = false;
-List<int> _values = [0];
 
 class EvaluateAgreement extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
@@ -23,9 +19,24 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
   bool working = false;
 
+  // Booleans to check whether or not the issue is being edited
+  late var issueEdits = Map.fromIterable(negotiationSnap.issues.keys, value: (i) => false);
+  // Values used to keep track of where slider was before editing
+  late var lastIssueVals = Map.fromIterable(negotiationSnap.issues.keys, value: (i) => 0.0);
+  // Values the sliders are changing
+  late var issueVals = Map.fromIterable(
+    negotiationSnap.issues.keys,
+    value: (i){
+      if(negotiationSnap.issues[i]["currentAgreement"].runtimeType != double){
+        negotiationSnap.issues[i]["currentAgreement"] = 50.0;
+        return 50.0;
+      }
+      else return negotiationSnap.issues[i]["currentAgreement"];
+    }
+  );
+
   @override
   Widget build(BuildContext context) {
-    print("refresh");
 
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, id: widget.docId, snapshot: widget.negotiation),
@@ -54,7 +65,8 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
             child: ListView.builder(
               itemCount: negotiationSnap.cpIssues.keys.length,
               itemBuilder: (context, index) {
-                return EvaluateSlider(negotiation: negotiationSnap, index: index);
+                var issueName = negotiationSnap.issues.keys.elementAt(index);
+                return EvaluateSlider(negotiation: negotiationSnap, index: index, editing: issueEdits[issueName]!, handleEdits: handleEdits, issueValues: issueVals,);
               },
             ),
           ),
@@ -185,9 +197,6 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
                 },
               )),
 
-          // Flag, Save/Discard buttons
-          UpdateAgreement(negotiation: negotiationSnap, refresh: refresh, docId: widget.docId),
-
           // Calculate Current Negotiation Value
           Container(
             width: MediaQuery.of(context).size.width * .9,
@@ -197,22 +206,6 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
                 Navigator.pop(context);
               },
               child: Text("Calculate"),
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xff838383),
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ),
-
-          // Tradeoff button
-          Container(
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Tradeoffs"),
               style: TextButton.styleFrom(
                 backgroundColor: const Color(0xff838383),
                 foregroundColor: Colors.white,
@@ -241,134 +234,71 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
     );
   }
 
+  /// Performs function of any 'edit', 'save', or 'discard' press
+  handleEdits(String name, bool save){
+
+    /// Switches state of the issue that sent edit
+    setState(() {
+      issueEdits[name] = !issueEdits[name]!;
+    });
+
+    /// Means user just pressed discard or save
+    if(!issueEdits[name]!){
+      // Discard
+      if(!save){
+        // Resets the issue value because they were discarded
+        setState(() {
+          issueVals[name] = lastIssueVals[name];
+        });
+      }
+      // Save
+      else{
+        // Give negotiationSnap the values from the sliders
+        negotiationSnap.issues[name]["currentAgreement"] = issueVals[name];
+
+        // Upload the negotiation snap
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(negotiationSnap.id)
+            .collection("Negotiations")
+            .doc(widget.negotiation?.id)
+            .set(negotiationSnap.toFirestore());
+      }
+    }
+    /// Means user just pressed 'edit'
+    else {
+      // Makes a copy of where the issue values were before editing
+      lastIssueVals[name] = issueVals[name];
+    }
+
+  }
+
   // So the update agreement - flag and save/discard buttons - can reset the page
   refresh() {
     setState(() {});
   }
 }
 
-// Update the Values Buttons
-class UpdateAgreement extends StatefulWidget {
-  final Function() refresh;
-  String docId;
-  Negotiation negotiation;
-  UpdateAgreement({Key? key, required this.negotiation, required this.refresh, required this.docId})
-      : super(key: key);
 
-  @override
-  State<UpdateAgreement> createState() => _UpdateAgreementState();
-}
-
-class _UpdateAgreementState extends State<UpdateAgreement> {
-  @override
-  Widget build(BuildContext context) {
-    if (!_editing) {
-      return Container(
-        width: MediaQuery.of(context).size.width * .9,
-        margin: EdgeInsets.only(bottom: 10),
-        height: 40,
-        child: TextButton(
-          onPressed: () {
-            setState(() {
-              for (String name in widget.negotiation.issues.keys) {
-                int adding = widget.negotiation.issues[name]["currentAgreement"].truncate();
-                print(adding);
-                _values.add(adding);
-              }
-
-              _editing = !_editing;
-            });
-          },
-          child: Text("Flag"),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(0xff838383),
-            foregroundColor: Colors.white,
-          ),
-        ),
-      );
-    } else {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Row(children: [
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(bottom: 10, right: 5),
-              height: 40,
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    int i = 0;
-                    for (String name in widget.negotiation.issues.keys) {
-                      widget.negotiation.issues[name]["currentAgreement"] = _values.elementAt(i);
-                      i++;
-                    }
-
-                    _editing = !_editing;
-                    widget.refresh();
-                  });
-                },
-                child: Text("Discard"),
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xff838383),
-                  foregroundColor: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(bottom: 10, left: 5),
-              height: 40,
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _editing = !_editing;
-                    _values.clear();
-                  });
-
-                  FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(widget.negotiation.id)
-                      .collection("Negotiations")
-                      .doc(widget.docId)
-                      .set(widget.negotiation.toFirestore());
-
-                  super.setState(() {});
-                },
-                child: Text("Save"),
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xff838383),
-                  foregroundColor: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ]),
-      );
-    }
-  }
-}
-
-// Produces slider that changes the value of the "currentAgreement"
+/// Produces slider that changes the value of the "currentAgreement"
 class EvaluateSlider extends StatefulWidget {
   Negotiation negotiation;
   int index;
+  bool editing;
+  Function handleEdits;
+  var issueValues;
 
-  EvaluateSlider({Key? key, required this.negotiation, required this.index}) : super(key: key);
+  EvaluateSlider({Key? key, required this.negotiation, required this.index, required this.editing, required this.handleEdits, required this.issueValues}) : super(key: key);
 
   @override
   State<EvaluateSlider> createState() => _EvaluateSliderState();
 }
-
 class _EvaluateSliderState extends State<EvaluateSlider> {
   late String issueName = widget.negotiation.issues.keys.elementAt(widget.index);
   late Map issues = widget.negotiation.issues[issueName];
 
   @override
   Widget build(BuildContext context) {
-    if (issues["currentAgreement"] == null) {
-      issues["currentAgreement"] = 50.0;
-    }
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(children: [
@@ -377,7 +307,7 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
             // Header Bar above issue slider
             child: Row(
               children: [
-                // Issue Name Text
+                /// Issue Name Text
                 Expanded(
                   child: Text(
                     issueName,
@@ -390,27 +320,10 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
                   ),
                 ),
 
-                // Edit Issue Button
-                Container(
-                    width: 32,
-                    height: 32,
-                    margin: EdgeInsets.only(right: 5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: navyBlue),
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.transparent,
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        size: 24,
-                      ),
-                      onPressed: () {},
-                      padding: EdgeInsets.all(0),
-                    ),
-                ),
+                /// Edit, Discard, Save
+                ButtonAddonTrackProgress(editing: widget.editing, handleEdits: widget.handleEdits, name: issueName,),
 
-                // Info Button
+                /// Info Button
                 Container(
                   width: 32,
                   height: 32,
@@ -436,18 +349,96 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
             min: 0.0,
             max: 100.0,
             inactiveColor: Colors.red,
-            value: issues["currentAgreement"] * 1.0,
+            value: widget.issueValues[issueName],
             divisions: 100,
-            label: '${issues["currentAgreement"].round()}',
+            label: '${widget.issueValues[issueName].round()}',
             onChanged: (value) {
-              if (_editing) {
+              if (widget.editing) {
                 setState(() {
-                  issues["currentAgreement"] = value;
+                  widget.issueValues[issueName] = value;
                 });
               }
             },
           ),
         ]));
+  }
+}
+
+/// Controls the edit, save, discard buttons for each issue
+class ButtonAddonTrackProgress extends StatelessWidget {
+  bool editing;
+  Function handleEdits;
+  String name;
+
+  ButtonAddonTrackProgress({Key? key, required this.editing, required this.handleEdits, required this.name}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    /// Edit Issue Button
+    if(!editing){
+      return Container(
+        width: 32,
+        height: 32,
+        margin: EdgeInsets.only(right: 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: navyBlue),
+          borderRadius: BorderRadius.circular(5.0),
+          color: Colors.transparent,
+        ),
+        child: IconButton(
+          icon: Icon(
+            Icons.edit,
+            size: 24,
+          ),
+          onPressed: () { handleEdits(name, false); },
+          padding: EdgeInsets.all(0),
+        ),
+      );
+    }
+    else{
+      return Row(children: [
+        /// Discard
+        Container(
+          width: 32,
+          height: 32,
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.close,
+              size: 24,
+            ),
+            onPressed: () { handleEdits(name, false); },
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+
+        /// Save Edit
+        Container(
+          width: 32,
+          height: 32,
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: navyBlue),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.transparent,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.save_alt,
+              size: 24,
+            ),
+            onPressed: () { handleEdits(name, true); },
+            padding: EdgeInsets.all(0),
+          ),
+        ),
+      ]);
+    }
+
   }
 }
 
@@ -491,7 +482,6 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: Icon(Icons.delete_outline_outlined),
           onPressed: () {
-            print("pressed");
             showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
