@@ -35,9 +35,14 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
     }
   );
 
+  late var totalValues = {
+    "userValue": 0.0,
+    "cpValue": 0.0
+  };
+
   @override
   Widget build(BuildContext context) {
-
+    print("update");
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, id: widget.docId, snapshot: widget.negotiation),
       body: SingleChildScrollView(
@@ -66,7 +71,8 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
               itemCount: negotiationSnap.cpIssues.keys.length,
               itemBuilder: (context, index) {
                 var issueName = negotiationSnap.issues.keys.elementAt(index);
-                return EvaluateSlider(negotiation: negotiationSnap, index: index, editing: issueEdits[issueName]!, handleEdits: handleEdits, issueValues: issueVals,);
+                return EvaluateSlider(negotiation: negotiationSnap, index: index, editing: issueEdits[issueName]!, handleEdits: handleEdits, issueValues: issueVals, totalValues: totalValues,
+                  reloadFullPage: () => setState((){}) ,);
               },
             ),
           ),
@@ -92,7 +98,7 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
           ),
 
 
-          // Header for entire negotiation value for user
+          /// Header for entire negotiation value for user
           Container(
             width: MediaQuery.of(context).size.width*.85,
             margin: EdgeInsets.only(bottom: 10),
@@ -132,19 +138,19 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
             ),
           ),
 
-          // Slider for Entire Negotiation Value
+          /// Slider for Entire Negotiation Value
           Container(
               width: MediaQuery.of(context).size.width * .95,
               child: Slider(
                 activeColor: Colors.blue,
                 inactiveColor: Colors.red,
-                value: .5,
+                value: double.parse(totalValues["userValue"].toString()),
                 onChanged: (double value) {
                   value = value;
                 },
               )),
 
-          // Header for entire negotiation value for Counter part
+          /// Header for entire negotiation value for Counter part
           Container(
             width: MediaQuery.of(context).size.width*.85,
             margin: EdgeInsets.only(top: 20, bottom: 10),
@@ -184,21 +190,23 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
             ),
           ),
 
-          // Slider for Entire Negotiation Value
+          /// Slider for Entire Negotiation Value Counterpart
           Container(
               margin: EdgeInsets.only(bottom: 30),
               width: MediaQuery.of(context).size.width * .95,
               child: Slider(
                 activeColor: Colors.red,
                 inactiveColor: Colors.blue,
-                value: .5,
+                value: double.parse(totalValues["cpValue"].toString()),
                 onChanged: (double value) {
                   value = value;
                 },
-              )),
+              ),
+          ),
 
-          // Calculate Current Negotiation Value
+          // TODO This should calculate the max possible score for user and counterpart
           Container(
+            margin: EdgeInsets.only(bottom: 20),
             width: MediaQuery.of(context).size.width * .9,
             height: 40,
             child: TextButton(
@@ -236,7 +244,6 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
 
   /// Performs function of any 'edit', 'save', or 'discard' press
   handleEdits(String name, bool save){
-
     /// Switches state of the issue that sent edit
     setState(() {
       issueEdits[name] = !issueEdits[name]!;
@@ -271,7 +278,16 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
       lastIssueVals[name] = issueVals[name];
     }
 
+    totalValues["userValue"] = 0.0;
+    totalValues["cpValue"] = 0.0;
+    for(String each in issueVals.keys){
+      totalValues["userValue"] = issueVals[each] * double.parse(negotiationSnap.issues[each]["relativeValue"]) * .0001 + totalValues["userValue"];
+      totalValues["cpValue"] = (100 - issueVals[each]) * negotiationSnap.cpIssues[each]["relativeValue"] * .0001 + totalValues["cpValue"]!;
+    }
+
   }
+
+
 
   // So the update agreement - flag and save/discard buttons - can reset the page
   refresh() {
@@ -286,9 +302,12 @@ class EvaluateSlider extends StatefulWidget {
   int index;
   bool editing;
   Function handleEdits;
+  Function reloadFullPage;
+  Map<String, double> totalValues;
   var issueValues;
 
-  EvaluateSlider({Key? key, required this.negotiation, required this.index, required this.editing, required this.handleEdits, required this.issueValues}) : super(key: key);
+  EvaluateSlider({Key? key, required this.negotiation, required this.index, required this.editing, required this.handleEdits, required this.issueValues,
+    required this.totalValues, required this.reloadFullPage}) : super(key: key);
 
   @override
   State<EvaluateSlider> createState() => _EvaluateSliderState();
@@ -299,6 +318,14 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
 
   @override
   Widget build(BuildContext context) {
+
+    widget.totalValues["userValue"] = 0.0;
+    widget.totalValues["cpValue"] = 0.0;
+    for(String each in widget.issueValues.keys){
+      widget.totalValues["userValue"] = widget.issueValues[each] * double.parse(widget.negotiation.issues[each]["relativeValue"]) * .0001 + widget.totalValues["userValue"];
+      widget.totalValues["cpValue"] = (100 - widget.issueValues[each]) * widget.negotiation.cpIssues[each]["relativeValue"] * .0001 + widget.totalValues["cpValue"]!;
+    }
+
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(children: [
@@ -357,6 +384,7 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
                 setState(() {
                   widget.issueValues[issueName] = value;
                 });
+                widget.reloadFullPage();
               }
             },
           ),

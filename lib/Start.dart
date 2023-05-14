@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'MyNegotiations.dart';
 import 'StartNewNegotiation.dart';
-import 'TrackProgress.dart';
 import 'main.dart';
 
 class Start extends StatelessWidget {
@@ -64,10 +63,7 @@ class Start extends StatelessWidget {
 
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TrackProgress()),
-                  );
+
                 },
                 icon: const Icon(
                   Icons.book,
