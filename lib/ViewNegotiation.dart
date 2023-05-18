@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
 import 'EvaluateAgreement.dart';
 import 'NegotiationDetails.dart';
@@ -140,6 +141,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           updateEdit: updateEdit,
                           editing: _wholeNegotiationEditing,
                           issueName: "whole",
+                          showInfo: showInfo,
                         ),
                       ],
                     ),
@@ -203,9 +205,11 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
                                 /// Buttons on right side
                                 ButtonAddons(
-                                    editing: issueEdits[issueName]!,
-                                    issueName: issueName,
-                                    updateEdit: updateEdit),
+                                  editing: issueEdits[issueName]!,
+                                  issueName: issueName,
+                                  updateEdit: updateEdit,
+                                  showInfo: showInfo,
+                                ),
                               ],
                             ),
                           ),
@@ -355,12 +359,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
     /// Means user just pressed discard or save. This set it to stop editing.
     if (!issueEdits[name]!) {
+      // User discarded most recent edits
       if (!save) {
         negotiationSnap.issues[name]["A"] = issueVals[name]![0];
         negotiationSnap.issues[name]["D"] = issueVals[name]![1];
         negotiationSnap.cpIssues[name]["target"] = issueVals[name]![2];
         negotiationSnap.cpIssues[name]["resistance"] = issueVals[name]![3];
       }
+      // User pressed save
       else {
         uploadNegotiationSnap(name);
       }
@@ -374,15 +380,42 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       issueVals[name]![3] = negotiationSnap.cpIssues[name]["resistance"];
     }
   }
+
+  /// Pass along info button call
+  // TODO: Should change "Whole Negotiation" to something more secure
+  showInfo(String name){
+    if(name == "whole"){
+      Map<String, int> values = {
+        "target": negotiationSnap.target,
+        "resistance": negotiationSnap.resistance,
+        "cpTarget": negotiationSnap.cpTarget,
+        "cpResistance": negotiationSnap.resistance,
+      };
+      showMyDialog(context, name,  values);
+    }
+    else{
+      print(issueVals[name].toString());
+      // Create the correct map to send to the info button
+      Map<String, int> values = {
+        "target": negotiationSnap.issues[name]["A"],
+        "resistance": negotiationSnap.issues[name]["D"],
+        "cpTarget": negotiationSnap.cpIssues[name]["target"],
+        "cpResistance": negotiationSnap.cpIssues[name]["resistance"],
+      };
+
+      showMyDialog(context, name, values);
+    }
+  }
 }
 
 /// Contains edit functions for each slider
 class ButtonAddons extends StatelessWidget {
   Function updateEdit;
+  Function showInfo;
   bool editing;
   String issueName;
 
-  ButtonAddons({Key? key, required this.updateEdit, required this.editing, required this.issueName})
+  ButtonAddons({Key? key, required this.updateEdit, required this.editing, required this.issueName, required this.showInfo})
       : super(key: key);
 
   @override
@@ -428,7 +461,9 @@ class ButtonAddons extends StatelessWidget {
               size: 28,
               color: navyBlue,
             ),
-            onPressed: () {},
+            onPressed: () {
+              showInfo(issueName);
+            },
             padding: EdgeInsets.all(0),
           ),
         ),
@@ -479,7 +514,7 @@ class ButtonAddons extends StatelessWidget {
           ),
         ),
 
-        /// Info Button
+        /// Info Button, when currently saving
         Container(
           width: 32,
           height: 32,
@@ -494,7 +529,9 @@ class ButtonAddons extends StatelessWidget {
               size: 28,
               color: navyBlue,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Utils.showSnackBar("You must exit edit mode to see issue info.");
+            },
             padding: EdgeInsets.all(0),
           ),
         ),

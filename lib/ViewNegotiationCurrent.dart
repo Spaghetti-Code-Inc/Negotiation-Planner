@@ -73,7 +73,7 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                     // Optional: MultiThumbSliderController can be used to control the slider after build. E.g adding/removing thumbs, get current values, move thumb, etc.
                     controller: MultiThumbSliderController()),
               ])),
-          valueNamesUnderneath(issueState: _issueState, editing: widget.editing),
+          // valueNamesUnderneath(issueState: _issueState, editing: widget.editing),
         ],
 
       );
