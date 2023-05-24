@@ -43,6 +43,7 @@ class _IssueValuesState extends State<IssueValues> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
+          /// Header
           Container(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.only(bottom: 10),
@@ -127,6 +128,7 @@ class _IssueValuesState extends State<IssueValues> {
               ],
             ),
           ),
+          /// List of issues
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
@@ -138,146 +140,84 @@ class _IssueValuesState extends State<IssueValues> {
                             .elementAt(index),
                         ctrl: _controllers[index],
                       ),
-                      height: 435);
+                      height: 445);
                 }),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(0),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color(0x00ffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x00ffffff), width: 0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      bool moveOn = true;
-                      // Checks if all values are in right format
-                      for (int i = 0; i < length; i++) {
-                        for (int j = 0; j < 6; j++) {
-                          try {
-                            int greater = int.parse(_controllers[i][j].text);
-                            int less;
 
-                            // Checks to make sure lower is not off out of bounds
-                            if (j + 1 == 6) {
-                              less = greater;
-                            } else {
-                              less = int.parse(_controllers[i][j + 1].text);
-                            }
+          /// Next and Back Bar
+          PrepareNegotiationNextBar(Next: Next, NextPage: UnderStantRubrc()),
 
-                            print(greater.toString() + " : " + less.toString());
 
-                            if (greater < less) {
-                              moveOn = false;
-                              Utils.showSnackBar(
-                                  "One of your issues does not have the right order of value.");
-                            }
-                          } on FormatException catch (e) {
-                            print(i.toString() + ", " + j.toString());
-                            print(e);
-                            Utils.showSnackBar(
-                                "One of your values is not an integer.");
-                            moveOn = false;
-                          }
-                        }
-                        // Checks if any value is too big
-                        if (int.parse(_controllers[i][0].text) > 100) {
-                          Utils.showSnackBar(
-                              "One of your A+ settlement values exceeds the points possible.");
-                          moveOn = false;
-                        }
-                      }
-
-                      // If data is in right format
-                      if (moveOn) {
-                        // Length is the length of "issueNames" keys
-                        for (int i = 0; i < length; i++) {
-                          // Puts value in for all the possible settlements
-                          currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent(
-                                  "A+", () => int.parse(_controllers[i][0].text));
-                          currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("A", () => int.parse(_controllers[i][1].text));
-                          currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("B", () => int.parse(_controllers[i][2].text));
-                          currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("C", () => int.parse(_controllers[i][3].text));
-                          currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("D", () => int.parse(_controllers[i][4].text));
-                          currentNegotiation.issues[_issueNames![i]]
-                              ?.putIfAbsent("F", () => int.parse(_controllers[i][5].text));
-                        }
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UnderStantRubrc()),
-                        );
-                      }
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
+  }
+
+  bool Next(){
+    bool moveOn = true;
+    int length = currentNegotiation.issues.keys.length;
+    // Checks if all values are in right format
+    for (int i = 0; i < length; i++) {
+      for (int j = 0; j < 6; j++) {
+        try {
+          int greater = int.parse(_controllers[i][j].text);
+          int less;
+
+          // Checks to make sure lower is not off out of bounds
+          if (j + 1 == 6) {
+            less = greater;
+          } else {
+            less = int.parse(_controllers[i][j + 1].text);
+          }
+
+          print(greater.toString() + " : " + less.toString());
+
+          if (greater < less) {
+            moveOn = false;
+            Utils.showSnackBar(
+                "One of your issues does not have the right order of value.");
+          }
+        } on FormatException catch (e) {
+          print(i.toString() + ", " + j.toString());
+          print(e);
+          Utils.showSnackBar(
+              "One of your values is not an integer.");
+          moveOn = false;
+        }
+      }
+      // Checks if any value is too big
+      if (int.parse(_controllers[i][0].text) > 100) {
+        Utils.showSnackBar(
+            "One of your A+ settlement values exceeds the points possible.");
+        moveOn = false;
+      }
+    }
+
+    // If data is in right format
+    if (moveOn) {
+      // Length is the length of "issueNames" keys
+      for (int i = 0; i < length; i++) {
+        // Puts value in for all the possible settlements
+        currentNegotiation.issues[_issueNames![i]]
+            ?.putIfAbsent(
+            "A+", () => int.parse(_controllers[i][0].text));
+        currentNegotiation.issues[_issueNames![i]]
+            ?.putIfAbsent("A", () => int.parse(_controllers[i][1].text));
+        currentNegotiation.issues[_issueNames![i]]
+            ?.putIfAbsent("B", () => int.parse(_controllers[i][2].text));
+        currentNegotiation.issues[_issueNames![i]]
+            ?.putIfAbsent("C", () => int.parse(_controllers[i][3].text));
+        currentNegotiation.issues[_issueNames![i]]
+            ?.putIfAbsent("D", () => int.parse(_controllers[i][4].text));
+        currentNegotiation.issues[_issueNames![i]]
+            ?.putIfAbsent("F", () => int.parse(_controllers[i][5].text));
+      }
+
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
 
@@ -298,7 +238,7 @@ class EnterValues extends StatelessWidget {
           margin: const EdgeInsets.all(0),
           padding: const EdgeInsets.all(0),
           width: MediaQuery.of(context).size.width,
-          height: 50,
+          height: 60,
           decoration: BoxDecoration(
             color: const Color(0xff1E2027),
             shape: BoxShape.rectangle,

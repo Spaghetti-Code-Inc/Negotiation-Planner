@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/StartNewNegotiation.dart';
 
-import 'EvaluateAgreement.dart';
+import 'TrackProgress.dart';
 import 'ViewNegotiation.dart';
 
 class MyNegotiations extends StatefulWidget {
@@ -355,7 +355,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                EvaluateAgreement(negotiation: widget.negotiation, docId: name)),
+                                TrackProgress(negotiation: widget.negotiation, docId: name)),
                       );
                     },
                     color: _bottomColor,

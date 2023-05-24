@@ -310,90 +310,23 @@ class BATNATest extends StatelessWidget {
               ],
             ),
           )),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(0),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color(0x00ffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x00ffffff), width: 0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-
-                      if(BATNA.text == "" || CurrentOffer.text == ""){
-                        Utils.showSnackBar("You need to fill out BATNA and Current Offer values.");
-                      }
-                      else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RubricSummary()),
-                        );
-                      }
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          
+          /// Next and Back Bar
+          PrepareNegotiationNextBar(Next: Next, NextPage: RubricSummary())
         ],
       ),
     );
+  }
+  
+  
+  bool Next(){
+    if(BATNA.text == "" || CurrentOffer.text == ""){
+      Utils.showSnackBar("You need to fill out BATNA and Current Offer values.");
+      return false;
+    }
+    else {
+      return true;
+    }
   }
 
   innitBATNAandCurrentOffer(){

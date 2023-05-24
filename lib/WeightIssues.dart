@@ -301,82 +301,31 @@ class _WeightIssuesState extends State<WeightIssues> {
             ),
           ),
 
-          // Start of bottom buttons
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(0),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color(0x00ffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x00ffffff), width: 0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: const Color(0xffffffff),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff0A0A5B), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xff0A0A5B),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Icon(Icons.arrow_back)
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      if (totalVal == 100) {
-                        // length represents _issueNames
-                        for (int i = 0; i < length; i++) {
-                          currentNegotiation.issues[_issueNames![i]]
-                            ["relativeValue"] = _controllers[i].text;
-                        }
+          /// Next and back buttons
+          PrepareNegotiationNextBar(Next: Next, NextPage: IssueValues())
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => IssueValues()),
-                        );
-                      } else {
-                        Utils.showSnackBar("Total must equal exactly 100.");
-                      }
-                    },
-                    color: const Color(0xffffffff),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff0A0A5B), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xff0A0A5B),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Icon(Icons.arrow_forward)
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
+
+  bool Next(){
+    if (totalVal == 100) {
+      int? length = _issueNames?.length;
+
+      // length represents _issueNames
+      for (int i = 0; i < length!; i++) {
+        currentNegotiation.issues[_issueNames![i]]
+        ["relativeValue"] = _controllers[i].text;
+      }
+
+      return true;
+    } else {
+      Utils.showSnackBar("Total must equal exactly 100.");
+      return false;
+    }
+  }
+
 
 
   EvenlyDistribute(){

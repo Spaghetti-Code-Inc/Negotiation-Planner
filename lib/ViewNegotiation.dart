@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
-import 'EvaluateAgreement.dart';
+import 'TrackProgress.dart';
 import 'NegotiationDetails.dart';
 import 'Utils.dart';
 import 'ViewCurrentIssues.dart';
@@ -59,7 +59,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      EvaluateAgreement(negotiation: widget.negotiation, docId: name!)),
+                      TrackProgress(negotiation: widget.negotiation, docId: name!)),
             );
           },
         ),

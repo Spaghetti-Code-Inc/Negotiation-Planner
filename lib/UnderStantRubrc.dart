@@ -402,99 +402,35 @@ class UnderStantRubrc extends StatelessWidget {
               ],
             ),
           )),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(0),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color(0x00ffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x00ffffff), width: 0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
 
-                      if(totalTarget.text == "" || totalResistance.text == ""){
-                        Utils.showSnackBar("You need to fill out target and resistance values.");
-                      }
-                      else if(int.parse(totalTarget.text) <= int.parse(totalResistance.text)){
-                        Utils.showSnackBar("Your target value must be higher than your resistance value.");
-                      }
-                      else if(int.parse(totalTarget.text) > 100){
-                        Utils.showSnackBar("Your target can not exceed 100.");
-                      }
-                      else if(int.parse(totalResistance.text) < 0){
-                        Utils.showSnackBar("Your resistance can not be below 0.");
-                      }
-                      else{
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BATNATest()),
-                        );
-                      }
+          /// Next and Back bar
+          PrepareNegotiationNextBar(Next: Next, NextPage: BATNATest())
 
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+
         ],
       ),
     );
+  }
+
+
+  bool Next(){
+    if(totalTarget.text == "" || totalResistance.text == ""){
+      Utils.showSnackBar("You need to fill out target and resistance values.");
+    }
+    else if(int.parse(totalTarget.text) <= int.parse(totalResistance.text)){
+      Utils.showSnackBar("Your target value must be higher than your resistance value.");
+    }
+    else if(int.parse(totalTarget.text) > 100){
+      Utils.showSnackBar("Your target can not exceed 100.");
+    }
+    else if(int.parse(totalResistance.text) < 0){
+      Utils.showSnackBar("Your resistance can not be below 0.");
+    }
+    else{
+      return true;
+    }
+
+    return false;
   }
 
   static int initPoints(){
@@ -507,12 +443,10 @@ class UnderStantRubrc extends StatelessWidget {
       if(!firstRun){
         counter += int.parse(currentNegotiation.issues[name]["D"].toString())/100.0*
             int.parse(currentNegotiation.issues[name]["relativeValue"].toString());
-        print(counter);
       }
       else{
         counter += 1.0*int.parse(currentNegotiation.issues[name]["relativeValue"]);
         firstRun = false;
-        print(counter);
       }
     }
     return counter.toInt();

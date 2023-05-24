@@ -7,16 +7,16 @@ import 'ViewNegotiation.dart';
 import 'main.dart';
 
 
-class EvaluateAgreement extends StatefulWidget {
+class TrackProgress extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
   String docId;
-  EvaluateAgreement({Key? key, required this.negotiation, required this.docId}) : super(key: key);
+  TrackProgress({Key? key, required this.negotiation, required this.docId}) : super(key: key);
 
   @override
-  State<EvaluateAgreement> createState() => _EvaluateAgreementState();
+  State<TrackProgress> createState() => _TrackProgressState();
 }
 
-class _EvaluateAgreementState extends State<EvaluateAgreement> {
+class _TrackProgressState extends State<TrackProgress> {
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
   bool working = false;
 

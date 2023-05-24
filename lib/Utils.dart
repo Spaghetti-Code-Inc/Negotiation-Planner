@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
-
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
 
-
-  static showSnackBar(String? text){
+  static showSnackBar(String? text) {
     if (text == null) return;
 
     final snackBar = SnackBar(content: Text(text), backgroundColor: CupertinoColors.activeBlue);
@@ -14,5 +12,78 @@ class Utils {
     messengerKey.currentState!
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
+  }
+}
+
+class PrepareNegotiationNextBar extends StatelessWidget {
+  Function Next;
+  Widget NextPage;
+
+  PrepareNegotiationNextBar({Key? key, required this.Next, required this.NextPage}) : super(key: key);
+
+  /// Next and back buttons for the prepare new negotiation pages
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: const Color(0x00ffffff),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.zero,
+        border: Border.all(color: const Color(0x00ffffff), width: 0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 1,
+            child: MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                color: const Color(0xffffffff),
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                  side: BorderSide(color: Color(0xff0A0A5B), width: 1),
+                ),
+                padding: const EdgeInsets.all(16),
+                textColor: const Color(0xff0A0A5B),
+                height: 40,
+                minWidth: 140,
+                child: const Icon(Icons.arrow_back)),
+          ),
+          Expanded(
+            flex: 1,
+            child: MaterialButton(
+                onPressed: () {
+                  /// Code passed from parent widget
+                  if(Next()){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NextPage)
+                    );
+                  }
+                },
+                color: const Color(0xffffffff),
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                  side: BorderSide(color: Color(0xff0A0A5B), width: 1),
+                ),
+                padding: const EdgeInsets.all(16),
+                textColor: const Color(0xff0A0A5B),
+                height: 40,
+                minWidth: 140,
+                child: const Icon(Icons.arrow_forward)),
+          ),
+        ],
+      ),
+    );
   }
 }

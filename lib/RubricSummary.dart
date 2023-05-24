@@ -189,75 +189,60 @@ class RubricSummary extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        color: const Color(0xffffffff),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Color(0xff0A0A5B), width: 1),
                         ),
-                      ),
-                    ),
+                        padding: const EdgeInsets.all(16),
+                        textColor: const Color(0xff0A0A5B),
+                        height: 40,
+                        minWidth: 140,
+                        child: const Icon(Icons.arrow_back)),
                   ),
                   Expanded(
                     flex: 1,
                     child: MaterialButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              AlertDialog(
-                               title: const Text('Counter Parts Rubric'),
-                                content: const Text(
-                                    "Consider the issues you identified earlier. How do you"
-                                        "think your counter part would assign points to these issues?"),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('Next'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => CpsRubrik()),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                        );
-                      },
-                      color: const Color(0xff4d4d4d),
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        side: BorderSide(color: Color(0xff808080), width: 1),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      textColor: const Color(0xffffffff),
-                      height: 40,
-                      minWidth: 140,
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
+                        onPressed: () {
+
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                AlertDialog(
+                                  title: const Text('Counter Parts Rubric'),
+                                  content: const Text(
+                                      "Consider the issues you identified earlier. How do you"
+                                          "think your counter part would assign points to these issues?"),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('Next'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => CpsRubrik()),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                          );
+                        },
+                        color: const Color(0xffffffff),
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Color(0xff0A0A5B), width: 1),
                         ),
-                      ),
-                    ),
+                        padding: const EdgeInsets.all(16),
+                        textColor: const Color(0xff0A0A5B),
+                        height: 40,
+                        minWidth: 140,
+                        child: const Icon(Icons.arrow_forward)),
                   ),
                 ],
               ),

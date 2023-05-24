@@ -8,10 +8,15 @@ import 'Utils.dart';
 import 'main.dart';
 
 class CpsRubrik extends StatefulWidget {
-  const CpsRubrik({super.key});
+  CpsRubrik({super.key});
 
   @override
   State<StatefulWidget> createState() => _CpsRubrikState();
+
+  //TODO: Set these to the actual current Negotiation value
+  int target = 0;
+  int BATNA = 0;
+  int resistance = 0;
 }
 
 class _CpsRubrikState extends State<CpsRubrik> {
@@ -23,20 +28,16 @@ class _CpsRubrikState extends State<CpsRubrik> {
   TextEditingController cpBATNAController = new TextEditingController();
   TextEditingController cpResistanceController = new TextEditingController();
 
-  late int _target;
-  late int _BATNA;
-  late int _resistance;
-
-  List<int> points =
-      List.filled(currentNegotiation.issues.keys.length, 0);
+  List<int> points = List.filled(currentNegotiation.issues.keys.length, 0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: const Color(0xffffffff),
-        appBar: const PrepareBar(),
-        body: Column(children: [
+      resizeToAvoidBottomInset: true,
+      backgroundColor: const Color(0xffffffff),
+      appBar: const PrepareBar(),
+      body: Column(
+        children: [
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -57,8 +58,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           color: const Color(0x1f000000),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
+                          border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
                         ),
                         child: const Padding(
                           padding: EdgeInsets.all(10),
@@ -118,8 +118,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: FilledButton(
@@ -127,29 +126,24 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                     EvenlyDistribute();
 
                                     // Refreshes the page to show new vals
-                                    setState((){});
+                                    setState(() {});
                                   },
                                   child: Text("Evenly distribute points"),
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStatePropertyAll<Color>(
-                                            Color(0x99000000)),
+                                        MaterialStatePropertyAll<Color>(Color(0x99000000)),
                                   ),
                                 ),
                               ),
                             ),
                             ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: currentNegotiation
-                                    .issues.keys.length,
+                                itemCount: currentNegotiation.issues.keys.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
-                                    padding:
-                                        EdgeInsetsDirectional.only(bottom: 8),
+                                    padding: EdgeInsetsDirectional.only(bottom: 8),
                                     child: EnterValues(
-                                      issueName: currentNegotiation
-                                          .issues.keys
-                                          .elementAt(index),
+                                      issueName: currentNegotiation.issues.keys.elementAt(index),
                                       index: index,
                                       points: points,
                                     ),
@@ -169,12 +163,10 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       color: const Color(0x1fffffff),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.zero,
-                      border:
-                          Border.all(color: const Color(0x4dffffff), width: 0),
+                      border: Border.all(color: const Color(0x4dffffff), width: 0),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,19 +195,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.info_outline),
-                                  color: iconOne
-                                      ? Colors.black
-                                      : Color(0xFF3B66B7),
+                                  color: iconOne ? Colors.black : Color(0xFF3B66B7),
                                   onPressed: () {
                                     setState(() {
                                       iconOne = true;
                                     });
                                     showDialog(
                                       context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: const Text(
-                                            'Counterparts Suspected Target'),
+                                      builder: (BuildContext context) => AlertDialog(
+                                        title: const Text('Counterparts Suspected Target'),
                                         content: const Text(
                                             "This is your best guess at what your counterparts target value is. \n \n"
                                             "This value should be lower than your suspected resistance because his 'target'"
@@ -239,23 +227,20 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
+                              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
                               TextInputFormatter.withFunction(
                                   (oldValue, newValue) => newValue.copyWith(
-                                        text:
-                                            newValue.text.replaceAll('.', ','),
+                                        text: newValue.text.replaceAll('.', ','),
                                       ))
                             ],
                             onChanged: (newVal) {
                               try {
                                 setState(() {
-                                  _target = int.parse(newVal);
+                                  widget.target = int.parse(newVal);
                                 });
                               } on FormatException {
                                 if (newVal != "") {
-                                  Utils.showSnackBar(
-                                      "Your target value needs to be an integer.");
+                                  Utils.showSnackBar("Your target value needs to be an integer.");
                                   cpTargetController.text = "0";
                                 }
                               }
@@ -273,18 +258,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
+                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
+                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
+                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
                               hintText: "Target",
                               hintStyle: const TextStyle(
@@ -296,8 +278,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               filled: true,
                               fillColor: const Color(0xfff2f2f3),
                               isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                             ),
                           ),
                         ],
@@ -313,8 +295,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       color: const Color(0x1fffffff),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.zero,
-                      border:
-                          Border.all(color: const Color(0x4dffffff), width: 1),
+                      border: Border.all(color: const Color(0x4dffffff), width: 1),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -344,17 +325,14 @@ class _CpsRubrikState extends State<CpsRubrik> {
                                 alignment: Alignment.centerRight,
                                 child: IconButton(
                                   icon: const Icon(Icons.info_outline),
-                                  color: iconTwo
-                                      ? Colors.black
-                                      : Color(0xFF3B66B7),
+                                  color: iconTwo ? Colors.black : Color(0xFF3B66B7),
                                   onPressed: () {
                                     setState(() {
                                       iconTwo = true;
                                     });
                                     showDialog(
                                       context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
+                                      builder: (BuildContext context) => AlertDialog(
                                         title: const Text('Counterparts BATNA'),
                                         content: const Text(
                                             "This is your best guess at what your Counterparts BATNA is."),
@@ -390,8 +368,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                         TextField(
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(
-                                RegExp(_getRegexString())),
+                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
                             TextInputFormatter.withFunction(
                                 (oldValue, newValue) => newValue.copyWith(
                                       text: newValue.text.replaceAll('.', ','),
@@ -400,12 +377,11 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           onChanged: (newVal) {
                             try {
                               setState(() {
-                                _BATNA = int.parse(newVal);
+                                widget.BATNA = int.parse(newVal);
                               });
                             } on FormatException {
                               if (newVal != "") {
-                                Utils.showSnackBar(
-                                    "Your BATNA value needs to be an integer.");
+                                Utils.showSnackBar("Your BATNA value needs to be an integer.");
                                 cpBATNAController.text = "";
                               }
                             }
@@ -423,18 +399,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           decoration: InputDecoration(
                             disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0xff000000), width: 1),
+                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0xff000000), width: 1),
+                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0xff000000), width: 1),
+                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
                             hintText: "BATNA",
                             hintStyle: const TextStyle(
@@ -446,8 +419,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             filled: true,
                             fillColor: const Color(0xfff2f2f3),
                             isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                           ),
                         ),
                       ],
@@ -462,8 +434,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                       color: const Color(0x1fffffff),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.zero,
-                      border:
-                          Border.all(color: const Color(0x4dffffff), width: 1),
+                      border: Border.all(color: const Color(0x4dffffff), width: 1),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -493,19 +464,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.info_outline),
-                                color: iconThree
-                                    ? Colors.black
-                                    : Color(0xFF3B66B7),
+                                color: iconThree ? Colors.black : Color(0xFF3B66B7),
                                 onPressed: () {
                                   setState(() {
                                     iconThree = true;
                                   });
                                   showDialog(
                                     context: context,
-                                    builder: (BuildContext context) =>
-                                        AlertDialog(
-                                      title: const Text(
-                                          'Counterparts suspected resistance point.'),
+                                    builder: (BuildContext context) => AlertDialog(
+                                      title: const Text('Counterparts suspected resistance point.'),
                                       content: const Text(
                                           "This is your best guess at what your counterparts resistance point is. \n \n"
                                           "This value should be higher than your suspected target because a higher resistance"
@@ -529,8 +496,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                         TextField(
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(
-                                RegExp(_getRegexString())),
+                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
                             TextInputFormatter.withFunction(
                                 (oldValue, newValue) => newValue.copyWith(
                                       text: newValue.text.replaceAll('.', ','),
@@ -539,15 +505,14 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           onChanged: (newVal) {
                             try {
                               setState(() {
-                                _resistance = int.parse(newVal);
+                                widget.resistance = int.parse(newVal);
                                 if (newVal == "") {
-                                  _resistance == 0;
+                                  widget.resistance == 0;
                                 }
                               });
                             } on FormatException {
                               if (newVal != "") {
-                                Utils.showSnackBar(
-                                    "Your resistance value needs to be an integer.");
+                                Utils.showSnackBar("Your resistance value needs to be an integer.");
                               }
                             }
                           },
@@ -564,18 +529,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           decoration: InputDecoration(
                             disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0xff000000), width: 1),
+                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0xff000000), width: 1),
+                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0xff000000), width: 1),
+                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
                             hintText: "Resistance Point",
                             hintStyle: const TextStyle(
@@ -587,8 +549,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             filled: true,
                             fillColor: const Color(0xfff2f2f3),
                             isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                           ),
                         ),
                       ],
@@ -598,116 +559,42 @@ class _CpsRubrikState extends State<CpsRubrik> {
               ),
             ),
           ),
+          PrepareNegotiationNextBar(Next: Next, NextPage: PlanSummary()),
+        ],
+      ),
+    );
+  }
 
-          // Next and Back Button
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.all(0),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color(0x00ffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x00ffffff), width: 0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      // Check if all the issues add up to 100
-                      // Target is lower than resistance
-                      num added = 0;
-                      for (String current
-                          in currentNegotiation.cpIssues.keys) {
-                        added += currentNegotiation.cpIssues[current]["relativeValue"];
-                        currentNegotiation.cpIssues[current]["target"] = _target as int;
-                        currentNegotiation.cpIssues[current]["resistance"] = _resistance as int;
+  bool Next() {
+    // Check if all the issues add up to 100
+    // Target is lower than resistance
+    num added = 0;
+    for (String current in currentNegotiation.cpIssues.keys) {
+      added += currentNegotiation.cpIssues[current]["relativeValue"];
+      currentNegotiation.cpIssues[current]["target"] = widget.target;
+      currentNegotiation.cpIssues[current]["resistance"] = widget.resistance;
 
-                        print(currentNegotiation.cpIssues[current]["resistance"]);
-                      }
-                      if (added == 100) {
-                        if (_target != -1 ||
-                            _resistance != -1 ||
-                            _BATNA != -1) {
-                          if (_target < _resistance) {
-                            currentNegotiation.cpTarget = _target;
-                            currentNegotiation.cpBATNA = _BATNA;
-                            currentNegotiation.cpResistance = _resistance;
+      print(currentNegotiation.cpIssues[current]["resistance"]);
+    }
+    if (added == 100) {
+      if (widget.target != -1 || widget.resistance != -1 || widget.BATNA != -1) {
+        if (widget.target < widget.resistance) {
+          currentNegotiation.cpTarget = widget.target;
+          currentNegotiation.cpBATNA = widget.BATNA;
+          currentNegotiation.cpResistance = widget.resistance;
 
-                            print(currentNegotiation.toString());
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PlanSummary()),
-                            );
-                          } else {
-                            Utils.showSnackBar(
-                                "The CP target should be lower in points than the CP resistance.");
-                          }
-                        } else {
-                          Utils.showSnackBar(
-                              "You must enter value for each field.");
-                        }
-                      } else {
-                        Utils.showSnackBar("The issue points must add to 100");
-                      }
-                    },
-                    color: const Color(0xff4d4d4d),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xff808080), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    textColor: const Color(0xffffffff),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ]));
+          return true;
+        } else {
+          Utils.showSnackBar("The CP target should be lower in points than the CP resistance.");
+        }
+      } else {
+        Utils.showSnackBar("You must enter value for each field.");
+      }
+    } else {
+      Utils.showSnackBar("The issue points must add to 100");
+    }
+
+    return false;
   }
 
   EvenlyDistribute() {
@@ -722,7 +609,6 @@ class _CpsRubrikState extends State<CpsRubrik> {
 
     // Last issue gains 1 if the rounding takes the usual split to 99
     points[length - 1] = (100 - count);
-
   }
 
   String _getRegexString() => r'[0-9]';
@@ -734,8 +620,7 @@ class EnterValues extends StatefulWidget {
   final int index;
   final List<int> points;
 
-  EnterValues(
-      {required this.issueName, required this.index, required this.points});
+  EnterValues({required this.issueName, required this.index, required this.points});
 
   @override
   State<EnterValues> createState() => _EnterValuesState();
@@ -772,10 +657,9 @@ class _EnterValuesState extends State<EnterValues> {
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
-              TextInputFormatter.withFunction(
-                  (oldValue, newValue) => newValue.copyWith(
-                        text: newValue.text.replaceAll('.', ','),
-                      ))
+              TextInputFormatter.withFunction((oldValue, newValue) => newValue.copyWith(
+                    text: newValue.text.replaceAll('.', ','),
+                  ))
             ],
             onChanged: (newVal) {
               currentNegotiation.cpIssues[widget.issueName!] = int.parse(newVal);
@@ -794,18 +678,15 @@ class _EnterValuesState extends State<EnterValues> {
             decoration: InputDecoration(
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
-                borderSide:
-                    const BorderSide(color: Color(0xff000000), width: 1),
+                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
-                borderSide:
-                    const BorderSide(color: Color(0xff000000), width: 1),
+                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
-                borderSide:
-                    const BorderSide(color: Color(0xff000000), width: 1),
+                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
               ),
               hintText: "Points",
               hintStyle: const TextStyle(
@@ -817,8 +698,7 @@ class _EnterValuesState extends State<EnterValues> {
               filled: true,
               fillColor: const Color(0xfff2f2f3),
               isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             ),
           ),
         ),
