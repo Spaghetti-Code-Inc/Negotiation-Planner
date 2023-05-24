@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
 import 'NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
@@ -35,19 +36,29 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
     }
   );
 
+
   late var totalValues = {
     "userValue": 0.0,
     "cpValue": 0.0
   };
 
+
+
   @override
   Widget build(BuildContext context) {
-    print("update");
+
+    totalValues["userValue"] = 0.0;
+    totalValues["cpValue"] = 0.0;
+    for(String each in issueVals.keys){
+      totalValues["userValue"] = issueVals[each] * double.parse(negotiationSnap.issues[each]["relativeValue"]) * .0001 + totalValues["userValue"];
+      totalValues["cpValue"] = (100 - issueVals[each]) * negotiationSnap.cpIssues[each]["relativeValue"] * .0001 + totalValues["cpValue"]!;
+    }
+
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, id: widget.docId, snapshot: widget.negotiation),
       body: SingleChildScrollView(
         child: Column(children: [
-          // Track Progress Text
+          /// Track Progress Text
           Container(
             margin: EdgeInsets.only(top: 15, bottom: 12),
             padding: EdgeInsets.only(),
@@ -55,16 +66,16 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
                 Text("Track Progress", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
           ),
 
-          // Divider
+          /// Divider
           Divider(
             thickness: 3,
             color: Colors.black,
           ),
 
-          // Padding between divider and issues
+          /// Padding between divider and issues
           Container(margin: EdgeInsets.only(bottom: 15)),
 
-          // Sliders changing issue values
+          /// Sliders changing issue values
           Container(
             height: negotiationSnap.cpIssues.keys.length * 80,
             child: ListView.builder(
@@ -115,25 +126,8 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
                     ),
                   ),
                 ),
-                // Info Button
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: navyBlue),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.transparent,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.info_outlined,
-                      size: 28,
-                      color: navyBlue,
-                    ),
-                    onPressed: () {},
-                    padding: EdgeInsets.all(0),
-                  ),
-                ),
+                /// Info Button
+                TotalValueInfo(userValue: totalValues["userValue"]!, counterPartValue: totalValues["cpValue"]!, negotiation: negotiationSnap,)
               ],
             ),
           ),
@@ -148,7 +142,8 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
                 onChanged: (double value) {
                   value = value;
                 },
-              )),
+              ),
+          ),
 
           /// Header for entire negotiation value for Counter part
           Container(
@@ -167,25 +162,8 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
                     ),
                   ),
                 ),
-                // Info Button
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: navyBlue),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.transparent,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.info_outlined,
-                      size: 28,
-                      color: navyBlue,
-                    ),
-                    onPressed: () {},
-                    padding: EdgeInsets.all(0),
-                  ),
-                ),
+                /// Info Button
+                TotalValueInfo(userValue: totalValues["userValue"]!, counterPartValue: totalValues["cpValue"]!, negotiation: negotiationSnap,)
               ],
             ),
           ),
@@ -287,11 +265,78 @@ class _EvaluateAgreementState extends State<EvaluateAgreement> {
 
   }
 
-
-
   // So the update agreement - flag and save/discard buttons - can reset the page
   refresh() {
     setState(() {});
+  }
+}
+
+/// Editable slider info
+class SliderInfo extends StatelessWidget{
+
+  double sliderValue;
+  String issueName;
+  Negotiation negotiationSnap;
+
+  SliderInfo({Key? key, required this.sliderValue, required this.issueName, required this.negotiationSnap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        border: Border.all(color: navyBlue),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.transparent,
+      ),
+      child: IconButton(
+        icon: Icon(
+          Icons.info_outlined,
+          size: 28,
+          color: navyBlue,
+        ),
+        onPressed: () {
+          showInfoTrackProgress(context, issueName, sliderValue, negotiationSnap);
+        },
+        padding: EdgeInsets.all(0),
+      ),
+    );
+  }
+
+}
+
+/// Total Value slider info
+class TotalValueInfo extends StatelessWidget {
+
+  double userValue;
+  double counterPartValue;
+  Negotiation negotiation;
+
+  TotalValueInfo({Key? key, required this.userValue, required this.counterPartValue, required this.negotiation}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        border: Border.all(color: navyBlue),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.transparent,
+      ),
+      child: IconButton(
+        icon: Icon(
+          Icons.info_outlined,
+          size: 28,
+          color: navyBlue,
+        ),
+        onPressed: () {
+          showTotalInfoTrackProgress(context, userValue, counterPartValue, negotiation);
+        },
+        padding: EdgeInsets.all(0),
+      ),
+    );
   }
 }
 
@@ -348,27 +393,10 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
                 ),
 
                 /// Edit, Discard, Save
-                ButtonAddonTrackProgress(editing: widget.editing, handleEdits: widget.handleEdits, name: issueName,),
+                ButtonAddonTrackProgress(editing: widget.editing, handleEdits: widget.handleEdits, name: issueName),
 
                 /// Info Button
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: navyBlue),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.transparent,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.info_outlined,
-                      size: 28,
-                      color: navyBlue,
-                    ),
-                    onPressed: () {},
-                    padding: EdgeInsets.all(0),
-                  ),
-                ),
+                SliderInfo(issueName: issueName, sliderValue: widget.issueValues[issueName], negotiationSnap: widget.negotiation),
               ],
             ),
           ),

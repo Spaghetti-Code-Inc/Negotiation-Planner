@@ -391,7 +391,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         "cpTarget": negotiationSnap.cpTarget,
         "cpResistance": negotiationSnap.resistance,
       };
-      showMyDialog(context, name,  values);
+      showInfoRubric(context, name,  values);
     }
     else{
       print(issueVals[name].toString());
@@ -403,7 +403,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         "cpResistance": negotiationSnap.cpIssues[name]["resistance"],
       };
 
-      showMyDialog(context, name, values);
+      showInfoRubric(context, name, values);
     }
   }
 }
