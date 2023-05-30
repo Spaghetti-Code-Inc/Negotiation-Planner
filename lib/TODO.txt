@@ -23,3 +23,9 @@ Cleaning Code:
 
 Backlog:
 1. Sliders should not pass over each other in edit negotiation page.
+
+
+Debugging:
+1. Exception: FormatException: Invalid radix-10 number (at character 1) null
+   Where: Occurs when more than one issue is being pushed from the weight issues page (step 2) to
+   the point assignment page (step 3)
