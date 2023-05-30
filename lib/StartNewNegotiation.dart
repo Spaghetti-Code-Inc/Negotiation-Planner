@@ -16,6 +16,8 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
   final TitleController = TextEditingController();
   final SummaryController = TextEditingController();
 
+  bool topTextVisible = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,30 +46,44 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children:[
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  "This tool is designed to help you organize your plan for negotiation. ",
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16,
-                    color: Color(0xff000000),
+
+              if(topTextVisible) Row(
+                children: [
+                  Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(5, 5, 0, 5),
+                    padding: const EdgeInsets.fromLTRB(8, 8, 2, 8),
+                    child: Text(
+                      "This tool is designed to help you organize your plan for negotiation. ",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 15,
+                        color: Color(0xff000000),
+                      ),
+                    ),
                   ),
-                ),
+                  ),
+                  IconButton(
+                      onPressed: () => removeText(),
+                      icon: Icon(Icons.close),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 8, 32),
+
+                  )
+                ],
               ),
+
               Container(
                 margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFFFFF),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(color: const Color(0x4dffffff), width: 0),
+
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -87,7 +103,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                     ),
                     // TITLE Text field
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(0),
                       child: TextField(
                         cursorColor: Color(0xff0A0A5B),
                         textInputAction: TextInputAction.next,
@@ -129,7 +145,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                             fontSize: 14,
                             color: Color(0xff0A0A5B),
                           ),
-                          filled: true,
+                          filled: false,
                           fillColor: const Color(0xfff2f2f3),
                           isDense: false,
                           contentPadding:
@@ -144,13 +160,13 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
 
               Container(
                 margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFFFFF),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(color: const Color(0x4dffffff), width: 0),
+                  border: Border.all(color: const Color(0xffffffff), width: 0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -210,7 +226,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                         ),
 
 
-                        filled: true,
+                        filled: false,
                         fillColor: const Color(0xfff2f2f3),
                         isDense: true,
                         contentPadding:
@@ -229,5 +245,10 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
         ),
       ),
     );
+  }
+
+  removeText() {
+    topTextVisible = false;
+    setState(() {});
   }
 }
