@@ -49,7 +49,7 @@ class _IssueValuesState extends State<IssueValues> {
             padding: const EdgeInsets.only(bottom: 10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: const Color(0xffffff),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
@@ -71,13 +71,13 @@ class _IssueValuesState extends State<IssueValues> {
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontStyle: FontStyle.normal,
-                            fontSize: 28,
+                            fontSize: 22,
                             color: Color(0xff000000),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 48),
+                        padding: EdgeInsets.fromLTRB(48, 8, 0, 30),
                         child: Text(
                           "Assign the amount of points for each potential settlement",
                           textAlign: TextAlign.center,
@@ -85,7 +85,7 @@ class _IssueValuesState extends State<IssueValues> {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontStyle: FontStyle.normal,
-                            fontSize: 18,
+                            fontSize: 14,
                             color: Color(0xff000000),
                           ),
                         ),
