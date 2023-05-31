@@ -111,7 +111,7 @@ class RubricSummary extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontStyle: FontStyle.normal,
-                              fontSize: 28,
+                              fontSize: 16,
                               color: Color(0xff000000),
                             ),
                           ),
@@ -124,7 +124,7 @@ class RubricSummary extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 18,
+                                fontSize: 12,
                                 color: Color(0xff000000),
                               ),
                             ),
@@ -142,7 +142,7 @@ class RubricSummary extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 18,
+                                fontSize: 12,
                                 color: Color(0xff000000),
                               ),
                             ),
@@ -156,7 +156,7 @@ class RubricSummary extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 18,
+                                fontSize: 12,
                                 color: Color(0xff000000),
                               ),
                             ),

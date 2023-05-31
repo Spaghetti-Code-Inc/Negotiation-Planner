@@ -77,7 +77,7 @@ class _IssueValuesState extends State<IssueValues> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(48, 8, 0, 30),
+                        padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
                         child: Text(
                           "Assign the amount of points for each potential settlement",
                           textAlign: TextAlign.center,
@@ -95,7 +95,7 @@ class _IssueValuesState extends State<IssueValues> {
                     padding: EdgeInsets.only(top: 8),
                     child: IconButton(
                       icon: const Icon(Icons.info_outline),
-                      color: iconColor ? Colors.black : Color(0xFF3B66B7),
+                      color: iconColor ? Colors.black : Color(0xff0A0A5B),
                       onPressed: () {
                         setState(() {
                           iconColor = true;
@@ -266,7 +266,7 @@ class EnterValues extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 20,
+                              fontSize: 18,
                               color: Color(0xffffffff),
                             ),
                           ),
@@ -278,10 +278,9 @@ class EnterValues extends StatelessWidget {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                     child: FilledButton(
                       onPressed: () { EvenlyDistribute(); },
-                      child: Text("Evenly distribute points"),
+                      child: Text("Distribute Evenly"),
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.grey),
+                        backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
                       ),
                     ),
                   ),
@@ -299,486 +298,48 @@ class EnterValues extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
+                //"This represents the most you can reasonably justify and will be your opening offer.",
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: const Color(0x55000000),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.zero,
-                        border: Border.all(
-                            color: const Color(0x4d9e9e9e), width: 1),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                        child: Text(
-                          "What would be your A+ settlement on this issue? This represents the most you can reasonably justify and will be your opening offer.",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ),
                     Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: const Color(0x53000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(_getRegexString())),
-                                TextInputFormatter.withFunction(
-                                    (oldValue, newValue) => newValue.copyWith(
-                                          text: newValue.text
-                                              .replaceAll('.', ','),
-                                        ))
-                              ],
-                              controller: ctrl[0],
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                  'A+ Settlement'
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
+                                content: const Text(
+                                  "This represents the most you can reasonably "
+                                      "justify and will be your opening offer."
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                labelText: "Pts.",
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ),
+                              )
+                          );
+                        },
+                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+                        child: Text("A+ Settlement"),
+
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
                     Container(
-                      margin: const EdgeInsets.all(0),
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width *
-                          0.7000000000000001,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: const Color(0x1f000000),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.zero,
-                        border: Border.all(
-                            color: const Color(0x4d9e9e9e), width: 1),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                        child: Text(
-                          "What would be your A settlement on this issue? This represents the settlement you will strive to obtain or beat. (Also knwon as your target on the issue)",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: 200,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: const Color(0x1f000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(_getRegexString())),
-                                TextInputFormatter.withFunction(
-                                    (oldValue, newValue) => newValue.copyWith(
-                                          text: newValue.text
-                                              .replaceAll('.', ','),
-                                        ))
-                              ],
-                              controller: ctrl[1],
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                labelText: "Pts.",
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width *
-                          0.7000000000000001,
+                      width: MediaQuery.of(context).size.width * 0.2,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0x55000000),
+                        color: const Color(0xFFFFFF),
                         shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.zero,
-                        border: Border.all(
-                            color: const Color(0x4d9e9e9e), width: 1),
+
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                        child: Text(
-                          "What would be your B settlement on this issue?",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0x55000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(_getRegexString())),
-                                TextInputFormatter.withFunction(
-                                    (oldValue, newValue) => newValue.copyWith(
-                                          text: newValue.text
-                                              .replaceAll('.', ','),
-                                        ))
-                              ],
-                              controller: ctrl[2],
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                labelText: "Pts.",
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width *
-                          0.7000000000000001,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0x1f000000),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.zero,
-                        border: Border.all(
-                            color: const Color(0x4d9e9e9e), width: 1),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                        child: Text(
-                          "What would be your C settlement on this issue?",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0x1f000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(_getRegexString())),
-                                TextInputFormatter.withFunction(
-                                    (oldValue, newValue) => newValue.copyWith(
-                                          text: newValue.text
-                                              .replaceAll('.', ','),
-                                        ))
-                              ],
-                              controller: ctrl[3],
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                labelText: "Pts.",
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width *
-                          0.7000000000000001,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(0x54000000),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.zero,
-                        border: Border.all(
-                            color: const Color(0x4d9e9e9e), width: 1),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                        child: Text(
-                          "What would be your D settlement on this issue? (Also your resistance point on the issue)",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: const Color(0x53000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 10, 8, 5),
+                        child: Align(
+                          alignment: Alignment.center,
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
@@ -786,9 +347,394 @@ class EnterValues extends StatelessWidget {
                                   RegExp(_getRegexString())),
                               TextInputFormatter.withFunction(
                                   (oldValue, newValue) => newValue.copyWith(
-                                        text:
-                                            newValue.text.replaceAll('.', ','),
+                                        text: newValue.text
+                                            .replaceAll('.', ','),
                                       ))
+                            ],
+                            controller: ctrl[0],
+                            obscureText: false,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                            decoration: InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              labelText: "Pts.",
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xfff2f2f3),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  //"This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                    'A Settlement'
+                                ),
+                                content: const Text(
+                                    "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
+                                ),
+                              )
+                          );
+                        },
+                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+                        child: Text("A Settlement"),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: const EdgeInsets.all(0),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFF),
+                        shape: BoxShape.rectangle,
+
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                      (oldValue, newValue) => newValue.copyWith(
+                                    text: newValue.text
+                                        .replaceAll('.', ','),
+                                  ))
+                            ],
+                            controller: ctrl[1],
+                            obscureText: false,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                            decoration: InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              labelText: "Pts.",
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xfff2f2f3),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                    'B Settlement'
+                                ),
+                                content: const Text(
+                                    "This represents an acceptable settlement to you."
+                                ),
+                              )
+                          );
+                        },
+                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+                        child: Text("B Settlement"),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: const EdgeInsets.all(0),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFF),
+                        shape: BoxShape.rectangle,
+
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                      (oldValue, newValue) => newValue.copyWith(
+                                    text: newValue.text
+                                        .replaceAll('.', ','),
+                                  ))
+                            ],
+                            controller: ctrl[2],
+                            obscureText: false,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                            decoration: InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              labelText: "Pts.",
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xfff2f2f3),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text(
+                                'C Settlement'
+                              ),
+                              content: const Text(
+                              "This represents an okay settlement for you."
+                              ),
+                            )
+                          );
+                        },
+                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+                      child: Text("C Settlement"),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: const EdgeInsets.all(0),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFF),
+                        shape: BoxShape.rectangle,
+
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                      (oldValue, newValue) => newValue.copyWith(
+                                    text: newValue.text
+                                        .replaceAll('.', ','),
+                                  ))
+                            ],
+                            controller: ctrl[3],
+                            obscureText: false,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                            decoration: InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              labelText: "Pts.",
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xfff2f2f3),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                    'D Settlement'
+                                ),
+                                content: const Text(
+                                    "This represents a negative settlement for you."
+                                ),
+                              )
+                          );
+                        },
+                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+                        child: Text("D Settlement"),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: const EdgeInsets.all(0),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFF),
+                        shape: BoxShape.rectangle,
+
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                      (oldValue, newValue) => newValue.copyWith(
+                                    text: newValue.text
+                                        .replaceAll('.', ','),
+                                  ))
                             ],
                             controller: ctrl[4],
                             obscureText: false,
@@ -825,7 +771,7 @@ class EnterValues extends StatelessWidget {
                               ),
                               filled: true,
                               fillColor: const Color(0xfff2f2f3),
-                              isDense: false,
+                              isDense: true,
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 12),
                             ),
@@ -835,112 +781,95 @@ class EnterValues extends StatelessWidget {
                     ),
                   ],
                 ),
+                Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width *
-                          0.7000000000000001,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        color: const Color(0x1f000000),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.zero,
-                        border: Border.all(
-                            color: const Color(0x4d9e9e9e), width: 1),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          "What would be your F settlement on this issue?",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
+                    Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                    'F Settlement'
+                                ),
+                                content: const Text(
+                                    "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
+                                ),
+                              )
+                          );
+                        },
+                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+                        child: Text("F Settlement"),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: 200,
-                        height: 65,
-                        decoration: BoxDecoration(
-                          color: const Color(0x1f000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TextField(
-                              onChanged: (newVal) {
-                                Utils.showSnackBar(
-                                    "Your F deal should be the least amount of points possible.");
-                                ctrl[5].text = "0";
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(_getRegexString())),
-                                TextInputFormatter.withFunction(
-                                    (oldValue, newValue) => newValue.copyWith(
-                                          text: newValue.text
-                                              .replaceAll('.', ','),
-                                        ))
-                              ],
-                              controller: ctrl[5],
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              style: const TextStyle(
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: const EdgeInsets.all(0),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFF),
+                        shape: BoxShape.rectangle,
+
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(_getRegexString())),
+                              TextInputFormatter.withFunction(
+                                      (oldValue, newValue) => newValue.copyWith(
+                                    text: newValue.text
+                                        .replaceAll('.', ','),
+                                  ))
+                            ],
+                            controller: ctrl[5],
+                            obscureText: false,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                            decoration: InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: const BorderSide(
+                                    color: Color(0xff000000), width: 1),
+                              ),
+                              labelText: "Pts.",
+                              labelStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14,
                                 color: Color(0xff000000),
                               ),
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                labelText: "Pts.",
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                              ),
+                              filled: true,
+                              fillColor: const Color(0xfff2f2f3),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 12),
                             ),
                           ),
                         ),
