@@ -12,12 +12,11 @@ class UnderStantRubrc extends StatelessWidget {
   TextEditingController totalTarget = new TextEditingController();
   TextEditingController totalResistance = new TextEditingController();
 
-  int points = initPoints();
-
-
-
   @override
   Widget build(BuildContext context) {
+
+    print(currentNegotiation.toString());
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xffffffff),
@@ -100,7 +99,7 @@ class UnderStantRubrc extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive $points points.",
+                      "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive ${initPoints()} points.",
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
@@ -433,10 +432,9 @@ class UnderStantRubrc extends StatelessWidget {
     return false;
   }
 
+  // Calculates the score for a A+ deal on your first issue but your least acceptable deal on the rest
   static int initPoints(){
-
     num counter = 0;
-
 
     bool firstRun = true;
     for(String name in currentNegotiation.issues.keys){
