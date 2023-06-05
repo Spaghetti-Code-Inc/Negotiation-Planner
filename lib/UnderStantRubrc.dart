@@ -86,6 +86,71 @@ class UnderStantRubrc extends StatelessWidget {
                                     ),
                                     onPressed: () {
                                       Navigator.pop(context);
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                        title: const Text(
+                                            'Understanding your rubric'
+                                        ),
+                                        content: Text(
+                                            "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive ${initPoints()} points."
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text('Next'),
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Color(0xFF6DC090),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) => AlertDialog(
+                                                    title: const Text(
+                                                        'Understanding your rubric'
+                                                    ),
+                                                    content: Text(
+                                                        "You might get a settlement on an issue that does not appear on your rubric, so you might need to estimate a reasonable value."
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: const Text('Next'),
+                                                        style: TextButton.styleFrom(
+                                                          foregroundColor: Color(0xFF6DC090),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) => AlertDialog(
+                                                                title: const Text(
+                                                                    'Example'
+                                                                ),
+                                                                content: Text(
+                                                                    "Let’s say A+ deal on salary is \$50,000, and you gave that a value of 75 points. You get an offer of \$47,500 in salary, even though this value is not in the chart. The point to remember when using this tool is to pick numbers for your scoring system that reflect various levels of importance to you."
+                                                                ),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    child: const Text('Done'),
+                                                                    style: TextButton.styleFrom(
+                                                                      foregroundColor: Color(0xFF6DC090),
+                                                                    ),
+                                                                    onPressed: () {
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              )
+                                                          );
+                                                        },
+                                                      ),
+                                                    ],
+                                                  )
+                                                );
+                                            },
+                                          ),
+                                        ],
+                                      ));
                                     },
                                   ),
                                 ],
@@ -96,95 +161,9 @@ class UnderStantRubrc extends StatelessWidget {
                       ]
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: const Color(0x00000000),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "If you were to receive an A+ on every deal you would score a 100 (a perfect score!)",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: const Color(0x00000000),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border:
-                        Border.all(color: const Color(0x4dffffff), width: 0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive ${initPoints()} points.",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: const Color(0x00000000),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "You might get a settlement on an issue that doesn’t appear on your rubric, so you might need to estimate a reasonable value. Let’s say A+ deal on salary is \$50,000, and you gave that a value of 75 points. You get an offer of \$47,500 in salary, even though this value is not in the chart. The point to remember when using this tool is to pick numbers for your scoring system that reflect various levels of importance to you.",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 18,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.only(top: 10),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                     color: Color(0x00000000),
@@ -240,7 +219,7 @@ class UnderStantRubrc extends StatelessWidget {
                     borderRadius: BorderRadius.zero,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                     child: TextField(
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
@@ -301,6 +280,9 @@ class UnderStantRubrc extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+                Divider(
+                  thickness: 1,
                 ),
                 Container(
                   margin: const EdgeInsets.all(0),

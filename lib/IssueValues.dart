@@ -28,7 +28,7 @@ class _IssueValuesState extends State<IssueValues> {
     int? length = _issueNames?.length;
     for (int i = 0; i < length!; i++) {
       _controllers.add([]);
-      // 6 because that is the number of settlement oppurtunites
+      // 6 because that is the number of settlement opportunists
       for (int j = 0; j < 6; j++) {
         _controllers[i].add(TextEditingController());
       }
