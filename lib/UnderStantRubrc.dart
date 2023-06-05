@@ -21,7 +21,7 @@ class UnderStantRubrc extends StatelessWidget {
     print(currentNegotiation.toString());
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
