@@ -164,5 +164,3 @@ class NextBar extends StatelessWidget {
   }
 }
 
-
-

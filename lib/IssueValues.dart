@@ -96,6 +96,7 @@ class _IssueValuesState extends State<IssueValues> {
                     child: IconButton(
                       icon: const Icon(Icons.info_outline),
                       color: iconColor ? Colors.black : Color(0xff0A0A5B),
+                      iconSize: 40,
                       onPressed: () {
                         setState(() {
                           iconColor = true;
@@ -123,8 +124,8 @@ class _IssueValuesState extends State<IssueValues> {
                           ),
                         );
                       },
-                      iconSize: 40,
-                    )),
+                    )
+                ),
               ],
             ),
           ),

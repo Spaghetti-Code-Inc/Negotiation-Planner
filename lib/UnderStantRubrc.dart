@@ -8,6 +8,9 @@ import 'Utils.dart';
 import 'main.dart';
 
 class UnderStantRubrc extends StatelessWidget {
+
+  bool iconColor = false;
+
   UnderStantRubrc({super.key});
   TextEditingController totalTarget = new TextEditingController();
   TextEditingController totalResistance = new TextEditingController();
@@ -35,30 +38,65 @@ class UnderStantRubrc extends StatelessWidget {
               children: [
                 Container(
                   margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: const Color(0x1f000000),
+                    color: const Color(0xffffff),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.zero,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                    border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
                   ),
-                  child: const Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Understanding your rubric",
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 28,
-                        color: Color(0xff000000),
-                      ),
-                    ),
+                  child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Target & Resistance",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 22,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.info_outline),
+                          color: iconColor ? Colors.black : Color(0xff0A0A5B),
+                          iconSize: 40,
+                          onPressed: () {
+
+                            iconColor = true;
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                    'Understanding your rubric'
+                                ),
+                                content: const Text(
+                                    "If you were to receive an A+ on every deal you would score a 100 (a perfect score!)"
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Next'),
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Color(0xFF6DC090),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                      ]
                   ),
                 ),
+
                 Container(
                   margin: const EdgeInsets.all(0),
                   padding: const EdgeInsets.all(0),
