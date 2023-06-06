@@ -8,13 +8,25 @@ import 'package:negotiation_tracker/main.dart';
 import 'Utils.dart';
 
 //TODO: If you go back the values should still save
-class BATNATest extends StatelessWidget {
-  BATNATest({super.key});
+class BATNATest extends StatefulWidget {
+  @override
+  BATNATestState createState() => BATNATestState();
+}
+
+class BATNATestState extends State<BATNATest> {
+
+  @override
+
+  bool dropDownOne = false;
+  IconData dropDownOneIcon = Icons.arrow_drop_down;
+
+  //BATNATestState({super.key});
+
   TextEditingController BATNA = new TextEditingController();
   TextEditingController CurrentOffer = new TextEditingController();
 
-  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: PrepareBar(),
@@ -35,96 +47,91 @@ class BATNATest extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        const Text(
-                          "Test Drive #1: Your BATNA",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 20,
-                            color: Color(0xff000000),
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                              child: const Text(
+                                "Test Drive #1: Your BATNA",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+
+
+
+                                  setState(() {
+
+                                    dropDownOne = !dropDownOne;
+
+                                    if (dropDownOne) {
+                                      dropDownOneIcon = Icons.arrow_drop_up;
+                                    }
+                                    else {
+                                      dropDownOneIcon = Icons.arrow_drop_down;
+                                    }
+
+                                  });
+
+                                },
+                                icon: Icon(dropDownOneIcon),
+                                color: Color(0xff0A0A5B)
+                            )
+                          ]
+                        ),
+
+
+                        AnimatedContainer(
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xff0A0A5B))
                           ),
-                        ),
-                        const Divider(
-                          color: Color(0xff000000),
-                          height: 16,
-                          thickness: 2,
-                          indent: 0,
-                          endIndent: 0,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                          duration: const Duration(milliseconds: 700),
+                          height: dropDownOne ? 0 : 360.0,
+                          curve: Curves.fastOutSlowIn,
                           child: Text(
-                            "Think about your Best Alternative to a Negotiated Agreement (BATNA).",
+                            "Think about your Best Alternative to a Negotiated Agreement (BATNA). \n"
+                                "If your BATNA is another offer. Use this rubric to value that offer. \n"
+                                "Your BATNA could also reflect a completely different opportunity. \n"
+                                "Pick a number (based on your scoring system if possible) that reflects the value of your BATNA to you.",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
+
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 18,
+                              fontSize: 16,
+                              height: 1.2,
                               color: Color(0xff000000),
                             ),
                           ),
                         ),
+
                         const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
-                            "If your BATNA is another offer. Use this rubric to value that offer. ",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
-                            "Your BATNA could also reflect a completely different oppurtunity. ",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                          child: Text(
-                            "Pick a number (based on your scoring system if possible) that reflects the value of your BATNA to you.",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          padding: EdgeInsets.fromLTRB(2, 10, 2, 0),
                           child: Text(
                             "Out of 100 points, the value of your BATNA is ___.",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
-                              fontSize: 18,
+                              fontSize: 17,
                               color: Color(0xff000000),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
@@ -188,6 +195,10 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Divider(
+                          thickness: 2,
+                          color: Color(0xFF1E2027),
+                        ),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
                           child: Text(
@@ -202,13 +213,7 @@ class BATNATest extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Divider(
-                          color: Color(0xff000000),
-                          height: 16,
-                          thickness: 2,
-                          indent: 0,
-                          endIndent: 0,
-                        ),
+
                         const Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Text(
@@ -338,4 +343,8 @@ class BATNATest extends StatelessWidget {
     }
   }
   String _getRegexString() => r'[0-9]';
+
 }
+
+
+
