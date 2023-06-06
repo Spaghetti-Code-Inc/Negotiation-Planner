@@ -19,10 +19,10 @@ class BATNATestState extends State<BATNATest> {
 
   //drop down menu variables
 
-  bool dropDownOne = false;
+  bool dropDownOne = true;
   IconData dropDownOneIcon = Icons.arrow_drop_down;
 
-  bool dropDownTwo = false;
+  bool dropDownTwo = true;
   IconData dropDownTwoIcon = Icons.arrow_drop_down;
 
   //BATNATestState({super.key});
@@ -80,10 +80,10 @@ class BATNATestState extends State<BATNATest> {
                                     dropDownOne = !dropDownOne;
 
                                     if (dropDownOne) {
-                                      dropDownOneIcon = Icons.arrow_drop_up;
+                                      dropDownOneIcon = Icons.arrow_drop_down;
                                     }
                                     else {
-                                      dropDownOneIcon = Icons.arrow_drop_down;
+                                      dropDownOneIcon = Icons.arrow_drop_up;
                                     }
 
                                   });
@@ -126,7 +126,7 @@ class BATNATestState extends State<BATNATest> {
                         const Padding(
                           padding: EdgeInsets.fromLTRB(2, 10, 2, 0),
                           child: Text(
-                            "Out of 100 points, the value of your BATNA is ___.",
+                            "Out of 100 points, what is the value of your BATNA?",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -234,10 +234,10 @@ class BATNATestState extends State<BATNATest> {
                                       dropDownTwo = !dropDownTwo;
 
                                       if (dropDownTwo) {
-                                        dropDownTwoIcon = Icons.arrow_drop_up;
+                                        dropDownTwoIcon = Icons.arrow_drop_down;
                                       }
                                       else {
-                                        dropDownTwoIcon = Icons.arrow_drop_down;
+                                        dropDownTwoIcon = Icons.arrow_drop_up;
                                       }
 
                                     });
@@ -276,7 +276,7 @@ class BATNATestState extends State<BATNATest> {
                         const Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Text(
-                            "Out of 100 points, the value of your Current Offer is ___.",
+                            "Out of 100 points, what is the value of your current offer?",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(

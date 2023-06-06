@@ -16,12 +16,21 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MaterialApp(
-    scaffoldMessengerKey: Utils.messengerKey,
-    title: 'Negotiation Planner',
-    home: MainPage(),
-    navigatorKey: navigatorKey,
-  ));
+  runApp(
+      MaterialApp(
+        scaffoldMessengerKey: Utils.messengerKey,
+        title: 'Negotiation Planner',
+        home: MainPage(),
+        navigatorKey: navigatorKey,
+        theme: ThemeData(
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: Color(0xFF6DC090),
+            selectionColor: Color(0xFF6DC090),
+            selectionHandleColor: Color(0xFF6DC090),
+          ),
+        ),
+      )
+  );
 }
 
 Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {}, cpTarget: -1, cpBATNA: -1, cpResistance: -1, target: -1, resistance: -1);

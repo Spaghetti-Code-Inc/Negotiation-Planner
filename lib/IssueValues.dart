@@ -361,6 +361,7 @@ class EnterValues extends StatelessWidget {
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
                               color: Color(0xff000000),
+
                             ),
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
