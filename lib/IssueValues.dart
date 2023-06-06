@@ -22,9 +22,6 @@ class _IssueValuesState extends State<IssueValues> {
 
   @override
   Widget build(BuildContext context) {
-
-    print(currentNegotiation.toString());
-
     int? length = _issueNames?.length;
     for (int i = 0; i < length!; i++) {
       _controllers.add([]);
@@ -251,23 +248,27 @@ class EnterValues extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: Row(
                 children: [
+                  /// Issue Name
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            issueName!,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xffffffff),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              issueName!,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18,
+                                color: Color(0xffffffff),
+                              ),
                             ),
                           ),
                         ),

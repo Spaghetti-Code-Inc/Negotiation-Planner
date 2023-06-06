@@ -1,6 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/WeightIssues.dart';
 
 import 'Utils.dart';
@@ -146,6 +147,7 @@ class DetermineIssues extends StatelessWidget {
                   )),
             ]),
           ),
+          /// Contains list of issues
           Expanded(
             child: AnimatedList(
                 key: _key,
@@ -161,6 +163,10 @@ class DetermineIssues extends StatelessWidget {
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: TextFormField(
+                              inputFormatters: [
+                                /// Determines max length of the Issue name
+                                LengthLimitingTextInputFormatter(34)
+                              ],
                               cursorColor: Color(0xff0A0A5B),
                               controller: _controllers[index],
                               decoration: InputDecoration(
@@ -239,8 +245,4 @@ class DetermineIssues extends StatelessWidget {
       return false;
     }
   }
-}
-
-abstract class ListItem {
-  Widget TextField();
 }
