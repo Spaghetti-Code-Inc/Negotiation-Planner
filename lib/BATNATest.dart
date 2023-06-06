@@ -17,8 +17,13 @@ class BATNATestState extends State<BATNATest> {
 
   @override
 
+  //drop down menu variables
+
   bool dropDownOne = false;
   IconData dropDownOneIcon = Icons.arrow_drop_down;
+
+  bool dropDownTwo = false;
+  IconData dropDownTwoIcon = Icons.arrow_drop_down;
 
   //BATNATestState({super.key});
 
@@ -28,6 +33,7 @@ class BATNATestState extends State<BATNATest> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       appBar: PrepareBar(),
       body: Column(
@@ -49,24 +55,25 @@ class BATNATestState extends State<BATNATest> {
                       children: [
                         Row(
                           children: [
-                            Container(
-                              padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                              child: const Text(
-                                "Test Drive #1: Your BATNA",
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 18,
-                                  color: Color(0xff000000),
+                            Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                  child: const Text(
+                                    "Test Drive #1: Your BATNA",
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 18,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
                                 ),
-                              ),
                             ),
+
                             IconButton(
                                 onPressed: () {
-
-
 
                                   setState(() {
 
@@ -199,35 +206,73 @@ class BATNATestState extends State<BATNATest> {
                           thickness: 2,
                           color: Color(0xFF1E2027),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+
+                        Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                    child: const Text(
+                                      "Test Drive #2: Your Current Offer",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 18,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                  ),
+                              ),
+
+                              IconButton(
+                                  onPressed: () {
+
+                                    setState(() {
+
+                                      dropDownTwo = !dropDownTwo;
+
+                                      if (dropDownTwo) {
+                                        dropDownTwoIcon = Icons.arrow_drop_up;
+                                      }
+                                      else {
+                                        dropDownTwoIcon = Icons.arrow_drop_down;
+                                      }
+
+                                    });
+
+                                  },
+                                  icon: Icon(dropDownTwoIcon),
+                                  color: Color(0xff0A0A5B)
+                              )
+                            ]
+                        ),
+
+                        AnimatedContainer(
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xff0A0A5B))
+                          ),
+                          duration: const Duration(milliseconds: 700),
+                          height: dropDownTwo ? 0 : 135.0,
+                          curve: Curves.fastOutSlowIn,
                           child: Text(
-                            "Test Drive #2: Your Current Offer",
+                            "Now use the scoring rubric to score the value of your current offer before negotiating! (Example: List price.)",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
+
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 20,
+                              fontSize: 16,
+                              height: 1.2,
                               color: Color(0xff000000),
                             ),
                           ),
                         ),
 
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
-                            "Now use the scoring rubric to score the value of your current offer before negotiating! (Example: List price.)",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                        ),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Text(
@@ -235,9 +280,9 @@ class BATNATestState extends State<BATNATest> {
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
-                              fontSize: 18,
+                              fontSize: 17,
                               color: Color(0xff000000),
                             ),
                           ),
