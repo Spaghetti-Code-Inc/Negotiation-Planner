@@ -88,81 +88,93 @@ class RubricSummary extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: const Color(0x1f000000),
+                    color: const Color(0xFFFFFFFF),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(15.0),
                     border:
                         Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 7), // changes position of shadow
+                      ),
+                    ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            "Rubric Summary",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                            child: Text(
-                              "Based on your decisions on this tool, the most important issues to you are listed below.",
-                              textAlign: TextAlign.start,
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              "Rubric Summary",
+                              textAlign: TextAlign.left,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w800,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12,
-                                color: Color(0xff000000),
+                                fontSize: 20,
+                                color: Color(0xFF1E2027),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                              child: Text(
+                                "Based on your decisions on this tool, the most important issues to you are listed below.",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14,
+                                  color: Color(0xFF1E2027),
+                                ),
+                              ),
+                            ),
 
-                          // Displays the important issues
-                          DisplayImportantIssues(vals: vals),
+                            // Displays the important issues
+                            DisplayImportantIssues(vals: vals),
 
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: Text(
-                              "Be especially certain to have strong arguments to justify your preferred settlement on these issues (like relevant salary survey data, etc.)",
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12,
-                                color: Color(0xff000000),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                              child: Text(
+                                "Be especially certain to have strong arguments to justify your preferred settlement on these issues (like relevant salary survey data, etc.)",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14,
+                                  color: Color(0xFF1E2027),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: Text(
-                              "Strive to reach an agreement that improves upon your current offer, using your BATNA as a helpful frame of reference. You should be able to negotiate an agreement that exceeds the value of your BATNA and comes as close as you can to (or even eceeding) your target. ",
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12,
-                                color: Color(0xff000000),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                              child: Text(
+                                "Strive to reach an agreement that improves upon your current offer, using your BATNA as a helpful frame of reference. You should be able to negotiate an agreement that exceeds the value of your BATNA and comes as close as you can to (or even eceeding) your target. ",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14,
+                                  color: Color(0xFF1E2027),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+
                     ],
                   ),
                 ),
@@ -215,11 +227,11 @@ class RubricSummary extends StatelessWidget {
                                 AlertDialog(
                                   title: const Text('Counter Parts Rubric'),
                                   content: const Text(
-                                      "Consider the issues you identified earlier. How do you"
+                                      "Consider the issues you identified earlier. How do you "
                                           "think your counter part would assign points to these issues?"),
                                   actions: [
                                     TextButton(
-                                      child: const Text('Next'),
+                                      child: const Text('Next', style: TextStyle(color: Color(0xff0A0A5B))),
                                       onPressed: () {
                                         Navigator.pop(context);
                                         Navigator.push(
@@ -273,7 +285,7 @@ class DisplayImportantIssues extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 18,
-              color: Color(0xff000000),
+              color: Color(0xff0A0A5B),
             ),
           ),
         ],
@@ -291,7 +303,7 @@ class DisplayImportantIssues extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 18,
-              color: Color(0xff000000),
+              color: Color(0xff0A0A5B),
             ),
           ),
           Text(
@@ -302,7 +314,7 @@ class DisplayImportantIssues extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 18,
-              color: Color(0xff000000),
+              color: Color(0xff0A0A5B),
             ),
           ),
         ],
@@ -320,7 +332,7 @@ class DisplayImportantIssues extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 18,
-              color: Color(0xff000000),
+              color: Color(0xff0A0A5B),
             ),
           ),
           Text(
@@ -331,7 +343,7 @@ class DisplayImportantIssues extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 18,
-              color: Color(0xff000000),
+              color: Color(0xff0A0A5B),
             ),
           ),
           Text(
@@ -342,7 +354,7 @@ class DisplayImportantIssues extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 18,
-              color: Color(0xff000000),
+              color: Color(0xff0A0A5B),
             ),
           ),
         ],

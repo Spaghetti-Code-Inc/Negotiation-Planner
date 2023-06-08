@@ -24,7 +24,7 @@ class _IssueValuesState extends State<IssueValues> {
     int? length = _issueNames?.length;
     for (int i = 0; i < length!; i++) {
       _controllers.add([]);
-      // 6 because that is the number of settlement oppurtunites
+      // 6 because that is the number of settlement opportunists
       for (int j = 0; j < 6; j++) {
         _controllers[i].add(TextEditingController());
       }
@@ -92,6 +92,7 @@ class _IssueValuesState extends State<IssueValues> {
                     child: IconButton(
                       icon: const Icon(Icons.info_outline),
                       color: iconColor ? Colors.black : Color(0xff0A0A5B),
+                      iconSize: 40,
                       onPressed: () {
                         setState(() {
                           iconColor = true;
@@ -119,8 +120,8 @@ class _IssueValuesState extends State<IssueValues> {
                           ),
                         );
                       },
-                      iconSize: 40,
-                    )),
+                    )
+                ),
               ],
             ),
           ),
@@ -360,6 +361,7 @@ class EnterValues extends StatelessWidget {
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
                               color: Color(0xff000000),
+
                             ),
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
