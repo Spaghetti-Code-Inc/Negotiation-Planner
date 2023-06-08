@@ -1,11 +1,10 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:negotiation_tracker/PlanSummary.dart';
+import 'PlanSummary.dart';
 
-import 'Utils.dart';
-import 'main.dart';
+import '../Utils.dart';
+import '../main.dart';
 
 class CpsRubrik extends StatefulWidget {
   CpsRubrik({super.key});
@@ -41,130 +40,96 @@ class _CpsRubrikState extends State<CpsRubrik> {
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(0),
-                        padding: const EdgeInsets.all(0),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: const Color(0x1f000000),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.zero,
-                          border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "What possible outcomes do you think your counterpart would envision for each issue?",
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 20,
-                                color: Color(0xff000000),
-                              ),
-                            ),
+                  /// Gray title bar
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0x1f000000),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.zero,
+                      border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "What possible outcomes do you think your counterpart would envision for each issue?",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 20,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  // List of counter part values
-                  Container(
-                    margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      color: Color(0x1fffffff),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.zero,
                     ),
+                  ),
+
+                  /// Padding for all page content
+                  Padding(
+                    padding: const EdgeInsets.all(10),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
+                            /// Counterpart's Perceived Rubric Text
+                            Container(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Counterpart's Perceived Rubric",
-                                  textAlign: TextAlign.start,
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 20,
-                                    color: Color(0xff000000),
-                                  ),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Counterpart's Perceived Rubric",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20,
+                                  color: Color(0xff000000),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: FilledButton(
-                                  onPressed: () {
-                                    EvenlyDistribute();
 
-                                    // Refreshes the page to show new vals
-                                    setState(() {});
-                                  },
-                                  child: Text("Evenly distribute points"),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll<Color>(Color(0x99000000)),
-                                  ),
+                            /// Evenly Distribute Button
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                              child: FilledButton(
+                                onPressed: () {
+                                  EvenlyDistribute();
+                                  setState(() {});
+                                },
+                                child: Text("Distribute Evenly"),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
                                 ),
                               ),
                             ),
+
+                            /// List of the issues
                             ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: currentNegotiation.issues.keys.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: EdgeInsetsDirectional.only(bottom: 8),
-                                    child: EnterValues(
-                                      issueName: currentNegotiation.issues.keys.elementAt(index),
-                                      index: index,
-                                      points: points,
-                                    ),
-                                  );
-                                }),
+                              shrinkWrap: true,
+                              itemCount: currentNegotiation.issues.keys.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: EdgeInsetsDirectional.only(bottom: 8),
+                                  child: EnterValues(
+                                    issueName: currentNegotiation.issues.keys.elementAt(index),
+                                    index: index,
+                                    points: points,
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  // Counter Parts Target
+
+                  /// Counter Parts Target
                   Container(
-                    margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(0),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: const Color(0x1fffffff),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.zero,
-                      border: Border.all(color: const Color(0x4dffffff), width: 0),
-                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                       child: Column(
@@ -256,15 +221,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               color: Color(0xff000000),
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
@@ -397,15 +354,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             color: Color(0xff000000),
                           ),
                           decoration: InputDecoration(
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
                               borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),
@@ -527,15 +476,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             color: Color(0xff000000),
                           ),
                           decoration: InputDecoration(
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0),
                               borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                             ),

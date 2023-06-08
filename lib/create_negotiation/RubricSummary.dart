@@ -1,9 +1,9 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/CpsRubrik.dart';
+import 'CpsRubrik.dart';
 
-import 'main.dart';
+import '../main.dart';
 
 class RubricSummary extends StatelessWidget {
   const RubricSummary({super.key});

@@ -1,11 +1,9 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/IssueValues.dart';
+import 'IssueValues.dart';
 import 'package:negotiation_tracker/Utils.dart';
-import 'main.dart';
+import '../main.dart';
 
 class WeightIssues extends StatefulWidget {
   const WeightIssues({super.key});
@@ -211,6 +209,7 @@ class _WeightIssuesState extends State<WeightIssues> {
               ),
             ],
           ),
+          /// Total Points and Distribute Evenly Buttons
           Row(
             children: [
               Expanded(

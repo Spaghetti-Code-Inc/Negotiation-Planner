@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
 import 'TrackProgress.dart';
-import 'NegotiationDetails.dart';
-import 'Utils.dart';
+import '../NegotiationDetails.dart';
+import '../Utils.dart';
 import 'ViewCurrentIssues.dart';
 import 'ViewNegotiationCurrent.dart';
 

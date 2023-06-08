@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:negotiation_tracker/BATNATest.dart';
+import 'BATNATest.dart';
 
-import 'Utils.dart';
-import 'main.dart';
+import '../Utils.dart';
+import '../main.dart';
 
 class UnderStantRubrc extends StatelessWidget {
   UnderStantRubrc({super.key});

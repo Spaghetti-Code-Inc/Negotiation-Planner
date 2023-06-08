@@ -3,8 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'MyNegotiations.dart';
-import 'StartNewNegotiation.dart';
+import 'view_and_track_negotiations/MyNegotiations.dart';
+import 'package:negotiation_tracker/create_negotiation/StartNewNegotiation.dart';
 import 'main.dart';
 
 class Start extends StatelessWidget {

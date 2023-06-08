@@ -8,15 +8,18 @@ Random quality of life changes:
 11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
 12. Issue Names overflow, create upperbound or way to accept longer issue names
 13. Make the values save after you pop backwards and go forwards when you expect values to still be there
+14. Cap all of the inputs at a certain spot
+
 
 Lucas:
 TODO Have user enter currentAgreement early in the rubric -> when redesigning rubric test page
 TODO Make the calculate button on the track progress work
 
+Ideas:
+1. Make the negotiation save the start date to tell how long it hast lasted?
+2. Have a separate page for completed and non completed negotiations
 
 Cleaning Code:
-1. Make packages for each phase of negotiation: ex - Create Negotiation, View Negotiation
-2. Organizing lib folder better
 3. Make all of values in Firebase the right type of data (remove parse(type.toString())
 4. Create an issue class
 5. Make Scaffold's shorter - use more helper classes
@@ -26,6 +29,3 @@ Backlog:
 
 
 Debugging:
-1. Exception: FormatException: Invalid radix-10 number (at character 1) null
-   Where: Occurs when more than one issue is being pushed from the weight issues page (step 2) to
-   the point assignment page (step 3)

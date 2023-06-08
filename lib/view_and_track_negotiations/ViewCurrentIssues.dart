@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'NegotiationDetails.dart';
+import '../NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
-import 'multi_thumb_slider/src/multi_thumb_slider.dart';
-import 'multi_thumb_slider/src/thumb_lock_behaviour.dart';
-import 'multi_thumb_slider/src/thumb_overdrag_behaviour.dart';
+import '../multi_thumb_slider/src/multi_thumb_slider.dart';
+import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
+import '../multi_thumb_slider/src/thumb_overdrag_behaviour.dart';
 
 class ViewCurrentIssues extends StatefulWidget {
   final String issueName;

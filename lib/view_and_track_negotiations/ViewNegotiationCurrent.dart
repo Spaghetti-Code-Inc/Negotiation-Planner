@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'NegotiationDetails.dart';
+import '../NegotiationDetails.dart';
 
-import 'multi_thumb_slider/multi_thumb_slider.dart';
-import 'multi_thumb_slider/src/thumb_lock_behaviour.dart';
+import '../multi_thumb_slider/multi_thumb_slider.dart';
+import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 
 
 class ViewNegotiationCurrent extends StatefulWidget {

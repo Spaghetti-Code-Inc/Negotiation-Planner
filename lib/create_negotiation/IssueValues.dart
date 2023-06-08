@@ -1,11 +1,10 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:negotiation_tracker/UnderStantRubrc.dart';
+import 'package:negotiation_tracker/create_negotiation/UnderStantRubrc.dart';
 
-import 'Utils.dart';
-import 'main.dart';
+import '../Utils.dart';
+import '../main.dart';
 
 class IssueValues extends StatefulWidget {
   const IssueValues({super.key});

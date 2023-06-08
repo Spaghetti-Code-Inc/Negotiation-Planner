@@ -1,11 +1,9 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:negotiation_tracker/RubricSummary.dart';
-import 'package:negotiation_tracker/main.dart';
-
-import 'Utils.dart';
+import 'RubricSummary.dart';
+import '../main.dart';
+import '../Utils.dart';
 
 //TODO: If you go back the values should still save
 class BATNATest extends StatelessWidget {

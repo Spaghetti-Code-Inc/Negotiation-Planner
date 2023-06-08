@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
-import 'NegotiationDetails.dart';
+import '../NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
-import 'main.dart';
+import '../main.dart';
 
 
 class TrackProgress extends StatefulWidget {

@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:negotiation_tracker/WeightIssues.dart';
+import 'package:negotiation_tracker/create_negotiation/WeightIssues.dart';
 
-import 'Utils.dart';
-import 'main.dart';
+import '../Utils.dart';
+import '../main.dart';
 
 class DetermineIssues extends StatelessWidget {
   bool iconColor = false;

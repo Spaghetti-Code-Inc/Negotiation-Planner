@@ -5,12 +5,12 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:negotiation_tracker/MyNegotiations.dart';
-import 'package:negotiation_tracker/ViewCurrentIssues.dart';
-import 'package:negotiation_tracker/ViewNegotiationCurrent.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/MyNegotiations.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/ViewCurrentIssues.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/ViewNegotiationCurrent.dart';
 
-import 'NegotiationDetails.dart';
-import 'main.dart';
+import '../NegotiationDetails.dart';
+import '../main.dart';
 
 class PlanSummary extends StatelessWidget {
   const PlanSummary({super.key});
