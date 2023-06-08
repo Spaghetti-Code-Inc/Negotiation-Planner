@@ -182,24 +182,9 @@ class _TrackProgressState extends State<TrackProgress> {
               ),
           ),
 
-          // TODO This should calculate the max possible score for user and counterpart
-          Container(
-            margin: EdgeInsets.only(bottom: 20),
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Calculate"),
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xff838383),
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ),
 
-          // Exit the negotiation button
+
+          /// Exit the negotiation button
           Container(
             width: MediaQuery.of(context).size.width * .9,
             height: 40,

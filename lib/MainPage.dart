@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'AuthPage.dart';
-import 'VerifyEmailPage.dart';
+import 'authentication/AuthPage.dart';
+import 'authentication/VerifyEmailPage.dart';
 
 class MainPage extends StatelessWidget{
   MainPage({super.key});
