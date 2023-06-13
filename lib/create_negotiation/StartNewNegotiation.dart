@@ -1,10 +1,12 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'DetermineIssues.dart';
 import 'package:negotiation_tracker/main.dart';
 
 import '../NegotiationDetails.dart';
+import 'MAX_LENGTHS.dart';
 
 class StartNewNegotiation extends StatefulWidget{
   const StartNewNegotiation({super.key});
@@ -20,7 +22,6 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
 
   @override
   void initState() {
-    // TODO: implement initState
     currentNegotiation.summary = "";
     currentNegotiation.title = "";
     super.initState();
@@ -101,10 +102,13 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                       const Padding(
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                     ),
-                    // TITLE Text field
+                    /// TITLE Text field
                     Padding(
                       padding: const EdgeInsets.all(0),
-                      child: TextField(
+                      child: TextFormField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(MAX_TITLE_LENGTH),
+                        ],
                         cursorColor: Color(0xff0A0A5B),
                         textInputAction: TextInputAction.next,
                         onChanged: (newVal) {
@@ -123,17 +127,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                           color: Color(0xff000000),
                         ),
                         decoration: InputDecoration(
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide:
-                            const BorderSide(color: Color(0xff0A0A5B), width: 1),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide:
-                            const BorderSide(color: Color(0xff0A0A5B), width: 1),
-                          ),
-                          enabledBorder: OutlineInputBorder(
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),
                             borderSide:
                             const BorderSide(color: Color(0xff0A0A5B), width: 1),
@@ -182,8 +176,11 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                   mainAxisSize: MainAxisSize.max,
                   children: [
 
-                    // SUMMARY text field
-                    TextField(
+                    /// SUMMARY text field
+                    TextFormField(
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(MAX_SUMMARY_LENGTH),
+                      ],
                       cursorColor: Color(0xff0A0A5B),
                       onChanged: (newVal) {
                         currentNegotiation = Negotiation.fromNegotiation(title: '', issues: {}, cpIssues: {}, cpTarget: -1, cpBATNA: -1, cpResistance: -1, target: -1, resistance: -1);
@@ -201,21 +198,12 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                         color: Color(0xff000000),
                       ),
                       decoration: InputDecoration(
-                        disabledBorder: OutlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
                           const BorderSide(color: Color(0xff0A0A5B), width: 1),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide:
-                          const BorderSide(color: Color(0xff0A0A5B), width: 1),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide:
-                          const BorderSide(color: Color(0xff0A0A5B), width: 1),
-                        ),
+
                         hintText: "Give a summary of the negotiation. Include what you are bargaining for, your goals, and other important details.",
 
                         hintStyle: const TextStyle(

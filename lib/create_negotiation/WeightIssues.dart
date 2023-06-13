@@ -1,9 +1,11 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'IssueValues.dart';
 import 'package:negotiation_tracker/Utils.dart';
 import '../main.dart';
+import 'MAX_LENGTHS.dart';
 
 class WeightIssues extends StatefulWidget {
   const WeightIssues({super.key});
@@ -267,6 +269,8 @@ class _WeightIssuesState extends State<WeightIssues> {
                           onChanged: (newVal) {
                             totalVal = total();
                           },
+                              // Only allows digits 0-9, max length of 2
+                              inputFormatters: INTEGER_INPUTS,
                               textAlign: TextAlign.center,
                               textInputAction: TextInputAction.next,
                               cursorColor: Color(0xff0A0A5B),

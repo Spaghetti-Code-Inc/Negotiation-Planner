@@ -6,8 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_and_track_negotiations/MyNegotiations.dart';
-import 'package:negotiation_tracker/view_and_track_negotiations/ViewCurrentIssues.dart';
-import 'package:negotiation_tracker/view_and_track_negotiations/ViewNegotiationCurrent.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/view_delivered_issue.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/view_whole_negotiation.dart';
 
 import '../NegotiationDetails.dart';
 import '../main.dart';

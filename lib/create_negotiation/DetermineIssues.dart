@@ -6,6 +6,7 @@ import 'package:negotiation_tracker/create_negotiation/WeightIssues.dart';
 
 import '../Utils.dart';
 import '../main.dart';
+import 'MAX_LENGTHS.dart';
 
 class DetermineIssues extends StatelessWidget {
   bool iconColor = false;
@@ -165,7 +166,7 @@ class DetermineIssues extends StatelessWidget {
                             title: TextFormField(
                               inputFormatters: [
                                 /// Determines max length of the Issue name
-                                LengthLimitingTextInputFormatter(34)
+                                LengthLimitingTextInputFormatter(MAX_ISSUE_NAME)
                               ],
                               cursorColor: Color(0xff0A0A5B),
                               controller: _controllers[index],

@@ -167,8 +167,6 @@ class _IssueValuesState extends State<IssueValues> {
             less = int.parse(_controllers[i][j + 1].text);
           }
 
-          print(greater.toString() + " : " + less.toString());
-
           if (greater < less) {
             moveOn = false;
             Utils.showSnackBar(
@@ -653,17 +651,7 @@ class EnterValues extends StatelessWidget {
                               color: Color(0xff000000),
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),

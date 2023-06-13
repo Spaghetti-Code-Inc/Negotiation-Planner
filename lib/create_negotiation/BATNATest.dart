@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'MAX_LENGTHS.dart';
 import 'RubricSummary.dart';
 import '../main.dart';
 import '../Utils.dart';
@@ -137,27 +138,11 @@ class BATNATestState extends State<BATNATest> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
-                          child: TextField(
+                          child: TextFormField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) => newValue.copyWith(
-                                        text:
-                                            newValue.text.replaceAll('.', ','),
-                                      ))
-                            ],
+                            inputFormatters: INTEGER_INPUTS,
                             onChanged: (newVal) {
-                              try {
-                                currentNegotiation.BATNA = int.parse(newVal);
-                              } on FormatException catch (e) {
-                                if (newVal != "") {
-                                  Utils.showSnackBar(
-                                      "Your BATNA value needs to be an integer.");
-                                  BATNA.text = "";
-                                }
-                              }
+                              currentNegotiation.BATNA = int.parse(newVal);
                             },
                             controller: BATNA,
                             obscureText: false,
@@ -287,28 +272,12 @@ class BATNATestState extends State<BATNATest> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
-                          child: TextField(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) => newValue.copyWith(
-                                        text:
-                                            newValue.text.replaceAll('.', ','),
-                                      ))
-                            ],
+                          child: TextFormField(
+                            inputFormatters: INTEGER_INPUTS,
                             keyboardType: TextInputType.number,
                             onChanged: (newVal) {
-                              try {
-                                currentNegotiation.currentOffer =
-                                    int.parse(newVal);
-                              } on FormatException catch (e) {
-                                if (newVal != "") {
-                                  Utils.showSnackBar(
-                                      "Your current offer value needs to be an integer.");
-                                  CurrentOffer.text = "";
-                                }
-                              }
+                              currentNegotiation.currentOffer =
+                                  int.parse(newVal);
                             },
                             controller: CurrentOffer,
                             obscureText: false,

@@ -51,7 +51,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
         children: [
           // Makes the stream fill 80% of the screen at most
           Container(
-            height: .80 * MediaQuery.of(context).size.height,
+            height: .85 * MediaQuery.of(context).size.height,
             child: StreamBuilder(
               // Gets the users collection with their negotiations.
               stream: FirebaseFirestore.instance
@@ -89,7 +89,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
                   style: TextButton.styleFrom(
                     backgroundColor: navyBlue,
                     foregroundColor: Colors.white,
-                    elevation: 4,
+                    elevation: 2,
                   )))
         ],
       ),

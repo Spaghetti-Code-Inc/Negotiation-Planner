@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'MAX_LENGTHS.dart';
 import 'PlanSummary.dart';
 
 import '../Utils.dart';
@@ -12,7 +13,6 @@ class CpsRubrik extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _CpsRubrikState();
 
-  //TODO: Set these to the actual current Negotiation value
   int target = 0;
   int BATNA = 0;
   int resistance = 0;
@@ -27,10 +27,15 @@ class _CpsRubrikState extends State<CpsRubrik> {
   TextEditingController cpBATNAController = new TextEditingController();
   TextEditingController cpResistanceController = new TextEditingController();
 
+
   List<int> points = List.filled(currentNegotiation.issues.keys.length, 0);
+
 
   @override
   Widget build(BuildContext context) {
+
+    if(points.length == 1) points[0] = 100;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xffffffff),
@@ -90,21 +95,38 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               ),
                             ),
 
-                            /// Evenly Distribute Button
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                              child: FilledButton(
-                                onPressed: () {
-                                  EvenlyDistribute();
-                                  setState(() {});
-                                },
-                                child: Text("Distribute Evenly"),
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
+                            /// Evenly Distribute Button and Showing Points
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Total Points: ${totalPoints().toString()} /100",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          )),
+                                    ),
+                                  ),
                                 ),
-                              ),
+
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 10),
+                                  child: FilledButton(
+                                    onPressed: () {
+                                      EvenlyDistribute();
+                                      setState(() {});
+                                    },
+                                    child: Text("Distribute Evenly"),
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
+                                    ),
+
+                                  ),
+                                ),
+
+                              ],
                             ),
 
                             /// List of the issues
@@ -112,10 +134,14 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               shrinkWrap: true,
                               itemCount: currentNegotiation.issues.keys.length,
                               itemBuilder: (BuildContext context, int index) {
+                                String name = currentNegotiation.issues.keys.elementAt(index);
+
+                                currentNegotiation.cpIssues[name] = {"target": widget.target, "resistance": widget.resistance};
+
                                 return Padding(
                                   padding: EdgeInsetsDirectional.only(bottom: 8),
                                   child: EnterValues(
-                                    issueName: currentNegotiation.issues.keys.elementAt(index),
+                                    issueName: name,
                                     index: index,
                                     points: points,
                                   ),
@@ -189,26 +215,13 @@ class _CpsRubrikState extends State<CpsRubrik> {
                               ],
                             ),
                           ),
-                          TextField(
+                          TextFormField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) => newValue.copyWith(
-                                        text: newValue.text.replaceAll('.', ','),
-                                      ))
-                            ],
+                            inputFormatters: INTEGER_INPUTS,
                             onChanged: (newVal) {
-                              try {
-                                setState(() {
-                                  widget.target = int.parse(newVal);
-                                });
-                              } on FormatException {
-                                if (newVal != "") {
-                                  Utils.showSnackBar("Your target value needs to be an integer.");
-                                  cpTargetController.text = "0";
-                                }
-                              }
+                              setState(() {
+                                widget.target = int.parse(newVal);
+                              });
                             },
                             controller: cpTargetController,
                             obscureText: false,
@@ -322,26 +335,13 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             ),
                           ),
                         ),
-                        TextField(
+                        TextFormField(
                           keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
-                            TextInputFormatter.withFunction(
-                                (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    ))
-                          ],
+                          inputFormatters: INTEGER_INPUTS,
                           onChanged: (newVal) {
-                            try {
-                              setState(() {
-                                widget.BATNA = int.parse(newVal);
-                              });
-                            } on FormatException {
-                              if (newVal != "") {
-                                Utils.showSnackBar("Your BATNA value needs to be an integer.");
-                                cpBATNAController.text = "";
-                              }
-                            }
+                            setState(() {
+                              widget.BATNA = int.parse(newVal);
+                            });
                           },
                           controller: cpBATNAController,
                           obscureText: false,
@@ -442,28 +442,16 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             ],
                           ),
                         ),
-                        TextField(
+                        TextFormField(
                           keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
-                            TextInputFormatter.withFunction(
-                                (oldValue, newValue) => newValue.copyWith(
-                                      text: newValue.text.replaceAll('.', ','),
-                                    ))
-                          ],
+                          inputFormatters: INTEGER_INPUTS,
                           onChanged: (newVal) {
-                            try {
-                              setState(() {
-                                widget.resistance = int.parse(newVal);
-                                if (newVal == "") {
-                                  widget.resistance == 0;
-                                }
-                              });
-                            } on FormatException {
-                              if (newVal != "") {
-                                Utils.showSnackBar("Your resistance value needs to be an integer.");
+                            setState(() {
+                              widget.resistance = int.parse(newVal);
+                              if (newVal == "") {
+                                widget.resistance == 0;
                               }
-                            }
+                            });
                           },
                           controller: cpResistanceController,
                           obscureText: false,
@@ -506,36 +494,56 @@ class _CpsRubrikState extends State<CpsRubrik> {
     );
   }
 
+  int totalPoints() {
+    int total = 0;
+
+    for(int each in points){
+      total+=each;
+    }
+
+    return total;
+  }
+
   bool Next() {
     // Check if all the issues add up to 100
     // Target is lower than resistance
     num added = 0;
+    int i = 0;
+    print(currentNegotiation);
     for (String current in currentNegotiation.cpIssues.keys) {
-      added += currentNegotiation.cpIssues[current]["relativeValue"];
+      added += points[i];
       currentNegotiation.cpIssues[current]["target"] = widget.target;
       currentNegotiation.cpIssues[current]["resistance"] = widget.resistance;
 
-      print(currentNegotiation.cpIssues[current]["resistance"]);
+      i++;
     }
-    if (added == 100) {
-      if (widget.target != -1 || widget.resistance != -1 || widget.BATNA != -1) {
-        if (widget.target < widget.resistance) {
-          currentNegotiation.cpTarget = widget.target;
-          currentNegotiation.cpBATNA = widget.BATNA;
-          currentNegotiation.cpResistance = widget.resistance;
-
-          return true;
-        } else {
-          Utils.showSnackBar("The CP target should be lower in points than the CP resistance.");
-        }
-      } else {
-        Utils.showSnackBar("You must enter value for each field.");
-      }
-    } else {
+    if (added != 100) {
       Utils.showSnackBar("The issue points must add to 100");
+      return false;
+    }
+    if (widget.target == -1 || widget.resistance == -1 || widget.BATNA == -1) {
+      Utils.showSnackBar("You must enter value for each field.");
+      return false;
+
+    }
+    if(widget.target >= widget.resistance) {
+      Utils.showSnackBar("The CP target should be lower in points than the CP resistance.");
+      return false;
+
     }
 
-    return false;
+    currentNegotiation.cpTarget = widget.target;
+    currentNegotiation.cpBATNA = widget.BATNA;
+    currentNegotiation.cpResistance = widget.resistance;
+
+    var j = 0;
+    for(String each in currentNegotiation.cpIssues.keys){
+      currentNegotiation.cpIssues[each]["relativeValue"] = points[j];
+      j++;
+    }
+
+    return true;
+
   }
 
   EvenlyDistribute() {
@@ -571,7 +579,6 @@ class _EnterValuesState extends State<EnterValues> {
   @override
   Widget build(BuildContext context) {
     widget.ctrl.text = widget.points[widget.index].toString();
-    currentNegotiation.cpIssues[widget.issueName!] = {"relativeValue": widget.points[widget.index]};
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -594,16 +601,10 @@ class _EnterValuesState extends State<EnterValues> {
         ),
         Expanded(
           flex: 1,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
-              TextInputFormatter.withFunction((oldValue, newValue) => newValue.copyWith(
-                    text: newValue.text.replaceAll('.', ','),
-                  ))
-            ],
+            inputFormatters: INTEGER_INPUTS,
             onChanged: (newVal) {
-              currentNegotiation.cpIssues[widget.issueName!] = int.parse(newVal);
               widget.points[widget.index] = int.parse(newVal);
             },
             controller: widget.ctrl,
@@ -617,15 +618,7 @@ class _EnterValuesState extends State<EnterValues> {
               color: Color(0xff000000),
             ),
             decoration: InputDecoration(
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
-              ),
-              enabledBorder: OutlineInputBorder(
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
                 borderSide: const BorderSide(color: Color(0xff000000), width: 1),
               ),

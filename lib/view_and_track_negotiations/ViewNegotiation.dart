@@ -5,8 +5,8 @@ import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 import 'TrackProgress.dart';
 import '../NegotiationDetails.dart';
 import '../Utils.dart';
-import 'ViewCurrentIssues.dart';
-import 'ViewNegotiationCurrent.dart';
+import 'view_delivered_issue.dart';
+import 'view_whole_negotiation.dart';
 
 class ViewNegotiation extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
@@ -229,6 +229,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                   Container(
                     width: MediaQuery.of(context).size.width * .9,
                     height: 40,
+                    margin: EdgeInsets.only(bottom: 20),
                     child: TextButton(
                       onPressed: () {
                         Navigator.pop((context));

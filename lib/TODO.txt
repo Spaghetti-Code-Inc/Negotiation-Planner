@@ -1,23 +1,25 @@
 Random quality of life changes:
-1. Add counter of how many points are used on CP Rubric
-1.1 Make counter = 100 if theres only on issue on CP Rubric
-2. Make sure all the inputs can not go over 100 points or a max value
 6. Add info buttons to more places on app
 7. Save the negotiation whenever the user wants to exit a negotiation in the middle of creating one
 10. Evaluate Agreement page the issue sliders have there own scrollview, they should not
 11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
 12. Issue Names overflow, create upperbound or way to accept longer issue names
 13. Make the values save after you pop backwards and go forwards when you expect values to still be there
-14. Cap all of the inputs at a certain spot
+15. Make the IssueValues Page have drop downs for the letter grades
+16?. Show the current rubric when asking for users current offer
 
 
 Lucas:
-TODO Have user enter currentAgreement early in the rubric -> when redesigning rubric test page
-TODO Make the calculate button on the track progress work
+TODO CP Issues do not pop created then deleted issues
+
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it hast lasted?
 2. Have a separate page for completed and non completed negotiations
+2.1 Should they be able to pin a negotiation to top of the screen?
+3. Edit Negotiations After they are made? - Creating/Deleting Issues
+4. Make a calculate button on track progress to return the best possible negotiation
+    (Might not be possible because functions are linear and are best either all the way to left or right)
 
 Cleaning Code:
 3. Make all of values in Firebase the right type of data (remove parse(type.toString())
@@ -27,5 +29,6 @@ Cleaning Code:
 Backlog:
 1. Sliders should not pass over each other in edit negotiation page.
 
-
 Debugging:
+1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
+2. CP Issues does not remove the deleted issues

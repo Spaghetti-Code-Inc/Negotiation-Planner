@@ -6,6 +6,7 @@ import 'BATNATest.dart';
 
 import '../Utils.dart';
 import '../main.dart';
+import 'MAX_LENGTHS.dart';
 
 class UnderStantRubrc extends StatelessWidget {
 
@@ -220,26 +221,11 @@ class UnderStantRubrc extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
-                    child: TextField(
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(_getRegexString())),
-                        TextInputFormatter.withFunction(
-                            (oldValue, newValue) => newValue.copyWith(
-                                  text: newValue.text.replaceAll('.', ','),
-                                ))
-                      ],
+                    child: TextFormField(
+                      inputFormatters: INTEGER_INPUTS,
                       keyboardType: TextInputType.number,
                       onChanged: (newVal) {
-                        try {
-                          currentNegotiation.target = int.parse(newVal);
-                        } on FormatException catch (e) {
-                          if (newVal != "") {
-                            Utils.showSnackBar(
-                                "Your target value needs to be an integer.");
-                            // totalTarget.text = "";
-                          }
-                        }
+                        currentNegotiation.target = int.parse(newVal);
                       },
                       controller: totalTarget,
                       maxLines: 1,
@@ -350,28 +336,12 @@ class UnderStantRubrc extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
-                          child: TextField(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) => newValue.copyWith(
-                                        text:
-                                            newValue.text.replaceAll('.', ','),
-                                      ))
-                            ],
+                          child: TextFormField(
+                            inputFormatters: INTEGER_INPUTS,
                             keyboardType: TextInputType.number,
                             onChanged: (newVal) {
-                              try {
-                                currentNegotiation.resistance =
-                                    int.parse(newVal);
-                              } on FormatException catch (e) {
-                                if (newVal != "") {
-                                  Utils.showSnackBar(
-                                      "Your resistance value needs to be an integer.");
-                                  totalResistance.text = "";
-                                }
-                              }
+                              currentNegotiation.resistance = int.parse(newVal);
+
                             },
                             controller: totalResistance,
                             obscureText: false,
