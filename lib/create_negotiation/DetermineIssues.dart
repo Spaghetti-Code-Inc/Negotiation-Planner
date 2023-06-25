@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/create_negotiation/WeightIssues.dart';
 
+import '../NegotiationDetails.dart';
 import '../Utils.dart';
 import '../main.dart';
 import 'MAX_LENGTHS.dart';
@@ -232,11 +233,9 @@ class DetermineIssues extends StatelessWidget {
 
       // For each issue add it to the currentNegotiation list
       for (int i = 0; i < _controllers.length - 1; i++) {
-        // Give issue a place holder map
+        // Adds the issue if the name is not empty
         if (_controllers[i].text != "") {
-          currentNegotiation.issues.putIfAbsent(_controllers[i].text, () => {});
-
-          currentNegotiation.cpIssues.putIfAbsent(_controllers[i].text, () => null);
+          currentNegotiation.issues.add(new Issue(name: _controllers[i].text));
         }
       }
 

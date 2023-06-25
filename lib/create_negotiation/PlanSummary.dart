@@ -17,8 +17,8 @@ class PlanSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(currentNegotiation.toString());
     var db = FirebaseFirestore.instance;
+
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
@@ -171,20 +171,18 @@ class PlanSummary extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: currentNegotiation.cpIssues.keys.length * 110,
+                      height: currentNegotiation.issues.length * 90,
                       child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: currentNegotiation.cpIssues.keys.length,
+                        itemCount: currentNegotiation.issues.length,
                         prototypeItem: ViewCurrentIssues(
-                          issueName: currentNegotiation.cpIssues.keys.elementAt(0),
-                          negotiation: currentNegotiation,
+                          issue: currentNegotiation.issues[0],
                           editing: false,
                           comesFromMyNegotiations: false,
                         ),
                         itemBuilder: (context, index) {
                           return ViewCurrentIssues(
-                            issueName: currentNegotiation.cpIssues.keys.elementAt(index),
-                            negotiation: currentNegotiation,
+                            issue: currentNegotiation.issues[index],
                             editing: false,
                             comesFromMyNegotiations: false,
                           );
@@ -257,17 +255,13 @@ class PlanSummary extends StatelessWidget {
                         currentNegotiation.id = FirebaseAuth.instance.currentUser?.uid;
 
                         // Adds the current negotiation to the correct user
-                        db
-                            .collection("users")
-                            .doc(currentNegotiation.id)
-                            .collection("Negotiations")
+                        db.collection(FirebaseAuth.instance.currentUser!.uid)
                             .add(currentNegotiation.toFirestore());
 
                         // Resets the current negotiation
                         currentNegotiation = Negotiation.fromNegotiation(
                             title: '',
-                            issues: {},
-                            cpIssues: {},
+                            issues: [],
                             cpBATNA: -1,
                             cpResistance: -1,
                             cpTarget: -1,

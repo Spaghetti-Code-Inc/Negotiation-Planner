@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
@@ -22,9 +23,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   bool _wholeNegotiationEditing = false;
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
 
-  late var issueVals = Map.fromIterable(negotiationSnap.issues.keys);
-
-  late var issueEdits = Map.fromIterable(negotiationSnap.issues.keys, value: (i) => false);
+  // Keeps track of old value for issue
+  late List<List<int>> issueVals = List.filled(negotiationSnap.issues.length, List.filled(4, 0));
+  // Keeps track if the issue is being edited or not
+  late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
 
   Color navyBlue = Color(0xff0A0A5B);
 
@@ -75,10 +77,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     TextButton(
                       child: const Text('Yes'),
                       onPressed: () {
-                        db
-                            .collection("users")
-                            .doc(negotiationSnap.id)
-                            .collection("Negotiations")
+                        String? id = FirebaseAuth.instance.currentUser?.uid;
+                        db.collection(id!)
                             .doc(widget.negotiation?.id)
                             .delete();
                         Navigator.pop(context);
@@ -140,7 +140,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                         ButtonAddons(
                           updateEdit: updateEdit,
                           editing: _wholeNegotiationEditing,
-                          issueName: "whole",
+                          index: -1,
                           showInfo: showInfo,
                         ),
                       ],
@@ -178,10 +178,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     height: determineListViewHeight(),
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: negotiationSnap.cpIssues.keys.length,
+                      itemCount: negotiationSnap.issues.length,
                       itemBuilder: (context, index) {
-
-                        String issueName = negotiationSnap.issues.keys.elementAt(index);
+                        /// The current Issue that this builder mentions
+                        Issue issueHere = negotiationSnap.issues[index];
 
                         /// Builds out Issue header (name, info) and then the slider
                         return Column(children: [
@@ -193,7 +193,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                 /// Issue Name Text
                                 Expanded(
                                   child: Text(
-                                    issueName,
+                                    issueHere.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontStyle: FontStyle.normal,
@@ -205,8 +205,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
                                 /// Buttons on right side
                                 ButtonAddons(
-                                  editing: issueEdits[issueName]!,
-                                  issueName: issueName,
+                                  editing: issueEdits[index],
+                                  index: index,
                                   updateEdit: updateEdit,
                                   showInfo: showInfo,
                                 ),
@@ -215,9 +215,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           ),
                           /// Issue Sliders
                           ViewCurrentIssues(
-                            issueName: issueName,
-                            negotiation: negotiationSnap,
-                            editing: issueEdits[issueName]!,
+                            issue: issueHere,
+                            editing: issueEdits[index],
                             comesFromMyNegotiations: true,
                           ),
                         ]);
@@ -255,7 +254,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   determineListViewHeight(){
     double total = 0.0;
     for(int i = 0; i < issueEdits.length; i++){
-      if(issueEdits.values.elementAt(i)) total += 210;
+      if(issueEdits[i]) total += 210;
       else total += 120;
     }
 
@@ -263,7 +262,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   }
 
   /// Uploads the negotiationSnap to Firestore - Used in updateEdit
-  uploadNegotiationSnap(String uploadFrom){
+  uploadNegotiationSnap(int index){
     // Set document from negotiation snap
     int totalUser = 0;
     int totalCp = 0;
@@ -272,17 +271,16 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
     bool tarAndResCP = true;
 
     // Checks if the weight totals are right
-    // Checks if resistance and target are right
-    for (String name in negotiationSnap.issues.keys) {
-      totalUser += int.parse(negotiationSnap.issues[name]["relativeValue"].toString());
-      totalCp += int.parse(negotiationSnap.cpIssues[name]["relativeValue"].toString());
+    // Checks if resistance and target are in line for cp and user
+    for(Issue issue in negotiationSnap.issues){
 
-      if (negotiationSnap.issues[name]["A"] <= negotiationSnap.issues[name]["D"]) {
-        tarAndResUS = false;
-      } else if (negotiationSnap.cpIssues[name]["target"] >=
-          negotiationSnap.cpIssues[name]["resistance"]) {
-        tarAndResCP = false;
-      }
+      totalUser += issue.relativeValue;
+      totalCp += issue.cpRelativeValue;
+
+      // If the target is lower than or equal to resistance then do not save
+      if(issue.issueVals["A"]! <= issue.issueVals["D"]!) tarAndResUS = false;
+      // If the cp target is higher or equals to cp resistance then do not save
+      else if (issue.cpTarget >= issue.cpResistance) tarAndResCP = false;
     }
 
     if (totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP) {
@@ -294,14 +292,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
           .set(negotiationSnap.toFirestore());
     } else {
 
-      if(uploadFrom == "whole"){
+      if(index == -1){
         setState(() {
           _wholeNegotiationEditing = !_wholeNegotiationEditing;
         });
       }
       else{
         setState((){
-          issueEdits[uploadFrom] = true;
+          issueEdits[index] = true;
         });
       }
 
@@ -322,9 +320,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   }
 
   /// Defines what 'edit' button presses should do according to name given
-  updateEdit(String name, bool save) {
-    //TODO change name for "whole" to something random
-    if (name == "whole") {
+  updateEdit(int index, bool save) {
+    if (index == -1) {
       setState(() {
         _wholeNegotiationEditing = !_wholeNegotiationEditing;
       });
@@ -339,7 +336,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         }
         // Uploads the save to firestore
         else {
-          uploadNegotiationSnap(name);
+          uploadNegotiationSnap(index);
         }
       } else {
         widget.lastNegotiationVals = [
@@ -355,56 +352,57 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
     /// Changes edit state of whichever issue sent this
     setState(() {
-      issueEdits[name] = !issueEdits[name]!;
+      issueEdits[index] = !issueEdits[index];
     });
 
+    /// Issue reffered to in the following logic
+    Issue thisIssue = negotiationSnap.issues[index];
     /// Means user just pressed discard or save. This set it to stop editing.
-    if (!issueEdits[name]!) {
-      // User discarded most recent edits
+    if (!issueEdits[index]) {
+      // User discarded most recent edits so reset to before it was edited
       if (!save) {
-        negotiationSnap.issues[name]["A"] = issueVals[name]![0];
-        negotiationSnap.issues[name]["D"] = issueVals[name]![1];
-        negotiationSnap.cpIssues[name]["target"] = issueVals[name]![2];
-        negotiationSnap.cpIssues[name]["resistance"] = issueVals[name]![3];
+        thisIssue.issueVals["A"] = issueVals[index][0];
+        thisIssue.issueVals["D"] = issueVals[index][1];
+        thisIssue.cpTarget = issueVals[index][2];
+        thisIssue.cpResistance = issueVals[index][3];
       }
       // User pressed save
       else {
-        uploadNegotiationSnap(name);
+        uploadNegotiationSnap(index);
       }
     }
     /// User just pressed to start editing. Save the current state.
     else {
-      issueVals[name] = [0, 0, 0, 0];
-      issueVals[name]![0] = negotiationSnap.issues[name]["A"];
-      issueVals[name]![1] = negotiationSnap.issues[name]["D"];
-      issueVals[name]![2] = negotiationSnap.cpIssues[name]["target"];
-      issueVals[name]![3] = negotiationSnap.cpIssues[name]["resistance"];
+      issueVals[index] = [0, 0, 0, 0];
+      issueVals[index][0] = thisIssue.issueVals["A"]!;
+      issueVals[index][1] = thisIssue.issueVals["D"]!;
+      issueVals[index][2] = thisIssue.cpTarget;
+      issueVals[index][3] = thisIssue.cpResistance;
     }
   }
 
   /// Pass along info button call
-  // TODO: Should change "Whole Negotiation" to something more secure
-  showInfo(String name){
-    if(name == "whole"){
+  showInfo(int index){
+    if(index == -1){
       Map<String, int> values = {
         "target": negotiationSnap.target,
         "resistance": negotiationSnap.resistance,
         "cpTarget": negotiationSnap.cpTarget,
         "cpResistance": negotiationSnap.resistance,
       };
-      showInfoRubric(context, name,  values);
+      showInfoRubric(context, negotiationSnap.issues[index].name, values);
     }
     else{
-      print(issueVals[name].toString());
+      Issue thisIssue = negotiationSnap.issues[index];
       // Create the correct map to send to the info button
       Map<String, int> values = {
-        "target": negotiationSnap.issues[name]["A"],
-        "resistance": negotiationSnap.issues[name]["D"],
-        "cpTarget": negotiationSnap.cpIssues[name]["target"],
-        "cpResistance": negotiationSnap.cpIssues[name]["resistance"],
+        "target": thisIssue.issueVals["A"]!,
+        "resistance": thisIssue.issueVals["D"]!,
+        "cpTarget": thisIssue.cpTarget,
+        "cpResistance": thisIssue.cpResistance,
       };
 
-      showInfoRubric(context, name, values);
+      showInfoRubric(context, negotiationSnap.issues[index].name, values);
     }
   }
 }
@@ -414,9 +412,9 @@ class ButtonAddons extends StatelessWidget {
   Function updateEdit;
   Function showInfo;
   bool editing;
-  String issueName;
+  int index;
 
-  ButtonAddons({Key? key, required this.updateEdit, required this.editing, required this.issueName, required this.showInfo})
+  ButtonAddons({Key? key, required this.updateEdit, required this.editing, required this.index, required this.showInfo})
       : super(key: key);
 
   @override
@@ -440,8 +438,7 @@ class ButtonAddons extends StatelessWidget {
               size: 24,
             ),
             onPressed: () {
-              print(issueName);
-              updateEdit(issueName, false);
+              updateEdit(index, false);
             },
             padding: EdgeInsets.all(0),
           ),
@@ -463,7 +460,7 @@ class ButtonAddons extends StatelessWidget {
               color: navyBlue,
             ),
             onPressed: () {
-              showInfo(issueName);
+              showInfo(index);
             },
             padding: EdgeInsets.all(0),
           ),
@@ -487,7 +484,7 @@ class ButtonAddons extends StatelessWidget {
               size: 24,
             ),
             onPressed: () {
-              updateEdit(issueName, false);
+              updateEdit(index, false);
             },
             padding: EdgeInsets.all(0),
           ),
@@ -509,7 +506,7 @@ class ButtonAddons extends StatelessWidget {
               size: 24,
             ),
             onPressed: () {
-              updateEdit(issueName, true);
+              updateEdit(index, true);
             },
             padding: EdgeInsets.all(0),
           ),

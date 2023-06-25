@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../NegotiationDetails.dart';
 import 'MAX_LENGTHS.dart';
 import 'PlanSummary.dart';
 
@@ -28,12 +29,12 @@ class _CpsRubrikState extends State<CpsRubrik> {
   TextEditingController cpResistanceController = new TextEditingController();
 
 
-  List<int> points = List.filled(currentNegotiation.issues.keys.length, 0);
+  List<int> points = List.filled(currentNegotiation.issues.length, 0);
 
 
   @override
   Widget build(BuildContext context) {
-
+    print(currentNegotiation);
     if(points.length == 1) points[0] = 100;
 
     return Scaffold(
@@ -132,11 +133,12 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             /// List of the issues
                             ListView.builder(
                               shrinkWrap: true,
-                              itemCount: currentNegotiation.issues.keys.length,
+                              itemCount: currentNegotiation.issues.length,
                               itemBuilder: (BuildContext context, int index) {
-                                String name = currentNegotiation.issues.keys.elementAt(index);
+                                String name = currentNegotiation.issues[index].name;
 
-                                currentNegotiation.cpIssues[name] = {"target": widget.target, "resistance": widget.resistance};
+                                currentNegotiation.issues[index].cpResistance = widget.resistance;
+                                currentNegotiation.issues[index].cpTarget = widget.target;
 
                                 return Padding(
                                   padding: EdgeInsetsDirectional.only(bottom: 8),
@@ -508,14 +510,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
     // Check if all the issues add up to 100
     // Target is lower than resistance
     num added = 0;
-    int i = 0;
-    print(currentNegotiation);
-    for (String current in currentNegotiation.cpIssues.keys) {
+    for (int i = 0; i < currentNegotiation.issues.length; i++) {
       added += points[i];
-      currentNegotiation.cpIssues[current]["target"] = widget.target;
-      currentNegotiation.cpIssues[current]["resistance"] = widget.resistance;
-
-      i++;
     }
     if (added != 100) {
       Utils.showSnackBar("The issue points must add to 100");
@@ -536,10 +532,13 @@ class _CpsRubrikState extends State<CpsRubrik> {
     currentNegotiation.cpBATNA = widget.BATNA;
     currentNegotiation.cpResistance = widget.resistance;
 
-    var j = 0;
-    for(String each in currentNegotiation.cpIssues.keys){
-      currentNegotiation.cpIssues[each]["relativeValue"] = points[j];
-      j++;
+
+    // Sets the relative value vs other cp Issues, the issue target, and the issue resistance
+    for(int i = 0; i < currentNegotiation.issues.length; i++){
+      currentNegotiation.issues[i].cpRelativeValue = points[i];
+      currentNegotiation.issues[i].cpResistance = currentNegotiation.cpResistance;
+      currentNegotiation.issues[i].cpTarget = currentNegotiation.cpTarget;
+
     }
 
     return true;
@@ -559,8 +558,6 @@ class _CpsRubrikState extends State<CpsRubrik> {
     // Last issue gains 1 if the rounding takes the usual split to 99
     points[length - 1] = (100 - count);
   }
-
-  String _getRegexString() => r'[0-9]';
 }
 
 class EnterValues extends StatefulWidget {

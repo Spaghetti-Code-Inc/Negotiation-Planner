@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'NegotiationDetails.dart';
+
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -12,6 +14,34 @@ class Utils {
     messengerKey.currentState!
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
+  }
+
+  /// Same method from 'rubric summary' look there for documentation
+  static List<String> findHighestValuedIssues(List<Issue> issues) {
+    List<int> vals = [];
+    List<String> names = [];
+    issues.forEach((issue) => {
+      vals.add(issue.relativeValue)
+    });
+
+    vals.sort();
+
+
+    for(int i = 0; i < issues.length; i++){
+      for(int j = 1; j < 4; j++){
+        if(vals[vals.length-j] == issues[i].relativeValue){
+          names.add(issues[i].name);
+          break;
+        }
+      }
+    }
+
+    // Fill names list to 3 values
+    if(names.length == 1)
+      names.add("");
+    if (names.length == 2)
+      names.add("");
+    return names.sublist(0, 3);
   }
 }
 

@@ -18,9 +18,6 @@ class UnderStantRubrc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print(currentNegotiation.toString());
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
@@ -427,21 +424,18 @@ class UnderStantRubrc extends StatelessWidget {
     num counter = 0;
 
     bool firstRun = true;
-    for(String name in currentNegotiation.issues.keys){
+    for(int i = 0; i < currentNegotiation.issues.length; i++){
       if(!firstRun){
-        counter += int.parse(currentNegotiation.issues[name]["D"].toString())/100.0*
-            int.parse(currentNegotiation.issues[name]["relativeValue"].toString());
+        counter += int.parse(currentNegotiation.issues[i].issueVals["D"].toString())/100.0*
+            currentNegotiation.issues[i].relativeValue;
       }
       else{
-        counter += 1.0*int.parse(currentNegotiation.issues[name]["relativeValue"]);
+        counter += 1.0*currentNegotiation.issues[i].relativeValue;
         firstRun = false;
       }
     }
     return counter.toInt();
   }
-
-
-  String _getRegexString() => r'[0-9]';
 }
 
 

@@ -4,7 +4,7 @@ class Negotiation {
   String? id;
   String title;
   String? summary;
-  Map<String, dynamic> issues;
+  List<Issue> issues;
   int target;
   int resistance;
   int? BATNA;
@@ -13,8 +13,6 @@ class Negotiation {
   int cpTarget;
   int cpBATNA;
   int cpResistance;
-
-  Map<String, dynamic> cpIssues;
 
   Negotiation(
       {this.id,
@@ -25,7 +23,6 @@ class Negotiation {
       required this.resistance,
       required this.BATNA,
       required this.currentOffer,
-      required this.cpIssues,
       required this.cpTarget,
       required this.cpResistance,
       required this.cpBATNA});
@@ -34,7 +31,6 @@ class Negotiation {
       {this.id,
       required this.title,
       required this.issues,
-      required this.cpIssues,
       required this.cpTarget,
       required this.cpResistance,
       required this.cpBATNA,
@@ -42,24 +38,30 @@ class Negotiation {
       required this.resistance});
 
   String toString() {
-    return "Title: $title, Summary: $summary, Issues: ${issues.toString()}, Counter Part Issues: ${cpIssues.toString()}, CPTarget ${cpTarget}";
+    return "Title: $title, Summary: $summary, Issues: ${issues.toString()}, CPTarget ${cpTarget}";
   }
 
   factory Negotiation.fromFirestore(
     DocumentSnapshot<Object?>? snapshot,
   ) {
-    print(snapshot?.get("cpIssues").runtimeType);
-    print(snapshot?.get("cpIssues"));
+
+    /// Convert JSONs requirements for only objects and arrays back into the issue list
+    List<dynamic> issueList = snapshot!.get("issues");
+    List<Issue> issuePlace = [];
+
+    issueList.forEach((map) => {
+      issuePlace.add(Issue.fromMap(map))
+    });
+
     return Negotiation(
-      id: snapshot!.get("id"),
+      id: snapshot.get("id"),
       title: snapshot.get("title"),
       summary: snapshot.get("summary"),
-      issues: Map.of(snapshot.get("issues")),
+      issues: issuePlace,
       target: snapshot.get("target"),
       resistance: snapshot.get("resistance"),
       BATNA: snapshot.get("BATNA"),
       currentOffer: snapshot.get("currentOffer"),
-      cpIssues: Map.of(snapshot.get("cpIssues")),
       cpTarget: snapshot.get("cpTarget"),
       cpBATNA: snapshot.get("cpBATNA"),
       cpResistance: snapshot.get("cpResistance"),
@@ -67,23 +69,28 @@ class Negotiation {
   }
 
   Map<String, dynamic> toFirestore() {
-    Map<String, dynamic> NestedData = {
+
+    /// Must only give firestore an object or array, so turn issue list into
+    /// a list of a map representation of an issue
+    /// (object in JSON = Map)
+    List<Map<String, dynamic>> issueList = [];
+    issues.forEach((issue) => {
+      issueList.add(issue.toFirestore())
+    });
+
+    return {
       if (id != null) "id": id,
       if (title != null) "title": title,
       if (summary != null) "summary": summary,
-      "issues": issues,
+      "issues": issueList,
       if (target != null) "target": target,
       if (resistance != null) "resistance": resistance,
       if (BATNA != null) "BATNA": BATNA,
       if (currentOffer != null) "currentOffer": currentOffer,
-      if (cpIssues != null) "cpIssues": cpIssues,
       if (cpTarget != null) "cpTarget": cpTarget,
       if (cpBATNA != null) "cpBATNA": cpBATNA,
       if (cpResistance != null) "cpResistance": cpResistance,
     };
-
-    Map<String, dynamic> negotiationId = NestedData;
-    return negotiationId;
   }
 
   static Future<Negotiation?> getDocSnap(String id) async {
@@ -98,5 +105,51 @@ class Negotiation {
     });
 
     return null;
+  }
+}
+
+class Issue{
+  String name = "";
+  int relativeValue = -1;
+  int resistance = -1;
+  int target = -1;
+
+  Map<String, dynamic> issueVals = {};
+
+  int cpRelativeValue = -1;
+  int cpResistance = -1;
+  int cpTarget = -1;
+
+  Issue({required this.name});
+
+  String toString(){
+    return "$name: ${issueVals.toString()}, RV: $relativeValue, RS: $resistance, T: $target";
+  }
+
+  Map<String, dynamic> toFirestore(){
+    return {
+      "name": name,
+      "relativeValue": relativeValue,
+      "resistance": resistance,
+      "target": target,
+      "issueVals": issueVals,
+      "cpRelativeValue": cpRelativeValue,
+      "cpResistance": cpResistance,
+      "cpTarget": cpTarget,
+    };
+  }
+
+  factory Issue.fromMap(Map<String, dynamic> ss){
+    Issue here = new Issue(name: ss["name"]);
+
+    here.relativeValue = ss["relativeValue"];
+    here.resistance = ss["resistance"];
+    here.target = ss["target"];
+    here.issueVals = ss["issueVals"];
+    here.cpRelativeValue = ss["cpRelativeValue"];
+    here.cpResistance = ss["cpResistance"];
+    here.cpTarget = ss["cpTarget"];
+
+    return here;
   }
 }

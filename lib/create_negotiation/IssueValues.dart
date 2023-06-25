@@ -1,8 +1,11 @@
 
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:negotiation_tracker/create_negotiation/UnderStantRubrc.dart';
+import 'package:negotiation_tracker/create_negotiation/Target_Resistance.dart';
 
+import '../NegotiationDetails.dart';
 import '../Utils.dart';
 import '../main.dart';
 
@@ -14,15 +17,14 @@ class IssueValues extends StatefulWidget {
 
 class _IssueValuesState extends State<IssueValues> {
   bool iconColor = false;
-  List<String>? _issueNames =
-      currentNegotiation.issues.keys.toList(growable: true);
-
   List<List<TextEditingController>> _controllers = [];
 
   @override
   Widget build(BuildContext context) {
-    int? length = _issueNames?.length;
-    for (int i = 0; i < length!; i++) {
+
+
+    int length = currentNegotiation.issues.length;
+    for (int i = 0; i < length; i++) {
       _controllers.add([]);
       // 6 because that is the number of settlement opportunists
       for (int j = 0; j < 6; j++) {
@@ -129,12 +131,11 @@ class _IssueValuesState extends State<IssueValues> {
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: currentNegotiation.issues.keys.length,
+                itemCount: currentNegotiation.issues.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                       child: EnterValues(
-                        issueName: currentNegotiation.issues.keys
-                            .elementAt(index),
+                        issueName: currentNegotiation.issues.elementAt(index).name,
                         ctrl: _controllers[index],
                       ),
                       height: 445);
@@ -152,7 +153,7 @@ class _IssueValuesState extends State<IssueValues> {
 
   bool Next(){
     bool moveOn = true;
-    int length = currentNegotiation.issues.keys.length;
+    int length = currentNegotiation.issues.length;
     // Checks if all values are in right format
     for (int i = 0; i < length; i++) {
       for (int j = 0; j < 6; j++) {
@@ -173,8 +174,6 @@ class _IssueValuesState extends State<IssueValues> {
                 "One of your issues does not have the right order of value.");
           }
         } on FormatException catch (e) {
-          print(i.toString() + ", " + j.toString());
-          print(e);
           Utils.showSnackBar(
               "One of your values is not an integer.");
           moveOn = false;
@@ -193,19 +192,16 @@ class _IssueValuesState extends State<IssueValues> {
       // Length is the length of "issueNames" keys
       for (int i = 0; i < length; i++) {
         // Puts value in for all the possible settlements
-        currentNegotiation.issues[_issueNames![i]]
-            ?.putIfAbsent(
-            "A+", () => int.parse(_controllers[i][0].text));
-        currentNegotiation.issues[_issueNames![i]]
-            ?.putIfAbsent("A", () => int.parse(_controllers[i][1].text));
-        currentNegotiation.issues[_issueNames![i]]
-            ?.putIfAbsent("B", () => int.parse(_controllers[i][2].text));
-        currentNegotiation.issues[_issueNames![i]]
-            ?.putIfAbsent("C", () => int.parse(_controllers[i][3].text));
-        currentNegotiation.issues[_issueNames![i]]
-            ?.putIfAbsent("D", () => int.parse(_controllers[i][4].text));
-        currentNegotiation.issues[_issueNames![i]]
-            ?.putIfAbsent("F", () => int.parse(_controllers[i][5].text));
+
+        currentNegotiation.issues[i].issueVals["A+"] = int.parse(_controllers[i][0].text);
+        currentNegotiation.issues[i].issueVals["A"] = int.parse(_controllers[i][1].text);
+        currentNegotiation.issues[i].issueVals["B"] = int.parse(_controllers[i][2].text);
+        currentNegotiation.issues[i].issueVals["C"] = int.parse(_controllers[i][3].text);
+        currentNegotiation.issues[i].issueVals["D"] = int.parse(_controllers[i][4].text);
+        currentNegotiation.issues[i].issueVals["F"] = int.parse(_controllers[i][5].text);
+
+        currentNegotiation.issues[i].target = int.parse(_controllers[i][1].text);
+        currentNegotiation.issues[i].resistance = int.parse(_controllers[i][4].text);
       }
 
       return true;
@@ -362,17 +358,7 @@ class EnterValues extends StatelessWidget {
 
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
@@ -459,17 +445,7 @@ class EnterValues extends StatelessWidget {
                               color: Color(0xff000000),
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
@@ -555,17 +531,7 @@ class EnterValues extends StatelessWidget {
                               color: Color(0xff000000),
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
@@ -737,17 +703,7 @@ class EnterValues extends StatelessWidget {
                               color: Color(0xff000000),
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),
@@ -833,17 +789,7 @@ class EnterValues extends StatelessWidget {
                               color: Color(0xff000000),
                             ),
                             decoration: InputDecoration(
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                                 borderSide: const BorderSide(
                                     color: Color(0xff000000), width: 1),

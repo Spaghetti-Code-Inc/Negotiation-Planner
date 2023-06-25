@@ -20,21 +20,12 @@ class _TrackProgressState extends State<TrackProgress> {
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
   bool working = false;
 
-  // Booleans to check whether or not the issue is being edited
-  late var issueEdits = Map.fromIterable(negotiationSnap.issues.keys, value: (i) => false);
-  // Values used to keep track of where slider was before editing
-  late var lastIssueVals = Map.fromIterable(negotiationSnap.issues.keys, value: (i) => 0.0);
-  // Values the sliders are changing
-  late var issueVals = Map.fromIterable(
-    negotiationSnap.issues.keys,
-    value: (i){
-      if(negotiationSnap.issues[i]["currentAgreement"].runtimeType != double){
-        negotiationSnap.issues[i]["currentAgreement"] = 50.0;
-        return 50.0;
-      }
-      else return negotiationSnap.issues[i]["currentAgreement"];
-    }
-  );
+  // Keeps track of new value for issue, .5 because that is half way in the slider
+  late List<double> issueVals = List.filled(negotiationSnap.issues.length, 0);
+  // Keeps track of old value for issue, .5 because that is half way in the slider
+  late List<double> lastIssueVals = List.filled(negotiationSnap.issues.length, .5);
+  // Keeps track if the issue is being edited or not
+  late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
 
 
   late var totalValues = {
@@ -47,11 +38,14 @@ class _TrackProgressState extends State<TrackProgress> {
   @override
   Widget build(BuildContext context) {
 
+    /// Builds the values for the slider that shows the entire negotiation values
     totalValues["userValue"] = 0.0;
     totalValues["cpValue"] = 0.0;
-    for(String each in issueVals.keys){
-      totalValues["userValue"] = issueVals[each] * double.parse(negotiationSnap.issues[each]["relativeValue"]) * .0001 + totalValues["userValue"];
-      totalValues["cpValue"] = (100 - issueVals[each]) * negotiationSnap.cpIssues[each]["relativeValue"] * .0001 + totalValues["cpValue"]!;
+    for(int i = 0; i < negotiationSnap.issues.length; i++){
+      Issue thisIssue = negotiationSnap.issues[i];
+
+      totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
+      totalValues["cpValue"] = (100 - issueVals[i]) * thisIssue.cpRelativeValue * .0001 + totalValues["cpValue"]!;
     }
 
     return Scaffold(
@@ -77,12 +71,11 @@ class _TrackProgressState extends State<TrackProgress> {
 
           /// Sliders changing issue values
           Container(
-            height: negotiationSnap.cpIssues.keys.length * 80,
+            height: negotiationSnap.issues.length * 80,
             child: ListView.builder(
-              itemCount: negotiationSnap.cpIssues.keys.length,
+              itemCount: negotiationSnap.issues.length,
               itemBuilder: (context, index) {
-                var issueName = negotiationSnap.issues.keys.elementAt(index);
-                return EvaluateSlider(negotiation: negotiationSnap, index: index, editing: issueEdits[issueName]!, handleEdits: handleEdits, issueValues: issueVals, totalValues: totalValues,
+                return EvaluateSlider(negotiation: negotiationSnap, index: index, editing: issueEdits[index], handleEdits: handleEdits, issueValues: issueVals, totalValues: totalValues,
                   reloadFullPage: () => setState((){}) ,);
               },
             ),
@@ -220,25 +213,28 @@ class _TrackProgressState extends State<TrackProgress> {
   }
 
   /// Performs function of any 'edit', 'save', or 'discard' press
-  handleEdits(String name, bool save){
+  handleEdits(int index, bool save){
     /// Switches state of the issue that sent edit
     setState(() {
-      issueEdits[name] = !issueEdits[name]!;
+      issueEdits[index] = !issueEdits[index];
     });
 
     /// Means user just pressed discard or save
-    if(!issueEdits[name]!){
+    if(!issueEdits[index]){
       // Discard
       if(!save){
         // Resets the issue value because they were discarded
         setState(() {
-          issueVals[name] = lastIssueVals[name];
+          issueVals[index] = lastIssueVals[index];
         });
       }
       // Save
       else{
         // Give negotiationSnap the values from the sliders
-        negotiationSnap.issues[name]["currentAgreement"] = issueVals[name];
+        negotiationSnap.issues[index].issueVals["A"] = (issueVals[0]*100).truncate();
+        negotiationSnap.issues[index].issueVals["B"] = (issueVals[1]*100).truncate();
+        negotiationSnap.issues[index].issueVals["C"] = (issueVals[2]*100).truncate();
+        negotiationSnap.issues[index].issueVals["D"] = (issueVals[3]*100).truncate();
 
         // Upload the negotiation snap
         FirebaseFirestore.instance
@@ -252,14 +248,17 @@ class _TrackProgressState extends State<TrackProgress> {
     /// Means user just pressed 'edit'
     else {
       // Makes a copy of where the issue values were before editing
-      lastIssueVals[name] = issueVals[name];
+      lastIssueVals[index] = issueVals[index];
     }
 
+    /// Builds the values for the slider that shows the entire negotiation values
     totalValues["userValue"] = 0.0;
     totalValues["cpValue"] = 0.0;
-    for(String each in issueVals.keys){
-      totalValues["userValue"] = issueVals[each] * double.parse(negotiationSnap.issues[each]["relativeValue"]) * .0001 + totalValues["userValue"];
-      totalValues["cpValue"] = (100 - issueVals[each]) * negotiationSnap.cpIssues[each]["relativeValue"] * .0001 + totalValues["cpValue"]!;
+    for(int i = 0; i < negotiationSnap.issues.length; i++){
+      Issue thisIssue = negotiationSnap.issues[i];
+
+      totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
+      totalValues["cpValue"] = (100 - issueVals[i]) * thisIssue.cpRelativeValue * .0001 + totalValues["cpValue"]!;
     }
 
   }
@@ -357,17 +356,20 @@ class EvaluateSlider extends StatefulWidget {
   State<EvaluateSlider> createState() => _EvaluateSliderState();
 }
 class _EvaluateSliderState extends State<EvaluateSlider> {
-  late String issueName = widget.negotiation.issues.keys.elementAt(widget.index);
-  late Map issues = widget.negotiation.issues[issueName];
+  late Issue issues = widget.negotiation.issues[widget.index];
+  late String issueName = issues.name;
 
   @override
   Widget build(BuildContext context) {
 
+    /// Builds the values for the slider that shows the entire negotiation values
     widget.totalValues["userValue"] = 0.0;
     widget.totalValues["cpValue"] = 0.0;
-    for(String each in widget.issueValues.keys){
-      widget.totalValues["userValue"] = widget.issueValues[each] * double.parse(widget.negotiation.issues[each]["relativeValue"]) * .0001 + widget.totalValues["userValue"];
-      widget.totalValues["cpValue"] = (100 - widget.issueValues[each]) * widget.negotiation.cpIssues[each]["relativeValue"] * .0001 + widget.totalValues["cpValue"]!;
+    for(int i = 0; i < widget.negotiation.issues.length; i++){
+      Issue thisIssue = widget.negotiation.issues[i];
+
+      widget.totalValues["userValue"] = widget.issueValues[i] * thisIssue.relativeValue * .0001 + widget.totalValues["userValue"]!;
+      widget.totalValues["cpValue"] = (100 - widget.issueValues[i]) * thisIssue.cpRelativeValue * .0001 + widget.totalValues["cpValue"]!;
     }
 
     return Padding(

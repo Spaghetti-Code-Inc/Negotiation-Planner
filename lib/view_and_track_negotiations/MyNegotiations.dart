@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/create_negotiation/StartNewNegotiation.dart';
 
+import '../NegotiationDetails.dart';
+import '../Utils.dart';
 import 'TrackProgress.dart';
 import 'ViewNegotiation.dart';
 
@@ -55,9 +57,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
             child: StreamBuilder(
               // Gets the users collection with their negotiations.
               stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(id)
-                  .collection('Negotiations')
+                  .collection(FirebaseAuth.instance.currentUser!.uid)
                   .snapshots(),
               builder: (context, snapshot) {
                 // If there is no negotiations to the user
@@ -117,65 +117,17 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
     Color _mainColor = Colors.white;
     Color _topTextColor = Color(0xff000000);
 
-    Map<String, dynamic> issueField = widget.negotiation?.get("issues");
+    // List of issues, but the issues are still represented by a map
+    List<dynamic> issueList = widget.negotiation?.get("issues");
 
-    // Find the 3 most important issues
-    List<String>? _issueNames = issueField.keys.toList(growable: true);
+    // Converts the issueList into a List<Issue>
+    List<Issue> issues = [];
+    issueList.forEach((map) => {
+      issues.add(Issue.fromMap(map))
+    });
 
-    List<int> _issueImportance = [];
-
-    int? length = _issueNames.length;
-    for (int i = 0; i < length; i++) {
-      _issueImportance.add(int.parse(issueField[_issueNames[i]]["relativeValue"]));
-    }
-
-    List<String> vals = ["", "", ""];
-
-    // If only 1 issue
-    if (_issueNames.length == 1) {
-      vals[0] = _issueNames[0];
-    }
-    // If two issues
-    else if (_issueNames.length == 2) {
-      if (_issueImportance[0] > _issueImportance[1]) {
-        vals[0] = _issueNames[0];
-        vals[1] = _issueNames[1];
-      } else {
-        vals[0] = _issueNames[1];
-        vals[1] = _issueNames[0];
-      }
-    }
-    // If 3 or more issues
-    else {
-      int max1 = 0;
-      int max2 = 0;
-      int max3 = 0;
-      // Finds the highest three values
-      for (int i = 0; i < length; i++) {
-        if (_issueImportance[i] > max1) {
-          if (max1 > max2) {
-            if (max2 > max3) {
-              max3 = max2;
-              vals[2] = vals[1];
-            }
-            max2 = max1;
-            vals[1] = vals[0];
-          }
-          max1 = _issueImportance[i];
-          vals[0] = _issueNames[i];
-        } else if (_issueImportance[i] > max2) {
-          if (max2 > max3) {
-            max3 = max2;
-            vals[2] = vals[1];
-          }
-          max2 = _issueImportance[i];
-          vals[1] = _issueNames[i];
-        } else if (_issueImportance[i] > max3) {
-          max3 = _issueImportance[i];
-          vals[2] = _issueNames[i];
-        }
-      }
-    }
+    // Variable that holds the displayed names of top 3 issues
+    List<String> names = Utils.findHighestValuedIssues(issues);
 
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -260,7 +212,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  vals[0],
+                  names[0],
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
@@ -277,7 +229,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  vals[1],
+                  names[1],
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
@@ -294,7 +246,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  vals[2],
+                  names[2],
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.clip,
                   style: TextStyle(

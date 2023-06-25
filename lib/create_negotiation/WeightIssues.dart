@@ -16,9 +16,6 @@ class WeightIssues extends StatefulWidget {
 class _WeightIssuesState extends State<WeightIssues> {
   bool iconColor = false;
 
-  List<String>? _issueNames =
-      currentNegotiation.issues.keys.toList(growable: true);
-
   List<TextEditingController> _controllers = [TextEditingController()];
 
   int totalVal = 0;
@@ -40,8 +37,8 @@ class _WeightIssuesState extends State<WeightIssues> {
 
   @override
   Widget build(BuildContext context) {
-    int? length = _issueNames?.length;
-    for (int i = 0; i < length!; i++) {
+    int length = currentNegotiation.issues.length;
+    for (int i = 0; i < length; i++) {
       _controllers.add(new TextEditingController());
     }
     if(length == 1){
@@ -241,10 +238,12 @@ class _WeightIssuesState extends State<WeightIssues> {
 
             ],
           ),
+
           Expanded(
             child: ListView.builder(
-              itemCount: _issueNames?.length,
+              itemCount: length,
               itemBuilder: (context, index) {
+
                 return Container(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -252,7 +251,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                       Expanded(
                         child: Center(
                           child: Text(
-                            _issueNames![index],
+                            currentNegotiation.issues[index].name,
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -266,9 +265,9 @@ class _WeightIssuesState extends State<WeightIssues> {
                       Expanded(
                         child: Center(
                             child: TextFormField(
-                          onChanged: (newVal) {
-                            totalVal = total();
-                          },
+                              onChanged: (newVal) {
+                                totalVal = total();
+                              },
                               // Only allows digits 0-9, max length of 2
                               inputFormatters: INTEGER_INPUTS,
                               textAlign: TextAlign.center,
@@ -314,12 +313,9 @@ class _WeightIssuesState extends State<WeightIssues> {
 
   bool Next(){
     if (totalVal == 100) {
-      int? length = _issueNames?.length;
-
       // length represents _issueNames
-      for (int i = 0; i < length!; i++) {
-        currentNegotiation.issues[_issueNames![i]]
-        ["relativeValue"] = _controllers[i].text;
+      for (int i = 0; i < currentNegotiation.issues.length; i++) {
+        currentNegotiation.issues[i].relativeValue = int.parse(_controllers[i].text);
       }
 
       return true;
@@ -332,7 +328,7 @@ class _WeightIssuesState extends State<WeightIssues> {
 
 
   EvenlyDistribute(){
-    int length = _issueNames!.length;
+    int length = currentNegotiation.issues.length;
 
     int step = (100/length).round();
     int count = 0;

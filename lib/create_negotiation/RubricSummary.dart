@@ -1,6 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
 import 'package:flutter/material.dart';
+import '../Utils.dart';
 import 'CpsRubrik.dart';
 
 import '../main.dart';
@@ -10,65 +11,8 @@ class RubricSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Find the 3 most important issues
-    List<String>? _issueNames =
-        currentNegotiation.issues.keys.toList(growable: true);
+    var vals = Utils.findHighestValuedIssues(currentNegotiation.issues);
 
-    List<int> _issueImportance = [];
-
-    int? length = _issueNames.length;
-    for (int i = 0; i < length; i++) {
-      _issueImportance.add(int.parse(currentNegotiation
-          .issues[_issueNames[i]]["relativeValue"]));
-    }
-
-    List<String> vals = ["", "", ""];
-
-    // If only 1 issue
-    if (_issueNames.length == 1) {
-      vals[0] = _issueNames[0];
-    }
-    // If two issues
-    else if (_issueNames.length == 2) {
-      if (_issueImportance[0] > _issueImportance[1]) {
-        vals[0] = _issueNames[0];
-        vals[1] = _issueNames[1];
-      } else {
-        vals[0] = _issueNames[0];
-        vals[1] = _issueNames[1];
-      }
-    }
-    // If 3 or more issues
-    else {
-      int max1 = 0;
-      int max2 = 0;
-      int max3 = 0;
-      // Finds the highest three values
-      for (int i = 0; i < length; i++) {
-        if (_issueImportance[i] > max1) {
-          if (max1 >= max2) {
-            if (max2 >= max3) {
-              max3 = max2;
-              vals[2] = vals[1];
-            }
-            max2 = max1;
-            vals[1] = vals[0];
-          }
-          max1 = _issueImportance[i];
-          vals[0] = _issueNames[i];
-        } else if (_issueImportance[i] > max2) {
-          if (max2 > max3) {
-            max3 = max2;
-            vals[2] = vals[1];
-          }
-          max2 = _issueImportance[i];
-          vals[1] = _issueNames[i];
-        } else if (_issueImportance[i] > max3) {
-          max3 = _issueImportance[i];
-          vals[2] = _issueNames[i];
-        }
-      }
-    }
 
     return Scaffold(
       backgroundColor: const Color(0xffffffff),

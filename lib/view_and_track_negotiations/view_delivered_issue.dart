@@ -8,19 +8,17 @@ import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 import '../multi_thumb_slider/src/thumb_overdrag_behaviour.dart';
 
 class ViewCurrentIssues extends StatefulWidget {
-  final String issueName;
-  final Negotiation negotiation;
   final bool editing;
   final bool comesFromMyNegotiations;
+  final Issue issue;
 
   List lastVals = [4];
 
   ViewCurrentIssues(
       {Key? key,
-      required this.issueName,
-      required this.negotiation,
       required this.editing,
-      required this.comesFromMyNegotiations})
+      required this.comesFromMyNegotiations,
+      required this.issue})
       : super(key: key);
 
   @override
@@ -28,21 +26,21 @@ class ViewCurrentIssues extends StatefulWidget {
 }
 
 class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
-  late Negotiation negotiation = widget.negotiation;
+  late Issue issue = widget.issue;
 
-  late double userRes = double.parse(negotiation.issues[widget.issueName]["D"].toString());
-  late double userTar = double.parse(negotiation.issues[widget.issueName]["A"].toString());
+  late double userRes = double.parse(issue.issueVals["D"].toString());
+  late double userTar = double.parse(issue.issueVals["A"].toString());
 
-  late double cpRes = double.parse(negotiation.cpIssues[widget.issueName]["resistance"].toString());
-  late double cpTar = double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
+  late double cpRes = double.parse(issue.cpResistance.toString());
+  late double cpTar = double.parse(issue.cpTarget.toString());
 
-  late double usWeight = 100 / double.parse(negotiation.issues[widget.issueName]["relativeValue"]);
-  late double cpWeight = 100 / negotiation.cpIssues[widget.issueName]["relativeValue"];
+  late double usWeight = 100.0 / issue.relativeValue;
+  late double cpWeight = 100.0 / issue.cpRelativeValue;
 
   late List<double> _issueVals = [0, userRes / 100, cpTar / 100, userTar / 100, cpRes / 100, 1];
 
   String bargainingRange() {
-    return widget.issueName +
+    return issue.name +
         ": " +
         (_issueVals[4] - _issueVals[1] > 0
             ? ((_issueVals[1] - _issueVals[4]) * 100 * (-1)).toInt().toString()
@@ -52,14 +50,12 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
   @override
   Widget build(BuildContext context) {
     if (!widget.editing) {
-      late Negotiation negotiation = widget.negotiation;
 
-      late double userRes = double.parse(negotiation.issues[widget.issueName]["D"].toString());
-      late double userTar = double.parse(negotiation.issues[widget.issueName]["A"].toString());
+      late double userRes = double.parse(issue.issueVals["D"].toString());
+      late double userTar = double.parse(issue.issueVals["A"].toString());
 
-      late double cpRes =
-          double.parse(negotiation.cpIssues[widget.issueName]["resistance"].toString());
-      late double cpTar = double.parse(negotiation.cpIssues[widget.issueName]["target"].toString());
+      late double cpRes = double.parse(issue.cpResistance.toString());
+      late double cpTar = double.parse(issue.cpTarget.toString());
 
       _issueVals = [0, userRes / 100.0, cpTar / 100.0, userTar / 100.0, cpRes / 100.0, 1];
     }
@@ -79,15 +75,13 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
             List<int> vals = EvenlyDistribute(
                 (_issueVals[3] * 100).truncate(), (_issueVals[1] * 100).truncate());
 
-            widget.negotiation.issues[widget.issueName]["D"] = vals[0];
-            widget.negotiation.issues[widget.issueName]["C"] = vals[1];
-            widget.negotiation.issues[widget.issueName]["B"] = vals[2];
-            widget.negotiation.issues[widget.issueName]["A"] = vals[3];
+            issue.issueVals["D"] = vals[0];
+            issue.issueVals["C"] = vals[1];
+            issue.issueVals["B"] = vals[2];
+            issue.issueVals["A"] = vals[3];
 
-            widget.negotiation.cpIssues[widget.issueName]["resistance"] =
-                (_issueVals[4] * 100).truncate();
-            widget.negotiation.cpIssues[widget.issueName]["target"] =
-                (_issueVals[2] * 100).truncate();
+            issue.cpResistance = (_issueVals[4] * 100).truncate();
+            issue.cpTarget = (_issueVals[2] * 100).truncate();
           },
 
           overdragBehaviour: ThumbOverdragBehaviour.cross,
@@ -100,7 +94,7 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
         ),
       ),
       ChangeRelativeValues(
-          editing: widget.editing, issueName: widget.issueName, negotiation: widget.negotiation)
+          editing: widget.editing, issue: issue)
     ]);
   }
 
@@ -121,10 +115,9 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
 
 class ChangeRelativeValues extends StatelessWidget {
   final bool editing;
-  final String issueName;
-  final Negotiation negotiation;
+  final Issue issue;
   ChangeRelativeValues(
-      {Key? key, required this.editing, required this.issueName, required this.negotiation})
+      {Key? key, required this.editing, required this.issue})
       : super(key: key);
 
   TextEditingController userCtrl = TextEditingController();
@@ -135,8 +128,8 @@ class ChangeRelativeValues extends StatelessWidget {
       return Container();
     }
 
-    userCtrl.text = negotiation.issues[issueName]["relativeValue"].toString();
-    cpCtrl.text = negotiation.cpIssues[issueName]["relativeValue"].toString();
+    userCtrl.text = issue.relativeValue.toString();
+    cpCtrl.text = issue.cpRelativeValue.toString();
     return Container(
       height: 80,
       margin: EdgeInsets.only(bottom: 15),
@@ -164,7 +157,7 @@ class ChangeRelativeValues extends StatelessWidget {
                 child: Center(
                     child: TextFormField(
                   onChanged: (newVal) {
-                    negotiation.issues[issueName]["relativeValue"] = userCtrl.text;
+                    issue.relativeValue = int.parse(userCtrl.text);
                   },
                   textAlign: TextAlign.center,
                   textInputAction: TextInputAction.next,
@@ -206,7 +199,7 @@ class ChangeRelativeValues extends StatelessWidget {
                 child: Center(
                     child: TextFormField(
                   onChanged: (newVal) {
-                    negotiation.cpIssues[issueName]["relativeValue"] = int.parse(cpCtrl.text);
+                    issue.cpRelativeValue = int.parse(cpCtrl.text);
                   },
                   textAlign: TextAlign.center,
                   textInputAction: TextInputAction.next,

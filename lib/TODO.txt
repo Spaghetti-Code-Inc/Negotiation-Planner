@@ -11,7 +11,11 @@ Random quality of life changes:
 
 Lucas:
 TODO CP Issues do not pop created then deleted issues
-
+TODO Cleaning Code 3. Make all of values in Firebase the right type of data (remove parse(type.toString())
+TODO Create Issue Class
+TODO Need to test finding highest 3 valued issues
+TODO user can't skip any pages without entering values
+TODO Some values show but are actually 0 when a page is reloaded
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it hast lasted?
