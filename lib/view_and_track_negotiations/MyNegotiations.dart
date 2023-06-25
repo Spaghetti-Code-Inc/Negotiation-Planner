@@ -302,12 +302,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                   flex: 1,
                   child: MaterialButton(
                     onPressed: () {
-                      String name = widget.negotiation!.id;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TrackProgress(negotiation: widget.negotiation, docId: name)),
+                                TrackProgress(negotiation: widget.negotiation)),
                       );
                     },
                     color: _bottomColor,

@@ -10,9 +10,6 @@ Random quality of life changes:
 
 
 Lucas:
-TODO CP Issues do not pop created then deleted issues
-TODO Cleaning Code 3. Make all of values in Firebase the right type of data (remove parse(type.toString())
-TODO Create Issue Class
 TODO Need to test finding highest 3 valued issues
 TODO user can't skip any pages without entering values
 TODO Some values show but are actually 0 when a page is reloaded
@@ -26,8 +23,6 @@ Ideas:
     (Might not be possible because functions are linear and are best either all the way to left or right)
 
 Cleaning Code:
-3. Make all of values in Firebase the right type of data (remove parse(type.toString())
-4. Create an issue class
 5. Make Scaffold's shorter - use more helper classes
 
 Backlog:
@@ -35,4 +30,3 @@ Backlog:
 
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
-2. CP Issues does not remove the deleted issues

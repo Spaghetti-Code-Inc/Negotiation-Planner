@@ -199,9 +199,6 @@ class _IssueValuesState extends State<IssueValues> {
         currentNegotiation.issues[i].issueVals["C"] = int.parse(_controllers[i][3].text);
         currentNegotiation.issues[i].issueVals["D"] = int.parse(_controllers[i][4].text);
         currentNegotiation.issues[i].issueVals["F"] = int.parse(_controllers[i][5].text);
-
-        currentNegotiation.issues[i].target = int.parse(_controllers[i][1].text);
-        currentNegotiation.issues[i].resistance = int.parse(_controllers[i][4].text);
       }
 
       return true;

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
@@ -9,8 +10,7 @@ import '../main.dart';
 
 class TrackProgress extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
-  String docId;
-  TrackProgress({Key? key, required this.negotiation, required this.docId}) : super(key: key);
+  TrackProgress({Key? key, required this.negotiation}) : super(key: key);
 
   @override
   State<TrackProgress> createState() => _TrackProgressState();
@@ -19,37 +19,48 @@ class TrackProgress extends StatefulWidget {
 class _TrackProgressState extends State<TrackProgress> {
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
   bool working = false;
+  late String docId = widget.negotiation!.id;
+
 
   // Keeps track of new value for issue, .5 because that is half way in the slider
-  late List<double> issueVals = List.filled(negotiationSnap.issues.length, 0);
+  late List<double> issueVals;
   // Keeps track of old value for issue, .5 because that is half way in the slider
-  late List<double> lastIssueVals = List.filled(negotiationSnap.issues.length, .5);
+  late List<double> lastIssueVals;
   // Keeps track if the issue is being edited or not
   late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
 
+  @override
+  void initState() {
+    for(int i = 0; i < negotiationSnap.issues.length; i++){
+      issueVals.add(negotiationSnap.issues[i].currentValue!);
+      lastIssueVals.add(negotiationSnap.issues[i].currentValue!);
+    }
+  }
 
   late var totalValues = {
     "userValue": 0.0,
     "cpValue": 0.0
   };
 
-
-
   @override
   Widget build(BuildContext context) {
 
     /// Builds the values for the slider that shows the entire negotiation values
+    /// And builds the values for the current issueVals
     totalValues["userValue"] = 0.0;
     totalValues["cpValue"] = 0.0;
     for(int i = 0; i < negotiationSnap.issues.length; i++){
       Issue thisIssue = negotiationSnap.issues[i];
 
+      /// Calculates total values for user and cp based based on percentage of relative value filled
       totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
       totalValues["cpValue"] = (100 - issueVals[i]) * thisIssue.cpRelativeValue * .0001 + totalValues["cpValue"]!;
     }
 
+
+
     return Scaffold(
-      appBar: TopBar(negotiation: negotiationSnap, id: widget.docId, snapshot: widget.negotiation),
+      appBar: TopBar(negotiation: negotiationSnap, docId: docId, snapshot: widget.negotiation),
       body: SingleChildScrollView(
         child: Column(children: [
           /// Track Progress Text
@@ -231,17 +242,13 @@ class _TrackProgressState extends State<TrackProgress> {
       // Save
       else{
         // Give negotiationSnap the values from the sliders
-        negotiationSnap.issues[index].issueVals["A"] = (issueVals[0]*100).truncate();
-        negotiationSnap.issues[index].issueVals["B"] = (issueVals[1]*100).truncate();
-        negotiationSnap.issues[index].issueVals["C"] = (issueVals[2]*100).truncate();
-        negotiationSnap.issues[index].issueVals["D"] = (issueVals[3]*100).truncate();
+        negotiationSnap.issues[index].currentValue = issueVals[index];
 
         // Upload the negotiation snap
+        String? id = FirebaseAuth.instance.currentUser?.uid;
         FirebaseFirestore.instance
-            .collection("users")
-            .doc(negotiationSnap.id)
-            .collection("Negotiations")
-            .doc(widget.negotiation?.id)
+            .collection(id!)
+            .doc(docId)
             .set(negotiationSnap.toFirestore());
       }
     }
@@ -265,6 +272,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
   // So the update agreement - flag and save/discard buttons - can reset the page
   refresh() {
+    print(currentNegotiation);
     setState(() {});
   }
 }
@@ -394,10 +402,10 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
                 ),
 
                 /// Edit, Discard, Save
-                ButtonAddonTrackProgress(editing: widget.editing, handleEdits: widget.handleEdits, name: issueName),
+                ButtonAddonTrackProgress(editing: widget.editing, handleEdits: widget.handleEdits, index: widget.index),
 
                 /// Info Button
-                SliderInfo(issueName: issueName, sliderValue: widget.issueValues[issueName], negotiationSnap: widget.negotiation),
+                SliderInfo(issueName: issueName, sliderValue: widget.issueValues[widget.index], negotiationSnap: widget.negotiation),
               ],
             ),
           ),
@@ -405,13 +413,13 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
             min: 0.0,
             max: 100.0,
             inactiveColor: Colors.red,
-            value: widget.issueValues[issueName],
+            value: widget.issueValues[widget.index],
             divisions: 100,
-            label: '${widget.issueValues[issueName].round()}',
+            label: '${widget.issueValues[widget.index].round()}',
             onChanged: (value) {
               if (widget.editing) {
                 setState(() {
-                  widget.issueValues[issueName] = value;
+                  widget.issueValues[widget.index] = value;
                 });
                 widget.reloadFullPage();
               }
@@ -425,9 +433,9 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
 class ButtonAddonTrackProgress extends StatelessWidget {
   bool editing;
   Function handleEdits;
-  String name;
+  int index;
 
-  ButtonAddonTrackProgress({Key? key, required this.editing, required this.handleEdits, required this.name}) : super(key: key);
+  ButtonAddonTrackProgress({Key? key, required this.editing, required this.handleEdits, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -447,7 +455,7 @@ class ButtonAddonTrackProgress extends StatelessWidget {
             Icons.edit,
             size: 24,
           ),
-          onPressed: () { handleEdits(name, false); },
+          onPressed: () { handleEdits(index, false); },
           padding: EdgeInsets.all(0),
         ),
       );
@@ -469,7 +477,7 @@ class ButtonAddonTrackProgress extends StatelessWidget {
               Icons.close,
               size: 24,
             ),
-            onPressed: () { handleEdits(name, false); },
+            onPressed: () { handleEdits(index, false); },
             padding: EdgeInsets.all(0),
           ),
         ),
@@ -489,7 +497,7 @@ class ButtonAddonTrackProgress extends StatelessWidget {
               Icons.save_alt,
               size: 24,
             ),
-            onPressed: () { handleEdits(name, true); },
+            onPressed: () { handleEdits(index, true); },
             padding: EdgeInsets.all(0),
           ),
         ),
@@ -502,9 +510,9 @@ class ButtonAddonTrackProgress extends StatelessWidget {
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   DocumentSnapshot<Object?>? snapshot;
   Negotiation negotiation;
-  String id;
+  String docId;
 
-  TopBar({Key? key, required this.negotiation, required this.id, required this.snapshot})
+  TopBar({Key? key, required this.negotiation, required this.docId, required this.snapshot})
       : super(key: key);
 
   @override
@@ -547,11 +555,9 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   TextButton(
                     child: const Text('Yes'),
                     onPressed: () {
-                      FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(negotiation.id)
-                          .collection("Negotiations")
-                          .doc(id)
+                      String? id = FirebaseAuth.instance.currentUser?.uid;
+                      FirebaseFirestore.instance.collection(id!)
+                          .doc(docId)
                           .delete();
                       Navigator.pop(context);
                       Navigator.pop(context);

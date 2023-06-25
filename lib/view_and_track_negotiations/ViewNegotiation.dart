@@ -22,6 +22,7 @@ class ViewNegotiation extends StatefulWidget {
 class _ViewNegotiationState extends State<ViewNegotiation> {
   bool _wholeNegotiationEditing = false;
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
+  late String docId = widget.negotiation!.id;
 
   // Keeps track of old value for issue
   late List<List<int>> issueVals = List.filled(negotiationSnap.issues.length, List.filled(4, 0));
@@ -61,7 +62,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      TrackProgress(negotiation: widget.negotiation, docId: name!)),
+                      TrackProgress(negotiation: widget.negotiation)),
             );
           },
         ),
@@ -284,11 +285,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
     }
 
     if (totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP) {
+      String? id = FirebaseAuth.instance.currentUser?.uid;
       FirebaseFirestore.instance
-          .collection("users")
-          .doc(negotiationSnap.id)
-          .collection("Negotiations")
-          .doc(widget.negotiation?.id)
+          .collection(id!)
+          .doc(docId)
           .set(negotiationSnap.toFirestore());
     } else {
 

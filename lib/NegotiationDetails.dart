@@ -111,8 +111,7 @@ class Negotiation {
 class Issue{
   String name = "";
   int relativeValue = -1;
-  int resistance = -1;
-  int target = -1;
+  double? currentValue = 50;
 
   Map<String, dynamic> issueVals = {};
 
@@ -123,19 +122,18 @@ class Issue{
   Issue({required this.name});
 
   String toString(){
-    return "$name: ${issueVals.toString()}, RV: $relativeValue, RS: $resistance, T: $target";
+    return "$name: ${issueVals.toString()}, RV: $relativeValue";
   }
 
   Map<String, dynamic> toFirestore(){
     return {
       "name": name,
       "relativeValue": relativeValue,
-      "resistance": resistance,
-      "target": target,
       "issueVals": issueVals,
       "cpRelativeValue": cpRelativeValue,
       "cpResistance": cpResistance,
       "cpTarget": cpTarget,
+      "currentValue": currentValue,
     };
   }
 
@@ -143,12 +141,11 @@ class Issue{
     Issue here = new Issue(name: ss["name"]);
 
     here.relativeValue = ss["relativeValue"];
-    here.resistance = ss["resistance"];
-    here.target = ss["target"];
     here.issueVals = ss["issueVals"];
     here.cpRelativeValue = ss["cpRelativeValue"];
     here.cpResistance = ss["cpResistance"];
     here.cpTarget = ss["cpTarget"];
+    here.currentValue = ss["currentValue"];
 
     return here;
   }
