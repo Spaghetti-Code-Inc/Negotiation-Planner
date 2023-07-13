@@ -1,25 +1,23 @@
 Random quality of life changes:
 6. Add info buttons to more places on app
-7. Save the negotiation whenever the user wants to exit a negotiation in the middle of creating one
 10. Evaluate Agreement page the issue sliders have there own scrollview, they should not
 11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
-16?. Show the current rubric when asking for users current offer
-18. Fix the cpRelativeValue inputs
-
 
 Lucas:
-TODO store current user and cp values for the negotiation
 TODO 6: Get rid of all the initializing currentNegotiation on StartNewNegotiationPage
+TODO Fix -1 showing up as target & resistance due to the initialization
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it hast lasted?
 2. Have a separate page for completed and non completed negotiations
 2.1 Should they be able to pin a negotiation to top of the screen?
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
+4. Save negotiation in the middle of creating one
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes
 6. Get rid of all the initializing currentNegotiation on StartNewNegotiationPage
+7. Convert Rubric Summary, Display Important Issues to a list builder. The index should be the vals[i] shown
 
 Backlog:
 1. Sliders should not pass over each other in edit negotiation page.
@@ -32,7 +30,5 @@ Notes:
 1. 3 Describers on the first page shouldn't be buttons
 3. Resizing the screen when something is being type and it can not be seen
 6. Have a way to assign a value that corresponds to the letter settlement - Add new column on weight issues page
-7. Take out current offer of test drive
-8. Show on Rubric Summary how much each issue is weighed
-9. Comment out counterpart values - Save for later
+~9. Comment out counterpart values - Save for later
 10. Correct all of the resizing pages when inputting texts
