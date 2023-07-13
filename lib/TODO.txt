@@ -30,10 +30,7 @@ Debugging:
 
 Notes:
 1. 3 Describers on the first page shouldn't be buttons
-2. Added issues should go below the issues that are already named, these should stay in that order the whole time
 3. Resizing the screen when something is being type and it can not be seen
-4. Change weight issues to be real value points, not percentage of issue relative value
-5. Remove A+ deal
 6. Have a way to assign a value that corresponds to the letter settlement - Add new column on weight issues page
 7. Take out current offer of test drive
 8. Show on Rubric Summary how much each issue is weighed
