@@ -25,8 +25,8 @@ class _DetermineIssuesState extends State<DetermineIssues> {
 
   void _addIssues({String name=""}) {
     // Adds an issue and text editing controller for the list view
-    _controllers.insert(0, TextEditingController());
-    _items.insert(0, 'Issue ${_items.length + 1}');
+    _controllers.add(TextEditingController());
+    _items.add('Issue ${_items.length + 1}');
 
     _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 200));
     //meant to reset issue numbers inside text box in descending order
