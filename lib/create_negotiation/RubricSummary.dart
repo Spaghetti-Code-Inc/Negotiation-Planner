@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import '../Utils.dart';
-import 'CpsRubrik.dart';
 
 import '../main.dart';
+import 'PlanSummary.dart';
 
 class RubricSummary extends StatelessWidget {
   const RubricSummary({super.key});
@@ -164,29 +164,30 @@ class RubricSummary extends StatelessWidget {
                     flex: 1,
                     child: MaterialButton(
                         onPressed: () {
-
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                AlertDialog(
-                                  title: const Text('Counter Parts Rubric'),
-                                  content: const Text(
-                                      "Consider the issues you identified earlier. How do you "
-                                          "think your counter part would assign points to these issues?"),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text('Next', style: TextStyle(color: Color(0xff0A0A5B))),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => CpsRubrik()),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PlanSummary()),
                           );
+                          // For sending to counter part
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (BuildContext context) =>
+                          //       AlertDialog(
+                          //         title: const Text('Counter Parts Rubric'),
+                          //         content: const Text(
+                          //             "Consider the issues you identified earlier. How do you "
+                          //                 "think your counter part would assign points to these issues?"),
+                          //         actions: [
+                          //           TextButton(
+                          //             child: const Text('Next', style: TextStyle(color: Color(0xff0A0A5B))),
+                          //             onPressed: () {
+                          //
+                          //             },
+                          //           ),
+                          //         ],
+                          //       ),
+                          // );
                         },
                         color: const Color(0xffffffff),
                         elevation: 0,
