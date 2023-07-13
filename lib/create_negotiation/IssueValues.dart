@@ -24,7 +24,7 @@ class _IssueValuesState extends State<IssueValues> {
 
       _controllers.add([]);
 
-      _controllers[i].add(new TextEditingController(text: here["A+"].toString()));
+      // _controllers[i].add(new TextEditingController(text: here["A+"].toString()));
       _controllers[i].add(new TextEditingController(text: here["A"].toString()));
       _controllers[i].add(new TextEditingController(text: here["B"].toString()));
       _controllers[i].add(new TextEditingController(text: here["C"].toString()));
@@ -167,13 +167,13 @@ class _IssueValuesState extends State<IssueValues> {
     int length = currentNegotiation.issues.length;
     // Checks if all values are in right format
     for (int i = 0; i < length; i++) {
-      for (int j = 0; j < 6; j++) {
+      for (int j = 0; j < 5; j++) {
         try {
           int greater = int.parse(_controllers[i][j].text);
           int less;
 
           // Checks to make sure lower is not off out of bounds
-          if (j + 1 == 6) {
+          if (j + 1 == 5) {
             less = greater;
           } else {
             less = int.parse(_controllers[i][j + 1].text);
@@ -190,12 +190,6 @@ class _IssueValuesState extends State<IssueValues> {
           moveOn = false;
         }
       }
-      // Checks if any value is too big
-      if (int.parse(_controllers[i][0].text) > 100) {
-        Utils.showSnackBar(
-            "One of your A+ settlement values exceeds the points possible.");
-        moveOn = false;
-      }
     }
 
     // If data is in right format
@@ -204,12 +198,12 @@ class _IssueValuesState extends State<IssueValues> {
       for (int i = 0; i < length; i++) {
         // Puts value in for all the possible settlements
 
-        currentNegotiation.issues[i].issueVals["A+"] = int.parse(_controllers[i][0].text);
-        currentNegotiation.issues[i].issueVals["A"] = int.parse(_controllers[i][1].text);
-        currentNegotiation.issues[i].issueVals["B"] = int.parse(_controllers[i][2].text);
-        currentNegotiation.issues[i].issueVals["C"] = int.parse(_controllers[i][3].text);
-        currentNegotiation.issues[i].issueVals["D"] = int.parse(_controllers[i][4].text);
-        currentNegotiation.issues[i].issueVals["F"] = int.parse(_controllers[i][5].text);
+        // currentNegotiation.issues[i].issueVals["A+"] = int.parse(_controllers[i][0].text);
+        currentNegotiation.issues[i].issueVals["A"] = int.parse(_controllers[i][0].text);
+        currentNegotiation.issues[i].issueVals["B"] = int.parse(_controllers[i][1].text);
+        currentNegotiation.issues[i].issueVals["C"] = int.parse(_controllers[i][2].text);
+        currentNegotiation.issues[i].issueVals["D"] = int.parse(_controllers[i][3].text);
+        currentNegotiation.issues[i].issueVals["F"] = int.parse(_controllers[i][4].text);
       }
 
       return true;
@@ -227,20 +221,25 @@ class EnterValues extends StatelessWidget {
   EnterValues({Key? key, required this.issueName, required this.ctrl, required this.index})
       : super(key: key);
 
+  late final MaxPoints = currentNegotiation.issues[index].relativeValue;
+
   late final Map<String, dynamic> issueVals = currentNegotiation.issues[index].issueVals;
 
   @override
   Widget build(BuildContext context) {
     // Keeps the A+ settlement at the max possible points
-    ctrl[0].text = "100";
-    ctrl[5].text = "0";
+    ctrl[0].text = MaxPoints.toString();
+    ctrl[4].text = "0";
 
-    issueVals["A+"] = 100;
+    // issueVals["A+"] = 100;
+    issueVals["A"] = MaxPoints;
+    issueVals["B"] = int.tryParse(ctrl[1].text);
+    issueVals["C"] = int.tryParse(ctrl[2].text);
+    issueVals["D"] = int.tryParse(ctrl[3].text);
     issueVals["F"] = 0;
-    issueVals["A"] = int.tryParse(ctrl[1].text);
-    issueVals["B"] = int.tryParse(ctrl[2].text);
-    issueVals["C"] = int.tryParse(ctrl[3].text);
-    issueVals["D"] = int.tryParse(ctrl[4].text);
+
+    print(issueVals);
+
 
     return Column(
       children: [
@@ -314,89 +313,89 @@ class EnterValues extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                /// A+: "This represents the most you can reasonably justify and will be your opening offer.",
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text(
-                                  'A+ Settlement'
-                                ),
-                                content: const Text(
-                                  "This represents the most you can reasonably "
-                                      "justify and will be your opening offer."
-                                ),
-                              )
-                          );
-                        },
-                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
-                        child: Text("A+ Settlement"),
-
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFF),
-                        shape: BoxShape.rectangle,
-
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 10, 8, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: INTEGER_INPUTS,
-                            enabled: false,
-                            obscureText: false,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-
-                            ),
-                            controller: ctrl[0],
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              labelText: "Pts.",
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xfff2f2f3),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
+                // /// A+: "This represents the most you can reasonably justify and will be your opening offer.",
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisSize: MainAxisSize.max,
+                //   children: [
+                //     Expanded(
+                //       flex: 2,
+                //       child: TextButton(
+                //         onPressed: () {
+                //           showDialog(context: context,
+                //               builder: (BuildContext context) => AlertDialog(
+                //                 title: const Text(
+                //                   'A+ Settlement'
+                //                 ),
+                //                 content: const Text(
+                //                   "This represents the most you can reasonably "
+                //                       "justify and will be your opening offer."
+                //                 ),
+                //               )
+                //           );
+                //         },
+                //         style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+                //
+                //         child: Text("A+ Settlement"),
+                //
+                //       ),
+                //     ),
+                //     Container(
+                //       margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                //       padding: const EdgeInsets.all(0),
+                //       width: MediaQuery.of(context).size.width * 0.2,
+                //       height: 50,
+                //       decoration: BoxDecoration(
+                //         color: const Color(0xFFFFFF),
+                //         shape: BoxShape.rectangle,
+                //
+                //       ),
+                //       child: Padding(
+                //         padding: const EdgeInsets.fromLTRB(8, 10, 8, 5),
+                //         child: Align(
+                //           alignment: Alignment.center,
+                //           child: TextFormField(
+                //             keyboardType: TextInputType.number,
+                //             inputFormatters: INTEGER_INPUTS,
+                //             enabled: false,
+                //             obscureText: false,
+                //             textAlign: TextAlign.start,
+                //             maxLines: 1,
+                //             style: const TextStyle(
+                //               fontWeight: FontWeight.w400,
+                //               fontStyle: FontStyle.normal,
+                //               fontSize: 14,
+                //               color: Color(0xff000000),
+                //
+                //             ),
+                //             controller: ctrl[0],
+                //             decoration: InputDecoration(
+                //               border: OutlineInputBorder(
+                //                 borderRadius: BorderRadius.circular(4.0),
+                //                 borderSide: const BorderSide(
+                //                     color: Color(0xff000000), width: 1),
+                //               ),
+                //               labelText: "Pts.",
+                //               labelStyle: const TextStyle(
+                //                 fontWeight: FontWeight.w400,
+                //                 fontStyle: FontStyle.normal,
+                //                 fontSize: 14,
+                //                 color: Color(0xff000000),
+                //               ),
+                //               filled: true,
+                //               fillColor: const Color(0xfff2f2f3),
+                //               isDense: true,
+                //               contentPadding: const EdgeInsets.symmetric(
+                //                   vertical: 8, horizontal: 12),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // Divider(),
 
                 /// A: "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
                 Row (
@@ -441,10 +440,11 @@ class EnterValues extends StatelessWidget {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[1],
+                            controller: ctrl[0],
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
+                            enabled: false,
                             style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
@@ -521,7 +521,7 @@ class EnterValues extends StatelessWidget {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[2],
+                            controller: ctrl[1],
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -601,7 +601,7 @@ class EnterValues extends StatelessWidget {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[3],
+                            controller: ctrl[2],
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -681,7 +681,7 @@ class EnterValues extends StatelessWidget {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[4],
+                            controller: ctrl[3],
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -761,7 +761,7 @@ class EnterValues extends StatelessWidget {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             enabled: false,
-                            controller: ctrl[5],
+                            controller: ctrl[4],
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -805,7 +805,7 @@ class EnterValues extends StatelessWidget {
   }
 
   EvenlyDistribute(){
-    int length = 5;
+    int length = 4;
 
     // Gets how much the pts should change by in each step
     int total = int.parse(ctrl[0].text);
