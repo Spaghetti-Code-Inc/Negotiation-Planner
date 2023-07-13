@@ -1,13 +1,10 @@
-
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/create_negotiation/Target_Resistance.dart';
 
-import '../NegotiationDetails.dart';
 import '../Utils.dart';
 import '../main.dart';
+import 'MAX_LENGTHS.dart';
 
 class IssueValues extends StatefulWidget {
   const IssueValues({super.key});
@@ -20,17 +17,30 @@ class _IssueValuesState extends State<IssueValues> {
   List<List<TextEditingController>> _controllers = [];
 
   @override
-  Widget build(BuildContext context) {
+  void initState(){
+    /// Loads the current issue values to the text editing controllers
+    for(int i = 0; i < currentNegotiation.issues.length; i++){
+      Map<String, dynamic> here = currentNegotiation.issues[i].issueVals;
 
-
-    int length = currentNegotiation.issues.length;
-    for (int i = 0; i < length; i++) {
       _controllers.add([]);
-      // 6 because that is the number of settlement opportunists
-      for (int j = 0; j < 6; j++) {
-        _controllers[i].add(TextEditingController());
+
+      _controllers[i].add(new TextEditingController(text: here["A+"].toString()));
+      _controllers[i].add(new TextEditingController(text: here["A"].toString()));
+      _controllers[i].add(new TextEditingController(text: here["B"].toString()));
+      _controllers[i].add(new TextEditingController(text: here["C"].toString()));
+      _controllers[i].add(new TextEditingController(text: here["D"].toString()));
+      _controllers[i].add(new TextEditingController(text: here["F"].toString()));
+
+      for(int j = 0; j < _controllers[i].length; j++){
+        if(_controllers[i][j].text == "null") _controllers[i][j].text = "0";
       }
     }
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -137,13 +147,14 @@ class _IssueValuesState extends State<IssueValues> {
                       child: EnterValues(
                         issueName: currentNegotiation.issues.elementAt(index).name,
                         ctrl: _controllers[index],
+                        index: index,
                       ),
                       height: 445);
                 }),
           ),
 
           /// Next and Back Bar
-          PrepareNegotiationNextBar(Next: Next, NextPage: UnderStantRubrc()),
+          PrepareNegotiationNextBar(Next: Next, NextPage: TargetResistance()),
 
 
         ],
@@ -211,17 +222,29 @@ class _IssueValuesState extends State<IssueValues> {
 
 class EnterValues extends StatelessWidget {
   final String? issueName;
+  final int index;
   final List<TextEditingController> ctrl;
-  const EnterValues({Key? key, required this.issueName, required this.ctrl})
+  EnterValues({Key? key, required this.issueName, required this.ctrl, required this.index})
       : super(key: key);
+
+  late final Map<String, dynamic> issueVals = currentNegotiation.issues[index].issueVals;
 
   @override
   Widget build(BuildContext context) {
     // Keeps the A+ settlement at the max possible points
     ctrl[0].text = "100";
     ctrl[5].text = "0";
+
+    issueVals["A+"] = 100;
+    issueVals["F"] = 0;
+    issueVals["A"] = int.tryParse(ctrl[1].text);
+    issueVals["B"] = int.tryParse(ctrl[2].text);
+    issueVals["C"] = int.tryParse(ctrl[3].text);
+    issueVals["D"] = int.tryParse(ctrl[4].text);
+
     return Column(
       children: [
+        /// Header for issue
         Container(
           margin: const EdgeInsets.all(0),
           padding: const EdgeInsets.all(0),
@@ -281,6 +304,7 @@ class EnterValues extends StatelessWidget {
             ),
           ),
         ),
+
         Expanded(
           flex: 1,
           child: Align(
@@ -290,7 +314,7 @@ class EnterValues extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                //"This represents the most you can reasonably justify and will be your opening offer.",
+                /// A+: "This represents the most you can reasonably justify and will be your opening offer.",
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -332,18 +356,10 @@ class EnterValues extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(8, 10, 8, 5),
                         child: Align(
                           alignment: Alignment.center,
-                          child: TextField(
+                          child: TextFormField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) => newValue.copyWith(
-                                        text: newValue.text
-                                            .replaceAll('.', ','),
-                                      ))
-                            ],
-                            controller: ctrl[0],
+                            inputFormatters: INTEGER_INPUTS,
+                            enabled: false,
                             obscureText: false,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -354,6 +370,7 @@ class EnterValues extends StatelessWidget {
                               color: Color(0xff000000),
 
                             ),
+                            controller: ctrl[0],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
@@ -380,8 +397,9 @@ class EnterValues extends StatelessWidget {
                   ],
                 ),
                 Divider(),
-                Row(
-                  //"This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
+
+                /// A: "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
+                Row (
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
@@ -422,15 +440,7 @@ class EnterValues extends StatelessWidget {
                           alignment: Alignment.center,
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                      (oldValue, newValue) => newValue.copyWith(
-                                    text: newValue.text
-                                        .replaceAll('.', ','),
-                                  ))
-                            ],
+                            inputFormatters: INTEGER_INPUTS,
                             controller: ctrl[1],
                             obscureText: false,
                             textAlign: TextAlign.start,
@@ -467,6 +477,8 @@ class EnterValues extends StatelessWidget {
                   ],
                 ),
                 Divider(),
+
+                /// B
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -508,15 +520,7 @@ class EnterValues extends StatelessWidget {
                           alignment: Alignment.center,
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                      (oldValue, newValue) => newValue.copyWith(
-                                    text: newValue.text
-                                        .replaceAll('.', ','),
-                                  ))
-                            ],
+                            inputFormatters: INTEGER_INPUTS,
                             controller: ctrl[2],
                             obscureText: false,
                             textAlign: TextAlign.start,
@@ -553,6 +557,8 @@ class EnterValues extends StatelessWidget {
                   ],
                 ),
                 Divider(),
+
+                /// C
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -594,15 +600,7 @@ class EnterValues extends StatelessWidget {
                           alignment: Alignment.center,
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                      (oldValue, newValue) => newValue.copyWith(
-                                    text: newValue.text
-                                        .replaceAll('.', ','),
-                                  ))
-                            ],
+                            inputFormatters: INTEGER_INPUTS,
                             controller: ctrl[3],
                             obscureText: false,
                             textAlign: TextAlign.start,
@@ -639,6 +637,8 @@ class EnterValues extends StatelessWidget {
                   ],
                 ),
                 Divider(),
+
+                /// D
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -680,15 +680,7 @@ class EnterValues extends StatelessWidget {
                           alignment: Alignment.center,
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                      (oldValue, newValue) => newValue.copyWith(
-                                    text: newValue.text
-                                        .replaceAll('.', ','),
-                                  ))
-                            ],
+                            inputFormatters: INTEGER_INPUTS,
                             controller: ctrl[4],
                             obscureText: false,
                             textAlign: TextAlign.start,
@@ -725,6 +717,8 @@ class EnterValues extends StatelessWidget {
                   ],
                 ),
                 Divider(),
+
+                /// F
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -766,15 +760,7 @@ class EnterValues extends StatelessWidget {
                           alignment: Alignment.center,
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(_getRegexString())),
-                              TextInputFormatter.withFunction(
-                                      (oldValue, newValue) => newValue.copyWith(
-                                    text: newValue.text
-                                        .replaceAll('.', ','),
-                                  ))
-                            ],
+                            enabled: false,
                             controller: ctrl[5],
                             obscureText: false,
                             textAlign: TextAlign.start,

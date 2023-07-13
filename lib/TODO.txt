@@ -3,30 +3,39 @@ Random quality of life changes:
 7. Save the negotiation whenever the user wants to exit a negotiation in the middle of creating one
 10. Evaluate Agreement page the issue sliders have there own scrollview, they should not
 11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
-12. Issue Names overflow, create upperbound or way to accept longer issue names
-13. Make the values save after you pop backwards and go forwards when you expect values to still be there
-15. Make the IssueValues Page have drop downs for the letter grades
 16?. Show the current rubric when asking for users current offer
+18. Fix the cpRelativeValue inputs
 
 
 Lucas:
-TODO Need to test finding highest 3 valued issues
-TODO user can't skip any pages without entering values
-TODO Some values show but are actually 0 when a page is reloaded
+TODO store current user and cp values for the negotiation
+TODO 6: Get rid of all the initializing currentNegotiation on StartNewNegotiationPage
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it hast lasted?
 2. Have a separate page for completed and non completed negotiations
 2.1 Should they be able to pin a negotiation to top of the screen?
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
-4. Make a calculate button on track progress to return the best possible negotiation
-    (Might not be possible because functions are linear and are best either all the way to left or right)
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes
+6. Get rid of all the initializing currentNegotiation on StartNewNegotiationPage
 
 Backlog:
 1. Sliders should not pass over each other in edit negotiation page.
 
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
+
+
+Notes:
+1. 3 Describers on the first page shouldn't be buttons
+2. Added issues should go below the issues that are already named, these should stay in that order the whole time
+3. Resizing the screen when something is being type and it can not be seen
+4. Change weight issues to be real value points, not percentage of issue relative value
+5. Remove A+ deal
+6. Have a way to assign a value that corresponds to the letter settlement - Add new column on weight issues page
+7. Take out current offer of test drive
+8. Show on Rubric Summary how much each issue is weighed
+9. Comment out counterpart values - Save for later
+10. Correct all of the resizing pages when inputting texts

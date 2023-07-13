@@ -8,16 +8,24 @@ import '../Utils.dart';
 import '../main.dart';
 import 'MAX_LENGTHS.dart';
 
-class UnderStantRubrc extends StatelessWidget {
+class TargetResistance extends StatelessWidget {
 
   bool iconColor = false;
 
-  UnderStantRubrc({super.key});
-  TextEditingController totalTarget = new TextEditingController();
-  TextEditingController totalResistance = new TextEditingController();
+  TextEditingController totalTarget;
+  TextEditingController totalResistance;
+
+  TargetResistance({super.key})
+    : totalTarget = new TextEditingController(text: currentNegotiation.target.toString()),
+      totalResistance = new TextEditingController(text: currentNegotiation.resistance.toString());
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
@@ -337,6 +345,7 @@ class UnderStantRubrc extends StatelessWidget {
                             inputFormatters: INTEGER_INPUTS,
                             keyboardType: TextInputType.number,
                             onChanged: (newVal) {
+                              if(newVal == "") currentNegotiation.resistance = 0;
                               currentNegotiation.resistance = int.parse(newVal);
 
                             },

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'IssueValues.dart';
@@ -19,14 +17,37 @@ class _WeightIssuesState extends State<WeightIssues> {
   List<TextEditingController> _controllers = [TextEditingController()];
 
   int totalVal = 0;
+  int length = currentNegotiation.issues.length;
+
+
+  @override
+  void initState(){
+    for (int i = 0; i < length; i++) {
+      _controllers.add(new TextEditingController());
+      if(currentNegotiation.issues[i].relativeValue != -1){
+        _controllers[i].text = currentNegotiation.issues[i].relativeValue.toString();
+      }
+      else _controllers[i].text = "0";
+    }
+    if(length == 1){
+      _controllers[0].text = "100";
+      totalVal = 100;
+    }
+    total();
+
+    super.initState();
+  }
+
 
   total() {
     int total = 0;
     for (TextEditingController cont in _controllers) {
       try {
         total += int.parse(cont.text);
-      } on FormatException catch (_) {}
-      ;
+      } on FormatException catch (e) {
+
+      }
+
     }
 
     setState((){
@@ -37,15 +58,6 @@ class _WeightIssuesState extends State<WeightIssues> {
 
   @override
   Widget build(BuildContext context) {
-    int length = currentNegotiation.issues.length;
-    for (int i = 0; i < length; i++) {
-      _controllers.add(new TextEditingController());
-    }
-    if(length == 1){
-      _controllers[0].text = "100";
-      totalVal = 100;
-    }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
@@ -266,7 +278,8 @@ class _WeightIssuesState extends State<WeightIssues> {
                         child: Center(
                             child: TextFormField(
                               onChanged: (newVal) {
-                                totalVal = total();
+                                currentNegotiation.issues[index].relativeValue = int.parse(_controllers[index].text);
+                                total();
                               },
                               // Only allows digits 0-9, max length of 2
                               inputFormatters: INTEGER_INPUTS,
@@ -325,21 +338,25 @@ class _WeightIssuesState extends State<WeightIssues> {
     }
   }
 
-
-
   EvenlyDistribute(){
     int length = currentNegotiation.issues.length;
 
+    // How much each issue should be weighed
     int step = (100/length).round();
-    int count = 0;
-    for(int i = 1; i < length; i++){
-      _controllers[i-1].text = (step).toString();
-      count += step;
+
+    // Sets current negotiation and text values to the correct number
+    for(int i = 0; i < length; i++){
+      _controllers[i].text = (step).toString();
+      currentNegotiation.issues[i].relativeValue = step;
     }
 
-    // Last issue gains 1 if the rounding takes the usual split to 99
-   _controllers[length-1].text = (100-count).toString();
-    total();
+    // Last issue is equal to the step, plus any points left over so it adds to 100
+   _controllers[length-1].text = (100%step+step).toString();
+    currentNegotiation.issues[length-1].relativeValue = 100%step + step;
+
+    setState((){
+      totalVal = 100;
+    });
   }
 
 }

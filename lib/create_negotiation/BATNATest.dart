@@ -6,7 +6,6 @@ import 'RubricSummary.dart';
 import '../main.dart';
 import '../Utils.dart';
 
-//TODO: If you go back the values should still save
 class BATNATest extends StatefulWidget {
   @override
   BATNATestState createState() => BATNATestState();
@@ -26,8 +25,13 @@ class BATNATestState extends State<BATNATest> {
 
   //BATNATestState({super.key});
 
-  TextEditingController BATNA = new TextEditingController();
-  TextEditingController CurrentOffer = new TextEditingController();
+  TextEditingController BATNA;
+  TextEditingController CurrentOffer;
+
+  BATNATestState()
+      : BATNA = new TextEditingController(text: currentNegotiation.BATNA.toString()),
+        CurrentOffer = new TextEditingController(text: currentNegotiation.currentOffer.toString());
+
 
   Widget build(BuildContext context) {
 

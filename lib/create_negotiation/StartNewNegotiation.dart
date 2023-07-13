@@ -1,7 +1,10 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../Utils.dart';
 import 'DetermineIssues.dart';
 import 'package:negotiation_tracker/main.dart';
 
@@ -22,8 +25,16 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
 
   @override
   void initState() {
+    /// Initializing many current negotiation values
     currentNegotiation.summary = "";
     currentNegotiation.title = "";
+    currentNegotiation.BATNA = 0;
+    currentNegotiation.currentOffer = 0;
+    currentNegotiation.target = 0;
+    currentNegotiation.resistance = 0;
+    currentNegotiation.cpTarget = 0;
+    currentNegotiation.cpBATNA = 0;
+    currentNegotiation.cpResistance = 0;
     super.initState();
   }
 
@@ -225,14 +236,22 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                 ),
               ),
               Expanded(
-                flex: 1,
-                child: NextBar(DetermineIssues()),
-              ),
+                child: PrepareNegotiationNextBar(Next: Next, NextPage: DetermineIssues()),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  bool Next(){
+    if (currentNegotiation.title == "" || currentNegotiation.summary == "" ){
+      Utils.showSnackBar("Please enter value for the negotiations title and summary.");
+      return false;
+    }
+    return true;
+
   }
 
   removeText() {

@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../NegotiationDetails.dart';
@@ -24,17 +26,20 @@ class _CpsRubrikState extends State<CpsRubrik> {
   bool iconTwo = false;
   bool iconThree = false;
 
-  TextEditingController cpTargetController = new TextEditingController();
-  TextEditingController cpBATNAController = new TextEditingController();
-  TextEditingController cpResistanceController = new TextEditingController();
+  TextEditingController cpTargetController;
+  TextEditingController cpBATNAController;
+  TextEditingController cpResistanceController;
 
+  _CpsRubrikState()
+      : cpTargetController = new TextEditingController(text: currentNegotiation.cpTarget.toString()),
+        cpBATNAController = new TextEditingController(text: currentNegotiation.cpBATNA.toString()),
+        cpResistanceController = new TextEditingController(text: currentNegotiation.cpResistance.toString());
 
   List<int> points = List.filled(currentNegotiation.issues.length, 0);
 
 
   @override
   Widget build(BuildContext context) {
-    print(currentNegotiation);
     if(points.length == 1) points[0] = 100;
 
     return Scaffold(
@@ -223,6 +228,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                             onChanged: (newVal) {
                               setState(() {
                                 widget.target = int.parse(newVal);
+                                currentNegotiation.cpTarget = int.parse(newVal);
                               });
                             },
                             controller: cpTargetController,
@@ -341,6 +347,8 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           keyboardType: TextInputType.number,
                           inputFormatters: INTEGER_INPUTS,
                           onChanged: (newVal) {
+                            currentNegotiation.cpBATNA = int.parse(newVal);
+
                             setState(() {
                               widget.BATNA = int.parse(newVal);
                             });
@@ -450,9 +458,7 @@ class _CpsRubrikState extends State<CpsRubrik> {
                           onChanged: (newVal) {
                             setState(() {
                               widget.resistance = int.parse(newVal);
-                              if (newVal == "") {
-                                widget.resistance == 0;
-                              }
+                              currentNegotiation.cpResistance = int.parse(newVal);
                             });
                           },
                           controller: cpResistanceController,
@@ -603,6 +609,8 @@ class _EnterValuesState extends State<EnterValues> {
             inputFormatters: INTEGER_INPUTS,
             onChanged: (newVal) {
               widget.points[widget.index] = int.parse(newVal);
+              currentNegotiation.issues[widget.index].cpResistance = int.parse(newVal);
+              print(currentNegotiation.issues);
             },
             controller: widget.ctrl,
             obscureText: false,

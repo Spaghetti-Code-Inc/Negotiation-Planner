@@ -9,14 +9,21 @@ import '../Utils.dart';
 import '../main.dart';
 import 'MAX_LENGTHS.dart';
 
-class DetermineIssues extends StatelessWidget {
+class DetermineIssues extends StatefulWidget {
+  const DetermineIssues({Key? key}) : super(key: key);
+
+  @override
+  State<DetermineIssues> createState() => _DetermineIssuesState();
+}
+
+class _DetermineIssuesState extends State<DetermineIssues> {
   bool iconColor = false;
   final _items = ['Issue 1', 'Issue 2'];
   final _controllers = [TextEditingController(), TextEditingController()];
 
   static final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
 
-  void _addIssues() {
+  void _addIssues({String name=""}) {
     // Adds an issue and text editing controller for the list view
     _controllers.insert(0, TextEditingController());
     _items.insert(0, 'Issue ${_items.length + 1}');
@@ -25,7 +32,9 @@ class DetermineIssues extends StatelessWidget {
     //meant to reset issue numbers inside text box in descending order
     for (int i = 0; i < _items.length; i++) {
       if (_items[i].contains("Issue")) {
-        _items[i] = 'Issue ${i + 1}';
+
+        if(name != "") _items[i] = name;
+        else _items[i] = 'Issue ${i + 1}';
       } //end if
     } //end for
   } //end add issues
@@ -77,40 +86,40 @@ class DetermineIssues extends StatelessWidget {
             child: Row(children: [
               Expanded(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(48, 10, 0, 0),
-                    child: Text(
-                      "Step 1/3",
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 22,
-                        color: Color(0xff000000),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(48, 10, 0, 0),
+                        child: Text(
+                          "Step 1/3",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 22,
+                            color: Color(0xff000000),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
-                    child: Text(
-                      "Determine the Issues",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14,
-                        color: Color(0xff000000),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(48, 8, 0, 0),
+                        child: Text(
+                          "Determine the Issues",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14,
+                            color: Color(0xff000000),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              )),
+                    ],
+                  )),
               Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: IconButton(
@@ -128,9 +137,9 @@ class DetermineIssues extends StatelessWidget {
                           ),
                           content: const Text(
                               'An issue is something the negotiators will try to reach an agreement on. '
-                              'Consider all the issues relevant to their negotiation. '
-                              'Be sure to include any issues that could make the deal better '
-                              'for you and/or your counterpart.'),
+                                  'Consider all the issues relevant to their negotiation. '
+                                  'Be sure to include any issues that could make the deal better '
+                                  'for you and/or your counterpart.'),
                           actions: [
                             TextButton(
                               child: const Text('Okay'),
@@ -174,7 +183,7 @@ class DetermineIssues extends StatelessWidget {
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide:
-                                      const BorderSide(color: Color(0xff0A0A5B), width: 0.0),
+                                  const BorderSide(color: Color(0xff0A0A5B), width: 0.0),
                                 ),
                                 focusedBorder: const OutlineInputBorder(
                                   borderSide: const BorderSide(color: Color(0xff0A0A5B)),
@@ -192,7 +201,7 @@ class DetermineIssues extends StatelessWidget {
                             ),
                           )));
                 } // item builder
-                ),
+            ),
           ),
           Column(
             children: [
@@ -205,44 +214,69 @@ class DetermineIssues extends StatelessWidget {
               ),
               // "Add Issues" At bottom
               Container(
-                  width: MediaQuery.of(context).size.height,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                      textStyle: const TextStyle(fontSize: 18),
-                      backgroundColor: const Color(0x9BFFFFFF),
-                      foregroundColor: const Color(0xff0A0A5B),
-                    ),
-                    onPressed: _addIssues,
-                    child: const Text('Add Issue'),
+                width: MediaQuery.of(context).size.height,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                    textStyle: const TextStyle(fontSize: 18),
+                    backgroundColor: const Color(0x9BFFFFFF),
+                    foregroundColor: const Color(0xff0A0A5B),
                   ),
+                  onPressed: _addIssues,
+                  child: const Text('Add Issue'),
+                ),
               ),
 
               /// Next and back buttons
               PrepareNegotiationNextBar(Next: Next, NextPage: WeightIssues())
-              
+
             ],
           )
         ]));
   }
 
   bool Next(){
-    /// Code passed from parent widget
-    if (_controllers.length != 0) {
-      currentNegotiation.issues.clear();
 
-      // For each issue add it to the currentNegotiation list
-      for (int i = 0; i < _controllers.length - 1; i++) {
-        // Adds the issue if the name is not empty
-        if (_controllers[i].text != "") {
-          currentNegotiation.issues.add(new Issue(name: _controllers[i].text));
+    // List of indexes that already exist as determined issues
+    List<int> exist = [];
+    // Loops through issues backwards to delete the ones that do not have the same name
+    for (int j = currentNegotiation.issues.length-1; j >= 0; j--){
+      bool exists = false;
+      // Loops through controllers to check if a controller text equals issue text
+      for(int i = 0; i < _controllers.length; i++){
+        if(currentNegotiation.issues[j].name == _controllers[i].text){
+          exist.add(i);
+          exists = true;
+          break;
         }
       }
+      // Deletes the issue if the name is no longer in the set of determined issues
+      if(!exists) currentNegotiation.issues.removeAt(j);
+    }
 
-      return true;
-    } else {
-      Utils.showSnackBar("You must have at least 1 issue");
+    // For each issue add it to the currentNegotiation list
+    for (int i = 0; i < _controllers.length; i++) {
+      // Adds the issue if the name is not empty
+      bool exists = false;
+      for (int j = 0; j < exist.length; j++){
+        if(i == exist[j]){
+          exists = true;
+        }
+      }
+      if (_controllers[i].text != "" && !exists) {
+        currentNegotiation.issues.add(new Issue(name: _controllers[i].text));
+      }
+    }
+    // If there are no named issues, return false
+    if(currentNegotiation.issues.length == 0) {
+      Utils.showSnackBar("Please enter in a name for at least one issue.");
       return false;
     }
+
+    return true;
   }
 }
+
+
+
+
