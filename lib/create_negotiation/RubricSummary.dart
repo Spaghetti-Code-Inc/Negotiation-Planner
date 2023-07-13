@@ -222,7 +222,7 @@ class DisplayImportantIssues extends StatelessWidget {
       return Column(
         children: [
           Text(
-            vals[0],
+            "1. " + vals[0],
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
@@ -240,7 +240,7 @@ class DisplayImportantIssues extends StatelessWidget {
       return Column(
         children: [
           Text(
-            vals[0],
+            "1: " + vals[0],
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
@@ -251,7 +251,7 @@ class DisplayImportantIssues extends StatelessWidget {
             ),
           ),
           Text(
-            vals[1],
+            "2: " + vals[1],
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
@@ -269,7 +269,7 @@ class DisplayImportantIssues extends StatelessWidget {
       return Column(
         children: [
           Text(
-            vals[0],
+            "1. " + vals[0],
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
@@ -280,7 +280,7 @@ class DisplayImportantIssues extends StatelessWidget {
             ),
           ),
           Text(
-            vals[1],
+            "2: " + vals[1],
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
@@ -291,7 +291,7 @@ class DisplayImportantIssues extends StatelessWidget {
             ),
           ),
           Text(
-            vals[2],
+            "3: " + vals[2],
             textAlign: TextAlign.start,
             overflow: TextOverflow.clip,
             style: TextStyle(
