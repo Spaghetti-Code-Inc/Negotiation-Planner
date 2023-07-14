@@ -12,18 +12,17 @@ class TargetResistance extends StatelessWidget {
 
   bool iconColor = false;
 
-  TextEditingController totalTarget;
-  TextEditingController totalResistance;
+  TextEditingController totalTarget = new TextEditingController();
+  TextEditingController totalResistance = new TextEditingController();
 
   TargetResistance({super.key})
     : totalTarget = new TextEditingController(text: currentNegotiation.target.toString()),
       totalResistance = new TextEditingController(text: currentNegotiation.resistance.toString());
 
-
-
   @override
   Widget build(BuildContext context) {
-
+    if(currentNegotiation.target == -1) totalTarget.text = "0";
+    if(currentNegotiation.resistance == -1) totalResistance.text = "0";
 
 
     return Scaffold(

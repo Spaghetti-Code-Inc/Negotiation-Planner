@@ -31,6 +31,8 @@ class BATNATestState extends State<BATNATest> {
 
   Widget build(BuildContext context) {
 
+    if(currentNegotiation.BATNA == null) BATNA.text = "0";
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
