@@ -31,13 +31,13 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
   late double userRes = double.parse(issue.issueVals["D"].toString());
   late double userTar = double.parse(issue.issueVals["A"].toString());
 
-  late double cpRes = double.parse(issue.cpResistance.toString());
-  late double cpTar = double.parse(issue.cpTarget.toString());
+  // late double cpRes = double.parse(issue.cpResistance.toString());
+  // late double cpTar = double.parse(issue.cpTarget.toString());
 
   late double usWeight = 100.0 / issue.relativeValue;
-  late double cpWeight = 100.0 / issue.cpRelativeValue;
+  // late double cpWeight = 100.0 / issue.cpRelativeValue;
 
-  late List<double> _issueVals = [0, userRes / 100, cpTar / 100, userTar / 100, cpRes / 100, 1];
+  late List<double> _issueVals = [0, userRes / 100, 0 / 100, userTar / 100, 0 / 100, 1];
 
   String bargainingRange() {
     return issue.name +
@@ -54,10 +54,10 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
       late double userRes = double.parse(issue.issueVals["D"].toString());
       late double userTar = double.parse(issue.issueVals["A"].toString());
 
-      late double cpRes = double.parse(issue.cpResistance.toString());
-      late double cpTar = double.parse(issue.cpTarget.toString());
+      // late double cpRes = double.parse(issue.cpResistance.toString());
+      // late double cpTar = double.parse(issue.cpTarget.toString());
 
-      _issueVals = [0, userRes / 100.0, cpTar / 100.0, userTar / 100.0, cpRes / 100.0, 1];
+      _issueVals = [0, userRes / 100.0, 0 / 100.0, userTar / 100.0, 0 / 100.0, 1];
     }
 
     return Column(children: [
@@ -79,9 +79,9 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
             issue.issueVals["C"] = vals[1];
             issue.issueVals["B"] = vals[2];
             issue.issueVals["A"] = vals[3];
-
-            issue.cpResistance = (_issueVals[4] * 100).truncate();
-            issue.cpTarget = (_issueVals[2] * 100).truncate();
+            //
+            // issue.cpResistance = (_issueVals[4] * 100).truncate();
+            // issue.cpTarget = (_issueVals[2] * 100).truncate();
           },
 
           overdragBehaviour: ThumbOverdragBehaviour.cross,
@@ -129,7 +129,7 @@ class ChangeRelativeValues extends StatelessWidget {
     }
 
     userCtrl.text = issue.relativeValue.toString();
-    cpCtrl.text = issue.cpRelativeValue.toString();
+    // cpCtrl.text = issue.cpRelativeValue.toString();
     return Container(
       height: 80,
       margin: EdgeInsets.only(bottom: 15),
@@ -199,7 +199,7 @@ class ChangeRelativeValues extends StatelessWidget {
                 child: Center(
                     child: TextFormField(
                   onChanged: (newVal) {
-                    issue.cpRelativeValue = int.parse(cpCtrl.text);
+                    // issue.cpRelativeValue = int.parse(cpCtrl.text);
                   },
                   textAlign: TextAlign.center,
                   textInputAction: TextInputAction.next,

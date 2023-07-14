@@ -117,9 +117,9 @@ class Issue{
   // An entry in this should be: Letter Grade: (Points, Real Value)
   Map<String, dynamic> issueVals = {};
 
-  int cpRelativeValue = -1;
-  int cpResistance = -1;
-  int cpTarget = -1;
+  // int cpRelativeValue = -1;
+  // int cpResistance = -1;
+  // int cpTarget = -1;
 
   Issue({required this.name});
 
@@ -132,9 +132,9 @@ class Issue{
       "name": name,
       "relativeValue": relativeValue,
       "issueVals": issueVals,
-      "cpRelativeValue": cpRelativeValue,
-      "cpResistance": cpResistance,
-      "cpTarget": cpTarget,
+      // "cpRelativeValue": cpRelativeValue,
+      // "cpResistance": cpResistance,
+      // "cpTarget": cpTarget,
       "currentValue": currentValue,
     };
   }
@@ -144,9 +144,9 @@ class Issue{
 
     here.relativeValue = ss["relativeValue"];
     here.issueVals = ss["issueVals"];
-    here.cpRelativeValue = ss["cpRelativeValue"];
-    here.cpResistance = ss["cpResistance"];
-    here.cpTarget = ss["cpTarget"];
+    // here.cpRelativeValue = ss["cpRelativeValue"];
+    // here.cpResistance = ss["cpResistance"];
+    // here.cpTarget = ss["cpTarget"];
     here.currentValue = ss["currentValue"];
 
     return here;

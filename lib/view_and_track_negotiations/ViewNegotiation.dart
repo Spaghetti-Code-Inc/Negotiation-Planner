@@ -276,12 +276,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
     for(Issue issue in negotiationSnap.issues){
 
       totalUser += issue.relativeValue;
-      totalCp += issue.cpRelativeValue;
+      // totalCp += issue.cpRelativeValue;
 
       // If the target is lower than or equal to resistance then do not save
       if(issue.issueVals["A"]! <= issue.issueVals["D"]!) tarAndResUS = false;
       // If the cp target is higher or equals to cp resistance then do not save
-      else if (issue.cpTarget >= issue.cpResistance) tarAndResCP = false;
+      // else if (issue.cpTarget >= issue.cpResistance) tarAndResCP = false;
     }
 
     if (totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP) {
@@ -363,8 +363,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       if (!save) {
         thisIssue.issueVals["A"] = issueVals[index][0];
         thisIssue.issueVals["D"] = issueVals[index][1];
-        thisIssue.cpTarget = issueVals[index][2];
-        thisIssue.cpResistance = issueVals[index][3];
+        // thisIssue.cpTarget = issueVals[index][2];
+        // thisIssue.cpResistance = issueVals[index][3];
       }
       // User pressed save
       else {
@@ -376,8 +376,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       issueVals[index] = [0, 0, 0, 0];
       issueVals[index][0] = thisIssue.issueVals["A"]!;
       issueVals[index][1] = thisIssue.issueVals["D"]!;
-      issueVals[index][2] = thisIssue.cpTarget;
-      issueVals[index][3] = thisIssue.cpResistance;
+      // issueVals[index][2] = thisIssue.cpTarget;
+      // issueVals[index][3] = thisIssue.cpResistance;
     }
   }
 
@@ -398,8 +398,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       Map<String, int> values = {
         "target": thisIssue.issueVals["A"]!,
         "resistance": thisIssue.issueVals["D"]!,
-        "cpTarget": thisIssue.cpTarget,
-        "cpResistance": thisIssue.cpResistance,
+        // "cpTarget": thisIssue.cpTarget,
+        // "cpResistance": thisIssue.cpResistance,
       };
 
       showInfoRubric(context, negotiationSnap.issues[index].name, values);

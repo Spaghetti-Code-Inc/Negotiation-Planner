@@ -262,9 +262,6 @@ class PlanSummary extends StatelessWidget {
                         currentNegotiation = Negotiation.fromNegotiation(
                             title: '',
                             issues: [],
-                            cpBATNA: -1,
-                            cpResistance: -1,
-                            cpTarget: -1,
                             target: -1,
                             resistance: -1);
 

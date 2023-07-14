@@ -54,7 +54,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
       /// Calculates total values for user and cp based based on percentage of relative value filled
       totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
-      totalValues["cpValue"] = (100 - issueVals[i]) * thisIssue.cpRelativeValue * .0001 + totalValues["cpValue"]!;
+      totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
     }
 
 
@@ -265,7 +265,7 @@ class _TrackProgressState extends State<TrackProgress> {
       Issue thisIssue = negotiationSnap.issues[i];
 
       totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
-      totalValues["cpValue"] = (100 - issueVals[i]) * thisIssue.cpRelativeValue * .0001 + totalValues["cpValue"]!;
+      totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
     }
 
   }
@@ -377,7 +377,7 @@ class _EvaluateSliderState extends State<EvaluateSlider> {
       Issue thisIssue = widget.negotiation.issues[i];
 
       widget.totalValues["userValue"] = widget.issueValues[i] * thisIssue.relativeValue * .0001 + widget.totalValues["userValue"]!;
-      widget.totalValues["cpValue"] = (100 - widget.issueValues[i]) * thisIssue.cpRelativeValue * .0001 + widget.totalValues["cpValue"]!;
+      widget.totalValues["cpValue"] = (100 - widget.issueValues[i]) * 0 * .0001 + widget.totalValues["cpValue"]!;
     }
 
     return Padding(
