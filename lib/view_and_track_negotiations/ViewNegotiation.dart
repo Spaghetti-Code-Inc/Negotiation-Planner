@@ -329,9 +329,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       // If it is false, then user just pressed to end the editing resulting in discard or save
       if (!_wholeNegotiationEditing) {
         if (!save) {
-          negotiationSnap.cpTarget = widget.lastNegotiationVals[0];
+          // negotiationSnap.cpTarget = widget.lastNegotiationVals[0];
           negotiationSnap.resistance = widget.lastNegotiationVals[1];
-          negotiationSnap.cpResistance = widget.lastNegotiationVals[2];
+          // negotiationSnap.cpResistance = widget.lastNegotiationVals[2];
           negotiationSnap.target = widget.lastNegotiationVals[3];
         }
         // Uploads the save to firestore
@@ -340,9 +340,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         }
       } else {
         widget.lastNegotiationVals = [
-          negotiationSnap.cpTarget,
+          // negotiationSnap.cpTarget,
           negotiationSnap.resistance,
-          negotiationSnap.cpResistance,
+          // negotiationSnap.cpResistance,
           negotiationSnap.target
         ];
       }
@@ -387,7 +387,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       Map<String, int> values = {
         "target": negotiationSnap.target,
         "resistance": negotiationSnap.resistance,
-        "cpTarget": negotiationSnap.cpTarget,
+        // "cpTarget": negotiationSnap.cpTarget,
         "cpResistance": negotiationSnap.resistance,
       };
       showInfoRubric(context, negotiationSnap.issues[index].name, values);

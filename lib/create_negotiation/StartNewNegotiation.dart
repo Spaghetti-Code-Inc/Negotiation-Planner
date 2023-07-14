@@ -32,9 +32,9 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
     currentNegotiation.currentOffer = 0;
     currentNegotiation.target = 0;
     currentNegotiation.resistance = 0;
-    currentNegotiation.cpTarget = 0;
-    currentNegotiation.cpBATNA = 0;
-    currentNegotiation.cpResistance = 0;
+    // currentNegotiation.cpTarget = 0;
+    // currentNegotiation.cpBATNA = 0;
+    // currentNegotiation.cpResistance = 0;
     super.initState();
   }
 
@@ -123,7 +123,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                         cursorColor: Color(0xff0A0A5B),
                         textInputAction: TextInputAction.next,
                         onChanged: (newVal) {
-                          currentNegotiation = Negotiation.fromNegotiation(title: '', issues: [], cpTarget: -1, cpBATNA: -1, cpResistance: -1, target: -1, resistance: -1);
+                          currentNegotiation = Negotiation.fromNegotiation(title: '', issues: [], target: -1, resistance: -1);
                           currentNegotiation.summary = SummaryController.text;
                           currentNegotiation.title = newVal;
                         },
@@ -194,7 +194,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                       ],
                       cursorColor: Color(0xff0A0A5B),
                       onChanged: (newVal) {
-                        currentNegotiation = Negotiation.fromNegotiation(title: '', issues: [], cpTarget: -1, cpBATNA: -1, cpResistance: -1, target: -1, resistance: -1);
+                        currentNegotiation = Negotiation.fromNegotiation(title: '', issues: [], target: -1, resistance: -1);
                         currentNegotiation.title = TitleController.text;
                         currentNegotiation.summary = newVal;
                       },

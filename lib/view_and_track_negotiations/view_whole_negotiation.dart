@@ -20,9 +20,9 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
   // The code takes for granted that cpTarget: 1, resistance: 2, cpResistance: 3, target: 4
   late List<double> _issueState = [
     0,
-    widget.negotiation.cpTarget * .01,
+    // widget.negotiation.cpTarget * .01,
     widget.negotiation.resistance * .01,
-    widget.negotiation.cpResistance * .01,
+    // widget.negotiation.cpResistance * .01,
     widget.negotiation.target * .01,
     100,
   ];
@@ -34,9 +34,9 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
     if(!widget.editing){
       _issueState = [
         0,
-        widget.negotiation.cpTarget * .01,
+        // widget.negotiation.cpTarget * .01,
         widget.negotiation.resistance * .01,
-        widget.negotiation.cpResistance * .01,
+        // widget.negotiation.cpResistance * .01,
         widget.negotiation.target * .01,
         100,
       ];
@@ -55,9 +55,9 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                       });
 
                       // This sets the negotiationSnap in ViewNegotiation to the new value
-                      widget.negotiation.cpTarget = (_issueState[1]*100).truncate();
+                      // widget.negotiation.cpTarget = (_issueState[1]*100).truncate();
                       widget.negotiation.resistance = (_issueState[2]*100).truncate();
-                      widget.negotiation.cpResistance = (_issueState[3]*100).truncate();
+                      // widget.negotiation.cpResistance = (_issueState[3]*100).truncate();
                       widget.negotiation.target = (_issueState[4]*100).truncate();
                     },
                     overdragBehaviour: ThumbOverdragBehaviour.cross,

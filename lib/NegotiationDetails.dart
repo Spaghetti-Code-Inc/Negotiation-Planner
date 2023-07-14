@@ -10,9 +10,9 @@ class Negotiation {
   int? BATNA;
   int? currentOffer;
 
-  int cpTarget;
-  int cpBATNA;
-  int cpResistance;
+  // int cpTarget;
+  // int cpBATNA;
+  // int cpResistance;
 
   Negotiation(
       {this.id,
@@ -22,23 +22,24 @@ class Negotiation {
       required this.target,
       required this.resistance,
       required this.BATNA,
-      required this.currentOffer,
-      required this.cpTarget,
-      required this.cpResistance,
-      required this.cpBATNA});
+      // required this.currentOffer,
+      // required this.cpTarget,
+      // required this.cpResistance,
+      // required this.cpBATNA,
+      });
 
   Negotiation.fromNegotiation(
       {this.id,
       required this.title,
       required this.issues,
-      required this.cpTarget,
-      required this.cpResistance,
-      required this.cpBATNA,
+      // required this.cpTarget,
+      // required this.cpResistance,
+      // required this.cpBATNA,
       required this.target,
       required this.resistance});
 
   String toString() {
-    return "Title: $title, Summary: $summary, Issues: ${issues.toString()}, CPTarget ${cpTarget}";
+    return "Title: $title, Summary: $summary, Issues: ${issues.toString()}";
   }
 
   factory Negotiation.fromFirestore(
@@ -61,10 +62,10 @@ class Negotiation {
       target: snapshot.get("target"),
       resistance: snapshot.get("resistance"),
       BATNA: snapshot.get("BATNA"),
-      currentOffer: snapshot.get("currentOffer"),
-      cpTarget: snapshot.get("cpTarget"),
-      cpBATNA: snapshot.get("cpBATNA"),
-      cpResistance: snapshot.get("cpResistance"),
+      // currentOffer: snapshot.get("currentOffer"),
+      // cpTarget: snapshot.get("cpTarget"),
+      // cpBATNA: snapshot.get("cpBATNA"),
+      // cpResistance: snapshot.get("cpResistance"),
     );
   }
 
@@ -87,9 +88,9 @@ class Negotiation {
       if (resistance != null) "resistance": resistance,
       if (BATNA != null) "BATNA": BATNA,
       if (currentOffer != null) "currentOffer": currentOffer,
-      if (cpTarget != null) "cpTarget": cpTarget,
-      if (cpBATNA != null) "cpBATNA": cpBATNA,
-      if (cpResistance != null) "cpResistance": cpResistance,
+      // if (cpTarget != null) "cpTarget": cpTarget,
+      // if (cpBATNA != null) "cpBATNA": cpBATNA,
+      // if (cpResistance != null) "cpResistance": cpResistance,
     };
   }
 
@@ -113,6 +114,7 @@ class Issue{
   int relativeValue = -1;
   double? currentValue = 50;
 
+  // An entry in this should be: Letter Grade: (Points, Real Value)
   Map<String, dynamic> issueVals = {};
 
   int cpRelativeValue = -1;
