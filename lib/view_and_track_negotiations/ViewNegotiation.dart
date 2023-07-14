@@ -52,51 +52,51 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             color: Color(0xffffffff),
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.check_box_outlined, size: 24),
-          color: Colors.white,
+        leading:           IconButton(
+          icon: Icon(Icons.delete_outline_outlined),
           onPressed: () {
-            Navigator.pop(context);
-            String? name = widget.negotiation?.id;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      TrackProgress(negotiation: widget.negotiation)),
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Are you sure you\'d like to delete the negotiation?'),
+                actions: [
+                  TextButton(
+                    child: const Text('Yes'),
+                    onPressed: () {
+                      String? id = FirebaseAuth.instance.currentUser?.uid;
+                      db.collection(id!)
+                          .doc(widget.negotiation?.id)
+                          .delete();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('No'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
             );
           },
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete_outline_outlined),
+            icon: Icon(Icons.check_box_outlined, size: 24),
+            color: Colors.white,
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Are you sure you\'d like to delete the negotiation?'),
-                  actions: [
-                    TextButton(
-                      child: const Text('Yes'),
-                      onPressed: () {
-                        String? id = FirebaseAuth.instance.currentUser?.uid;
-                        db.collection(id!)
-                            .doc(widget.negotiation?.id)
-                            .delete();
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                    ),
-                    TextButton(
-                      child: const Text('No'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
+              Navigator.pop(context);
+              String? name = widget.negotiation?.id;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        TrackProgress(negotiation: widget.negotiation)),
               );
             },
-          )
+          ),
         ],
       ),
       body: Column(

@@ -149,7 +149,7 @@ class _IssueValuesState extends State<IssueValues> {
                         ctrl: _controllers[index],
                         index: index,
                       ),
-                      height: 445);
+                      height: 380);
                 }),
           ),
 

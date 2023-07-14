@@ -2,10 +2,10 @@ Random quality of life changes:
 6. Add info buttons to more places on app
 10. Evaluate Agreement page the issue sliders have there own scrollview, they should not
 11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
+20. Some text fields do not let you type until you press into them twice
+21..
 
 Lucas:
-TODO 6: Get rid of all the initializing currentNegotiation on StartNewNegotiationPage
-TODO Fix -1 showing up as target & resistance due to the initialization
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it hast lasted?
@@ -13,11 +13,13 @@ Ideas:
 2.1 Should they be able to pin a negotiation to top of the screen?
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
 4. Save negotiation in the middle of creating one
+5. Add compatibility to show counter part values
+6..
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes
-6. Get rid of all the initializing currentNegotiation on StartNewNegotiationPage
 7. Convert Rubric Summary, Display Important Issues to a list builder. The index should be the vals[i] shown
+8..
 
 Backlog:
 1. Sliders should not pass over each other in edit negotiation page.
@@ -25,10 +27,8 @@ Backlog:
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
 
-
 Notes:
 1. 3 Describers on the first page shouldn't be buttons
 3. Resizing the screen when something is being type and it can not be seen
 6. Have a way to assign a value that corresponds to the letter settlement - Add new column on weight issues page
-~9. Comment out counterpart values - Save for later
-10. Correct all of the resizing pages when inputting texts
+10. Change what is shown up on the sliders and what values are shown
