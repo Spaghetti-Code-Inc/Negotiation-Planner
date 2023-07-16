@@ -20,9 +20,7 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
   // The code takes for granted that cpTarget: 1, resistance: 2, cpResistance: 3, target: 4
   late List<double> _issueState = [
     0,
-    // widget.negotiation.cpTarget * .01,
     widget.negotiation.resistance * .01,
-    // widget.negotiation.cpResistance * .01,
     widget.negotiation.target * .01,
     100,
   ];
@@ -34,9 +32,7 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
     if(!widget.editing){
       _issueState = [
         0,
-        // widget.negotiation.cpTarget * .01,
         widget.negotiation.resistance * .01,
-        // widget.negotiation.cpResistance * .01,
         widget.negotiation.target * .01,
         100,
       ];
@@ -55,10 +51,8 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                       });
 
                       // This sets the negotiationSnap in ViewNegotiation to the new value
-                      // widget.negotiation.cpTarget = (_issueState[1]*100).truncate();
-                      widget.negotiation.resistance = (_issueState[2]*100).truncate();
-                      // widget.negotiation.cpResistance = (_issueState[3]*100).truncate();
-                      widget.negotiation.target = (_issueState[4]*100).truncate();
+                      widget.negotiation.resistance = (_issueState[1]*100).truncate();
+                      widget.negotiation.target = (_issueState[2]*100).truncate();
                     },
                     overdragBehaviour: ThumbOverdragBehaviour.cross,
                     // Optional: Lock behaviour of the first an last thumb.
@@ -67,10 +61,8 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                     thumbBuilder: (BuildContext context, int index, double value) {
                       return WholeBargainSliders(index: index, value: value);
                     },
-                    // Optional: Background widget of the slider.
-                    // Optional: Height of the Widget. Defaults to 48.
+
                     height: 70,
-                    // Optional: MultiThumbSliderController can be used to control the slider after build. E.g adding/removing thumbs, get current values, move thumb, etc.
                     controller: MultiThumbSliderController()),
               ])),
           // valueNamesUnderneath(issueState: _issueState, editing: widget.editing),
@@ -105,8 +97,6 @@ class valueNamesUnderneath extends StatelessWidget {
   }
 }
 
-
-
 class WholeBargainSliders extends StatelessWidget {
   final int index;
   final double value;
@@ -119,19 +109,13 @@ class WholeBargainSliders extends StatelessWidget {
       case 0:
         return FrontBackSlider(front: true);
     // User Resistance
-      case 2:
-        return UserSlider(value: value, name: "Your Resistance");
-    // CP Target
       case 1:
-        return CPSlider(value: value, name: "CP Target");
+        return UserSlider(value: value, name: "Your Resistance");
     // User Target
-      case 4:
+      case 2:
         return UserSlider(value: value, name: "Your Target");
-    // CP Resistance
-      case 3:
-        return CPSlider(value: value, name: "CP Resistance");
     // Back barrier slider
-      case 5:
+      case 3:
         return FrontBackSlider(front: false);
       default:
         return FrontBackSlider(front: true);
@@ -140,44 +124,46 @@ class WholeBargainSliders extends StatelessWidget {
   }
 }
 
-// Red with value on top
-class CPSlider extends StatelessWidget {
-  final double value;
-  final String name;
-  const CPSlider({Key? key, required this.value, required this.name}) : super(key: key);
+// // Red with value on top
+// class CPSlider extends StatelessWidget {
+//   final double value;
+//   final String name;
+//   const CPSlider({Key? key, required this.value, required this.name}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(children: [
+//       Container(
+//         margin: EdgeInsetsDirectional.symmetric(horizontal: 0, vertical: 2),
+//         //(value*100).toInt().toString() => value of the slider
+//         child: Text((value * 100).toInt().toString()),
+//       ),
+//       Container(
+//         margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+//         width: 7.0,
+//         height: 30.0,
+//         decoration: BoxDecoration(
+//           color: Colors.red,
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.black.withOpacity(.2),
+//               blurRadius: 6.0,
+//               spreadRadius: 2.0,
+//               offset: const Offset(0.0, 0.0),
+//             ),
+//           ],
+//         ),
+//       ),
+//       // Container(
+//       //   //(value*100).toInt().toString() => value of the slider
+//       //   child: Text(name),
+//       // ),
+//     ]);
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsetsDirectional.symmetric(horizontal: 0, vertical: 2),
-        //(value*100).toInt().toString() => value of the slider
-        child: Text((value * 100).toInt().toString()),
-      ),
-      Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.red,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
-        ),
-      ),
-      // Container(
-      //   //(value*100).toInt().toString() => value of the slider
-      //   child: Text(name),
-      // ),
-    ]);
-  }
-}
 // Blue with value on bottom
+
 class UserSlider extends StatelessWidget{
   final double value;
   final String name;
@@ -215,7 +201,7 @@ class UserSlider extends StatelessWidget{
   }
 
 }
-// Black with value on bottom
+// Black with no values shown
 class FrontBackSlider extends StatelessWidget {
   final bool front;
   const FrontBackSlider({Key? key, required this.front}) : super(key: key);
@@ -224,7 +210,7 @@ class FrontBackSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 7, 0),
         width: 7.0,
         height: 30.0,
         decoration: BoxDecoration(
@@ -239,10 +225,6 @@ class FrontBackSlider extends StatelessWidget {
           ],
         ),
       ),
-      Container(
-        //(value*100).toInt().toString() => value of the slider
-        child: front ? Text("0") : Text("100"),
-      )
     ]);
   }
 }
