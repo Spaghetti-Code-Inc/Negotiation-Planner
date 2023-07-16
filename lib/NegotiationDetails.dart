@@ -114,7 +114,7 @@ class Issue{
   int relativeValue = -1;
   double? currentValue = 50;
 
-  // An entry in this should be: Letter Grade: (Points, Real Value)
+  // An entry in this should be - Letter Grade: (Points, Real Value)
   Map<String, dynamic> issueVals = {};
 
   // int cpRelativeValue = -1;

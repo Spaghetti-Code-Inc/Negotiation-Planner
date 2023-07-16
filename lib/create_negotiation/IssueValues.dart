@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/create_negotiation/Target_Resistance.dart';
 
 import '../Utils.dart';
@@ -15,6 +14,9 @@ class IssueValues extends StatefulWidget {
 class _IssueValuesState extends State<IssueValues> {
   bool iconColor = false;
   List<List<TextEditingController>> _controllers = [];
+  List<List<TextEditingController>> _realValues = [];
+
+  List<String> letters = ["A", "B", "C", "D", "F"];
 
   @override
   void initState(){
@@ -23,16 +25,20 @@ class _IssueValuesState extends State<IssueValues> {
       Map<String, dynamic> here = currentNegotiation.issues[i].issueVals;
 
       _controllers.add([]);
+      _realValues.add([]);
 
-      // _controllers[i].add(new TextEditingController(text: here["A+"].toString()));
-      _controllers[i].add(new TextEditingController(text: here["A"].toString()));
-      _controllers[i].add(new TextEditingController(text: here["B"].toString()));
-      _controllers[i].add(new TextEditingController(text: here["C"].toString()));
-      _controllers[i].add(new TextEditingController(text: here["D"].toString()));
-      _controllers[i].add(new TextEditingController(text: here["F"].toString()));
+      for(String letter in letters){
+
+        if(here[letter] == null){
+          here[letter] = [0, ""];
+        }
+        _controllers[i].add(new TextEditingController(text: here[letter][0].toString()));
+        _realValues[i].add(new TextEditingController(text: here[letter][1]));
+      }
 
       for(int j = 0; j < _controllers[i].length; j++){
         if(_controllers[i][j].text == "null") _controllers[i][j].text = "0";
+        else if(_realValues[i][j].text == "null") _realValues[i][j].text = "0";
       }
     }
 
@@ -43,7 +49,7 @@ class _IssueValuesState extends State<IssueValues> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -148,8 +154,9 @@ class _IssueValuesState extends State<IssueValues> {
                         issueName: currentNegotiation.issues.elementAt(index).name,
                         ctrl: _controllers[index],
                         index: index,
+                        realCtrl: _realValues[index],
                       ),
-                      height: 380);
+                      height: 390);
                 }),
           ),
 
@@ -184,7 +191,7 @@ class _IssueValuesState extends State<IssueValues> {
             Utils.showSnackBar(
                 "One of your issues does not have the right order of value.");
           }
-        } on FormatException catch (e) {
+        } on FormatException {
           Utils.showSnackBar(
               "One of your values is not an integer.");
           moveOn = false;
@@ -197,13 +204,10 @@ class _IssueValuesState extends State<IssueValues> {
       // Length is the length of "issueNames" keys
       for (int i = 0; i < length; i++) {
         // Puts value in for all the possible settlements
-
-        // currentNegotiation.issues[i].issueVals["A+"] = int.parse(_controllers[i][0].text);
-        currentNegotiation.issues[i].issueVals["A"] = int.parse(_controllers[i][0].text);
-        currentNegotiation.issues[i].issueVals["B"] = int.parse(_controllers[i][1].text);
-        currentNegotiation.issues[i].issueVals["C"] = int.parse(_controllers[i][2].text);
-        currentNegotiation.issues[i].issueVals["D"] = int.parse(_controllers[i][3].text);
-        currentNegotiation.issues[i].issueVals["F"] = int.parse(_controllers[i][4].text);
+        for(int j = 0; j < letters.length; j++){
+          currentNegotiation.issues[i].issueVals[letters[j]][0] = int.parse(_controllers[i][j].text);
+          currentNegotiation.issues[i].issueVals[letters[j]][1] = _realValues[i][j].text;
+        }
       }
 
       return true;
@@ -218,12 +222,14 @@ class EnterValues extends StatelessWidget {
   final String? issueName;
   final int index;
   final List<TextEditingController> ctrl;
-  EnterValues({Key? key, required this.issueName, required this.ctrl, required this.index})
+  final List<TextEditingController> realCtrl;
+  EnterValues({Key? key, required this.issueName, required this.ctrl, required this.index, required this.realCtrl})
       : super(key: key);
 
   late final MaxPoints = currentNegotiation.issues[index].relativeValue;
 
   late final Map<String, dynamic> issueVals = currentNegotiation.issues[index].issueVals;
+
 
   @override
   Widget build(BuildContext context) {
@@ -231,14 +237,20 @@ class EnterValues extends StatelessWidget {
     ctrl[0].text = MaxPoints.toString();
     ctrl[4].text = "0";
 
-    // issueVals["A+"] = 100;
-    issueVals["A"] = MaxPoints;
-    issueVals["B"] = int.tryParse(ctrl[1].text);
-    issueVals["C"] = int.tryParse(ctrl[2].text);
-    issueVals["D"] = int.tryParse(ctrl[3].text);
-    issueVals["F"] = 0;
+    issueVals["A"] = [MaxPoints, realCtrl[0].text];
+    issueVals["B"] = [int.tryParse(ctrl[1].text), realCtrl[1].text];
+    issueVals["C"] = [int.tryParse(ctrl[2].text), realCtrl[2].text];
+    issueVals["D"] = [int.tryParse(ctrl[3].text), realCtrl[3].text];
+    issueVals["F"] = [0, realCtrl[4].text];
 
-    print(issueVals);
+    List<String> inputRowNames = ["A Settlement", "B Settlement", "C Settlement", "D Settlement", "F Settlement"];
+    List<String> inputRowSummary = [
+      "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)",
+      "This represents an acceptable settlement to you.",
+      "This represents an okay settlement for you.",
+      "This represents a negative settlement for you.",
+      "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
+    ];
 
 
     return Column(
@@ -288,13 +300,15 @@ class EnterValues extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                    child: FilledButton(
-                      onPressed: () { EvenlyDistribute(); },
-                      child: Text("Distribute Evenly"),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                      child: FilledButton(
+                        onPressed: () { EvenlyDistribute(); },
+                        child: Text("Distribute Evenly"),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
+                        ),
                       ),
                     ),
                   ),
@@ -304,501 +318,17 @@ class EnterValues extends StatelessWidget {
           ),
         ),
 
-        Expanded(
-          flex: 1,
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                // /// A+: "This represents the most you can reasonably justify and will be your opening offer.",
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisSize: MainAxisSize.max,
-                //   children: [
-                //     Expanded(
-                //       flex: 2,
-                //       child: TextButton(
-                //         onPressed: () {
-                //           showDialog(context: context,
-                //               builder: (BuildContext context) => AlertDialog(
-                //                 title: const Text(
-                //                   'A+ Settlement'
-                //                 ),
-                //                 content: const Text(
-                //                   "This represents the most you can reasonably "
-                //                       "justify and will be your opening offer."
-                //                 ),
-                //               )
-                //           );
-                //         },
-                //         style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-                //
-                //         child: Text("A+ Settlement"),
-                //
-                //       ),
-                //     ),
-                //     Container(
-                //       margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                //       padding: const EdgeInsets.all(0),
-                //       width: MediaQuery.of(context).size.width * 0.2,
-                //       height: 50,
-                //       decoration: BoxDecoration(
-                //         color: const Color(0xFFFFFF),
-                //         shape: BoxShape.rectangle,
-                //
-                //       ),
-                //       child: Padding(
-                //         padding: const EdgeInsets.fromLTRB(8, 10, 8, 5),
-                //         child: Align(
-                //           alignment: Alignment.center,
-                //           child: TextFormField(
-                //             keyboardType: TextInputType.number,
-                //             inputFormatters: INTEGER_INPUTS,
-                //             enabled: false,
-                //             obscureText: false,
-                //             textAlign: TextAlign.start,
-                //             maxLines: 1,
-                //             style: const TextStyle(
-                //               fontWeight: FontWeight.w400,
-                //               fontStyle: FontStyle.normal,
-                //               fontSize: 14,
-                //               color: Color(0xff000000),
-                //
-                //             ),
-                //             controller: ctrl[0],
-                //             decoration: InputDecoration(
-                //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(4.0),
-                //                 borderSide: const BorderSide(
-                //                     color: Color(0xff000000), width: 1),
-                //               ),
-                //               labelText: "Pts.",
-                //               labelStyle: const TextStyle(
-                //                 fontWeight: FontWeight.w400,
-                //                 fontStyle: FontStyle.normal,
-                //                 fontSize: 14,
-                //                 color: Color(0xff000000),
-                //               ),
-                //               filled: true,
-                //               fillColor: const Color(0xfff2f2f3),
-                //               isDense: true,
-                //               contentPadding: const EdgeInsets.symmetric(
-                //                   vertical: 8, horizontal: 12),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // Divider(),
+        ListView.builder(
+          itemCount: 5,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return Column( children: [
+              InputRow(name: inputRowNames[index], buttonText: inputRowSummary[index], points: ctrl[index], realWorldValue: realCtrl[index]),
+              Divider(thickness: 1, color: Colors.black),
+            ]);
+          },
 
-                /// A: "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
-                Row (
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text(
-                                    'A Settlement'
-                                ),
-                                content: const Text(
-                                    "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)"
-                                ),
-                              )
-                          );
-                        },
-                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
-                        child: Text("A Settlement"),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFF),
-                        shape: BoxShape.rectangle,
-
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[0],
-                            obscureText: false,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            enabled: false,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              labelText: "Pts.",
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xfff2f2f3),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-
-                /// B
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text(
-                                    'B Settlement'
-                                ),
-                                content: const Text(
-                                    "This represents an acceptable settlement to you."
-                                ),
-                              )
-                          );
-                        },
-                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
-                        child: Text("B Settlement"),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFF),
-                        shape: BoxShape.rectangle,
-
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[1],
-                            obscureText: false,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              labelText: "Pts.",
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xfff2f2f3),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-
-                /// C
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text(
-                                'C Settlement'
-                              ),
-                              content: const Text(
-                              "This represents an okay settlement for you."
-                              ),
-                            )
-                          );
-                        },
-                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
-                      child: Text("C Settlement"),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFF),
-                        shape: BoxShape.rectangle,
-
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[2],
-                            obscureText: false,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              labelText: "Pts.",
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xfff2f2f3),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-
-                /// D
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text(
-                                    'D Settlement'
-                                ),
-                                content: const Text(
-                                    "This represents a negative settlement for you."
-                                ),
-                              )
-                          );
-                        },
-                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
-                        child: Text("D Settlement"),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFF),
-                        shape: BoxShape.rectangle,
-
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: INTEGER_INPUTS,
-                            controller: ctrl[3],
-                            obscureText: false,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              labelText: "Pts.",
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xfff2f2f3),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-
-                /// F
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text(
-                                    'F Settlement'
-                                ),
-                                content: const Text(
-                                    "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
-                                ),
-                              )
-                          );
-                        },
-                        style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
-                        child: Text("F Settlement"),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      padding: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFF),
-                        shape: BoxShape.rectangle,
-
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            enabled: false,
-                            controller: ctrl[4],
-                            obscureText: false,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
-                              ),
-                              labelText: "Pts.",
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xfff2f2f3),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
         ),
       ],
     );
@@ -816,5 +346,134 @@ class EnterValues extends StatelessWidget {
     }
   }
 
-  String _getRegexString() => r'[0-9]';
 }
+
+class InputRow extends StatelessWidget {
+
+  String name;
+  String buttonText;
+  TextEditingController realWorldValue;
+  TextEditingController points;
+
+  InputRow({Key? key, required this.name, required this.buttonText, required this.realWorldValue, required this.points}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+      return Row (
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          /// A Settlement button
+          Expanded(
+            flex: 2,
+            child: TextButton(
+              onPressed: () {
+                showDialog(context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: Text(
+                        this.name,
+                      ),
+                      content: Text(
+                        this.buttonText,
+                      ),
+                    )
+                );
+              },
+              style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+              child: Text(this.name),
+            ),
+          ),
+
+          /// Real World Value
+          Expanded(
+              flex: 1,
+              child: Container(
+                child: TextField(
+                  controller: realWorldValue,
+                  textAlign: TextAlign.start,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14,
+                    color: Color(0xff000000),
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                      borderSide: const BorderSide(
+                          color: Color(0xff000000), width: 1),
+                    ),
+                    labelText: "Real Value",
+                    labelStyle: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14,
+                      color: Color(0xff000000),
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xfff2f2f3),
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 8, horizontal: 12),
+                  ),
+                ),
+              )
+          ),
+
+          /// Pts
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+              width: MediaQuery.of(context).size.width * 0.2,
+              alignment: Alignment.center,
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFF),
+                shape: BoxShape.rectangle,
+
+              ),
+
+              child: TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: INTEGER_INPUTS,
+                controller: points,
+                obscureText: false,
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                enabled: !(name == "A Settlement" || name == "F Settlement"),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14,
+                  color: Color(0xff000000),
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                    borderSide: const BorderSide(
+                        color: Color(0xff000000), width: 1),
+                  ),
+                  labelText: "Pts.",
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14,
+                    color: Color(0xff000000),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xfff2f2f3),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8, horizontal: 12),
+                ),
+              ),
+            ),),
+        ],
+      );
+  }
+}
+
