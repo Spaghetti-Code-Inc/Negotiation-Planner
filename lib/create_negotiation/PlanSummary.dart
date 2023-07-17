@@ -178,13 +178,11 @@ class PlanSummary extends StatelessWidget {
                         prototypeItem: ViewCurrentIssues(
                           issue: currentNegotiation.issues[0],
                           editing: false,
-                          comesFromMyNegotiations: false,
                         ),
                         itemBuilder: (context, index) {
                           return ViewCurrentIssues(
                             issue: currentNegotiation.issues[index],
                             editing: false,
-                            comesFromMyNegotiations: false,
                           );
                         },
                       ),

@@ -246,12 +246,12 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
   }
 
   bool Next(){
-    if (currentNegotiation.title == "" || currentNegotiation.summary == "" ){
+    if (currentNegotiation.title == ""){
       Utils.showSnackBar("Please enter value for the negotiations title and summary.");
       return false;
     }
-    return true;
 
+    return true;
   }
 
   removeText() {

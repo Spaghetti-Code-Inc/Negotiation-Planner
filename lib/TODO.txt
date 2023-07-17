@@ -1,11 +1,13 @@
 Random quality of life changes:
 6. Add info buttons to more places on app
-10. Evaluate Agreement page the issue sliders have there own scrollview, they should not
-11. Negotiation Rubric Page, Divider has padding or width that is not black which cuts off text before it should
 20. Some text fields do not let you type until you press into them twice
-21..
+22. Make BATNA Dropdown always open
+23. Exit negotiation on negotiation rubric should be locked to bottom of the screen
+24. Work on focussing the user input when enter is pressed
+25. If there is no summary the space shouldn't be there on "MyNegotiations"
 
 Lucas:
+TODO Make negotiation parse real values
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it hast lasted?
@@ -17,7 +19,7 @@ Ideas:
 6..
 
 Cleaning Code:
-5. Make Scaffold's shorter - use more helper classes
+5. Make Scaffold's shorter - use more helper classes/listview.builder
 7. Convert Rubric Summary, Display Important Issues to a list builder. The index should be the vals[i] shown
 8..
 
@@ -29,6 +31,9 @@ Debugging:
 
 Notes:
 1. 3 Describers on the first page shouldn't be buttons
-3. Resizing the screen when something is being type and it can not be seen
-6. Have a way to assign a value that corresponds to the letter settlement - Add new column on weight issues page
+3. Resizing the screen when something is being typed and it can not be seen
 10. Change what is shown up on the sliders and what values are shown
+
+1. Pick a datatype on determine the issues page
+2. Labels should be datatype
+3 Regular text on BATNA screen
