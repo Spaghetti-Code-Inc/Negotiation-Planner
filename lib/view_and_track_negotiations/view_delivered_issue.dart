@@ -2,22 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../NegotiationDetails.dart';
-import 'ViewNegotiation.dart';
 import '../multi_thumb_slider/src/multi_thumb_slider.dart';
 import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 import '../multi_thumb_slider/src/thumb_overdrag_behaviour.dart';
 
 class ViewCurrentIssues extends StatefulWidget {
   final bool editing;
-  final bool comesFromMyNegotiations;
   final Issue issue;
 
-  List lastVals = [4];
+  List lastVals = [5];
 
   ViewCurrentIssues(
       {Key? key,
       required this.editing,
-      required this.comesFromMyNegotiations,
       required this.issue})
       : super(key: key);
 
@@ -28,40 +25,33 @@ class ViewCurrentIssues extends StatefulWidget {
 class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
   late Issue issue = widget.issue;
 
-  late double userRes = double.parse(issue.issueVals["D"].toString());
-  late double userTar = double.parse(issue.issueVals["A"].toString());
+  late double A = double.parse(issue.issueVals["A"][0].toString());
+  late double B = double.parse(issue.issueVals["B"][0].toString());
+  late double C = double.parse(issue.issueVals["C"][0].toString());
+  late double D = double.parse(issue.issueVals["D"][0].toString());
+  late double F = double.parse(issue.issueVals["F"][0].toString());
 
-  // late double cpRes = double.parse(issue.cpResistance.toString());
-  // late double cpTar = double.parse(issue.cpTarget.toString());
+  late double multiplier = 1.0/issue.relativeValue;
 
-  late double usWeight = 100.0 / issue.relativeValue;
-  // late double cpWeight = 100.0 / issue.cpRelativeValue;
-
-  late List<double> _issueVals = [0, userRes / 100, 0 / 100, userTar / 100, 0 / 100, 1];
+  late List<double> _issueVals = [0, D*multiplier, C*multiplier, B*multiplier, 1];
 
   String bargainingRange() {
-    return issue.name +
-        ": " +
-        (_issueVals[4] - _issueVals[1] > 0
-            ? ((_issueVals[1] - _issueVals[4]) * 100 * (-1)).toInt().toString()
-            : "0");
+    return issue.name + ": " + (A-D).toString();
   }
 
   @override
   Widget build(BuildContext context) {
     if (!widget.editing) {
+      late double B = double.parse(issue.issueVals["B"][0].toString());
+      late double C = double.parse(issue.issueVals["C"][0].toString());
+      late double D = double.parse(issue.issueVals["D"][0].toString());
+      /// Multiplier puts every value on a scale from [0-1]
+      _issueVals = [0, D*multiplier, C*multiplier, B*multiplier, 1];
 
-      late double userRes = double.parse(issue.issueVals["D"].toString());
-      late double userTar = double.parse(issue.issueVals["A"].toString());
-
-      // late double cpRes = double.parse(issue.cpResistance.toString());
-      // late double cpTar = double.parse(issue.cpTarget.toString());
-
-      _issueVals = [0, userRes / 100.0, 0 / 100.0, userTar / 100.0, 0 / 100.0, 1];
+      print(_issueVals);
     }
 
     return Column(children: [
-
       Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
         width: MediaQuery.of(context).size.width * .85,
@@ -70,25 +60,23 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
           valuesChanged: (List<double> values) {
             setState(() {
               _issueVals = values;
+
+              issue.issueVals["A"][0] = (_issueVals[4]/multiplier).truncate();
+              issue.issueVals["B"][0] = (_issueVals[3]/multiplier).truncate();
+              issue.issueVals["C"][0] = (_issueVals[2]/multiplier).truncate();
+              issue.issueVals["D"][0] = (_issueVals[1]/multiplier).truncate();
+              issue.issueVals["F"][0] = (_issueVals[0]/multiplier).truncate();
+
             });
 
-            List<int> vals = EvenlyDistribute(
-                (_issueVals[3] * 100).truncate(), (_issueVals[1] * 100).truncate());
-
-            issue.issueVals["D"] = vals[0];
-            issue.issueVals["C"] = vals[1];
-            issue.issueVals["B"] = vals[2];
-            issue.issueVals["A"] = vals[3];
-            //
-            // issue.cpResistance = (_issueVals[4] * 100).truncate();
-            // issue.cpTarget = (_issueVals[2] * 100).truncate();
           },
 
-          overdragBehaviour: ThumbOverdragBehaviour.cross,
+          /// Now that it is just changing the resistance and target stopping would not be bad
+          overdragBehaviour: ThumbOverdragBehaviour.stop,
           // Locks all of the slider, must be changed to edit the slider
           lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
           thumbBuilder: (BuildContext context, int index, double value) {
-            return WholeNegotiationSliders(index: index, value: value);
+            return IssueThumbs(index: index, value: value, multiplier: multiplier);
           },
           height: 70,
         ),
@@ -181,49 +169,153 @@ class ChangeRelativeValues extends StatelessWidget {
                 width: 20,
               ),
 
-              // Counter Part text
-              Expanded(
-                flex: 3,
-                child: Center(
-                  child: Text(
-                    "Counter Part Weight: ",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Counter Part Weight input
-              Expanded(
-                child: Center(
-                    child: TextFormField(
-                  onChanged: (newVal) {
-                    // issue.cpRelativeValue = int.parse(cpCtrl.text);
-                  },
-                  textAlign: TextAlign.center,
-                  textInputAction: TextInputAction.next,
-                  cursorColor: Color(0xff0A0A5B),
-                  keyboardType: TextInputType.number,
-                  controller: cpCtrl,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsetsDirectional.zero,
-                    enabledBorder: (OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-                    focusedBorder: (OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                    )),
-                  ),
-                )),
-              ),
+              /// Counter part relative value change
+              // // Counter Part text
+              // Expanded(
+              //   flex: 3,
+              //   child: Center(
+              //     child: Text(
+              //       "Counter Part Weight: ",
+              //       style: TextStyle(
+              //         fontSize: 20,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // // Counter Part Weight input
+              // Expanded(
+              //   child: Center(
+              //       child: TextFormField(
+              //     onChanged: (newVal) {
+              //       // issue.cpRelativeValue = int.parse(cpCtrl.text);
+              //     },
+              //     textAlign: TextAlign.center,
+              //     textInputAction: TextInputAction.next,
+              //     cursorColor: Color(0xff0A0A5B),
+              //     keyboardType: TextInputType.number,
+              //     controller: cpCtrl,
+              //     decoration: InputDecoration(
+              //       contentPadding: EdgeInsetsDirectional.zero,
+              //       enabledBorder: (OutlineInputBorder(
+              //         borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+              //         borderRadius: BorderRadius.circular(20),
+              //       )),
+              //       focusedBorder: (OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(20),
+              //         borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+              //       )),
+              //     ),
+              //   )),
+              // ),
             ]),
           ),
         ],
       ),
     );
+  }
+}
+
+class IssueThumbs extends StatelessWidget {
+  final int index;
+  double value;
+  final double multiplier;
+  IssueThumbs({Key? key, required this.index, required this.value, required this.multiplier})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    value = value/multiplier;
+    switch (index) {
+    // F
+      case 0:
+        return FrontBackSlider(value: value, front: true);
+    // D
+      case 1:
+        return UserSlider(value: value, name: "Your Resistance");
+    // C
+      case 2:
+        return UserSlider(value: value, name: "Your Target");
+    // B
+        case 3:
+        return UserSlider(value: value, name: "Your Target");
+    // A
+      case 4:
+        return FrontBackSlider(value: value, front: false);
+    // Never going to send
+      default:
+        return FrontBackSlider(value: value, front: true);
+    }
+  }
+}
+
+// Blue with value on bottom
+class UserSlider extends StatelessWidget {
+  final double value;
+  final String name;
+
+  const UserSlider({required this.value, required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      // Container(
+      //   margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+      //   child: Text(name),
+      // ),
+      Container(
+        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+        width: 7.0,
+        height: 30.0,
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.2),
+              blurRadius: 6.0,
+              spreadRadius: 2.0,
+              offset: const Offset(0.0, 0.0),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        //(value*100).toInt().toString() => value of the slider
+        child: Text((value).toInt().toString()),
+      )
+    ]);
+  }
+}
+
+// Black with value on bottom
+class FrontBackSlider extends StatelessWidget {
+  final bool front;
+  final double value;
+  const FrontBackSlider({Key? key, required this.front, required this.value}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Container(
+        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+        width: 7.0,
+        height: 30.0,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.2),
+              blurRadius: 6.0,
+              spreadRadius: 2.0,
+              offset: const Offset(0.0, 0.0),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        // => value of the slider
+        child: Text((value).toInt().toString()),
+      )
+    ]);
   }
 }
 

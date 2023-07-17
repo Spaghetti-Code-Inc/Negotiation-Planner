@@ -77,6 +77,7 @@ class _TrackProgressState extends State<TrackProgress> {
           Container(
             height: negotiationSnap.issues.length * 80,
             child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               itemCount: negotiationSnap.issues.length,
               itemBuilder: (context, index) {
                 return EvaluateSlider(

@@ -25,7 +25,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   late String docId = widget.negotiation!.id;
 
   // Keeps track of old value for issue
-  late List<List<int>> issueVals = List.filled(negotiationSnap.issues.length, List.filled(4, 0));
+  late List<List<int>> issueVals = List.filled(negotiationSnap.issues.length, List.filled(5, 0), growable: false);
   // Keeps track if the issue is being edited or not
   late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
 
@@ -218,7 +218,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           ViewCurrentIssues(
                             issue: issueHere,
                             editing: issueEdits[index],
-                            comesFromMyNegotiations: true,
                           ),
                         ]);
                       },
@@ -266,25 +265,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   uploadNegotiationSnap(int index){
     // Set document from negotiation snap
     int totalUser = 0;
-    int totalCp = 0;
-
-    bool tarAndResUS = true;
-    bool tarAndResCP = true;
 
     // Checks if the weight totals are right
     // Checks if resistance and target are in line for cp and user
     for(Issue issue in negotiationSnap.issues){
-
       totalUser += issue.relativeValue;
-      // totalCp += issue.cpRelativeValue;
-
-      // If the target is lower than or equal to resistance then do not save
-      if(issue.issueVals["A"]! <= issue.issueVals["D"]!) tarAndResUS = false;
-      // If the cp target is higher or equals to cp resistance then do not save
-      // else if (issue.cpTarget >= issue.cpResistance) tarAndResCP = false;
     }
 
-    if (totalUser == 100 && totalCp == 100 && tarAndResUS && tarAndResCP) {
+    if (totalUser == 100) {
       String? id = FirebaseAuth.instance.currentUser?.uid;
       FirebaseFirestore.instance
           .collection(id!)
@@ -303,18 +291,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         });
       }
 
-      if (!tarAndResUS) {
-        Utils.showSnackBar(
-            "Your targets must be greater than your resistance for all user issues.");
-      } else if (!tarAndResCP) {
-        Utils.showSnackBar(
-            "Your targets must be less than your resistance for all counterpart issues.");
-      } else if (totalUser != 100 && totalCp != 100) {
-        Utils.showSnackBar("Your weights for both user and counter part must add to 100.");
-      } else if (totalUser != 100) {
+      if (totalUser != 100) {
         Utils.showSnackBar("Your weights for user must add to 100.");
-      } else {
-        Utils.showSnackBar("Your weights for counter part must add to 100");
       }
     }
   }
@@ -329,10 +307,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       // If it is false, then user just pressed to end the editing resulting in discard or save
       if (!_wholeNegotiationEditing) {
         if (!save) {
-          // negotiationSnap.cpTarget = widget.lastNegotiationVals[0];
           negotiationSnap.resistance = widget.lastNegotiationVals[1];
-          // negotiationSnap.cpResistance = widget.lastNegotiationVals[2];
-          negotiationSnap.target = widget.lastNegotiationVals[3];
+          negotiationSnap.target = widget.lastNegotiationVals[2];
         }
         // Uploads the save to firestore
         else {
@@ -340,9 +316,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         }
       } else {
         widget.lastNegotiationVals = [
-          // negotiationSnap.cpTarget,
           negotiationSnap.resistance,
-          // negotiationSnap.cpResistance,
           negotiationSnap.target
         ];
       }
@@ -355,29 +329,32 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       issueEdits[index] = !issueEdits[index];
     });
 
-    /// Issue reffered to in the following logic
+    /// Issue referred to in the following logic
     Issue thisIssue = negotiationSnap.issues[index];
     /// Means user just pressed discard or save. This set it to stop editing.
     if (!issueEdits[index]) {
-      // User discarded most recent edits so reset to before it was edited
+      /// Discarded edits
       if (!save) {
-        thisIssue.issueVals["A"] = issueVals[index][0];
-        thisIssue.issueVals["D"] = issueVals[index][1];
-        // thisIssue.cpTarget = issueVals[index][2];
-        // thisIssue.cpResistance = issueVals[index][3];
+        thisIssue.issueVals["A"][0] = issueVals[index][4];
+        thisIssue.issueVals["B"][0] = issueVals[index][3];
+        thisIssue.issueVals["C"][0] = issueVals[index][2];
+        thisIssue.issueVals["D"][0] = issueVals[index][1];
+        thisIssue.issueVals["F"][0] = issueVals[index][0];
       }
-      // User pressed save
+      /// User pressed save
       else {
+        print(thisIssue.issueVals);
         uploadNegotiationSnap(index);
       }
     }
-    /// User just pressed to start editing. Save the current state.
+    /// User just pressed to start editing. Save the cur
     else {
-      issueVals[index] = [0, 0, 0, 0];
-      issueVals[index][0] = thisIssue.issueVals["A"]!;
-      issueVals[index][1] = thisIssue.issueVals["D"]!;
-      // issueVals[index][2] = thisIssue.cpTarget;
-      // issueVals[index][3] = thisIssue.cpResistance;
+      issueVals[index] = [0, 0, 0, 0, 0];
+      issueVals[index][4] = thisIssue.issueVals["A"][0]!;
+      issueVals[index][3] = thisIssue.issueVals["B"][0]!;
+      issueVals[index][2] = thisIssue.issueVals["C"][0]!;
+      issueVals[index][1] = thisIssue.issueVals["D"][0]!;
+      issueVals[index][0] = thisIssue.issueVals["F"][0]!;
     }
   }
 
@@ -398,8 +375,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       Map<String, int> values = {
         "target": thisIssue.issueVals["A"]!,
         "resistance": thisIssue.issueVals["D"]!,
-        // "cpTarget": thisIssue.cpTarget,
-        // "cpResistance": thisIssue.cpResistance,
       };
 
       showInfoRubric(context, negotiationSnap.issues[index].name, values);
@@ -419,7 +394,6 @@ class ButtonAddons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(editing);
     if (!editing) {
       return Row(children: [
         /// Just Edit Button
@@ -535,156 +509,5 @@ class ButtonAddons extends StatelessWidget {
         ),
       ]);
     }
-  }
-}
-
-class WholeNegotiationSliders extends StatelessWidget {
-  final int index;
-  final double value;
-  const WholeNegotiationSliders({Key? key, required this.index, required this.value})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    switch (index) {
-      // Front barrier slider
-      case 0:
-        return FrontBackSlider(front: true);
-      // User Resistance
-      case 1:
-        return UserSlider(value: value, name: "Your Resistance");
-      // CP Target
-      case 2:
-        return CPSlider(value: value, name: "CP Target");
-      // User Target
-      case 3:
-        return UserSlider(value: value, name: "Your Target");
-      // CP Resistance
-      case 4:
-        return CPSlider(value: value, name: "CP Resistance");
-      // Back barrier slider
-      case 5:
-        return FrontBackSlider(front: false);
-      // Never going to send
-      default:
-        return FrontBackSlider(front: true);
-    }
-  }
-}
-
-// Red with value on top
-class CPSlider extends StatelessWidget {
-  final double value;
-  final String name;
-  const CPSlider({Key? key, required this.value, required this.name}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsetsDirectional.symmetric(horizontal: 0, vertical: 2),
-        //(value*100).toInt().toString() => value of the slider
-        child: Text((value * 100).toInt().toString()),
-      ),
-      Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.red,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
-        ),
-      ),
-      // Container(
-      //   //(value*100).toInt().toString() => value of the slider
-      //   child: Text(name),
-      // ),
-    ]);
-  }
-}
-
-// Blue with value on bottom
-class UserSlider extends StatelessWidget {
-  final double value;
-  final String name;
-
-  const UserSlider({required this.value, required this.name});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      // Container(
-      //   margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
-      //   child: Text(name),
-      // ),
-      Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
-        ),
-      ),
-      Container(
-        //(value*100).toInt().toString() => value of the slider
-        child: Text((value * 100).toInt().toString()),
-      )
-    ]);
-  }
-}
-
-class ShowTitle extends StatelessWidget {
-  const ShowTitle({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-// Black with value on bottom
-class FrontBackSlider extends StatelessWidget {
-  final bool front;
-  const FrontBackSlider({Key? key, required this.front}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
-        ),
-      ),
-      Container(
-        //(value*100).toInt().toString() => value of the slider
-        child: front ? Text("0") : Text("100"),
-      )
-    ]);
   }
 }
