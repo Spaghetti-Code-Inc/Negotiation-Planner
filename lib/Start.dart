@@ -60,46 +60,6 @@ class Start extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: const EdgeInsets.all(0),
-                padding: const EdgeInsets.all(0),
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 100,
-                decoration: const BoxDecoration(
-                  color: Color(0x00ffffff),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.zero,
-                ),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: MaterialButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                    },
-                    color: const Color(0xfff1f1f1),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                      side: BorderSide(color: Color(0xffd1d1d1), width: 1),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    textColor: const Color(0xffDB7877),
-                    height: 40,
-                    minWidth: 140,
-                    child: const Text(
-                      "Sign Out of Account",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
     ));

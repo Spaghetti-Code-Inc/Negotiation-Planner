@@ -92,11 +92,19 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
         ),
       ),
       actions: <Widget>[
-        IconButton(
+        ElevatedButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
-            icon: Icon(Icons.logout), color: Color(0xFFFFFFFF),
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xff0A0A5B)),
+            child: Column(
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10)
+                ),
+                Icon(Icons.logout, color: Colors.white),
+                Text("LOGOUT", style: TextStyle(color: Colors.white, fontSize: 8))
+              ],
+            )
         )
       ],
     );
