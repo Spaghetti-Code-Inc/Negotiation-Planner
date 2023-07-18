@@ -72,12 +72,15 @@ class _LoginState extends State<Login> {
                     alignment: Alignment.center,
                     child:
                     ///***If you have exported images you must have to copy those images in assets/images directory.
-                    Image.asset(
-                      'assets/icons/icon.png',
-                      height: 120,
-                      width: 120,
-                      fit: BoxFit.contain,
+                    CircleAvatar(
+                      backgroundColor: Color(0xff0A0A5B),
+                      radius: 90,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('assets/icons/icon.png'),
+                        radius: 80,
+                      ),
                     ),
+
                   ),
                 ),
                 TextField(
@@ -220,7 +223,7 @@ class _LoginState extends State<Login> {
                       onPressed: () {
                         signIn();
                       },
-                      color: const Color(0xff3e4b8c),
+                      color: const Color(0xff0A0A5B),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),

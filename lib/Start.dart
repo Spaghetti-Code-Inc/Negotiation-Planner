@@ -21,104 +21,6 @@ class Start extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 30, bottom: 0),
-              padding: const EdgeInsets.all(20),
-              height: 150,
-              width: MediaQuery.of(context).size.width * 0.8,
-
-              child: ElevatedButton.icon(
-
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => StartNewNegotiation())
-                  );
-                },
-                icon: const Icon(
-                  Icons.add_to_photos,
-                  size: 24.0,
-                ),
-                label: const Center(
-                    child: Text(
-                  'Prepare Negotiation',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontStyle: FontStyle.normal,
-                  ),
-                )),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xff0A0A5B),
-                  backgroundColor: Colors.white,
-
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              height: 150,
-              width: MediaQuery.of(context).size.width * 0.8,
-
-              child: ElevatedButton.icon(
-                onPressed: () {
-
-                },
-                icon: const Icon(
-                  Icons.book,
-                  size: 24.0,
-                ),
-                label: const Center(
-                    child: Text(
-                      'Track Progress',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    )),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xff0A0A5B),
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              height: 150,
-              width: MediaQuery.of(context).size.width * 0.8,
-
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyNegotiations())
-                  );
-                },
-                icon: const Icon(
-                  Icons.verified,
-                  size: 24.0,
-                ),
-                label: const Center(
-                    child: Text(
-                      'Evaluate Agreement',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    )),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xff0A0A5B),
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ),
-            Container(
               margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               padding: const EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width * 0.8,
@@ -131,12 +33,13 @@ class Start extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                 child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
+                onPressed: () {
+                  Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MyNegotiations())
-                    );
-                  },
+                      MaterialPageRoute(
+                          builder: (context) => StartNewNegotiation())
+                  );
+                },
                   color: const Color(0xffffffff),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
