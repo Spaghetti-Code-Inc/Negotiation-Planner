@@ -148,20 +148,18 @@ class MultiThumbSliderState extends State<MultiThumbSlider> {
       newValue = 1;
     }
 
-    _handleDragUpdateCross(index, newValue);
 
-    // Always do the cross
-    // switch (widget.overdragBehaviour) {
-    //   case ThumbOverdragBehaviour.stop:
-    //     _handleDragUpdateStop(index, newValue);
-    //     break;
-    //   case ThumbOverdragBehaviour.move:
-    //     _handleDragUpdateMove(index, newValue);
-    //     break;
-    //   case ThumbOverdragBehaviour.cross:
-    //     _handleDragUpdateCross(index, newValue);
-    //     break;
-    // }
+    switch (widget.overdragBehaviour) {
+      case ThumbOverdragBehaviour.stop:
+        _handleDragUpdateStop(index, newValue);
+        break;
+      case ThumbOverdragBehaviour.move:
+        _handleDragUpdateMove(index, newValue);
+        break;
+      case ThumbOverdragBehaviour.cross:
+        _handleDragUpdateCross(index, newValue);
+        break;
+    }
   }
 
   /// Returns the value for the given index.
@@ -307,6 +305,7 @@ class MultiThumbSliderState extends State<MultiThumbSlider> {
   /// thumb. This is to avoid that thumbs are in a deadlocked state for
   /// [ThumbOverdragBehaviour.stop].
   bool _ignoreDrag(int index) {
+    // If front or back index is trying to be moved it will not
     if (index == 0 || index == valueListeners.length-1) {
       return true;
     }

@@ -1,16 +1,19 @@
 Random quality of life changes:
-6. Add info buttons to more places on app
-20. Some text fields do not let you type until you press into them twice
 22. Make BATNA Dropdown always open
 23. Exit negotiation on negotiation rubric should be locked to bottom of the screen
 24. Work on focussing the user input when enter is pressed
-25. If there is no summary the space shouldn't be there on "MyNegotiations"
+26. Check summary max length
+27. Overlaps on issue bars: Text should be on white background, should not show text behind it.
+        Whatever the most recent bar moved is should have priority over the others.
+30. Moving a slider to the edge in Negotiation Rubric results in strange things
 
 Lucas:
 TODO Make negotiation parse real values
+TODO Changing the relative values needs to change the A value for negotiation rubric,
+    and change other values if they are greater than the new max value
 
 Ideas:
-1. Make the negotiation save the start date to tell how long it hast lasted?
+1. Make the negotiation save the start date to tell how long it has lasted?
 2. Have a separate page for completed and non completed negotiations
 2.1 Should they be able to pin a negotiation to top of the screen?
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
@@ -36,4 +39,4 @@ Notes:
 
 1. Pick a datatype on determine the issues page
 2. Labels should be datatype
-3 Regular text on BATNA screen
+3. Regular text on BATNA screen

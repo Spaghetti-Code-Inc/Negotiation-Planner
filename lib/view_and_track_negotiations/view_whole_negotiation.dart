@@ -51,10 +51,10 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                       });
 
                       // This sets the negotiationSnap in ViewNegotiation to the new value
-                      widget.negotiation.resistance = (_issueState[1]*100).truncate();
-                      widget.negotiation.target = (_issueState[2]*100).truncate();
+                      widget.negotiation.resistance = (_issueState[1]*100).round();
+                      widget.negotiation.target = (_issueState[2]*100).round();
                     },
-                    overdragBehaviour: ThumbOverdragBehaviour.cross,
+                    overdragBehaviour: ThumbOverdragBehaviour.stop,
                     // Optional: Lock behaviour of the first an last thumb.
                     // WHENEVER IT SAYS START IT LOCKS ALL
                     lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
@@ -110,10 +110,11 @@ class WholeBargainSliders extends StatelessWidget {
         return FrontBackSlider(front: true);
     // User Resistance
       case 1:
-        return UserSlider(value: value, name: "Your Resistance");
+        return UserSlider(value: value, name: "Resistance");
     // User Target
       case 2:
-        return UserSlider(value: value, name: "Your Target");
+        // Extra spaces so the slider lines up with Resistance slider
+        return UserSlider(value: value, name: "   Target   ");
     // Back barrier slider
       case 3:
         return FrontBackSlider(front: false);
@@ -123,44 +124,6 @@ class WholeBargainSliders extends StatelessWidget {
 
   }
 }
-
-// // Red with value on top
-// class CPSlider extends StatelessWidget {
-//   final double value;
-//   final String name;
-//   const CPSlider({Key? key, required this.value, required this.name}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(children: [
-//       Container(
-//         margin: EdgeInsetsDirectional.symmetric(horizontal: 0, vertical: 2),
-//         //(value*100).toInt().toString() => value of the slider
-//         child: Text((value * 100).toInt().toString()),
-//       ),
-//       Container(
-//         margin: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-//         width: 7.0,
-//         height: 30.0,
-//         decoration: BoxDecoration(
-//           color: Colors.red,
-//           boxShadow: [
-//             BoxShadow(
-//               color: Colors.black.withOpacity(.2),
-//               blurRadius: 6.0,
-//               spreadRadius: 2.0,
-//               offset: const Offset(0.0, 0.0),
-//             ),
-//           ],
-//         ),
-//       ),
-//       // Container(
-//       //   //(value*100).toInt().toString() => value of the slider
-//       //   child: Text(name),
-//       // ),
-//     ]);
-//   }
-// }
 
 // Blue with value on bottom
 
@@ -173,12 +136,11 @@ class UserSlider extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      // Container(
-      //   margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
-      //   child: Text(name),
-      // ),
       Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+        child: Text(name),
+      ),
+      Container(
         width: 7.0,
         height: 30.0,
         decoration: BoxDecoration(
@@ -210,7 +172,7 @@ class FrontBackSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 7, 0),
+        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
         width: 7.0,
         height: 30.0,
         decoration: BoxDecoration(
@@ -224,6 +186,10 @@ class FrontBackSlider extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+        child: Text((!front) ? "100" : "0"),
       ),
     ]);
   }

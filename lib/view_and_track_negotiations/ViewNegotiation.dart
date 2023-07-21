@@ -52,7 +52,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             color: Color(0xffffffff),
           ),
         ),
-        leading:           IconButton(
+        leading: IconButton(
           icon: Icon(Icons.delete_outline_outlined),
           onPressed: () {
             showDialog(
@@ -307,8 +307,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       // If it is false, then user just pressed to end the editing resulting in discard or save
       if (!_wholeNegotiationEditing) {
         if (!save) {
-          negotiationSnap.resistance = widget.lastNegotiationVals[1];
-          negotiationSnap.target = widget.lastNegotiationVals[2];
+          negotiationSnap.resistance = widget.lastNegotiationVals[0];
+          negotiationSnap.target = widget.lastNegotiationVals[1];
         }
         // Uploads the save to firestore
         else {

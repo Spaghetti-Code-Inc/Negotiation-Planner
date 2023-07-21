@@ -170,23 +170,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
             ),
 
             // Summary
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  widget.negotiation!["summary"] + "\n",
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14,
-                    color: _topTextColor,
-                  ),
-                ),
-              ),
-            ),
+            ShowSummary(summary: widget.negotiation!["summary"], color: _topTextColor,),
 
             // Listed Issues
             Padding(
@@ -334,5 +318,37 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
         ),
       ),
     );
+  }
+}
+
+
+class ShowSummary extends StatelessWidget {
+  final String? summary;
+  final Color color;
+  const ShowSummary({Key? key, required this.summary, required this.color}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    print(summary);
+    if(summary != ""){
+      return Padding(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            summary! + "\n",
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.normal,
+              fontSize: 14,
+              color: color,
+            ),
+          ),
+        ),
+      );
+    }
+    return Container();
+
   }
 }

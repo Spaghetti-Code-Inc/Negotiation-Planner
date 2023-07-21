@@ -61,17 +61,16 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
             setState(() {
               _issueVals = values;
 
-              issue.issueVals["A"][0] = (_issueVals[4]/multiplier).truncate();
-              issue.issueVals["B"][0] = (_issueVals[3]/multiplier).truncate();
-              issue.issueVals["C"][0] = (_issueVals[2]/multiplier).truncate();
-              issue.issueVals["D"][0] = (_issueVals[1]/multiplier).truncate();
-              issue.issueVals["F"][0] = (_issueVals[0]/multiplier).truncate();
+              issue.issueVals["A"][0] = (_issueVals[4]/multiplier).round();
+              issue.issueVals["B"][0] = (_issueVals[3]/multiplier).round();
+              issue.issueVals["C"][0] = (_issueVals[2]/multiplier).round();
+              issue.issueVals["D"][0] = (_issueVals[1]/multiplier).round();
+              issue.issueVals["F"][0] = (_issueVals[0]/multiplier).round();
 
             });
 
           },
 
-          /// Now that it is just changing the resistance and target stopping would not be bad
           overdragBehaviour: ThumbOverdragBehaviour.stop,
           // Locks all of the slider, must be changed to edit the slider
           lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
@@ -224,26 +223,26 @@ class IssueThumbs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    value = value/multiplier;
+    value = (value/multiplier).roundToDouble();
     switch (index) {
     // F
       case 0:
-        return FrontBackSlider(value: value, front: true);
+        return FrontBackSlider(value: value, front: true, name: "F");
     // D
       case 1:
-        return UserSlider(value: value, name: "Your Resistance");
+        return UserSlider(value: value, name: "D");
     // C
       case 2:
-        return UserSlider(value: value, name: "Your Target");
+        return UserSlider(value: value, name: "C");
     // B
         case 3:
-        return UserSlider(value: value, name: "Your Target");
+        return UserSlider(value: value, name: "B");
     // A
       case 4:
-        return FrontBackSlider(value: value, front: false);
+        return FrontBackSlider(value: value, front: false, name: "A");
     // Never going to send
       default:
-        return FrontBackSlider(value: value, front: true);
+        return FrontBackSlider(value: value, front: true, name: "Wrong");
     }
   }
 }
@@ -258,12 +257,11 @@ class UserSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      // Container(
-      //   margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
-      //   child: Text(name),
-      // ),
       Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+        child: Text(name),
+      ),
+      Container(
         width: 7.0,
         height: 30.0,
         decoration: BoxDecoration(
@@ -290,32 +288,39 @@ class UserSlider extends StatelessWidget {
 class FrontBackSlider extends StatelessWidget {
   final bool front;
   final double value;
-  const FrontBackSlider({Key? key, required this.front, required this.value}) : super(key: key);
+  final String name;
+  const FrontBackSlider({Key? key, required this.front, required this.value, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
+    return Container(
+      margin: EdgeInsets.only(right: 4),
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
+          child: Text(name),
         ),
-      ),
-      Container(
-        // => value of the slider
-        child: Text((value).toInt().toString()),
-      )
-    ]);
+        Container(
+          width: 7.0,
+          height: 30.0,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(.2),
+                blurRadius: 6.0,
+                spreadRadius: 2.0,
+                offset: const Offset(0.0, 0.0),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          // => value of the slider
+          child: Text((value).toInt().toString()),
+        )
+      ]),
+    );
   }
 }
 
