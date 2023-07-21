@@ -80,8 +80,8 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
           height: 70,
         ),
       ),
-      ChangeRelativeValues(
-          editing: widget.editing, issue: issue)
+      // ChangeRelativeValues(
+      //     editing: widget.editing, issue: issue)
     ]);
   }
 

@@ -21,13 +21,17 @@ class ViewNegotiation extends StatefulWidget {
 
 class _ViewNegotiationState extends State<ViewNegotiation> {
   bool _wholeNegotiationEditing = false;
-  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
+  late Negotiation negotiationSnap =
+      Negotiation.fromFirestore(widget.negotiation);
   late String docId = widget.negotiation!.id;
 
   // Keeps track of old value for issue
-  late List<List<int>> issueVals = List.filled(negotiationSnap.issues.length, List.filled(5, 0), growable: false);
+  late List<List<int>> issueVals = List.filled(
+      negotiationSnap.issues.length, List.filled(5, 0),
+      growable: false);
   // Keeps track if the issue is being edited or not
-  late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
+  late List<bool> issueEdits =
+      List.filled(negotiationSnap.issues.length, false, growable: false);
 
   Color navyBlue = Color(0xff0A0A5B);
 
@@ -58,15 +62,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                title: const Text('Are you sure you\'d like to delete the negotiation?'),
+                title: const Text(
+                    'Are you sure you\'d like to delete the negotiation?'),
                 actions: [
                   TextButton(
                     child: const Text('Yes'),
                     onPressed: () {
                       String? id = FirebaseAuth.instance.currentUser?.uid;
-                      db.collection(id!)
-                          .doc(widget.negotiation?.id)
-                          .delete();
+                      db.collection(id!).doc(widget.negotiation?.id).delete();
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
@@ -175,73 +178,76 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                   ),
 
                   /// Contains The Issue Sliders
-                  Container(
-                    height: determineListViewHeight(),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: negotiationSnap.issues.length,
-                      itemBuilder: (context, index) {
-                        /// The current Issue that this builder mentions
-                        Issue issueHere = negotiationSnap.issues[index];
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: negotiationSnap.issues.length,
+                    itemBuilder: (context, index) {
+                      /// The current Issue that this builder mentions
+                      Issue issueHere = negotiationSnap.issues[index];
 
-                        /// Builds out Issue header (name, info) and then the slider
-                        return Column(children: [
-                          /// Header for issue slider
-                          Container(
-                            width: MediaQuery.of(context).size.width * .85,
-                            child: Row(
-                              children: [
-                                /// Issue Name Text
-                                Expanded(
-                                  child: Text(
-                                    issueHere.name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 22,
-                                      color: Color(0xff000000),
-                                    ),
+                      /// Builds out Issue header (name, info) and then the slider
+                      return Column(children: [
+                        /// Header for issue slider
+                        Container(
+                          width: MediaQuery.of(context).size.width * .85,
+                          child: Row(
+                            children: [
+                              /// Issue Name Text
+                              Expanded(
+                                child: Text(
+                                  issueHere.name +
+                                      ": Weight = " +
+                                      issueHere.relativeValue.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 22,
+                                    color: Color(0xff000000),
                                   ),
                                 ),
+                              ),
 
-                                /// Buttons on right side
-                                ButtonAddons(
-                                  editing: issueEdits[index],
-                                  index: index,
-                                  updateEdit: updateEdit,
-                                  showInfo: showInfo,
-                                ),
-                              ],
-                            ),
+                              /// Buttons on right side
+                              ButtonAddons(
+                                editing: issueEdits[index],
+                                index: index,
+                                updateEdit: updateEdit,
+                                showInfo: showInfo,
+                              ),
+                            ],
                           ),
-                          /// Issue Sliders
-                          ViewCurrentIssues(
-                            issue: issueHere,
-                            editing: issueEdits[index],
-                          ),
-                        ]);
-                      },
-                    ),
+                        ),
+
+                        /// Issue Sliders
+                        ViewCurrentIssues(
+                          issue: issueHere,
+                          editing: issueEdits[index],
+                        ),
+                      ]);
+                    },
                   ),
 
-                  /// Exit the negotiation button
-                  Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: 40,
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop((context));
-                      },
-                      child: Text("Exit Negotiation"),
-                      style: TextButton.styleFrom(
-                        backgroundColor: navyBlue,
-                        foregroundColor: Colors.white,
-                        elevation: 5,
-                      ),
-                    ),
-                  ),
                 ]),
+              ),
+            ),
+          ),
+
+
+          /// Exit the negotiation button
+          Container(
+            width: MediaQuery.of(context).size.width * .9,
+            height: 40,
+            margin: EdgeInsets.only(bottom: 20),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop((context));
+              },
+              child: Text("Exit Negotiation"),
+              style: TextButton.styleFrom(
+                backgroundColor: navyBlue,
+                foregroundColor: Colors.white,
+                elevation: 5,
               ),
             ),
           ),
@@ -251,24 +257,26 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   }
 
   /// Defines what the height of the list view widget should be
-  determineListViewHeight(){
+  determineListViewHeight() {
     double total = 0.0;
-    for(int i = 0; i < issueEdits.length; i++){
-      if(issueEdits[i]) total += 210;
-      else total += 120;
+    for (int i = 0; i < issueEdits.length; i++) {
+      if (issueEdits[i])
+        total += 210;
+      else
+        total += 120;
     }
 
     return total;
   }
 
   /// Uploads the negotiationSnap to Firestore - Used in updateEdit
-  uploadNegotiationSnap(int index){
+  uploadNegotiationSnap(int index) {
     // Set document from negotiation snap
     int totalUser = 0;
 
     // Checks if the weight totals are right
     // Checks if resistance and target are in line for cp and user
-    for(Issue issue in negotiationSnap.issues){
+    for (Issue issue in negotiationSnap.issues) {
       totalUser += issue.relativeValue;
     }
 
@@ -279,14 +287,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
           .doc(docId)
           .set(negotiationSnap.toFirestore());
     } else {
-
-      if(index == -1){
+      if (index == -1) {
         setState(() {
           _wholeNegotiationEditing = !_wholeNegotiationEditing;
         });
-      }
-      else{
-        setState((){
+      } else {
+        setState(() {
           issueEdits[index] = true;
         });
       }
@@ -331,6 +337,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
     /// Issue referred to in the following logic
     Issue thisIssue = negotiationSnap.issues[index];
+
     /// Means user just pressed discard or save. This set it to stop editing.
     if (!issueEdits[index]) {
       /// Discarded edits
@@ -341,12 +348,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         thisIssue.issueVals["D"][0] = issueVals[index][1];
         thisIssue.issueVals["F"][0] = issueVals[index][0];
       }
+
       /// User pressed save
       else {
         print(thisIssue.issueVals);
         uploadNegotiationSnap(index);
       }
     }
+
     /// User just pressed to start editing. Save the cur
     else {
       issueVals[index] = [0, 0, 0, 0, 0];
@@ -359,8 +368,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   }
 
   /// Pass along info button call
-  showInfo(int index){
-    if(index == -1){
+  showInfo(int index) {
+    if (index == -1) {
       Map<String, int> values = {
         "target": negotiationSnap.target,
         "resistance": negotiationSnap.resistance,
@@ -368,8 +377,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         "cpResistance": negotiationSnap.resistance,
       };
       showInfoRubric(context, negotiationSnap.issues[index].name, values);
-    }
-    else{
+    } else {
       Issue thisIssue = negotiationSnap.issues[index];
       // Create the correct map to send to the info button
       Map<String, int> values = {
@@ -389,7 +397,12 @@ class ButtonAddons extends StatelessWidget {
   bool editing;
   int index;
 
-  ButtonAddons({Key? key, required this.updateEdit, required this.editing, required this.index, required this.showInfo})
+  ButtonAddons(
+      {Key? key,
+      required this.updateEdit,
+      required this.editing,
+      required this.index,
+      required this.showInfo})
       : super(key: key);
 
   @override

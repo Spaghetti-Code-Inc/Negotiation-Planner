@@ -331,7 +331,7 @@ class BATNATestState extends State<BATNATest> {
           )),
           
           /// Next and Back Bar
-          PrepareNegotiationNextBar(Next: Next, NextPage: RubricSummary())
+          PrepareNegotiationNextBar(Next: Next, NextPage: RubricSummary(),)
         ],
       ),
     );

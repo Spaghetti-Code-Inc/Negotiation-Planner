@@ -1,16 +1,15 @@
 Random quality of life changes:
 22. Make BATNA Dropdown always open
-23. Exit negotiation on negotiation rubric should be locked to bottom of the screen
 24. Work on focussing the user input when enter is pressed
-26. Check summary max length
 27. Overlaps on issue bars: Text should be on white background, should not show text behind it.
         Whatever the most recent bar moved is should have priority over the others.
 30. Moving a slider to the edge in Negotiation Rubric results in strange things
+33. Instead of 'DistributeEvenly' on Weight Issue throwing all extra on last one, it should even it out
 
 Lucas:
 TODO Make negotiation parse real values
 TODO Changing the relative values needs to change the A value for negotiation rubric,
-    and change other values if they are greater than the new max value
+    and change other values if they are greater than the new max value - Should this be allowed?
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -19,7 +18,7 @@ Ideas:
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
 4. Save negotiation in the middle of creating one
 5. Add compatibility to show counter part values
-6..
+6.
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes/listview.builder
@@ -34,8 +33,6 @@ Debugging:
 
 Notes:
 1. 3 Describers on the first page shouldn't be buttons
-3. Resizing the screen when something is being typed and it can not be seen
-10. Change what is shown up on the sliders and what values are shown
 
 1. Pick a datatype on determine the issues page
 2. Labels should be datatype
