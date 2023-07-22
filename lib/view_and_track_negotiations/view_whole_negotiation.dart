@@ -110,11 +110,11 @@ class WholeBargainSliders extends StatelessWidget {
         return FrontBackSlider(front: true);
     // User Resistance
       case 1:
-        return UserSlider(value: value, name: "Resistance");
+        return UserSlider(value: value, name: "R");
     // User Target
       case 2:
         // Extra spaces so the slider lines up with Resistance slider
-        return UserSlider(value: value, name: "   Target   ");
+        return UserSlider(value: value, name: "T");
     // Back barrier slider
       case 3:
         return FrontBackSlider(front: false);
@@ -135,31 +135,36 @@ class UserSlider extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
-        child: Text(name),
-      ),
-      Container(
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
+    return Container(
+      padding: EdgeInsets.only(right: 8, left: 8),
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+          child: Text(name),
+          color: Colors.white,
         ),
-      ),
-      Container(
-        //(value*100).toInt().toString() => value of the slider
-        child: Text((value * 100).toInt().toString()),
-      )
-    ]);
+        Container(
+          width: 7.0,
+          height: 30.0,
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(.2),
+                blurRadius: 6.0,
+                spreadRadius: 2.0,
+                offset: const Offset(0.0, 0.0),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          //(value*100).toInt().toString() => value of the slider
+          margin: EdgeInsets.symmetric(vertical: 2),
+          child: Text((value * 100).toInt().toString()),
+        )
+      ]),
+    );
   }
 
 }

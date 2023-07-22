@@ -1,15 +1,12 @@
 Random quality of life changes:
 22. Make BATNA Dropdown always open
-24. Work on focussing the user input when enter is pressed
-27. Overlaps on issue bars: Text should be on white background, should not show text behind it.
-        Whatever the most recent bar moved is should have priority over the others.
-30. Moving a slider to the edge in Negotiation Rubric results in strange things
-33. Instead of 'DistributeEvenly' on Weight Issue throwing all extra on last one, it should even it out
+32. Instead of 'DistributeEvenly' on Weight Issue throwing all extra on last one, it should even it out
+33. Info Buttons for Sliders needs worked on
+34..
 
 Lucas:
 TODO Make negotiation parse real values
-TODO Changing the relative values needs to change the A value for negotiation rubric,
-    and change other values if they are greater than the new max value - Should this be allowed?
+
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -18,7 +15,9 @@ Ideas:
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
 4. Save negotiation in the middle of creating one
 5. Add compatibility to show counter part values
-6.
+6. TODO Changing the relative values needs to change the A value for negotiation rubric,
+    and change other values if they are greater than the new max value - Should this be allowed?
+7..
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes/listview.builder
@@ -26,7 +25,7 @@ Cleaning Code:
 8..
 
 Backlog:
-1. Sliders should not pass over each other in edit negotiation page.
+1. Work on focussing the user input when enter is pressed
 
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?

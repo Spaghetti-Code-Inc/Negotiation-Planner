@@ -48,7 +48,6 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
       /// Multiplier puts every value on a scale from [0-1]
       _issueVals = [0, D*multiplier, C*multiplier, B*multiplier, 1];
 
-      print(_issueVals);
     }
 
     return Column(children: [
@@ -256,31 +255,35 @@ class UserSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
-        child: Text(name),
-      ),
-      Container(
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
+    return Container(
+      margin: (value >= 10) ? EdgeInsets.only(right: 4) : EdgeInsets.only(right: 6),
+      padding: EdgeInsets.only(right: 8, left: 8),
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+          child: Text(name),
+          color: Colors.white,
         ),
-      ),
-      Container(
-        //(value*100).toInt().toString() => value of the slider
-        child: Text((value).toInt().toString()),
-      )
-    ]);
+        Container(
+          width: 7.0,
+          height: 30.0,
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(.2),
+                blurRadius: 6.0,
+                spreadRadius: 2.0,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          //(value*100).toInt().toString() => value of the slider
+          child: Text((value).toInt().toString()),
+        )
+      ]),
+    );
   }
 }
 
@@ -294,11 +297,12 @@ class FrontBackSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 4),
+      margin: (value >= 10) ? EdgeInsets.only(right: 4) : EdgeInsets.only(right: 6),
       child: Column(children: [
         Container(
           margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
           child: Text(name),
+          color: Colors.white,
         ),
         Container(
           width: 7.0,
@@ -310,7 +314,6 @@ class FrontBackSlider extends StatelessWidget {
                 color: Colors.black.withOpacity(.2),
                 blurRadius: 6.0,
                 spreadRadius: 2.0,
-                offset: const Offset(0.0, 0.0),
               ),
             ],
           ),
