@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/create_negotiation/Target_Resistance.dart';
 
@@ -339,10 +341,21 @@ class EnterValues extends StatelessWidget {
 
     // Gets how much the pts should change by in each step
     int total = int.parse(ctrl[0].text);
-    int step = (total/length).round();
+    int step = (total/length).truncate();
+    // Keeps track of extra points needed to be passed
+    int extra = total%(step*length);
+    // Keeps track of extra points given out
+    int off = 0;
 
     for(int i = 1; i < length; i++){
-      ctrl[i].text = (total-step*i).toString();
+      print(extra);
+      if(extra > 0){
+        off++;
+        ctrl[i].text = (total-step*i-off).toString();
+        extra--;
+      } else {
+        ctrl[i].text = (total-step*i-off).toString();
+      }
     }
   }
 
