@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/create_negotiation/Target_Resistance.dart';
 
@@ -17,14 +19,18 @@ class _IssueValuesState extends State<IssueValues> {
   bool iconColor = false;
   List<List<TextEditingController>> _controllers = [];
   List<List<TextEditingController>> _realValues = [];
+  List<TextEditingController> _realWorldDatatypes = [];
 
   List<String> letters = ["A", "B", "C", "D", "F"];
 
   @override
   void initState(){
+    print(currentNegotiation.issues);
+
     /// Loads the current issue values to the text editing controllers
     for(int i = 0; i < currentNegotiation.issues.length; i++){
       Map<String, dynamic> here = currentNegotiation.issues[i].issueVals;
+
 
       _controllers.add([]);
       _realValues.add([]);
@@ -34,6 +40,9 @@ class _IssueValuesState extends State<IssueValues> {
         if(here[letter] == null){
           here[letter] = [0, ""];
         }
+
+        // Letter represents the settlement
+        // [0] is for points, [1] is for real value
         _controllers[i].add(new TextEditingController(text: here[letter][0].toString()));
         _realValues[i].add(new TextEditingController(text: here[letter][1]));
       }
@@ -42,6 +51,11 @@ class _IssueValuesState extends State<IssueValues> {
         if(_controllers[i][j].text == "null") _controllers[i][j].text = "0";
         else if(_realValues[i][j].text == "null") _realValues[i][j].text = "0";
       }
+
+      // Gets this issues, real value, cuts off the number and saves the data type
+      int indexSpace = here["A"][1].indexOf(" ") + 1;
+      _realWorldDatatypes.add(new TextEditingController(text: here["A"][1].substring(indexSpace)));
+      print(_realWorldDatatypes[i].text);
     }
 
     super.initState();
@@ -49,6 +63,11 @@ class _IssueValuesState extends State<IssueValues> {
 
   @override
   Widget build(BuildContext context) {
+
+    for(int i = 0; i < 5; i++){
+      _realValues[0][i].text;
+      _realWorldDatatypes[0].text;
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -157,6 +176,7 @@ class _IssueValuesState extends State<IssueValues> {
                         ctrl: _controllers[index],
                         index: index,
                         realCtrl: _realValues[index],
+                        datatype: _realWorldDatatypes[index],
                       ),
                       height: 390);
                 }),
@@ -225,7 +245,8 @@ class EnterValues extends StatelessWidget {
   final int index;
   final List<TextEditingController> ctrl;
   final List<TextEditingController> realCtrl;
-  EnterValues({Key? key, required this.issueName, required this.ctrl, required this.index, required this.realCtrl})
+  final TextEditingController datatype;
+  EnterValues({Key? key, required this.issueName, required this.datatype, required this.ctrl, required this.index, required this.realCtrl})
       : super(key: key);
 
   late final MaxPoints = currentNegotiation.issues[index].relativeValue;
@@ -239,11 +260,11 @@ class EnterValues extends StatelessWidget {
     ctrl[0].text = MaxPoints.toString();
     ctrl[4].text = "0";
 
-    issueVals["A"] = [MaxPoints, realCtrl[0].text];
-    issueVals["B"] = [int.tryParse(ctrl[1].text), realCtrl[1].text];
-    issueVals["C"] = [int.tryParse(ctrl[2].text), realCtrl[2].text];
-    issueVals["D"] = [int.tryParse(ctrl[3].text), realCtrl[3].text];
-    issueVals["F"] = [0, realCtrl[4].text];
+    issueVals["A"] = [MaxPoints, realCtrl[0].text + datatype.text];
+    issueVals["B"] = [int.tryParse(ctrl[1].text), realCtrl[1].text.split(" ")[0] + " "+ datatype.text];
+    issueVals["C"] = [int.tryParse(ctrl[2].text), realCtrl[2].text.split(" ")[0] + " "+ datatype.text];
+    issueVals["D"] = [int.tryParse(ctrl[3].text), realCtrl[3].text.split(" ")[0] + " "+ datatype.text];
+    issueVals["F"] = [0, realCtrl[4].text.split(" ")[0] + " "+ datatype.text];
 
     List<String> inputRowNames = ["A Settlement", "B Settlement", "C Settlement", "D Settlement", "F Settlement"];
     List<String> inputRowSummary = [
@@ -326,7 +347,7 @@ class EnterValues extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return Column( children: [
-              InputRow(name: inputRowNames[index], buttonText: inputRowSummary[index], points: ctrl[index], realWorldValue: realCtrl[index]),
+              InputRow(name: inputRowNames[index], datatype: datatype, buttonText: inputRowSummary[index], points: ctrl[index], realWorldValue: realCtrl[index]),
               Divider(thickness: 1, color: Colors.black),
             ]);
           },
@@ -348,7 +369,6 @@ class EnterValues extends StatelessWidget {
     int off = 0;
 
     for(int i = 1; i < length; i++){
-      print(extra);
       if(extra > 0){
         off++;
         ctrl[i].text = (total-step*i-off).toString();
@@ -361,132 +381,252 @@ class EnterValues extends StatelessWidget {
 
 }
 
-class InputRow extends StatelessWidget {
-
+class InputRow extends StatefulWidget {
   String name;
   String buttonText;
   TextEditingController realWorldValue;
   TextEditingController points;
+  TextEditingController datatype;
 
-  InputRow({Key? key, required this.name, required this.buttonText, required this.realWorldValue, required this.points}) : super(key: key);
+  InputRow({Key? key, required this.name, required this.buttonText, required this.realWorldValue, required this.points, required this.datatype}) : super(key: key);
+
+
+  @override
+  State<InputRow> createState() => _InputRowState();
+}
+
+class _InputRowState extends State<InputRow> {
+
+  late String name = widget.name;
+  late String buttonText = buttonText;
+
 
   @override
   Widget build(BuildContext context) {
-      return Row (
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          /// A Settlement button
-          Expanded(
-            flex: 2,
-            child: TextButton(
+    return Row (
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        /// A Settlement button
+        Expanded(
+          flex: 2,
+          child: TextButton(
+            onPressed: () {
+              showDialog(context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      this.name,
+                    ),
+                    content: Text(
+                      this.buttonText,
+                    ),
+                  )
+              );
+            },
+            style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
+
+            child: Text(this.name),
+          ),
+        ),
+
+        /// Real World Value
+        Expanded(
+          flex: 1,
+          child: OutlinedButton(
+              child: Text((widget.datatype.text.trim() == "") ? "Real Value" : widget.datatype.text),
               onPressed: () {
                 showDialog(context: context,
                     builder: (BuildContext context) => AlertDialog(
                       title: Text(
-                        this.name,
+                          "Real Value"
                       ),
-                      content: Text(
-                        this.buttonText,
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                              "This will be the real value associated with this letter of this issue. \n \n"
+                                  "Please enter a number and a datatype, respectively, in the boxes below. \n \n"
+                                  "A change to the datatype changes datatype for all settlement values of this issue. \n"
+                          ),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 5),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: widget.realWorldValue,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: const BorderSide(
+                                            color: Color(0xff000000), width: 1),
+                                      ),
+                                      labelText: "Number",
+                                      labelStyle: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14,
+                                        color: Color(0xff000000),
+                                      ),
+                                      filled: true,
+                                      fillColor: const Color(0xfff2f2f3),
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 12),
+                                    ),
+                                  ),
+                                ),),
+                              /// Pts
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 5),
+                                  child: TextField(
+                                    controller: widget.datatype,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: const BorderSide(
+                                            color: Color(0xff000000), width: 1),
+                                      ),
+                                      labelText: "Data Type",
+                                      labelStyle: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14,
+                                        color: Color(0xff000000),
+                                      ),
+                                      filled: true,
+                                      fillColor: const Color(0xfff2f2f3),
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 12),
+                                    ),
+                                  ),
+                                ),),
+
+                            ],
+                          )
+                        ],
                       ),
+                      actions: [
+                        TextButton(
+                          child: const Text('Okay'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Color(0xFF6DC090),
+                          ),
+                          onPressed: () {
+                            setState(() {
+
+                            });
+
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
                     )
                 );
               },
-              style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
 
-              child: Text(this.name),
-            ),
-          ),
-
-          /// Real World Value
-          Expanded(
-              flex: 1,
-              child: Container(
-                child: TextField(
-                  controller: realWorldValue,
-                  textAlign: TextAlign.start,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14,
-                    color: Color(0xff000000),
-                  ),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide: const BorderSide(
-                          color: Color(0xff000000), width: 1),
-                    ),
-                    labelText: "Real Value",
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      color: Color(0xff000000),
-                    ),
-                    filled: true,
-                    fillColor: const Color(0xfff2f2f3),
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 8, horizontal: 12),
-                  ),
-                ),
+              style: OutlinedButton.styleFrom(
+                  foregroundColor: Color(0xff0A0A5B),
+                  side: BorderSide(width: 2, color: Color(0xff0A0A5B))
               )
           ),
+        ),
 
-          /// Pts
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-              width: MediaQuery.of(context).size.width * 0.2,
-              alignment: Alignment.center,
-              height: 50,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFFF),
-                shape: BoxShape.rectangle,
+        // Expanded(
+        //     flex: 1,
+        //     child: Container(
+        //       child: TextField(
+        //         controller: realWorldValue,
+        //         textAlign: TextAlign.start,
+        //         maxLines: 1,
+        //         style: const TextStyle(
+        //           fontWeight: FontWeight.w400,
+        //           fontStyle: FontStyle.normal,
+        //           fontSize: 14,
+        //           color: Color(0xff000000),
+        //         ),
+        //         decoration: InputDecoration(
+        //           border: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(4.0),
+        //             borderSide: const BorderSide(
+        //                 color: Color(0xff000000), width: 1),
+        //           ),
+        //           labelText: "Real Value",
+        //           labelStyle: const TextStyle(
+        //             fontWeight: FontWeight.w400,
+        //             fontStyle: FontStyle.normal,
+        //             fontSize: 14,
+        //             color: Color(0xff000000),
+        //           ),
+        //           filled: true,
+        //           fillColor: const Color(0xfff2f2f3),
+        //           isDense: true,
+        //           contentPadding: const EdgeInsets.symmetric(
+        //               vertical: 8, horizontal: 12),
+        //         ),
+        //       ),
+        //     )
+        // ),
 
+        /// Pts
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+            width: MediaQuery.of(context).size.width * 0.2,
+            alignment: Alignment.center,
+            height: 50,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFFF),
+              shape: BoxShape.rectangle,
+
+            ),
+
+            child: TextField(
+              keyboardType: TextInputType.number,
+              inputFormatters: INTEGER_INPUTS,
+              controller: widget.points,
+              obscureText: false,
+              textAlign: TextAlign.start,
+              maxLines: 1,
+              enabled: !(name == "A Settlement" || name == "F Settlement"),
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                fontSize: 14,
+                color: Color(0xff000000),
               ),
-
-              child: TextField(
-                keyboardType: TextInputType.number,
-                inputFormatters: INTEGER_INPUTS,
-                controller: points,
-                obscureText: false,
-                textAlign: TextAlign.start,
-                maxLines: 1,
-                enabled: !(name == "A Settlement" || name == "F Settlement"),
-                style: const TextStyle(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                  borderSide: const BorderSide(
+                      color: Color(0xff000000), width: 1),
+                ),
+                labelText: "Pts.",
+                labelStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
                   fontSize: 14,
                   color: Color(0xff000000),
                 ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: const BorderSide(
-                        color: Color(0xff000000), width: 1),
-                  ),
-                  labelText: "Pts.",
-                  labelStyle: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14,
-                    color: Color(0xff000000),
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xfff2f2f3),
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 8, horizontal: 12),
-                ),
+                filled: true,
+                fillColor: const Color(0xfff2f2f3),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8, horizontal: 12),
               ),
-            ),),
-        ],
-      );
+            ),
+          ),),
+      ],
+    );
   }
+
 }
 
