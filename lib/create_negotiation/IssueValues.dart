@@ -1,8 +1,5 @@
-import 'dart:math';
-
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/create_negotiation/Target_Resistance.dart';
 
 import '../Utils.dart';
@@ -53,8 +50,7 @@ class _IssueValuesState extends State<IssueValues> {
       }
 
       // Gets this issues, real value, cuts off the number and saves the data type
-      int indexSpace = here["A"][1].indexOf(" ") + 1;
-      _realWorldDatatypes.add(new TextEditingController(text: here["A"][1].substring(indexSpace)));
+      _realWorldDatatypes.add(new TextEditingController(text: currentNegotiation.issues[i].datatype));
       print(_realWorldDatatypes[i].text);
     }
 
@@ -196,28 +192,49 @@ class _IssueValuesState extends State<IssueValues> {
     int length = currentNegotiation.issues.length;
     // Checks if all values are in right format
     for (int i = 0; i < length; i++) {
+      // 'Increasing' is defined as F~0 -> D~12.5 -> ... -> A~88.5
+      bool realIncreasing = true;
+      bool realDecreasing = true;
+
       for (int j = 0; j < 5; j++) {
         try {
+          double realHigh = double.parse(_realValues[i][j].text);
+          double realLow;
+
+
           int greater = int.parse(_controllers[i][j].text);
           int less;
 
           // Checks to make sure lower is not off out of bounds
           if (j + 1 == 5) {
             less = greater;
+            realLow = realHigh;
           } else {
             less = int.parse(_controllers[i][j + 1].text);
+            realLow = double.parse(_realValues[i][j+1].text);
           }
-
           if (greater < less) {
             moveOn = false;
             Utils.showSnackBar(
                 "One of your issues does not have the right order of value.");
+          } else if (realHigh > realLow){
+            realDecreasing = false;
+            print("Decreasing False: " + realHigh.toString() + " " + realLow.toString());
+          } else if (realHigh < realLow) {
+            print("Increasing False: " + realHigh.toString() + " " + realLow.toString());
+            realIncreasing = false;
           }
         } on FormatException {
           Utils.showSnackBar(
               "One of your values is not an integer.");
           moveOn = false;
         }
+
+        if(!realDecreasing && !realIncreasing){
+          Utils.showSnackBar("Your real values for Issue: (" + currentNegotiation.issues[i].name + ") must be in ascending or descending order.");
+          moveOn = false;
+        }
+
       }
     }
 
@@ -225,10 +242,13 @@ class _IssueValuesState extends State<IssueValues> {
     if (moveOn) {
       // Length is the length of "issueNames" keys
       for (int i = 0; i < length; i++) {
+        // Sets the datatype for each issue
+        currentNegotiation.issues[i].datatype = _realWorldDatatypes[i].text;
+
         // Puts value in for all the possible settlements
         for(int j = 0; j < letters.length; j++){
           currentNegotiation.issues[i].issueVals[letters[j]][0] = int.parse(_controllers[i][j].text);
-          currentNegotiation.issues[i].issueVals[letters[j]][1] = _realValues[i][j].text;
+          currentNegotiation.issues[i].issueVals[letters[j]][1] = double.parse(_realValues[i][j].text);
         }
       }
 
@@ -260,11 +280,11 @@ class EnterValues extends StatelessWidget {
     ctrl[0].text = MaxPoints.toString();
     ctrl[4].text = "0";
 
-    issueVals["A"] = [MaxPoints, realCtrl[0].text + datatype.text];
-    issueVals["B"] = [int.tryParse(ctrl[1].text), realCtrl[1].text.split(" ")[0] + " "+ datatype.text];
-    issueVals["C"] = [int.tryParse(ctrl[2].text), realCtrl[2].text.split(" ")[0] + " "+ datatype.text];
-    issueVals["D"] = [int.tryParse(ctrl[3].text), realCtrl[3].text.split(" ")[0] + " "+ datatype.text];
-    issueVals["F"] = [0, realCtrl[4].text.split(" ")[0] + " "+ datatype.text];
+    issueVals["A"] = [MaxPoints, realCtrl[0].text];
+    issueVals["B"] = [int.tryParse(ctrl[1].text), realCtrl[1].text];
+    issueVals["C"] = [int.tryParse(ctrl[2].text), realCtrl[2].text];
+    issueVals["D"] = [int.tryParse(ctrl[3].text), realCtrl[3].text];
+    issueVals["F"] = [0, realCtrl[4].text];
 
     List<String> inputRowNames = ["A Settlement", "B Settlement", "C Settlement", "D Settlement", "F Settlement"];
     List<String> inputRowSummary = [
@@ -434,7 +454,7 @@ class _InputRowState extends State<InputRow> {
         Expanded(
           flex: 1,
           child: OutlinedButton(
-              child: Text((widget.datatype.text.trim() == "") ? "Real Value" : widget.datatype.text),
+              child: Text((widget.datatype.text.trim() == "") ? "Real Value" : widget.realWorldValue.text + " " + widget.datatype.text),
               onPressed: () {
                 showDialog(context: context,
                     builder: (BuildContext context) => AlertDialog(
@@ -458,6 +478,10 @@ class _InputRowState extends State<InputRow> {
                                   margin: EdgeInsets.only(right: 5),
                                   child: TextField(
                                     keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      // To add commas simply put a comma next to the period
+                                      FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
+                                    ],
                                     controller: widget.realWorldValue,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(

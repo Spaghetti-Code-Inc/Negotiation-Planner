@@ -113,6 +113,7 @@ class Issue{
   String name = "";
   int relativeValue = -1;
   double? currentValue = 50;
+  String datatype = "";
 
   // An entry in this should be - Letter Grade: (Points, Real Value)
   Map<String, dynamic> issueVals = {};
@@ -124,7 +125,7 @@ class Issue{
   Issue({required this.name});
 
   String toString(){
-    return "$name: ${issueVals.toString()}, RV: $relativeValue";
+    return "$name: ${issueVals.toString()}, RV: $relativeValue, DT: $datatype";
   }
 
   Map<String, dynamic> toFirestore(){
@@ -136,6 +137,7 @@ class Issue{
       // "cpResistance": cpResistance,
       // "cpTarget": cpTarget,
       "currentValue": currentValue,
+      "datatype": datatype,
     };
   }
 
@@ -148,7 +150,7 @@ class Issue{
     // here.cpResistance = ss["cpResistance"];
     // here.cpTarget = ss["cpTarget"];
     here.currentValue = ss["currentValue"];
-
+    // here.datatype = ss["datatype"];
     return here;
   }
 }
