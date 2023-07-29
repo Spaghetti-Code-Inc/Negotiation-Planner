@@ -112,7 +112,7 @@ class Negotiation {
 class Issue{
   String name = "";
   int relativeValue = -1;
-  double? currentValue = 50;
+  double? currentValue;
   String datatype = "";
 
   // An entry in this should be - Letter Grade: (Points, Real Value)
@@ -125,7 +125,7 @@ class Issue{
   Issue({required this.name});
 
   String toString(){
-    return "$name: ${issueVals.toString()}, RV: $relativeValue, DT: $datatype";
+    return "$name: ${issueVals.toString()}, RV: $relativeValue, DT: $datatype, CV: $currentValue";
   }
 
   Map<String, dynamic> toFirestore(){

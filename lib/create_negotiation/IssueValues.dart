@@ -22,7 +22,6 @@ class _IssueValuesState extends State<IssueValues> {
 
   @override
   void initState(){
-    print(currentNegotiation.issues);
 
     /// Loads the current issue values to the text editing controllers
     for(int i = 0; i < currentNegotiation.issues.length; i++){
@@ -51,7 +50,6 @@ class _IssueValuesState extends State<IssueValues> {
 
       // Gets this issues, real value, cuts off the number and saves the data type
       _realWorldDatatypes.add(new TextEditingController(text: currentNegotiation.issues[i].datatype));
-      print(_realWorldDatatypes[i].text);
     }
 
     super.initState();
@@ -219,9 +217,7 @@ class _IssueValuesState extends State<IssueValues> {
                 "One of your issues does not have the right order of value.");
           } else if (realHigh > realLow){
             realDecreasing = false;
-            print("Decreasing False: " + realHigh.toString() + " " + realLow.toString());
           } else if (realHigh < realLow) {
-            print("Increasing False: " + realHigh.toString() + " " + realLow.toString());
             realIncreasing = false;
           }
         } on FormatException {

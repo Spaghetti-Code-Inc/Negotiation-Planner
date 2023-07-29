@@ -30,7 +30,6 @@ class _TargetResistanceState extends State<TargetResistance> {
     if(currentNegotiation.resistance == -1) totalResistance.text = "0";
 
     super.initState();
-    print(currentNegotiation.toString());
   }
 
 

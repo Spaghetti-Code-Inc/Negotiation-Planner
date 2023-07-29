@@ -331,7 +331,6 @@ class ShowSummary extends StatelessWidget {
   const ShowSummary({Key? key, required this.summary, required this.color}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print(summary);
     if(summary != ""){
       return Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),

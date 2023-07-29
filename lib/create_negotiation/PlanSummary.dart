@@ -138,6 +138,28 @@ class PlanSummary extends StatelessWidget {
                         ],
                       ),
                     ),
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Text(
+                        "2. Bargaining Range for Entire Negotiation",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 20,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: ViewNegotiationCurrent(
+                        negotiation: currentNegotiation,
+                        editing: false,
+                      ),
+                    ),
+
                     Container(
                       margin: const EdgeInsets.all(0),
                       padding: const EdgeInsets.all(10),
@@ -156,7 +178,7 @@ class PlanSummary extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "2. Bargaining Range for Each Issue",
+                                "3. Bargaining Range for Each Issue",
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(
@@ -185,26 +207,6 @@ class PlanSummary extends StatelessWidget {
                           editing: false,
                         );
                       },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Text(
-                        "3. Bargaining Range for Entire Negotiation",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 20,
-                          color: Color(0xff000000),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: ViewNegotiationCurrent(
-                        negotiation: currentNegotiation,
-                        editing: false,
-                      ),
                     ),
                   ],
                 ),
