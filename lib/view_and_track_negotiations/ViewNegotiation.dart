@@ -9,8 +9,14 @@ import '../Utils.dart';
 import 'view_delivered_issue.dart';
 import 'view_whole_negotiation.dart';
 
+
+Map<int, String> alphabet = {0: "A", 1: "B", 2: "C", 3:"D", 4:"F"};
+
+
+
 class ViewNegotiation extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
+  // Keep track of the "Whole Negotiation" values
   List lastNegotiationVals = [4];
 
   ViewNegotiation({Key? key, required this.negotiation}) : super(key: key);
@@ -21,22 +27,48 @@ class ViewNegotiation extends StatefulWidget {
 
 class _ViewNegotiationState extends State<ViewNegotiation> {
   bool _wholeNegotiationEditing = false;
-  late Negotiation negotiationSnap =
-      Negotiation.fromFirestore(widget.negotiation);
+  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
   late String docId = widget.negotiation!.id;
 
   // Keeps track of old value for issue
   late List<List<int>> issueVals = List.filled(
       negotiationSnap.issues.length, List.filled(5, 0),
       growable: false);
-  // Keeps track if the issue is being edited or not
-  late List<bool> issueEdits =
-      List.filled(negotiationSnap.issues.length, false, growable: false);
+
+  bool editing = false;
+
+  @override
+  void initState() {
+    for (int i = 0; i < negotiationSnap.issues.length; i++){
+      Map<String, dynamic> issue = negotiationSnap.issues[i].issueVals;
+
+      for(int j = 0; j < 5; j++){
+        String letter = alphabet[j]!;
+        issueVals[i][j] = issue[letter][0];
+      }
+    }
+  }
 
   Color navyBlue = Color(0xff0A0A5B);
 
   @override
   Widget build(BuildContext context) {
+
+    editing = false;
+    for (int i = 0; i < negotiationSnap.issues.length; i++){
+      Map<String, dynamic> issue = negotiationSnap.issues[i].issueVals;
+
+      for(int j = 0; j < 5; j++){
+        String letter = alphabet[j]!;
+        if(issueVals[i][j] != issue[letter][0]) editing = true;
+        print(issueVals[i][j].toString() + " : " + issue[letter][0].toString() + " : " + editing.toString());
+      }
+    }
+
+    print(issueVals);
+    print(negotiationSnap.issues.toString());
+
+
     var db = FirebaseFirestore.instance;
     return Scaffold(
       appBar: AppBar(
@@ -140,13 +172,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           ),
                         ),
 
-                        /// Edit Issue / Info Buttons
-                        ButtonAddons(
-                          updateEdit: updateEdit,
-                          editing: _wholeNegotiationEditing,
-                          index: -1,
-                          showInfo: showInfo,
-                        ),
                       ],
                     ),
                   ),
@@ -154,7 +179,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                   /// Sliders for the Whole Negotiation
                   ViewNegotiationCurrent(
                     negotiation: negotiationSnap,
-                    editing: _wholeNegotiationEditing,
                   ),
 
                   /// Contains "Bargaining Range for Individual Issues"
@@ -209,12 +233,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                               ),
 
                               /// Buttons on right side
-                              ButtonAddons(
-                                editing: issueEdits[index],
-                                index: index,
-                                updateEdit: updateEdit,
-                                showInfo: showInfo,
-                              ),
+                              // ButtonAddons(
+                              //   editing: issueEdits[index],
+                              //   index: index,
+                              //   updateEdit: updateEdit,
+                              //   showInfo: showInfo,
+                              // ),
                             ],
                           ),
                         ),
@@ -222,7 +246,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                         /// Issue Sliders
                         ViewCurrentIssues(
                           issue: issueHere,
-                          editing: issueEdits[index],
+                          refresh: refresh,
                         ),
                       ]);
                     },
@@ -231,6 +255,15 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                 ]),
               ),
             ),
+          ),
+
+
+          ViewSaveDiscardRubric(
+            negotiationSnap: negotiationSnap,
+            lastVals: issueVals,
+            editing: editing,
+            refresh: refresh,
+            save: save
           ),
 
 
@@ -256,18 +289,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
     );
   }
 
-  /// Defines what the height of the list view widget should be
-  determineListViewHeight() {
-    double total = 0.0;
-    for (int i = 0; i < issueEdits.length; i++) {
-      if (issueEdits[i])
-        total += 210;
-      else
-        total += 120;
-    }
-
-    return total;
-  }
 
   /// Uploads the negotiationSnap to Firestore - Used in updateEdit
   uploadNegotiationSnap(int index) {
@@ -293,7 +314,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
         });
       } else {
         setState(() {
-          issueEdits[index] = true;
+          // issueEdits[index] = true;
         });
       }
 
@@ -332,14 +353,16 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
     /// Changes edit state of whichever issue sent this
     setState(() {
-      issueEdits[index] = !issueEdits[index];
+      // issueEdits[index] = !issueEdits[index];
     });
 
     /// Issue referred to in the following logic
     Issue thisIssue = negotiationSnap.issues[index];
 
     /// Means user just pressed discard or save. This set it to stop editing.
-    if (!issueEdits[index]) {
+
+    // TODO Not what this should actually be
+    if (true) {
       /// Discarded edits
       if (!save) {
         thisIssue.issueVals["A"][0] = issueVals[index][4];
@@ -388,139 +411,126 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       showInfoRubric(context, negotiationSnap.issues[index].name, values);
     }
   }
+
+  refresh(){
+    setState(() {});
+  }
+
+  save() {
+    String? id = FirebaseAuth.instance.currentUser?.uid;
+
+    FirebaseFirestore.instance
+        .collection(id!)
+        .doc(docId)
+        .set(negotiationSnap.toFirestore());
+  }
 }
 
-/// Contains edit functions for each slider
-class ButtonAddons extends StatelessWidget {
-  Function updateEdit;
-  Function showInfo;
+class ViewSaveDiscardRubric extends StatefulWidget {
   bool editing;
-  int index;
+  Function save;
+  Function refresh;
 
-  ButtonAddons(
-      {Key? key,
-      required this.updateEdit,
-      required this.editing,
-      required this.index,
-      required this.showInfo})
-      : super(key: key);
+  List<List> lastVals;
+  Negotiation negotiationSnap;
+
+  ViewSaveDiscardRubric({Key? key, required this.editing, required this.save, required this.refresh,
+    required this.lastVals, required this.negotiationSnap,
+  }) : super(key: key);
 
   @override
+  State<ViewSaveDiscardRubric> createState() => _ViewSaveDiscardRubricState();
+}
+
+class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
+  @override
   Widget build(BuildContext context) {
-    if (!editing) {
-      return Row(children: [
-        /// Just Edit Button
-        Container(
-          width: 32,
-          height: 32,
-          margin: EdgeInsets.only(right: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.edit,
-              size: 24,
-            ),
-            onPressed: () {
-              updateEdit(index, false);
-            },
-            padding: EdgeInsets.all(0),
-          ),
-        ),
+    if(widget.editing){
+      return Container(
+        width: MediaQuery.of(context).size.width * .9,
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10, right: 5),
+                height: 40,
+                child: TextButton(
+                  onPressed: () {
+                    for (int i = 0; i < widget.negotiationSnap.issues.length; i++){
+                      Map<String, dynamic> issue = widget.negotiationSnap.issues[i].issueVals;
 
-        /// Info Button
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.info_outlined,
-              size: 28,
-              color: navyBlue,
-            ),
-            onPressed: () {
-              showInfo(index);
-            },
-            padding: EdgeInsets.all(0),
-          ),
-        ),
-      ]);
-    } else {
-      return Row(children: [
-        /// Cancel Edit
-        Container(
-          width: 32,
-          height: 32,
-          margin: EdgeInsets.only(right: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.close,
-              size: 24,
-            ),
-            onPressed: () {
-              updateEdit(index, false);
-            },
-            padding: EdgeInsets.all(0),
-          ),
-        ),
+                      for(int j = 0; j < 5; j++){
+                        String letter = alphabet[j]!;
+                        issue[letter][0] = widget.lastVals[i][j];
+                      }
+                    }
 
-        /// Save Edit
-        Container(
-          width: 32,
-          height: 32,
-          margin: EdgeInsets.only(right: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.save_alt,
-              size: 24,
+                    widget.refresh();
+                  },
+                  child: Text(
+                      "Discard Values"
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: navyBlue,
+                    foregroundColor: Colors.white,
+                    elevation: 5,
+                  ),
+                ),
+              ),
             ),
-            onPressed: () {
-              updateEdit(index, true);
-            },
-            padding: EdgeInsets.all(0),
-          ),
-        ),
 
-        /// Info Button, when currently saving
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.info_outlined,
-              size: 28,
-              color: navyBlue,
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10, left: 5),
+                height: 40,
+                child: TextButton(
+                  onPressed: () {
+                    for (int i = 0; i < widget.negotiationSnap.issues.length; i++){
+                      Map<String, dynamic> issue = widget.negotiationSnap.issues[i].issueVals;
+
+                      for(int j = 0; j < 5; j++){
+                        String letter = alphabet[j]!;
+                        widget.lastVals[i][j] = issue[letter][0];
+                      }
+                    }
+
+                    widget.save();
+                    widget.refresh();
+                  },
+                  child: Text(
+                      "Save Values"
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: navyBlue,
+                    foregroundColor: Colors.white,
+                    elevation: 5,
+                  ),
+                ),
+              ),
             ),
-            onPressed: () {
-              Utils.showSnackBar("You must exit edit mode to see issue info.");
-            },
-            padding: EdgeInsets.all(0),
+          ],
+        ),
+      );
+    }
+    else {
+      return Container(
+        width: MediaQuery.of(context).size.width*.9,
+        margin: EdgeInsets.only(bottom: 10, right: 5),
+        height: 40,
+        child: TextButton(
+          onPressed: () {
+            print("Show Calculate Screen");
+          },
+          child: Text(
+              "View Total Negotiation"
+          ),
+          style: TextButton.styleFrom(
+            backgroundColor: navyBlue,
+            foregroundColor: Colors.white,
+            elevation: 5,
           ),
         ),
-      ]);
+      );
     }
   }
 }

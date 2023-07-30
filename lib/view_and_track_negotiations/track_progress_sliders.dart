@@ -25,7 +25,6 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
   @override
   Widget build(BuildContext context) {
 
-    double currentRealValue;
     progressVals = [0, widget.vals[widget.index]*multiplier, 1];
 
     // Step 1: Find the closest letter value below
@@ -42,7 +41,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
     }
     Map<int, String> letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "F"};
 
-    // Step 2: Find the distance from each of the closest letter values - Run if != A
+    // Step 2: Find the distance from each of the closest letter values and assign real value - Run if != A
     String letter = "A";
     double realValue = double.parse(widget.issue.issueVals["A"][1]);
     if(closestLetter != 0){
@@ -62,6 +61,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
 
       realValue = ((realMin + distance*(realMax-realMin))*100).truncateToDouble()/100;
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

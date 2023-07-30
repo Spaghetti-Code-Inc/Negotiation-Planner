@@ -7,9 +7,8 @@ import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 
 class ViewNegotiationCurrent extends StatefulWidget {
   final Negotiation negotiation;
-  final bool editing;
 
-  ViewNegotiationCurrent({Key? key, required this.negotiation, required this.editing}) : super(key: key);
+  ViewNegotiationCurrent({Key? key, required this.negotiation}) : super(key: key);
 
   @override
   State<ViewNegotiationCurrent> createState() => _ViewNegotiationCurrentState();
@@ -29,14 +28,14 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
   Widget build(BuildContext context) {
 
     // If this widget is not currently being edited then it should equal the same as the negotiation passed to it
-    if(!widget.editing){
-      _issueState = [
-        0,
-        widget.negotiation.resistance * .01,
-        widget.negotiation.target * .01,
-        100,
-      ];
-    }
+    // if(!widget.editing){
+    //   _issueState = [
+    //     0,
+    //     widget.negotiation.resistance * .01,
+    //     widget.negotiation.target * .01,
+    //     100,
+    //   ];
+    // }
 
     return Column(
         children: [
@@ -57,7 +56,7 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                     overdragBehaviour: ThumbOverdragBehaviour.stop,
                     // Optional: Lock behaviour of the first an last thumb.
                     // WHENEVER IT SAYS START IT LOCKS ALL
-                    lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
+                    lockBehaviour: ThumbLockBehaviour.end,
                     thumbBuilder: (BuildContext context, int index, double value) {
                       return WholeBargainSliders(index: index, value: value);
                     },

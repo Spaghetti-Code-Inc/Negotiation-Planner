@@ -7,15 +7,14 @@ import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 import '../multi_thumb_slider/src/thumb_overdrag_behaviour.dart';
 
 class ViewCurrentIssues extends StatefulWidget {
-  final bool editing;
   final Issue issue;
+  Function refresh;
 
   List lastVals = [5];
 
   ViewCurrentIssues(
       {Key? key,
-      required this.editing,
-      required this.issue})
+      required this.issue, required this.refresh})
       : super(key: key);
 
   @override
@@ -41,7 +40,7 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.editing) {
+    if (true) {
       late double B = double.parse(issue.issueVals["B"][0].toString());
       late double C = double.parse(issue.issueVals["C"][0].toString());
       late double D = double.parse(issue.issueVals["D"][0].toString());
@@ -68,11 +67,13 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
 
             });
 
+            widget.refresh();
+
           },
 
           overdragBehaviour: ThumbOverdragBehaviour.stop,
           // Locks all of the slider, must be changed to edit the slider
-          lockBehaviour: widget.editing ? ThumbLockBehaviour.end : ThumbLockBehaviour.start,
+          lockBehaviour: ThumbLockBehaviour.end,
           thumbBuilder: (BuildContext context, int index, double value) {
             return IssueThumbs(index: index, value: value, multiplier: multiplier);
           },

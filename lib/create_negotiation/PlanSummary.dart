@@ -156,7 +156,6 @@ class PlanSummary extends StatelessWidget {
                     Container(
                       child: ViewNegotiationCurrent(
                         negotiation: currentNegotiation,
-                        editing: false,
                       ),
                     ),
 
@@ -230,7 +229,7 @@ class PlanSummary extends StatelessWidget {
                           /// Issue Sliders
                           ViewCurrentIssues(
                             issue: issueHere,
-                            editing: false,
+                            refresh: (){},
                           ),
                         ]);
                       },

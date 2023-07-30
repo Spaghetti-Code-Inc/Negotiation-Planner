@@ -7,7 +7,7 @@ Random quality of life changes:
 42. If only one issue, do not have an "Overall Negotiation Rating" on [Track Progress]
 43. Make real values store as double - remove double.parse on [track progress sliders]
 44. "You have unsaved values" popup when exiting a page
-45..
+45. Make wording more similar between [Track Progress] and [View Negotiation]
 
 Lucas:
 TODO Change from Android App to Flutter App on Firebase

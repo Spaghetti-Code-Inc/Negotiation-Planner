@@ -20,15 +20,12 @@ class TrackProgress extends StatefulWidget {
 
 class _TrackProgressState extends State<TrackProgress> {
   late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
-  bool working = false;
   late String docId = widget.negotiation!.id;
 
   // Keeps track of new value for issue, .5 because that is half way in the slider
   late List<double> issueVals = [];
   // Keeps track of old value for issue, .5 because that is half way in the slider
   late List<double> lastIssueVals = [];
-  // Keeps track if the issue is being edited or not
-  late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
 
   bool editing = false;
 
@@ -64,6 +61,7 @@ class _TrackProgressState extends State<TrackProgress> {
       totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
       totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
 
+      /// checks if the issue is currently being edited or not
       if(issueVals[i] != lastIssueVals[i]) editing = true;
     }
 
@@ -222,51 +220,6 @@ class _TrackProgressState extends State<TrackProgress> {
         ],
       ),
     );
-  }
-
-  /// Performs function of any 'edit', 'save', or 'discard' press
-  handleEdits(int index, bool save) {
-    /// Switches state of the issue that sent edit
-    setState(() {
-      issueEdits[index] = !issueEdits[index];
-    });
-
-    /// Means user just pressed discard or save
-    if (!issueEdits[index]) {
-      // Discard
-      if (!save) {
-        // Resets the issue value because they were discarded
-        setState(() {
-          issueVals[index] = lastIssueVals[index];
-        });
-      }
-      // Save
-      else {
-        // Give negotiationSnap the values from the sliders
-        negotiationSnap.issues[index].currentValue = issueVals[index];
-
-        // Upload the negotiation snap
-        String? id = FirebaseAuth.instance.currentUser?.uid;
-        FirebaseFirestore.instance.collection(id!).doc(docId).set(negotiationSnap.toFirestore());
-      }
-    }
-
-    /// Means user just pressed 'edit'
-    else {
-      // Makes a copy of where the issue values were before editing
-      lastIssueVals[index] = issueVals[index];
-    }
-
-    /// Builds the values for the slider that shows the entire negotiation values
-    totalValues["userValue"] = 0.0;
-    totalValues["cpValue"] = 0.0;
-    for (int i = 0; i < negotiationSnap.issues.length; i++) {
-      Issue thisIssue = negotiationSnap.issues[i];
-
-      totalValues["userValue"] =
-          issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
-      totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
-    }
   }
 
   // So the update agreement - flag and save/discard buttons - can reset the page
@@ -465,91 +418,6 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
     }
 
 
-  }
-}
-
-
-/// Controls the edit, save, discard buttons for each issue
-class ButtonAddonTrackProgress extends StatelessWidget {
-  bool editing;
-  Function handleEdits;
-  int index;
-
-  ButtonAddonTrackProgress(
-      {Key? key, required this.editing, required this.handleEdits, required this.index})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    /// Edit Issue Button
-    if (!editing) {
-      return Container(
-        width: 32,
-        height: 32,
-        margin: EdgeInsets.only(right: 5),
-        decoration: BoxDecoration(
-          border: Border.all(color: navyBlue),
-          borderRadius: BorderRadius.circular(5.0),
-          color: Colors.transparent,
-        ),
-        child: IconButton(
-          icon: Icon(
-            Icons.edit,
-            size: 24,
-          ),
-          onPressed: () {
-            handleEdits(index, false);
-          },
-          padding: EdgeInsets.all(0),
-        ),
-      );
-    } else {
-      return Row(children: [
-        /// Discard
-        Container(
-          width: 32,
-          height: 32,
-          margin: EdgeInsets.only(right: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.close,
-              size: 24,
-            ),
-            onPressed: () {
-              handleEdits(index, false);
-            },
-            padding: EdgeInsets.all(0),
-          ),
-        ),
-
-        /// Save Edit
-        Container(
-          width: 32,
-          height: 32,
-          margin: EdgeInsets.only(right: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: navyBlue),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.transparent,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.save_alt,
-              size: 24,
-            ),
-            onPressed: () {
-              handleEdits(index, true);
-            },
-            padding: EdgeInsets.all(0),
-          ),
-        ),
-      ]);
-    }
   }
 }
 
