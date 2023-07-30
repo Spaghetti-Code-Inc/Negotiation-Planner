@@ -35,6 +35,7 @@ class _TargetResistanceState extends State<TargetResistance> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),

@@ -184,7 +184,7 @@ class _TrackProgressState extends State<TrackProgress> {
                     valuesChanged: (List<double> values) {},
                     initalSliderValues: [0, double.parse(totalValues["userValue"].toString()), 1],
                     thumbBuilder: (BuildContext context, int index, double value) {
-                      return IssueThumbs(index: index, value: value, multiplier: .01);
+                      return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01);
                     },
                     height: 70,
                   )

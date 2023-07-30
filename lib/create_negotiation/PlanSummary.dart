@@ -214,9 +214,7 @@ class PlanSummary extends StatelessWidget {
                                 /// Issue Name Text
                                 Expanded(
                                   child: Text(
-                                    issueHere.name +
-                                        ": Weight = " +
-                                        issueHere.relativeValue.toString(),
+                                    issueHere.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontStyle: FontStyle.normal,

@@ -133,9 +133,6 @@ class Issue{
       "name": name,
       "relativeValue": relativeValue,
       "issueVals": issueVals,
-      // "cpRelativeValue": cpRelativeValue,
-      // "cpResistance": cpResistance,
-      // "cpTarget": cpTarget,
       "currentValue": currentValue,
       "datatype": datatype,
     };
@@ -146,11 +143,8 @@ class Issue{
 
     here.relativeValue = ss["relativeValue"];
     here.issueVals = ss["issueVals"];
-    // here.cpRelativeValue = ss["cpRelativeValue"];
-    // here.cpResistance = ss["cpResistance"];
-    // here.cpTarget = ss["cpTarget"];
     here.currentValue = ss["currentValue"];
-    // here.datatype = ss["datatype"];
+    here.datatype = ss["datatype"];
     return here;
   }
 }

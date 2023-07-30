@@ -22,24 +22,57 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
   late double multiplier = 1.0/widget.issue.relativeValue;
   late List<double> progressVals = [];
 
-
   @override
   Widget build(BuildContext context) {
 
+    double currentRealValue;
     progressVals = [0, widget.vals[widget.index]*multiplier, 1];
 
+    // Step 1: Find the closest letter value below
+    int closest = 100;
+    int closestLetter = -1;
+    int i = 0;
+    for(List each in widget.issue.issueVals.values){
+      double distance = widget.vals[widget.index]-each[0];
+      if(distance >= 0 && distance < closest) {
+        closest = distance.toInt();
+        closestLetter = i;
+      }
+      i++;
+    }
+    Map<int, String> letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "F"};
+
+    // Step 2: Find the distance from each of the closest letter values - Run if != A
+    String letter = "A";
+    double realValue = double.parse(widget.issue.issueVals["A"][1]);
+    if(closestLetter != 0){
+      int min = widget.issue.issueVals[letters[closestLetter]][0];
+      int max = widget.issue.issueVals[letters[closestLetter-1]][0];
+      int here = widget.vals[widget.index].toInt();
+
+      max -= min;
+      here -= min;
+      double distance = here/max;
+
+      if(distance >= 0.5) letter = letters[closestLetter-1]!;
+      else letter = letters[closestLetter]!;
+
+      double realMin = double.parse(widget.issue.issueVals[letters[closestLetter]][1]);
+      double realMax = double.parse(widget.issue.issueVals[letters[closestLetter-1]][1]);
+
+      realValue = ((realMin + distance*(realMax-realMin))*100).truncateToDouble()/100;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
         /// Issue Name Text
-
         Row(
           children: [
             /// Issue Name
             Expanded(
               child: Text(
-                widget.issue.name + ": " + "Current Real Value",
+                widget.issue.name + ": " + realValue.toString() + " " + widget.issue.datatype,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
@@ -63,7 +96,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
             valuesChanged: (List<double> values) {
               progressVals = values;
               setState(() {
-                widget.vals[widget.index] = (progressVals[1]/multiplier).round()*1.0;
+                widget.vals[widget.index] = (progressVals[1]/multiplier)*1.0;
               });
               widget.refresh();
             },
@@ -73,7 +106,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
 
 
             thumbBuilder: (BuildContext context, int index, double value) {
-              return IssueThumbs(index: index, value: value, multiplier: multiplier);
+              return IssueThumbs(index: index, letter: letter, value: value, multiplier: multiplier);
             },
             height: 70,
           ),
@@ -88,8 +121,9 @@ class IssueThumbs extends StatelessWidget {
   final int index;
   final double value;
   final double multiplier;
+  final String letter;
 
-  IssueThumbs({Key? key, required this.index, required this.value, required this.multiplier}) : super(key: key);
+  IssueThumbs({Key? key, required this.index, required this.letter, required this.value, required this.multiplier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +132,7 @@ class IssueThumbs extends StatelessWidget {
       case 0:
         return FrontBack(front: true, value: realVal, name: "F");
       case 1:
-        return CurrentVal(value: realVal, name: "RV");
+        return CurrentVal(value: realVal, name: letter);
       case 2:
         return FrontBack(front: false, value: realVal, name: "A");
       default:
