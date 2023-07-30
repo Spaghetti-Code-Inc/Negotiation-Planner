@@ -1,20 +1,21 @@
 Random quality of life changes:
-22. Make BATNA Dropdown always open
-33. Info Buttons for Sliders needs worked on
-34..
+33. Info Buttons for all <MultiThumbSliders>
+36. Tradeoffs saved to negotiation [Plan Summary] - entered in by a list of bullets
+39. Allow commas when entering real values in [Issue Values]
+40. Going back from [Plan Summary] sends you back 2 pages
+41. Save total value of negotiation to firestore
+42. If only one issue, do not have an "Overall Negotiation Rating" on [Track Progress]
 
 Lucas:
-TODO Make negotiation parse real values
-TODO Add type checking for real world value on step 3/3
-TODO Have choice to apply data type to rest of the issue, make user only have to enter number for the rest
+TODO Change from Android App to Flutter App on Firebase
+TODO Apply [Track Progress] Save/Discard to [View Rubric]
 
-What I want:
-1. User Has to press A's <Real Value> - Light up a different color - If pressed another one is pressed pop up that A needs to be done first
-
-OR
-
-1. Let every <Real Value> button have its own popup, advise user that changing one datatype changes them all
-2. <Real Value> Buttons that do not have a value should show the datatype as the Button text
+Track Progress Page Updates:
+1. Sliders on Track Progress should be <MultiThumbSliders>
+        - Each slider should have Real Value on top and Points on Bottom without weird edge cases
+        - The real values are linearly based between the two settlement values closest to it
+2. <Calculate> Shows current total points of negotiation
+        - This is where trade offs should be shown
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -30,7 +31,9 @@ Ideas:
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes/listview.builder
 7. Convert Rubric Summary, Display Important Issues to a list builder. The index should be the vals[i] shown
-8..
+8. Do an overall code coverage test
+9. How to refresh super class from lower class
+10..
 
 Backlog:
 1. Work on focussing the user input when enter is pressed
@@ -40,6 +43,3 @@ Debugging:
 
 Notes:
 1. 3 Describers on the first page shouldn't be buttons
-
-1. Pick a datatype on determine the issues page
-3. Regular text on BATNA screen

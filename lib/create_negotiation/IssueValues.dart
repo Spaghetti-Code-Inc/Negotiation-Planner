@@ -222,7 +222,7 @@ class _IssueValuesState extends State<IssueValues> {
           }
         } on FormatException {
           Utils.showSnackBar(
-              "One of your values is not an integer.");
+              "One of your real values is not created properly.");
           moveOn = false;
         }
 

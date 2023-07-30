@@ -193,19 +193,48 @@ class PlanSummary extends StatelessWidget {
                         ],
                       ),
                     ),
+
+
+                    /// Contains The Issue Sliders
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: currentNegotiation.issues.length,
-                      prototypeItem: ViewCurrentIssues(
-                        issue: currentNegotiation.issues[0],
-                        editing: false,
-                      ),
                       itemBuilder: (context, index) {
-                        return ViewCurrentIssues(
-                          issue: currentNegotiation.issues[index],
-                          editing: false,
-                        );
+                        /// The current Issue that this builder mentions
+                        Issue issueHere = currentNegotiation.issues[index];
+
+                        /// Builds out Issue header (name, info) and then the slider
+                        return Column(children: [
+                          /// Header for issue slider
+                          Container(
+                            width: MediaQuery.of(context).size.width * .85,
+                            child: Row(
+                              children: [
+                                /// Issue Name Text
+                                Expanded(
+                                  child: Text(
+                                    issueHere.name +
+                                        ": Weight = " +
+                                        issueHere.relativeValue.toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 22,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /// Issue Sliders
+                          ViewCurrentIssues(
+                            issue: issueHere,
+                            editing: false,
+                          ),
+                        ]);
                       },
                     ),
                   ],
@@ -253,6 +282,12 @@ class PlanSummary extends StatelessWidget {
                   flex: 1,
                   child: MaterialButton(
                       onPressed: () async {
+
+                        for (Issue each in currentNegotiation.issues){
+                          each.currentValue = each.relativeValue/2;
+                        }
+
+
                         // Sets the user id to the negotiation instance
                         currentNegotiation.id =
                             FirebaseAuth.instance.currentUser?.uid;

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/multi_thumb_slider/multi_thumb_slider.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/track_progress_sliders.dart';
 import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
 import '../NegotiationDetails.dart';
@@ -9,6 +11,7 @@ import '../main.dart';
 
 class TrackProgress extends StatefulWidget {
   DocumentSnapshot<Object?>? negotiation;
+
   TrackProgress({Key? key, required this.negotiation}) : super(key: key);
 
   @override
@@ -27,11 +30,21 @@ class _TrackProgressState extends State<TrackProgress> {
   // Keeps track if the issue is being edited or not
   late List<bool> issueEdits = List.filled(negotiationSnap.issues.length, false, growable: false);
 
+  bool editing = false;
+
+
   @override
   void initState() {
     for (int i = 0; i < negotiationSnap.issues.length; i++) {
-      issueVals.add(negotiationSnap.issues[i].currentValue!);
-      lastIssueVals.add(negotiationSnap.issues[i].currentValue!);
+      // Checks if initiated value is too high
+      if(negotiationSnap.issues[i].currentValue! >= negotiationSnap.issues[i].relativeValue){
+        issueVals.add(negotiationSnap.issues[i].relativeValue/2);
+        lastIssueVals.add(negotiationSnap.issues[i].relativeValue/2);
+      } else {
+        issueVals.add(negotiationSnap.issues[i].currentValue!);
+        lastIssueVals.add(negotiationSnap.issues[i].currentValue!);
+      }
+
     }
   }
 
@@ -43,180 +56,157 @@ class _TrackProgressState extends State<TrackProgress> {
     /// And builds the values for the current issueVals
     totalValues["userValue"] = 0.0;
     totalValues["cpValue"] = 0.0;
+    editing = false;
+
     for (int i = 0; i < negotiationSnap.issues.length; i++) {
       Issue thisIssue = negotiationSnap.issues[i];
-
       /// Calculates total values for user and cp based based on percentage of relative value filled
-      totalValues["userValue"] =
-          issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
+      totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
       totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
+
+      if(issueVals[i] != lastIssueVals[i]) editing = true;
     }
 
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, docId: docId, snapshot: widget.negotiation),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          /// Track Progress Text
-          Container(
-            margin: EdgeInsets.only(top: 15, bottom: 12),
-            padding: EdgeInsets.only(),
-            child:
-                Text("Track Progress", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
-          ),
-
-          /// Divider
-          Divider(
-            thickness: 3,
-            color: Colors.black,
-          ),
-
-          /// Padding between divider and issues
-          Container(margin: EdgeInsets.only(bottom: 15)),
-
-          /// Sliders changing issue values
-          Container(
-            height: negotiationSnap.issues.length * 80,
-            child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: negotiationSnap.issues.length,
-              itemBuilder: (context, index) {
-                return EvaluateSlider(
-                  negotiation: negotiationSnap,
-                  index: index,
-                  editing: issueEdits[index],
-                  handleEdits: handleEdits,
-                  issueValues: issueVals,
-                  totalValues: totalValues,
-                  reloadFullPage: () => setState(() {}),
-                );
-              },
-            ),
-          ),
-
-          /// Contains "Total User and Counterpart Values"
-          Container(
-            width: MediaQuery.of(context).size.width * .85,
-            padding: EdgeInsets.only(top: 25, bottom: 20),
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Total User and Counterpart Values",
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.clip,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 24,
-                  color: Color(0xff000000),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(children: [
+                /// Track Progress Text
+                Container(
+                  margin: EdgeInsets.only(top: 15, bottom: 12),
+                  padding: EdgeInsets.only(),
+                  child:
+                      Text("Track Progress", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
                 ),
-              ),
-            ),
-          ),
+                /// Divider
+                Divider(
+                  thickness: 3,
+                  color: Colors.black,
+                ),
+                /// Padding between divider and issues
+                Container(margin: EdgeInsets.only(bottom: 15)),
 
-          /// Header for entire negotiation value for user
-          Container(
-            width: MediaQuery.of(context).size.width * .85,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "Your Total Value",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 22,
-                      color: Color(0xff000000),
+                /// Contains "Bargaining Range for Individual Issues"
+                Container(
+                  width: MediaQuery.of(context).size.width * .85,
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Current Value for Individual Issues",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 24,
+                        color: Color(0xff000000),
+                      ),
                     ),
                   ),
                 ),
 
-                /// Info Button
-                TotalValueInfo(
-                  userValue: totalValues["userValue"]!,
-                  counterPartValue: totalValues["cpValue"]!,
-                  negotiation: negotiationSnap,
-                )
-              ],
-            ),
-          ),
+                /// New Sliders
+                Container(
+                  width: MediaQuery.of(context).size.width*.85,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: negotiationSnap.issues.length,
+                    physics: NeverScrollableScrollPhysics(),
 
-          /// Slider for Entire Negotiation Value
-          Container(
-            width: MediaQuery.of(context).size.width * .95,
-            child: Slider(
-              activeColor: Colors.blue,
-              inactiveColor: Colors.red,
-              value: double.parse(totalValues["userValue"].toString()),
-              onChanged: (double value) {
-                value = value;
-              },
-            ),
-          ),
+                    itemBuilder: (context, index){
+                      Issue here = negotiationSnap.issues[index];
+                      return TrackSliderProgress(
+                        issue: here,
+                        vals: issueVals,
+                        index: index,
+                        refresh: refresh,
+                      );
+                    },
+                  )
+                ),
 
-          /// Header for entire negotiation value for Counter part
-          Container(
-            width: MediaQuery.of(context).size.width * .85,
-            margin: EdgeInsets.only(top: 20, bottom: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "Counter Parts Total Value",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 22,
-                      color: Color(0xff000000),
+                /// Contains "Total User and Counterpart Values"
+                Container(
+                  width: MediaQuery.of(context).size.width * .85,
+                  padding: EdgeInsets.only(top: 25, bottom: 20),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Overall Negotiation Rating",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 24,
+                        color: Color(0xff000000),
+                      ),
                     ),
                   ),
                 ),
 
-                /// Info Button
-                TotalValueInfo(
-                  userValue: totalValues["userValue"]!,
-                  counterPartValue: totalValues["cpValue"]!,
-                  negotiation: negotiationSnap,
-                )
-              ],
+                /// Header for entire negotiation value for user
+                Container(
+                  width: MediaQuery.of(context).size.width * .85,
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Your Total Value",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 22,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ),
+
+                      /// Info Button
+                      TotalValueInfo(
+                        userValue: totalValues["userValue"]!,
+                        counterPartValue: totalValues["cpValue"]!,
+                        negotiation: negotiationSnap,
+                      )
+                    ],
+                  ),
+                ),
+
+
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: MultiThumbSlider(
+                    valuesChanged: (List<double> values) {},
+                    initalSliderValues: [0, double.parse(totalValues["userValue"].toString()), 1],
+                    thumbBuilder: (BuildContext context, int index, double value) {
+                      return IssueThumbs(index: index, value: value, multiplier: .01);
+                    },
+                    height: 70,
+                  )
+                ),
+              ]),
             ),
           ),
 
-          /// Slider for Entire Negotiation Value Counterpart
-          Container(
-            margin: EdgeInsets.only(bottom: 30),
-            width: MediaQuery.of(context).size.width * .95,
-            child: Slider(
-              activeColor: Colors.red,
-              inactiveColor: Colors.blue,
-              value: double.parse(totalValues["cpValue"].toString()),
-              onChanged: (double value) {
-                value = value;
-              },
-            ),
-          ),
-
-          Container(
-            margin: EdgeInsets.only(bottom: 20),
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                  "Calculate: " + (totalValues["userValue"]! + totalValues["cpValue"]!).toString()),
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xff838383),
-                foregroundColor: Colors.white,
-              ),
-            ),
+          ViewSaveDiscard(
+            negotiationSnap: negotiationSnap,
+            lastIssueVals: lastIssueVals,
+            issueVals: issueVals,
+            editing: editing,
+            refresh: refresh,
+            save: save,
           ),
 
           // Exit the negotiation button
           Container(
             width: MediaQuery.of(context).size.width * .9,
             height: 40,
+            margin: EdgeInsets.only(bottom: 20),
             child: TextButton(
               onPressed: () {
                 Navigator.pop((context));
@@ -229,7 +219,7 @@ class _TrackProgressState extends State<TrackProgress> {
               ),
             ),
           ),
-        ]),
+        ],
       ),
     );
   }
@@ -281,8 +271,16 @@ class _TrackProgressState extends State<TrackProgress> {
 
   // So the update agreement - flag and save/discard buttons - can reset the page
   refresh() {
-    print(currentNegotiation);
     setState(() {});
+  }
+
+  save() {
+    String? id = FirebaseAuth.instance.currentUser?.uid;
+
+    FirebaseFirestore.instance
+        .collection(id!)
+        .doc(docId)
+        .set(negotiationSnap.toFirestore());
   }
 }
 
@@ -361,101 +359,115 @@ class TotalValueInfo extends StatelessWidget {
   }
 }
 
-/// Produces slider that changes the value of the "currentAgreement"
-class EvaluateSlider extends StatefulWidget {
-  Negotiation negotiation;
-  int index;
-  bool editing;
-  Function handleEdits;
-  Function reloadFullPage;
-  Map<String, double> totalValues;
-  var issueValues;
+/// Keep track of save, reset, and calculate button
+class ViewSaveDiscard extends StatefulWidget {
 
-  EvaluateSlider(
-      {Key? key,
-      required this.negotiation,
-      required this.index,
-      required this.editing,
-      required this.handleEdits,
-      required this.issueValues,
-      required this.totalValues,
-      required this.reloadFullPage})
-      : super(key: key);
+  Negotiation negotiationSnap;
+  bool editing;
+  List<double> issueVals;
+  List<double> lastIssueVals;
+  Function refresh;
+  Function save;
+
+  ViewSaveDiscard({Key? key, required this.refresh, required this.save, required this.negotiationSnap, required this.editing, required this.issueVals, required this.lastIssueVals}) : super(key: key);
 
   @override
-  State<EvaluateSlider> createState() => _EvaluateSliderState();
+  State<ViewSaveDiscard> createState() => _ViewSaveDiscardState();
 }
 
-class _EvaluateSliderState extends State<EvaluateSlider> {
-  late Issue issues = widget.negotiation.issues[widget.index];
-  late String issueName = issues.name;
-
+class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
   @override
   Widget build(BuildContext context) {
-    /// Builds the values for the slider that shows the entire negotiation values
-    widget.totalValues["userValue"] = 0.0;
-    widget.totalValues["cpValue"] = 0.0;
-    for (int i = 0; i < widget.negotiation.issues.length; i++) {
-      Issue thisIssue = widget.negotiation.issues[i];
 
-      widget.totalValues["userValue"] = widget.issueValues[i] * thisIssue.relativeValue * .0001 +
-          widget.totalValues["userValue"]!;
-      widget.totalValues["cpValue"] =
-          (100 - widget.issueValues[i]) * 0 * .0001 + widget.totalValues["cpValue"]!;
-    }
+    if(widget.editing){
+      return Container(
+        width: MediaQuery.of(context).size.width * .9,
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10, right: 5),
+                height: 40,
+                child: TextButton(
+                  onPressed: () {
+                    for(int i = 0; i < widget.issueVals.length; i++){
+                      widget.issueVals[i] = widget.lastIssueVals[i];
+                    }
+                    setState(() {
+                      widget.editing = false;
+                    });
 
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Column(children: [
-          Container(
-            width: MediaQuery.of(context).size.width * .85,
-            // Header Bar above issue slider
-            child: Row(
-              children: [
-                /// Issue Name Text
-                Expanded(
+                    widget.refresh();
+                  },
                   child: Text(
-                    issueName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 22,
-                      color: Color(0xff000000),
-                    ),
+                      "Discard Values"
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: navyBlue,
+                    foregroundColor: Colors.white,
+                    elevation: 5,
                   ),
                 ),
-
-                /// Edit, Discard, Save
-                ButtonAddonTrackProgress(
-                    editing: widget.editing, handleEdits: widget.handleEdits, index: widget.index),
-
-                /// Info Button
-                SliderInfo(
-                    issueName: issueName,
-                    sliderValue: widget.issueValues[widget.index],
-                    negotiationSnap: widget.negotiation),
-              ],
+              ),
             ),
+
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10, left: 5),
+                height: 40,
+                child: TextButton(
+                  onPressed: () {
+                    for(int i = 0; i < widget.negotiationSnap.issues.length; i++){
+                      widget.negotiationSnap.issues[i].currentValue = widget.issueVals[i];
+                      widget.lastIssueVals[i] = widget.issueVals[i];
+                    }
+
+                    setState(() {
+                      widget.editing = false;
+                    });
+
+                    widget.save();
+                  },
+                  child: Text(
+                      "Save Values"
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: navyBlue,
+                    foregroundColor: Colors.white,
+                    elevation: 5,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    else {
+      return Container(
+        width: MediaQuery.of(context).size.width*.9,
+        margin: EdgeInsets.only(bottom: 10, right: 5),
+        height: 40,
+        child: TextButton(
+          onPressed: () {
+            print("Show Calculate Screen");
+          },
+          child: Text(
+              "View Total Negotiation"
           ),
-          Slider(
-            min: 0.0,
-            max: 100.0,
-            inactiveColor: Colors.red,
-            value: widget.issueValues[widget.index],
-            divisions: 100,
-            label: '${widget.issueValues[widget.index].round()}',
-            onChanged: (value) {
-              if (widget.editing) {
-                setState(() {
-                  widget.issueValues[widget.index] = value;
-                });
-                widget.reloadFullPage();
-              }
-            },
+          style: TextButton.styleFrom(
+            backgroundColor: navyBlue,
+            foregroundColor: Colors.white,
+            elevation: 5,
           ),
-        ]));
+        ),
+      );
+    }
+
+
   }
 }
+
 
 /// Controls the edit, save, discard buttons for each issue
 class ButtonAddonTrackProgress extends StatelessWidget {
