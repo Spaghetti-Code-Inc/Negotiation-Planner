@@ -5,7 +5,6 @@ import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
 
 import 'TrackProgress.dart';
 import '../NegotiationDetails.dart';
-import '../Utils.dart';
 import 'view_delivered_issue.dart';
 import 'view_whole_negotiation.dart';
 
@@ -15,20 +14,19 @@ Map<int, String> alphabet = {0: "A", 1: "B", 2: "C", 3:"D", 4:"F"};
 
 
 class ViewNegotiation extends StatefulWidget {
-  DocumentSnapshot<Object?>? negotiation;
+  Negotiation negotiation;
+  String docId;
   // Keep track of the "Whole Negotiation" values
   List lastNegotiationVals = [4];
 
-  ViewNegotiation({Key? key, required this.negotiation}) : super(key: key);
+  ViewNegotiation({Key? key, required this.negotiation, required this.docId}) : super(key: key);
 
   @override
   State<ViewNegotiation> createState() => _ViewNegotiationState();
 }
 
 class _ViewNegotiationState extends State<ViewNegotiation> {
-  bool _wholeNegotiationEditing = false;
-  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
-  late String docId = widget.negotiation!.id;
+  late Negotiation negotiationSnap = widget.negotiation;
 
   // Keeps track of old value for issue
   late List<List<int>> issueVals = List.filled(
@@ -101,7 +99,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     child: const Text('Yes'),
                     onPressed: () {
                       String? id = FirebaseAuth.instance.currentUser?.uid;
-                      db.collection(id!).doc(widget.negotiation?.id).delete();
+                      db.collection(id!).doc(widget.negotiation.id).delete();
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
@@ -123,12 +121,11 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             color: Colors.white,
             onPressed: () {
               Navigator.pop(context);
-              String? name = widget.negotiation?.id;
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        TrackProgress(negotiation: widget.negotiation)),
+                        TrackProgress(negotiation: negotiationSnap, docId: widget.docId,)),
               );
             },
           ),
@@ -290,106 +287,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   }
 
 
-  /// Uploads the negotiationSnap to Firestore - Used in updateEdit
-  uploadNegotiationSnap(int index) {
-    // Set document from negotiation snap
-    int totalUser = 0;
-
-    // Checks if the weight totals are right
-    // Checks if resistance and target are in line for cp and user
-    for (Issue issue in negotiationSnap.issues) {
-      totalUser += issue.relativeValue;
-    }
-
-    if (totalUser == 100) {
-      String? id = FirebaseAuth.instance.currentUser?.uid;
-      FirebaseFirestore.instance
-          .collection(id!)
-          .doc(docId)
-          .set(negotiationSnap.toFirestore());
-    } else {
-      if (index == -1) {
-        setState(() {
-          _wholeNegotiationEditing = !_wholeNegotiationEditing;
-        });
-      } else {
-        setState(() {
-          // issueEdits[index] = true;
-        });
-      }
-
-      if (totalUser != 100) {
-        Utils.showSnackBar("Your weights for user must add to 100.");
-      }
-    }
-  }
-
-  /// Defines what 'edit' button presses should do according to name given
-  updateEdit(int index, bool save) {
-    if (index == -1) {
-      setState(() {
-        _wholeNegotiationEditing = !_wholeNegotiationEditing;
-      });
-
-      // If it is false, then user just pressed to end the editing resulting in discard or save
-      if (!_wholeNegotiationEditing) {
-        if (!save) {
-          negotiationSnap.resistance = widget.lastNegotiationVals[0];
-          negotiationSnap.target = widget.lastNegotiationVals[1];
-        }
-        // Uploads the save to firestore
-        else {
-          uploadNegotiationSnap(index);
-        }
-      } else {
-        widget.lastNegotiationVals = [
-          negotiationSnap.resistance,
-          negotiationSnap.target
-        ];
-      }
-
-      return;
-    }
-
-    /// Changes edit state of whichever issue sent this
-    setState(() {
-      // issueEdits[index] = !issueEdits[index];
-    });
-
-    /// Issue referred to in the following logic
-    Issue thisIssue = negotiationSnap.issues[index];
-
-    /// Means user just pressed discard or save. This set it to stop editing.
-
-    // TODO Not what this should actually be
-    if (true) {
-      /// Discarded edits
-      if (!save) {
-        thisIssue.issueVals["A"][0] = issueVals[index][4];
-        thisIssue.issueVals["B"][0] = issueVals[index][3];
-        thisIssue.issueVals["C"][0] = issueVals[index][2];
-        thisIssue.issueVals["D"][0] = issueVals[index][1];
-        thisIssue.issueVals["F"][0] = issueVals[index][0];
-      }
-
-      /// User pressed save
-      else {
-        print(thisIssue.issueVals);
-        uploadNegotiationSnap(index);
-      }
-    }
-
-    /// User just pressed to start editing. Save the cur
-    else {
-      issueVals[index] = [0, 0, 0, 0, 0];
-      issueVals[index][4] = thisIssue.issueVals["A"][0]!;
-      issueVals[index][3] = thisIssue.issueVals["B"][0]!;
-      issueVals[index][2] = thisIssue.issueVals["C"][0]!;
-      issueVals[index][1] = thisIssue.issueVals["D"][0]!;
-      issueVals[index][0] = thisIssue.issueVals["F"][0]!;
-    }
-  }
-
   /// Pass along info button call
   showInfo(int index) {
     if (index == -1) {
@@ -421,7 +318,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
     FirebaseFirestore.instance
         .collection(id!)
-        .doc(docId)
+        .doc(widget.docId)
         .set(negotiationSnap.toFirestore());
   }
 }

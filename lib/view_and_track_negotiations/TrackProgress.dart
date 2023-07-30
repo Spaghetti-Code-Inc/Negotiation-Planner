@@ -10,17 +10,17 @@ import 'ViewNegotiation.dart';
 import '../main.dart';
 
 class TrackProgress extends StatefulWidget {
-  DocumentSnapshot<Object?>? negotiation;
+  Negotiation negotiation;
+  String docId;
 
-  TrackProgress({Key? key, required this.negotiation}) : super(key: key);
+  TrackProgress({Key? key, required this.docId, required this.negotiation}) : super(key: key);
 
   @override
   State<TrackProgress> createState() => _TrackProgressState();
 }
 
 class _TrackProgressState extends State<TrackProgress> {
-  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
-  late String docId = widget.negotiation!.id;
+  late Negotiation negotiationSnap = widget.negotiation;
 
   // Keeps track of new value for issue, .5 because that is half way in the slider
   late List<double> issueVals = [];
@@ -66,7 +66,7 @@ class _TrackProgressState extends State<TrackProgress> {
     }
 
     return Scaffold(
-      appBar: TopBar(negotiation: negotiationSnap, docId: docId, snapshot: widget.negotiation),
+      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId),
       body: Column(
         children: [
           Expanded(
@@ -232,7 +232,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
     FirebaseFirestore.instance
         .collection(id!)
-        .doc(docId)
+        .doc(widget.docId)
         .set(negotiationSnap.toFirestore());
   }
 }
@@ -422,11 +422,10 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
 }
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
-  DocumentSnapshot<Object?>? snapshot;
   Negotiation negotiation;
   String docId;
 
-  TopBar({Key? key, required this.negotiation, required this.docId, required this.snapshot})
+  TopBar({Key? key, required this.negotiation, required this.docId})
       : super(key: key);
 
   @override
@@ -483,7 +482,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             Navigator.pop(context);
 
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: snapshot)));
+                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId,)));
           },
         ),
       ],

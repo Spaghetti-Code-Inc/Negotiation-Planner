@@ -114,6 +114,10 @@ class NegotiationContainer extends StatefulWidget {
 }
 
 class _NegotiationContainerState extends State<NegotiationContainer> {
+
+  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
+  late String docId = widget.negotiation!.id;
+
   @override
   Widget build(BuildContext context) {
     Color _bottomColor = Color(0xff0A0A5B);
@@ -259,7 +263,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: widget.negotiation))
+                        MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiationSnap, docId: docId,))
                       );
                     },
                     color: _bottomColor,
@@ -293,7 +297,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TrackProgress(negotiation: widget.negotiation)),
+                                TrackProgress(negotiation: negotiationSnap, docId: docId,)),
                       );
                     },
                     color: _bottomColor,
