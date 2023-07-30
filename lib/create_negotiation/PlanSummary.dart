@@ -1,7 +1,3 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -156,6 +152,7 @@ class PlanSummary extends StatelessWidget {
                     Container(
                       child: ViewNegotiationCurrent(
                         negotiation: currentNegotiation,
+                        refresh: (){},
                       ),
                     ),
 

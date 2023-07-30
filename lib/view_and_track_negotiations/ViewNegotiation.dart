@@ -17,7 +17,7 @@ class ViewNegotiation extends StatefulWidget {
   Negotiation negotiation;
   String docId;
   // Keep track of the "Whole Negotiation" values
-  List lastNegotiationVals = [4];
+  late List lastNegotiationVals = [0, negotiation.resistance, negotiation.target, 100];
 
   ViewNegotiation({Key? key, required this.negotiation, required this.docId}) : super(key: key);
 
@@ -59,12 +59,16 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
       for(int j = 0; j < 5; j++){
         String letter = alphabet[j]!;
         if(issueVals[i][j] != issue[letter][0]) editing = true;
-        print(issueVals[i][j].toString() + " : " + issue[letter][0].toString() + " : " + editing.toString());
       }
     }
 
-    print(issueVals);
-    print(negotiationSnap.issues.toString());
+    if(!editing){
+      print(widget.lastNegotiationVals);
+      print(widget.lastNegotiationVals[1].toString() + " : " + negotiationSnap.resistance.toString());
+
+      if(widget.lastNegotiationVals[1] != negotiationSnap.resistance) editing = true;
+      if(widget.lastNegotiationVals[2] != negotiationSnap.target) editing = true;
+    }
 
 
     var db = FirebaseFirestore.instance;
@@ -159,7 +163,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                         /// Text
                         Expanded(
                           child: Text(
-                            "Whole Negotiation",
+                            "Overall Negotiation",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontStyle: FontStyle.normal,
@@ -176,6 +180,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                   /// Sliders for the Whole Negotiation
                   ViewNegotiationCurrent(
                     negotiation: negotiationSnap,
+                    refresh: refresh,
                   ),
 
                   /// Contains "Bargaining Range for Individual Issues"
@@ -217,9 +222,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                               /// Issue Name Text
                               Expanded(
                                 child: Text(
-                                  issueHere.name +
-                                      ": Weight = " +
-                                      issueHere.relativeValue.toString(),
+                                  issueHere.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontStyle: FontStyle.normal,
@@ -260,7 +263,8 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             lastVals: issueVals,
             editing: editing,
             refresh: refresh,
-            save: save
+            save: save,
+            lastFullVals: widget.lastNegotiationVals,
           ),
 
 
@@ -329,9 +333,10 @@ class ViewSaveDiscardRubric extends StatefulWidget {
   Function refresh;
 
   List<List> lastVals;
+  List lastFullVals;
   Negotiation negotiationSnap;
 
-  ViewSaveDiscardRubric({Key? key, required this.editing, required this.save, required this.refresh,
+  ViewSaveDiscardRubric({Key? key, required this.editing, required this.lastFullVals, required this.save, required this.refresh,
     required this.lastVals, required this.negotiationSnap,
   }) : super(key: key);
 
@@ -362,6 +367,9 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
                       }
                     }
 
+                    widget.negotiationSnap.resistance = widget.lastFullVals[1];
+                    widget.negotiationSnap.target = widget.lastFullVals[2];
+
                     widget.refresh();
                   },
                   child: Text(
@@ -390,6 +398,9 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
                         widget.lastVals[i][j] = issue[letter][0];
                       }
                     }
+
+                    widget.lastFullVals[1] = widget.negotiationSnap.resistance;
+                    widget.lastFullVals[2] = widget.negotiationSnap.target;
 
                     widget.save();
                     widget.refresh();

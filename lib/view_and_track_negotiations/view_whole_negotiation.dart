@@ -7,8 +7,9 @@ import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 
 class ViewNegotiationCurrent extends StatefulWidget {
   final Negotiation negotiation;
+  Function refresh;
 
-  ViewNegotiationCurrent({Key? key, required this.negotiation}) : super(key: key);
+  ViewNegotiationCurrent({Key? key, required this.negotiation, required this.refresh}) : super(key: key);
 
   @override
   State<ViewNegotiationCurrent> createState() => _ViewNegotiationCurrentState();
@@ -27,15 +28,13 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
   @override
   Widget build(BuildContext context) {
 
-    // If this widget is not currently being edited then it should equal the same as the negotiation passed to it
-    // if(!widget.editing){
-    //   _issueState = [
-    //     0,
-    //     widget.negotiation.resistance * .01,
-    //     widget.negotiation.target * .01,
-    //     100,
-    //   ];
-    // }
+    _issueState = [
+      0,
+      widget.negotiation.resistance * .01,
+      widget.negotiation.target * .01,
+      100,
+    ];
+
 
     return Column(
         children: [
@@ -52,6 +51,8 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                       // This sets the negotiationSnap in ViewNegotiation to the new value
                       widget.negotiation.resistance = (_issueState[1]*100).round();
                       widget.negotiation.target = (_issueState[2]*100).round();
+
+                      widget.refresh();
                     },
                     overdragBehaviour: ThumbOverdragBehaviour.stop,
                     // Optional: Lock behaviour of the first an last thumb.

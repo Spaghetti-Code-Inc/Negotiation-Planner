@@ -282,6 +282,7 @@ class UserSlider extends StatelessWidget {
         Container(
           //(value*100).toInt().toString() => value of the slider
           child: Text((value).toInt().toString()),
+          color: Colors.white,
         )
       ]),
     );
