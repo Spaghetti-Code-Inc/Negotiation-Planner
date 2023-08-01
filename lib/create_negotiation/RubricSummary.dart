@@ -164,7 +164,6 @@ class RubricSummary extends StatelessWidget {
                     flex: 1,
                     child: MaterialButton(
                         onPressed: () {
-                          Navigator.pop(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => PlanSummary()),

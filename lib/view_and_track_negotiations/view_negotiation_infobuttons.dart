@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import 'NegotiationDetails.dart';
+import '../NegotiationDetails.dart';
 
 /// These two functions display the info buttons on the rubric page in my negotiations
 Future<void> showInfoRubric(context, String name, Map<String, int> values) {

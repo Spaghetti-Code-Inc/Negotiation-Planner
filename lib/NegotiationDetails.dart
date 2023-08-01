@@ -118,10 +118,6 @@ class Issue{
   // An entry in this should be - Letter Grade: (Points, Real Value)
   Map<String, dynamic> issueVals = {};
 
-  // int cpRelativeValue = -1;
-  // int cpResistance = -1;
-  // int cpTarget = -1;
-
   Issue({required this.name});
 
   String toString(){

@@ -2,19 +2,16 @@ Random quality of life changes:
 33. Info Buttons for all <MultiThumbSliders>
 36. Tradeoffs saved to negotiation [Plan Summary] - entered in by a list of bullets
 39. Allow commas when entering real values in [Issue Values]
-40. Going back from [Plan Summary] sends you back 2 pages
 41. Save total value of negotiation to firestore
-42. If only one issue, do not have an "Overall Negotiation Rating" on [Track Progress]
-43. Make real values store as double - remove double.parse on [track progress sliders]
-44. "You have unsaved values" popup when exiting a page
-46..
+45. Make it possible to click out of keyboard screens
+46. Show which letter is currently active on [Issue Values]
+49..
 
 Lucas:
 TODO Change from Android App to Flutter App on Firebase
 
-Track Progress Page Updates:
-2. <View Total Negotiation> Shows current total points of negotiation
-        - This is where trade offs should be shown
+TODO 41
+TODO 45, Backlog 1
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -36,6 +33,10 @@ Cleaning Code:
 
 Backlog:
 1. Work on focussing the user input when enter is pressed
+2. <View Total Negotiation> Shows current total points of negotiation
+        - This is where trade offs should be shown
+        - Give summary of each issue and what the value is
+3. If only one issue, do not have an "Overall Negotiation Rating" on [Track Progress]
 
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?

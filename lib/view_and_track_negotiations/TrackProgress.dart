@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/multi_thumb_slider/multi_thumb_slider.dart';
 import 'package:negotiation_tracker/view_and_track_negotiations/track_progress_sliders.dart';
-import 'package:negotiation_tracker/view_negotiation_infobuttons.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
 import '../NegotiationDetails.dart';
 import 'ViewNegotiation.dart';
@@ -66,7 +66,7 @@ class _TrackProgressState extends State<TrackProgress> {
     }
 
     return Scaffold(
-      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId),
+      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing,),
       body: Column(
         children: [
           Expanded(
@@ -180,7 +180,7 @@ class _TrackProgressState extends State<TrackProgress> {
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: MultiThumbSlider(
                     valuesChanged: (List<double> values) {},
-                    initalSliderValues: [0, double.parse(totalValues["userValue"].toString()), 1],
+                    initalSliderValues: [0, totalValues["userValue"]!, 1],
                     thumbBuilder: (BuildContext context, int index, double value) {
                       return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01);
                     },
@@ -207,7 +207,11 @@ class _TrackProgressState extends State<TrackProgress> {
             margin: EdgeInsets.only(bottom: 20),
             child: TextButton(
               onPressed: () {
-                Navigator.pop((context));
+                if(editing){
+                  checkExit(context);
+                } else {
+                  Navigator.pop((context));
+                }
               },
               child: Text("Exit Negotiation"),
               style: TextButton.styleFrom(
@@ -424,8 +428,9 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Negotiation negotiation;
   String docId;
+  bool editing;
 
-  TopBar({Key? key, required this.negotiation, required this.docId})
+  TopBar({Key? key, required this.negotiation, required this.docId, required this.editing})
       : super(key: key);
 
   @override
@@ -479,10 +484,14 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.format_list_bulleted_sharp, size: 24),
           color: Colors.white,
           onPressed: () {
-            Navigator.pop(context);
 
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId,)));
+            if(editing){
+              checkSwitch(context, negotiation, docId);
+            } else {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId,)));
+            }
           },
         ),
       ],
@@ -491,4 +500,58 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(60.0);
+}
+
+checkSwitch(context, negotiation, docId){
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text("You have unsaved values, are you sure you want to exit?"),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("No")
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.pop(context);
+
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId,)));
+
+          },
+          child: Text("Yes"),
+        ),
+      ],
+    ),
+
+  );
+}
+
+checkExit(context){
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text("You have unsaved values, are you sure you want to exit?"),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("No")
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.pop(context);
+          },
+          child: Text("Yes"),
+        ),
+      ],
+    ),
+
+  );
 }

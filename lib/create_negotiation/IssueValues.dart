@@ -40,7 +40,7 @@ class _IssueValuesState extends State<IssueValues> {
         // Letter represents the settlement
         // [0] is for points, [1] is for real value
         _controllers[i].add(new TextEditingController(text: here[letter][0].toString()));
-        _realValues[i].add(new TextEditingController(text: here[letter][1]));
+        _realValues[i].add(new TextEditingController(text: here[letter][1].toString()));
       }
 
       for(int j = 0; j < _controllers[i].length; j++){
@@ -120,6 +120,7 @@ class _IssueValuesState extends State<IssueValues> {
                         ),
                       ),
                     ])),
+
                 Padding(
                     padding: EdgeInsets.only(top: 8),
                     child: IconButton(
@@ -158,6 +159,10 @@ class _IssueValuesState extends State<IssueValues> {
               ],
             ),
           ),
+
+          Divider(thickness: 2, color: Colors.black, height: 2,),
+
+
           /// List of issues
           Expanded(
             child: ListView.builder(
@@ -199,7 +204,6 @@ class _IssueValuesState extends State<IssueValues> {
           double realHigh = double.parse(_realValues[i][j].text);
           double realLow;
 
-
           int greater = int.parse(_controllers[i][j].text);
           int less;
 
@@ -208,7 +212,7 @@ class _IssueValuesState extends State<IssueValues> {
             less = greater;
             realLow = realHigh;
           } else {
-            less = int.parse(_controllers[i][j + 1].text);
+            less = int.parse(_controllers[i][j+1].text);
             realLow = double.parse(_realValues[i][j+1].text);
           }
           if (greater < less) {
@@ -363,8 +367,11 @@ class EnterValues extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return Column( children: [
-              InputRow(name: inputRowNames[index], datatype: datatype, buttonText: inputRowSummary[index], points: ctrl[index], realWorldValue: realCtrl[index]),
-              Divider(thickness: 1, color: Colors.black),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: InputRow(name: inputRowNames[index], datatype: datatype, buttonText: inputRowSummary[index], points: ctrl[index], realWorldValue: realCtrl[index])
+              ),
+              Divider(thickness: 1, color: Colors.black, height: 0,),
             ]);
           },
 
