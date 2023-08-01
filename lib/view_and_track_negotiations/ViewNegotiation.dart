@@ -29,20 +29,21 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   late Negotiation negotiationSnap = widget.negotiation;
 
   // Keeps track of old value for issue
-  late List<List<int>> issueVals = List.filled(
-      negotiationSnap.issues.length, List.filled(5, 0),
-      growable: false);
+  late List<List<int>> issueVals = [];
 
   bool editing = false;
 
   @override
   void initState() {
     for (int i = 0; i < negotiationSnap.issues.length; i++){
+
+      issueVals.add([]);
+
       Map<String, dynamic> issue = negotiationSnap.issues[i].issueVals;
 
       for(int j = 0; j < 5; j++){
         String letter = alphabet[j]!;
-        issueVals[i][j] = issue[letter][0];
+        issueVals[i].add(issue[letter][0]);
       }
     }
   }
@@ -58,13 +59,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
       for(int j = 0; j < 5; j++){
         String letter = alphabet[j]!;
-        if(issueVals[i][j] != issue[letter][0]) editing = true;
+        if(issueVals[i][j].toString() != issue[letter][0].toString()) {
+          editing = true;
+        }
       }
     }
-
     if(!editing){
-      print(widget.lastNegotiationVals);
-      print(widget.lastNegotiationVals[1].toString() + " : " + negotiationSnap.resistance.toString());
 
       if(widget.lastNegotiationVals[1] != negotiationSnap.resistance) editing = true;
       if(widget.lastNegotiationVals[2] != negotiationSnap.target) editing = true;
