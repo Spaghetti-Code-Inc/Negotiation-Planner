@@ -6,7 +6,6 @@ Random quality of life changes:
 48..
 
 Lucas:
-TODO Add web firebase configuration to app
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
