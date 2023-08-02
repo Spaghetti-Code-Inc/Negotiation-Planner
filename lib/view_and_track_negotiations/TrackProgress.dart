@@ -49,6 +49,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
   @override
   Widget build(BuildContext context) {
+
     /// Builds the values for the slider that shows the entire negotiation values
     /// And builds the values for the current issueVals
     totalValues["userValue"] = 0.0;
@@ -232,12 +233,16 @@ class _TrackProgressState extends State<TrackProgress> {
   }
 
   save() {
+    negotiationSnap.currentAgreement = (totalValues["userValue"]!*100).truncate();
+    print(negotiationSnap.currentAgreement);
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
     FirebaseFirestore.instance
         .collection(id!)
         .doc(widget.docId)
         .set(negotiationSnap.toFirestore());
+
+    refresh();
   }
 }
 

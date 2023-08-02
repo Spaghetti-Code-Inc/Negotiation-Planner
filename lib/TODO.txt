@@ -2,16 +2,11 @@ Random quality of life changes:
 33. Info Buttons for all <MultiThumbSliders>
 36. Tradeoffs saved to negotiation [Plan Summary] - entered in by a list of bullets
 39. Allow commas when entering real values in [Issue Values]
-41. Save total value of negotiation to firestore
-45. Make it possible to click out of keyboard screens
-46. Show which letter is currently active on [Issue Values]
-49..
+45. Show which letter is currently active on [Issue Values]
+48..
 
 Lucas:
-TODO Change from Android App to Flutter App on Firebase
-
-TODO 41
-TODO 45, Backlog 1
+TODO Add web firebase configuration to app
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -28,11 +23,11 @@ Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes/listview.builder
 7. Convert Rubric Summary, Display Important Issues to a list builder. The index should be the vals[i] shown
 8. Do an overall code coverage test
-9. How to refresh super class from lower class
+9. How to refresh super class from lower class without passing a refresh function
 10..
 
 Backlog:
-1. Work on focussing the user input when enter is pressed
+1 + 4. Work on focussing the user input when enter is pressed + Make it possible to click out of keyboard screens
 2. <View Total Negotiation> Shows current total points of negotiation
         - This is where trade offs should be shown
         - Give summary of each issue and what the value is

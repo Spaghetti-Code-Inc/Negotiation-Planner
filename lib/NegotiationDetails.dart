@@ -10,6 +10,8 @@ class Negotiation {
   int? BATNA;
   int? currentOffer;
 
+  int? currentAgreement = 0;
+
   // int cpTarget;
   // int cpBATNA;
   // int cpResistance;
@@ -22,7 +24,8 @@ class Negotiation {
       required this.target,
       required this.resistance,
       required this.BATNA,
-      // required this.currentOffer,
+
+      this.currentAgreement,
       // required this.cpTarget,
       // required this.cpResistance,
       // required this.cpBATNA,
@@ -36,7 +39,9 @@ class Negotiation {
       // required this.cpResistance,
       // required this.cpBATNA,
       required this.target,
-      required this.resistance});
+      required this.resistance,
+      this.currentAgreement
+    });
 
   String toString() {
     return "Title: $title, Summary: $summary, Issues: ${issues.toString()}";
@@ -62,7 +67,8 @@ class Negotiation {
       target: snapshot.get("target"),
       resistance: snapshot.get("resistance"),
       BATNA: snapshot.get("BATNA"),
-      // currentOffer: snapshot.get("currentOffer"),
+      currentAgreement: snapshot.get("currentAgreement"),
+
       // cpTarget: snapshot.get("cpTarget"),
       // cpBATNA: snapshot.get("cpBATNA"),
       // cpResistance: snapshot.get("cpResistance"),
@@ -88,6 +94,7 @@ class Negotiation {
       if (resistance != null) "resistance": resistance,
       if (BATNA != null) "BATNA": BATNA,
       if (currentOffer != null) "currentOffer": currentOffer,
+      "currentAgreement": currentAgreement,
       // if (cpTarget != null) "cpTarget": cpTarget,
       // if (cpBATNA != null) "cpBATNA": cpBATNA,
       // if (cpResistance != null) "cpResistance": cpResistance,
