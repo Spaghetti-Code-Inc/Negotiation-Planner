@@ -59,7 +59,7 @@ class _WeightIssuesState extends State<WeightIssues> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
       body: Column(
@@ -71,12 +71,6 @@ class _WeightIssuesState extends State<WeightIssues> {
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color(0xffffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x7f000000), width: 1),
-            ),
             child: Row(children: [
               Expanded(
                   child: Column(
@@ -151,6 +145,9 @@ class _WeightIssuesState extends State<WeightIssues> {
                   )),
             ]),
           ),
+
+          Divider(thickness: 2, color: Colors.black,),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -251,6 +248,8 @@ class _WeightIssuesState extends State<WeightIssues> {
             ],
           ),
 
+          Divider(thickness: 2, color: Colors.black),
+
           Expanded(
             child: ListView.builder(
               itemCount: length,
@@ -342,17 +341,21 @@ class _WeightIssuesState extends State<WeightIssues> {
     int length = currentNegotiation.issues.length;
 
     // How much each issue should be weighed
-    int step = (100/length).round();
+    int step = (100/length).truncate();
+    // Home much extra points would be left over
+    int extra = 100%(length*step);
 
     // Sets current negotiation and text values to the correct number
     for(int i = 0; i < length; i++){
-      _controllers[i].text = (step).toString();
+      if(extra > 0){
+        _controllers[i].text = (step+1).toString();
+        extra--;
+      } else {
+        _controllers[i].text = (step).toString();
+      }
+
       currentNegotiation.issues[i].relativeValue = step;
     }
-
-    // Last issue is equal to the step, plus any points left over so it adds to 100
-   _controllers[length-1].text = (100%step+step).toString();
-    currentNegotiation.issues[length-1].relativeValue = 100%step + step;
 
     setState((){
       totalVal = 100;

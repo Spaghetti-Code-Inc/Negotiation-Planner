@@ -68,7 +68,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: const Color(0xffffffff),
         appBar: const PrepareBar(),
         body: Column(children: [
@@ -225,6 +225,14 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                   onPressed: _addIssues,
                   child: const Text('Add Issue'),
                 ),
+              ),
+
+              const Divider(
+                height: 0,
+                thickness: 1,
+                indent: 0,
+                endIndent: 0,
+                color: Color(0xff0A0A5B),
               ),
 
               /// Next and back buttons

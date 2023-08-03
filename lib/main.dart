@@ -1,9 +1,5 @@
-// Copyright 2018 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
 import 'MainPage.dart';
@@ -15,7 +11,7 @@ Color navyBlue = Color(0xff0A0A5B);
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
       MaterialApp(
@@ -91,22 +87,6 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
           color: Color(0xFFFFFFFF),
         ),
       ),
-      actions: <Widget>[
-        ElevatedButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Color(0xff0A0A5B)),
-            child: Column(
-              children: [
-                Padding(padding: EdgeInsets.only(top: 10)
-                ),
-                Icon(Icons.logout, color: Colors.white),
-                Text("LOGOUT", style: TextStyle(color: Colors.white, fontSize: 8))
-              ],
-            )
-        )
-      ],
     );
   }
 

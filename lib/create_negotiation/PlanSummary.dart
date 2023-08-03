@@ -1,7 +1,3 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +113,8 @@ class PlanSummary extends StatelessWidget {
                               decoration: InputDecoration(
                                 disabledBorder: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(color: Color(0xff000000), width: 1),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xff000000), width: 1),
                                 ),
                                 hintText: "Enter Pros/Cons",
                                 hintStyle: const TextStyle(
@@ -129,14 +126,36 @@ class PlanSummary extends StatelessWidget {
                                 filled: false,
                                 fillColor: const Color(0xfff2f2f3),
                                 isDense: false,
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 12),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Text(
+                        "2. Bargaining Range for Entire Negotiation",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 20,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: ViewNegotiationCurrent(
+                        negotiation: currentNegotiation,
+                        refresh: (){},
+                      ),
+                    ),
+
                     Container(
                       margin: const EdgeInsets.all(0),
                       padding: const EdgeInsets.all(10),
@@ -155,7 +174,7 @@ class PlanSummary extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "2. Bargaining Range for Each Issue",
+                                "3. Bargaining Range for Each Issue",
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(
@@ -170,39 +189,47 @@ class PlanSummary extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      height: currentNegotiation.issues.length * 90,
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: currentNegotiation.issues.length,
-                        prototypeItem: ViewCurrentIssues(
-                          issue: currentNegotiation.issues[0],
-                          editing: false,
-                        ),
-                        itemBuilder: (context, index) {
-                          return ViewCurrentIssues(
-                            issue: currentNegotiation.issues[index],
-                            editing: false,
-                          );
-                        },
-                      ),
-                    ),
-                    Text(
-                      "3. Bargaining Range for Entire Negotiation",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 20,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                    Container(
-                      child: ViewNegotiationCurrent(
-                        negotiation: currentNegotiation,
-                        editing: false,
-                      ),
+
+
+                    /// Contains The Issue Sliders
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: currentNegotiation.issues.length,
+                      itemBuilder: (context, index) {
+                        /// The current Issue that this builder mentions
+                        Issue issueHere = currentNegotiation.issues[index];
+
+                        /// Builds out Issue header (name, info) and then the slider
+                        return Column(children: [
+                          /// Header for issue slider
+                          Container(
+                            width: MediaQuery.of(context).size.width * .85,
+                            child: Row(
+                              children: [
+                                /// Issue Name Text
+                                Expanded(
+                                  child: Text(
+                                    issueHere.name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 22,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /// Issue Sliders
+                          ViewCurrentIssues(
+                            issue: issueHere,
+                            refresh: (){},
+                          ),
+                        ]);
+                      },
                     ),
                   ],
                 ),
@@ -249,24 +276,31 @@ class PlanSummary extends StatelessWidget {
                   flex: 1,
                   child: MaterialButton(
                       onPressed: () async {
+
+                        for (Issue each in currentNegotiation.issues){
+                          each.currentValue = each.relativeValue/2;
+                        }
+
+
                         // Sets the user id to the negotiation instance
-                        currentNegotiation.id = FirebaseAuth.instance.currentUser?.uid;
+                        currentNegotiation.id =
+                            FirebaseAuth.instance.currentUser?.uid;
 
                         // Adds the current negotiation to the correct user
-                        db.collection(FirebaseAuth.instance.currentUser!.uid)
+                        db
+                            .collection(FirebaseAuth.instance.currentUser!.uid)
                             .add(currentNegotiation.toFirestore());
 
                         // Resets the current negotiation
                         currentNegotiation = Negotiation.fromNegotiation(
-                            title: '',
-                            issues: [],
-                            target: -1,
-                            resistance: -1);
+                            title: '', issues: [], target: -1, resistance: -1);
 
-                        navigatorKey.currentState!.popUntil((route) => route.isFirst);
+                        navigatorKey.currentState!
+                            .popUntil((route) => route.isFirst);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyNegotiations()),
+                          MaterialPageRoute(
+                              builder: (context) => const MyNegotiations()),
                         );
                       },
                       color: const Color(0xffffffff),

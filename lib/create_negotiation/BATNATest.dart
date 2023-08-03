@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'MAX_LENGTHS.dart';
@@ -12,26 +11,12 @@ class BATNATest extends StatefulWidget {
 }
 
 class BATNATestState extends State<BATNATest> {
-
-  @override
-
-  //drop down menu variables
-
-  bool dropDownOne = true;
-  IconData dropDownOneIcon = Icons.arrow_drop_down;
-  //
-  // bool dropDownTwo = true;
-  // IconData dropDownTwoIcon = Icons.arrow_drop_down;
-
   TextEditingController BATNA;
 
-  BATNATestState()
-      : BATNA = new TextEditingController(text: currentNegotiation.BATNA.toString());
-
+  BATNATestState() : BATNA = new TextEditingController(text: currentNegotiation.BATNA.toString());
 
   Widget build(BuildContext context) {
-
-    if(currentNegotiation.BATNA == null) BATNA.text = "0";
+    if (currentNegotiation.BATNA == null) BATNA.text = "0";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -54,66 +39,32 @@ class BATNATestState extends State<BATNATest> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                  child: const Text(
-                                    "Test Drive #1: Your BATNA",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.clip,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 18,
-                                      color: Color(0xff000000),
-                                    ),
-                                  ),
-                                ),
+                        Container(
+
+                          padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
+                          child: Text(
+                            "Test Drive: Your BATNA",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 22,
+                              color: Color(0xff000000),
                             ),
-
-                            IconButton(
-                                onPressed: () {
-
-                                  setState(() {
-
-                                    dropDownOne = !dropDownOne;
-
-                                    if (dropDownOne) {
-                                      dropDownOneIcon = Icons.arrow_drop_down;
-                                    }
-                                    else {
-                                      dropDownOneIcon = Icons.arrow_drop_up;
-                                    }
-
-                                  });
-
-                                },
-                                icon: Icon(dropDownOneIcon),
-                                color: Color(0xff0A0A5B)
-                            )
-                          ]
+                          ),
                         ),
-
-
-                        AnimatedContainer(
+                        Container(
                           padding: EdgeInsets.all(10),
                           margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xff0A0A5B))
-                          ),
-                          duration: const Duration(milliseconds: 700),
-                          height: dropDownOne ? 0 : 360.0,
-                          curve: Curves.fastOutSlowIn,
+                          decoration: BoxDecoration(border: Border.all(color: Color(0xff0A0A5B))),
                           child: Text(
                             "Think about your Best Alternative to a Negotiated Agreement (BATNA). \n"
-                                "If your BATNA is another offer. Use this rubric to value that offer. \n"
-                                "Your BATNA could also reflect a completely different opportunity. \n"
-                                "Pick a number (based on your scoring system if possible) that reflects the value of your BATNA to you.",
+                            "If your BATNA is another offer. Use this rubric to value that offer. \n"
+                            "Your BATNA could also reflect a completely different opportunity. \n"
+                            "Pick a number (based on your scoring system if possible) that reflects the value of your BATNA to you.",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
-
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
@@ -123,7 +74,6 @@ class BATNATestState extends State<BATNATest> {
                             ),
                           ),
                         ),
-
                         const Padding(
                           padding: EdgeInsets.fromLTRB(2, 10, 2, 0),
                           child: Text(
@@ -159,18 +109,15 @@ class BATNATestState extends State<BATNATest> {
                             decoration: InputDecoration(
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
+                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
+                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4.0),
-                                borderSide: const BorderSide(
-                                    color: Color(0xff000000), width: 1),
+                                borderSide: const BorderSide(color: Color(0xff000000), width: 1),
                               ),
                               hintText: "Points",
                               hintStyle: const TextStyle(
@@ -182,8 +129,8 @@ class BATNATestState extends State<BATNATest> {
                               filled: true,
                               fillColor: const Color(0xfff2f2f3),
                               isDense: false,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                             ),
                           ),
                         ),
@@ -191,137 +138,6 @@ class BATNATestState extends State<BATNATest> {
                           thickness: 2,
                           color: Color(0xFF1E2027),
                         ),
-
-                        // Row(
-                        //     children: [
-                        //       Expanded(
-                        //           child: Container(
-                        //             padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                        //             child: const Text(
-                        //               "Test Drive #2: Your Current Offer",
-                        //               textAlign: TextAlign.start,
-                        //               overflow: TextOverflow.clip,
-                        //               style: TextStyle(
-                        //                 fontWeight: FontWeight.w700,
-                        //                 fontStyle: FontStyle.normal,
-                        //                 fontSize: 18,
-                        //                 color: Color(0xff000000),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //       ),
-                        //
-                        //       IconButton(
-                        //           onPressed: () {
-                        //
-                        //             setState(() {
-                        //
-                        //               dropDownTwo = !dropDownTwo;
-                        //
-                        //               if (dropDownTwo) {
-                        //                 dropDownTwoIcon = Icons.arrow_drop_down;
-                        //               }
-                        //               else {
-                        //                 dropDownTwoIcon = Icons.arrow_drop_up;
-                        //               }
-                        //
-                        //             });
-                        //
-                        //           },
-                        //           icon: Icon(dropDownTwoIcon),
-                        //           color: Color(0xff0A0A5B)
-                        //       )
-                        //     ]
-                        // ),
-                        //
-                        // AnimatedContainer(
-                        //   padding: EdgeInsets.all(10),
-                        //   margin: EdgeInsets.all(10),
-                        //   decoration: BoxDecoration(
-                        //       border: Border.all(color: Color(0xff0A0A5B))
-                        //   ),
-                        //   duration: const Duration(milliseconds: 700),
-                        //   height: dropDownTwo ? 0 : 135.0,
-                        //   curve: Curves.fastOutSlowIn,
-                        //   child: Text(
-                        //     "Now use the scoring rubric to score the value of your current offer before negotiating! (Example: List price.)",
-                        //     textAlign: TextAlign.start,
-                        //     overflow: TextOverflow.clip,
-                        //
-                        //     style: TextStyle(
-                        //       fontWeight: FontWeight.w400,
-                        //       fontStyle: FontStyle.normal,
-                        //       fontSize: 16,
-                        //       height: 1.2,
-                        //       color: Color(0xff000000),
-                        //     ),
-                        //   ),
-                        // ),
-                        //
-                        // const Padding(
-                        //   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        //   child: Text(
-                        //     "Out of 100 points, what is the value of your current offer?",
-                        //     textAlign: TextAlign.start,
-                        //     overflow: TextOverflow.clip,
-                        //     style: TextStyle(
-                        //       fontWeight: FontWeight.w500,
-                        //       fontStyle: FontStyle.normal,
-                        //       fontSize: 17,
-                        //       color: Color(0xff000000),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
-                        //   child: TextFormField(
-                        //     inputFormatters: INTEGER_INPUTS,
-                        //     keyboardType: TextInputType.number,
-                        //     onChanged: (newVal) {
-                        //       currentNegotiation.currentOffer =
-                        //           int.parse(newVal);
-                        //     },
-                        //     controller: CurrentOffer,
-                        //     obscureText: false,
-                        //     textAlign: TextAlign.start,
-                        //     maxLines: 1,
-                        //     style: const TextStyle(
-                        //       fontWeight: FontWeight.w400,
-                        //       fontStyle: FontStyle.normal,
-                        //       fontSize: 14,
-                        //       color: Color(0xff000000),
-                        //     ),
-                        //     decoration: InputDecoration(
-                        //       disabledBorder: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.circular(4.0),
-                        //         borderSide: const BorderSide(
-                        //             color: Color(0xff000000), width: 1),
-                        //       ),
-                        //       focusedBorder: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.circular(4.0),
-                        //         borderSide: const BorderSide(
-                        //             color: Color(0xff000000), width: 1),
-                        //       ),
-                        //       enabledBorder: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.circular(4.0),
-                        //         borderSide: const BorderSide(
-                        //             color: Color(0xff000000), width: 1),
-                        //       ),
-                        //       hintText: "Points",
-                        //       hintStyle: const TextStyle(
-                        //         fontWeight: FontWeight.w400,
-                        //         fontStyle: FontStyle.normal,
-                        //         fontSize: 14,
-                        //         color: Color(0xff000000),
-                        //       ),
-                        //       filled: true,
-                        //       fillColor: const Color(0xfff2f2f3),
-                        //       isDense: false,
-                        //       contentPadding: const EdgeInsets.symmetric(
-                        //           vertical: 8, horizontal: 12),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -329,32 +145,29 @@ class BATNATestState extends State<BATNATest> {
               ],
             ),
           )),
-          
+
           /// Next and Back Bar
-          PrepareNegotiationNextBar(Next: Next, NextPage: RubricSummary())
+          PrepareNegotiationNextBar(
+            Next: Next,
+            NextPage: RubricSummary(),
+          )
         ],
       ),
     );
   }
-  
-  
-  bool Next(){
-    if(BATNA.text == ""){
+
+  bool Next() {
+    if (BATNA.text == "") {
       Utils.showSnackBar("You need to fill out BATNA and Current Offer values.");
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
 
-  innitBATNAandCurrentOffer(){
-    if(currentNegotiation.BATNA != null){
+  innitBATNAandCurrentOffer() {
+    if (currentNegotiation.BATNA != null) {
       BATNA.text = currentNegotiation.BATNA.toString();
     }
   }
-
 }
-
-
-
