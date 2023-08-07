@@ -136,6 +136,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
     // Variable that holds the displayed names of top 3 issues
     List<String> names = Utils.findHighestValuedIssues(issues);
 
+
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
       decoration: BoxDecoration(

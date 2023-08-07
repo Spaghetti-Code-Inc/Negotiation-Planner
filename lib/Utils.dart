@@ -23,16 +23,15 @@ class Utils {
       vals.putIfAbsent(issue.name, () => issue.relativeValue)
     });
 
-    // Easiest way to make sure there are at least three issues
-    vals.putIfAbsent("", () => 0);
-    vals.putIfAbsent("", () => 0);
-
     // Sorts the maps of value in descending order
     var sorted = Map.fromEntries(
       vals.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value))
     );
 
-    return sorted.keys.toList().sublist(0, 3);
+    List<String> names = sorted.keys.toList();
+    names.add("");
+    names.add("");
+    return names.sublist(0, 3);
   }
 }
 

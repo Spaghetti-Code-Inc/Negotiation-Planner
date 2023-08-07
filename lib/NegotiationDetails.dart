@@ -44,7 +44,7 @@ class Negotiation {
     });
 
   String toString() {
-    return "Title: $title, Summary: $summary, Issues: ${issues.toString()}";
+    return "Title: $title, Summary: $summary, BATNA: $BATNA, Issues: ${issues.toString()}";
   }
 
   factory Negotiation.fromFirestore(

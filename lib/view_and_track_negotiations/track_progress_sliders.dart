@@ -59,7 +59,9 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
       double realMin = double.parse(widget.issue.issueVals[letters[closestLetter]][1]);
       double realMax = double.parse(widget.issue.issueVals[letters[closestLetter-1]][1]);
 
-      realValue = ((realMin + distance*(realMax-realMin))*100).truncateToDouble()/100;
+
+
+      realValue = ((realMin + distance*(realMax-realMin))*1000).truncateToDouble()/1000;
     }
 
     return Column(
@@ -132,8 +134,10 @@ class IssueThumbs extends StatelessWidget {
   final double value;
   final double multiplier;
   final String letter;
+  final int target;
+  final int resistance;
 
-  IssueThumbs({Key? key, required this.index, required this.letter, required this.value, required this.multiplier}) : super(key: key);
+  IssueThumbs({Key? key, required this.index, required this.letter, required this.value, required this.multiplier, this.target=101, this.resistance=-1}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +146,7 @@ class IssueThumbs extends StatelessWidget {
       case 0:
         return FrontBack(front: true, value: realVal, name: "F");
       case 1:
-        return CurrentVal(value: realVal, name: letter);
+        return CurrentVal(value: realVal, name: letter, target: target, resistance: resistance);
       case 2:
         return FrontBack(front: false, value: realVal, name: "A");
       default:
@@ -155,8 +159,10 @@ class IssueThumbs extends StatelessWidget {
 class CurrentVal extends StatelessWidget {
   final double value;
   final String name;
+  final int target;
+  final int resistance;
 
-  const CurrentVal({required this.value, required this.name});
+  const CurrentVal({required this.value, required this.name, required this.target, required this.resistance});
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +179,8 @@ class CurrentVal extends StatelessWidget {
           width: 7.0,
           height: 30.0,
           decoration: BoxDecoration(
-            color: Colors.blue,
+            // Red if "F" or Below resistance, Green if above target, else blue
+            color: (name == "F" || value <= resistance) ? Colors.red : (value >= target) ? Colors.green : Colors.blue,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(.2),

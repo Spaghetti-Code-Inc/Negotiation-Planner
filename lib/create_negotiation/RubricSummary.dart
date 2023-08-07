@@ -12,8 +12,7 @@ class RubricSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var vals = Utils.findHighestValuedIssues(currentNegotiation.issues);
-
-
+    print(currentNegotiation);
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),

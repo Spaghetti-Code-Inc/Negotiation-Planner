@@ -1,5 +1,7 @@
 ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'BATNATest.dart';
 
@@ -430,6 +432,8 @@ class _TargetResistanceState extends State<TargetResistance> {
     }
     else if(int.parse(totalResistance.text) < 0){
       Utils.showSnackBar("Your resistance can not be below 0.");
+    } else if(currentNegotiation.resistance == -1){
+      currentNegotiation.resistance = 0;
     }
     else{
       return true;

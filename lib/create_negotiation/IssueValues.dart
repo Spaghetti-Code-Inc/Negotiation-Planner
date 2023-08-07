@@ -309,10 +309,10 @@ class EnterValues extends StatelessWidget {
       "F Settlement"
     ];
     List<String> inputRowSummary = [
-      "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)",
+      "This represents the settlement you will strive to obtain. (Also known as your target on the issue)",
       "This represents an acceptable settlement to you.",
       "This represents an okay settlement for you.",
-      "This represents a negative settlement for you.",
+      "This represents the resistance point. This is the least amount of points you're willing to accept.",
       "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
     ];
 
@@ -384,7 +384,7 @@ class EnterValues extends StatelessWidget {
 
                                         /// Pts
                                         Container(
-                                          child: TextField(
+                                          child: TextFormField(
                                             controller: datatype,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
@@ -532,7 +532,7 @@ class InputRow extends StatefulWidget {
 
 class _InputRowState extends State<InputRow> {
   late String name = widget.name;
-  late String buttonText = buttonText;
+  late String buttonText = widget.buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -549,13 +549,29 @@ class _InputRowState extends State<InputRow> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                        title: Text(
-                          this.name,
+                    title: Text(
+                      this.name,
+                    ),
+                    content: Text(
+                      this.buttonText,
+                    ),
+
+                    actions: [
+                      TextButton(
+                        child: const Text('Okay'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Color(0xFF6DC090),
                         ),
-                        content: Text(
-                          this.buttonText,
-                        ),
-                      ));
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+
+                  ),
+
+              );
+
             },
             style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
             child: Text(this.name),
@@ -565,8 +581,12 @@ class _InputRowState extends State<InputRow> {
         /// Real World Value
         Expanded(
           flex: 3,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              LengthLimitingTextInputFormatter(9)
+            ],
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),

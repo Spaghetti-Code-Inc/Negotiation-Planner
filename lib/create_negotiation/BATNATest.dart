@@ -157,8 +157,15 @@ class BATNATestState extends State<BATNATest> {
   }
 
   bool Next() {
+    try{
+      currentNegotiation.BATNA = int.parse(BATNA.text);
+    } catch (e){
+      Utils.showSnackBar("You need to fill out BATNA value.");
+      return false;
+    }
+
     if (BATNA.text == "") {
-      Utils.showSnackBar("You need to fill out BATNA and Current Offer values.");
+      Utils.showSnackBar("You need to fill out BATNA value.");
       return false;
     } else {
       return true;

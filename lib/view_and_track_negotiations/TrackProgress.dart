@@ -59,8 +59,6 @@ class _TrackProgressState extends State<TrackProgress> {
       if(issueVals[i] != lastIssueVals[i]) editing = true;
     }
 
-    print(userValue);
-
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing,),
       body: Column(
@@ -177,7 +175,7 @@ class _TrackProgressState extends State<TrackProgress> {
                     valuesChanged: (List<double> values) {},
                     initalSliderValues: [0, userValue*.01, 1],
                     thumbBuilder: (BuildContext context, int index, double value) {
-                      return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01);
+                      return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target, resistance: negotiationSnap.resistance,);
                     },
                     height: 70,
                   )
@@ -228,7 +226,6 @@ class _TrackProgressState extends State<TrackProgress> {
 
   save() {
     negotiationSnap.currentAgreement = (userValue).truncate();
-    print(negotiationSnap.currentAgreement);
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
     FirebaseFirestore.instance
@@ -281,7 +278,6 @@ class SliderInfo extends StatelessWidget {
 class TotalValueInfo extends StatelessWidget {
   double userValue;
   Negotiation negotiation;
-
   TotalValueInfo(
       {Key? key,
       required this.userValue,
