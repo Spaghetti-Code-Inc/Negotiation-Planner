@@ -22,12 +22,13 @@ class TrackProgress extends StatefulWidget {
 class _TrackProgressState extends State<TrackProgress> {
   late Negotiation negotiationSnap = widget.negotiation;
 
-  // Keeps track of new value for issue, .5 because that is half way in the slider
+  // Keeps track of new value for issue
   late List<double> issueVals = [];
-  // Keeps track of old value for issue, .5 because that is half way in the slider
+  // Keeps track of old value for issue
   late List<double> lastIssueVals = [];
 
   bool editing = false;
+  int userValue = 0;
 
 
   @override
@@ -38,33 +39,27 @@ class _TrackProgressState extends State<TrackProgress> {
         issueVals.add(negotiationSnap.issues[i].relativeValue/2);
         lastIssueVals.add(negotiationSnap.issues[i].relativeValue/2);
       } else {
-        issueVals.add(negotiationSnap.issues[i].currentValue!);
-        lastIssueVals.add(negotiationSnap.issues[i].currentValue!);
+        issueVals.add(negotiationSnap.issues[i].currentValue!*1.0);
+        lastIssueVals.add(negotiationSnap.issues[i].currentValue!*1.0);
       }
 
     }
   }
 
-  late var totalValues = {"userValue": 0.0, "cpValue": 0.0};
-
   @override
   Widget build(BuildContext context) {
 
-    /// Builds the values for the slider that shows the entire negotiation values
-    /// And builds the values for the current issueVals
-    totalValues["userValue"] = 0.0;
-    totalValues["cpValue"] = 0.0;
     editing = false;
-
-    for (int i = 0; i < negotiationSnap.issues.length; i++) {
-      Issue thisIssue = negotiationSnap.issues[i];
+    userValue = 0;
+    for (int i = 0; i < issueVals.length; i++) {
       /// Calculates total values for user and cp based based on percentage of relative value filled
-      totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
-      totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
+      userValue += (issueVals[i]).round();
 
       /// checks if the issue is currently being edited or not
       if(issueVals[i] != lastIssueVals[i]) editing = true;
     }
+
+    print(userValue);
 
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing,),
@@ -168,8 +163,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
                       /// Info Button
                       TotalValueInfo(
-                        userValue: totalValues["userValue"]!,
-                        counterPartValue: totalValues["cpValue"]!,
+                        userValue: userValue*.01,
                         negotiation: negotiationSnap,
                       )
                     ],
@@ -181,7 +175,7 @@ class _TrackProgressState extends State<TrackProgress> {
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: MultiThumbSlider(
                     valuesChanged: (List<double> values) {},
-                    initalSliderValues: [0, totalValues["userValue"]!, 1],
+                    initalSliderValues: [0, userValue*.01, 1],
                     thumbBuilder: (BuildContext context, int index, double value) {
                       return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01);
                     },
@@ -233,7 +227,7 @@ class _TrackProgressState extends State<TrackProgress> {
   }
 
   save() {
-    negotiationSnap.currentAgreement = (totalValues["userValue"]!*100).truncate();
+    negotiationSnap.currentAgreement = (userValue).truncate();
     print(negotiationSnap.currentAgreement);
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
@@ -286,13 +280,11 @@ class SliderInfo extends StatelessWidget {
 /// Total Value slider info
 class TotalValueInfo extends StatelessWidget {
   double userValue;
-  double counterPartValue;
   Negotiation negotiation;
 
   TotalValueInfo(
       {Key? key,
       required this.userValue,
-      required this.counterPartValue,
       required this.negotiation})
       : super(key: key);
 
@@ -313,7 +305,7 @@ class TotalValueInfo extends StatelessWidget {
           color: navyBlue,
         ),
         onPressed: () {
-          showTotalInfoTrackProgress(context, userValue, counterPartValue, negotiation);
+          showTotalInfoTrackProgress(context, userValue, 0, negotiation);
         },
         padding: EdgeInsets.all(0),
       ),
@@ -380,7 +372,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
                 child: TextButton(
                   onPressed: () {
                     for(int i = 0; i < widget.negotiationSnap.issues.length; i++){
-                      widget.negotiationSnap.issues[i].currentValue = widget.issueVals[i];
+                      widget.negotiationSnap.issues[i].currentValue = widget.issueVals[i].truncate();
                       widget.lastIssueVals[i] = widget.issueVals[i];
                     }
 
@@ -468,6 +460,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   child: const Text('Yes'),
                   onPressed: () {
                     String? id = FirebaseAuth.instance.currentUser?.uid;
+                    print("Deleted: $id, $docId");
                     FirebaseFirestore.instance.collection(id!).doc(docId).delete();
                     Navigator.pop(context);
                     Navigator.pop(context);

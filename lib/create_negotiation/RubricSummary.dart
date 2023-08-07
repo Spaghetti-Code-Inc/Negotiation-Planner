@@ -168,25 +168,6 @@ class RubricSummary extends StatelessWidget {
                             context,
                             MaterialPageRoute(builder: (context) => PlanSummary()),
                           );
-                          // For sending to counter part
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (BuildContext context) =>
-                          //       AlertDialog(
-                          //         title: const Text('Counter Parts Rubric'),
-                          //         content: const Text(
-                          //             "Consider the issues you identified earlier. How do you "
-                          //                 "think your counter part would assign points to these issues?"),
-                          //         actions: [
-                          //           TextButton(
-                          //             child: const Text('Next', style: TextStyle(color: Color(0xff0A0A5B))),
-                          //             onPressed: () {
-                          //
-                          //             },
-                          //           ),
-                          //         ],
-                          //       ),
-                          // );
                         },
                         color: const Color(0xffffffff),
                         elevation: 0,

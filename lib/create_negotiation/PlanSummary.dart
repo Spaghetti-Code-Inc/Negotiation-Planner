@@ -278,7 +278,7 @@ class PlanSummary extends StatelessWidget {
                       onPressed: () async {
 
                         for (Issue each in currentNegotiation.issues){
-                          each.currentValue = each.relativeValue/2;
+                          each.currentValue = (each.relativeValue/2).truncate();
                         }
 
 

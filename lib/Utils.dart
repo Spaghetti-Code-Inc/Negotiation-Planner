@@ -18,30 +18,21 @@ class Utils {
 
   /// Same method from 'rubric summary' look there for documentation
   static List<String> findHighestValuedIssues(List<Issue> issues) {
-    List<int> vals = [];
-    List<String> names = [];
+    Map<String, int> vals = {};
     issues.forEach((issue) => {
-      vals.add(issue.relativeValue)
+      vals.putIfAbsent(issue.name, () => issue.relativeValue)
     });
 
-    vals.sort();
+    // Easiest way to make sure there are at least three issues
+    vals.putIfAbsent("", () => 0);
+    vals.putIfAbsent("", () => 0);
 
+    // Sorts the maps of value in descending order
+    var sorted = Map.fromEntries(
+      vals.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value))
+    );
 
-    for(int i = 0; i < issues.length; i++){
-      for(int j = 1; j < 4; j++){
-        if(vals[vals.length-j] == issues[i].relativeValue){
-          names.add(issues[i].name);
-          break;
-        }
-      }
-    }
-
-    // Fill names list to 3 values
-    if(names.length == 1)
-      names.add("");
-    if (names.length == 2)
-      names.add("");
-    return names.sublist(0, 3);
+    return sorted.keys.toList().sublist(0, 3);
   }
 }
 

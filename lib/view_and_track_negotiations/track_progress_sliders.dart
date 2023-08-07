@@ -84,7 +84,6 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
             /// Info Button
             TotalValueInfo(
               userValue: 1.0,
-              counterPartValue: 1.0,
               negotiation: new Negotiation(title: "test", summary: '', issues: [], target: 8, resistance: 2, BATNA: null, ),
             )
           ],

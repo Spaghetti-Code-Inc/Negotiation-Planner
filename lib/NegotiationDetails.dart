@@ -119,7 +119,7 @@ class Negotiation {
 class Issue{
   String name = "";
   int relativeValue = -1;
-  double? currentValue;
+  int? currentValue;
   String datatype = "";
 
   // An entry in this should be - Letter Grade: (Points, Real Value)
@@ -146,7 +146,7 @@ class Issue{
 
     here.relativeValue = ss["relativeValue"];
     here.issueVals = ss["issueVals"];
-    here.currentValue = ss["currentValue"];
+    here.currentValue = ss["currentValue"].truncate();
     here.datatype = ss["datatype"];
     return here;
   }

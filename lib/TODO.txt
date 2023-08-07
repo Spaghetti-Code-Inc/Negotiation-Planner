@@ -3,7 +3,8 @@ Random quality of life changes:
 36. Tradeoffs saved to negotiation [Plan Summary] - entered in by a list of bullets
 39. Allow commas when entering real values in [Issue Values]
 45. Show which letter is currently active on [Issue Values]
-48..
+48. The [Issue Value] "real value popup" shows on same bar as name and distribute evenly
+49. If an issue in [Track Progress] is in the F range, make the bar show up red
 
 Lucas:
 
@@ -34,6 +35,9 @@ Backlog:
 
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
+2. On [Issue Values] entering real values in ascending order than going back and changing relative values
+    makes the negotiation show an error - something to do with point system
+3. Clicking the letter values on [Issue Values] causes a Stack Overflow
 
 Notes:
 1. 3 Describers on the first page shouldn't be buttons
