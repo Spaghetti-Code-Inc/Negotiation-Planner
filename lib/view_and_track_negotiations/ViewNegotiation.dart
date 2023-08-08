@@ -202,7 +202,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                               color: navyBlue,
                             ),
                             onPressed: () {
-                              showInfoRubric(context: context, target: negotiationSnap.target, resistance: negotiationSnap.resistance);
+                              showInfoRubric(
+                                  context: context,
+                                  target: negotiationSnap.target,
+                                  resistance: negotiationSnap.resistance);
                             },
                             padding: EdgeInsets.all(0),
                           ),
@@ -281,7 +284,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                     color: navyBlue,
                                   ),
                                   onPressed: () {
-                                    showInfoIssueRubric(context: context, issueVals: issueHere.issueVals, datatype: issueHere.datatype);
+                                    showInfoIssueRubric(
+                                        context: context,
+                                        issueVals: issueHere.issueVals,
+                                        datatype: issueHere.datatype);
                                   },
                                   padding: EdgeInsets.all(0),
                                 ),
@@ -310,32 +316,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             refresh: refresh,
             save: save,
             lastFullVals: widget.lastNegotiationVals,
-          ),
-
-          /// Exit the negotiation button
-          Container(
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            margin: EdgeInsets.only(bottom: 20),
-            child: TextButton(
-              onPressed: () {
-                if (editing)
-                  checkExit(context);
-                else {
-                  Navigator.pop((context));
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MyNegotiations()));
-                }
-              },
-              child: Text("Exit Negotiation"),
-              style: TextButton.styleFrom(
-                backgroundColor: navyBlue,
-                foregroundColor: Colors.white,
-                elevation: 5,
-              ),
-            ),
           ),
         ],
       ),
@@ -421,7 +401,7 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, right: 5),
+                margin: EdgeInsets.only(bottom: 20, right: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
@@ -453,7 +433,7 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, left: 5),
+                margin: EdgeInsets.only(bottom: 20, left: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
@@ -488,15 +468,18 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
         ),
       );
     } else {
+      /// Exit the negotiation button
       return Container(
         width: MediaQuery.of(context).size.width * .9,
-        margin: EdgeInsets.only(bottom: 10, right: 5),
         height: 40,
+        margin: EdgeInsets.only(bottom: 20),
         child: TextButton(
           onPressed: () {
-            print("Show Calculate Screen");
+            Navigator.pop((context));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MyNegotiations()));
           },
-          child: Text("View Total Negotiation"),
+          child: Text("Exit Negotiation"),
           style: TextButton.styleFrom(
             backgroundColor: navyBlue,
             foregroundColor: Colors.white,

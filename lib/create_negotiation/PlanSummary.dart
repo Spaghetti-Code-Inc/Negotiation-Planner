@@ -52,12 +52,13 @@ class PlanSummary extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.bookmark_outline),
-                  onPressed: () {},
-                  color: const Color(0xff212435),
-                  iconSize: 24,
-                ),
+                /// Bookmarks icon - never found something to do with this
+                // IconButton(
+                //   icon: const Icon(Icons.bookmark_outline),
+                //   onPressed: () {},
+                //   color: const Color(0xff212435),
+                //   iconSize: 24,
+                // ),
               ],
             ),
           ),
@@ -73,72 +74,10 @@ class PlanSummary extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width,
-                      height: 128,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "1. Tradeoffs",
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 20,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                            child: TextField(
-                              controller: TextEditingController(),
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              maxLines: 5,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                              decoration: InputDecoration(
-                                disabledBorder: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff000000), width: 1),
-                                ),
-                                hintText: "Enter Pros/Cons",
-                                hintStyle: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                filled: false,
-                                fillColor: const Color(0xfff2f2f3),
-                                isDense: false,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       child: Text(
-                        "2. Bargaining Range for Entire Negotiation",
+                        "1. Bargaining Range for Entire Negotiation",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -174,7 +113,7 @@ class PlanSummary extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "3. Bargaining Range for Each Issue",
+                                "2. Bargaining Range for Each Issue",
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(

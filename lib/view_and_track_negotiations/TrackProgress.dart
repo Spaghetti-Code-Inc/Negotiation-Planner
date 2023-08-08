@@ -126,8 +126,10 @@ class _TrackProgressState extends State<TrackProgress> {
                   )
                 ),
 
-                /// Header for overall rating
-                Container(
+
+                if(negotiationSnap.issues.length != 1)
+                  /// Header for overall rating
+                  Container(
                   width: MediaQuery.of(context).size.width * .85,
                   padding: EdgeInsets.only(top: 25, bottom: 20),
                   child: Align(
@@ -145,9 +147,9 @@ class _TrackProgressState extends State<TrackProgress> {
                     ),
                   ),
                 ),
-
-                /// Header for entire negotiation value for user
-                Container(
+                if(negotiationSnap.issues.length != 1)
+                  /// Header for entire negotiation value for user
+                  Container(
                   width: MediaQuery.of(context).size.width * .85,
                   margin: EdgeInsets.only(bottom: 10),
                   child: Row(
@@ -172,9 +174,9 @@ class _TrackProgressState extends State<TrackProgress> {
                     ],
                   ),
                 ),
-
-
-                Container(
+                if(negotiationSnap.issues.length != 1)
+                  /// Slider for overall negotiation
+                  Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: MultiThumbSlider(
                     valuesChanged: (List<double> values) {},
@@ -185,6 +187,7 @@ class _TrackProgressState extends State<TrackProgress> {
                     height: 70,
                   )
                 ),
+
               ]),
             ),
           ),
@@ -196,32 +199,6 @@ class _TrackProgressState extends State<TrackProgress> {
             editing: editing,
             refresh: refresh,
             save: save,
-          ),
-
-          // Exit the negotiation button
-          Container(
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            margin: EdgeInsets.only(bottom: 20),
-            child: TextButton(
-              onPressed: () {
-                if(editing){
-                  checkExit(context);
-                } else {
-                  Navigator.pop((context));
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyNegotiations())
-                  );
-                }
-              },
-              child: Text("Exit Negotiation"),
-              style: TextButton.styleFrom(
-                backgroundColor: navyBlue,
-                foregroundColor: Colors.white,
-                elevation: 5,
-              ),
-            ),
           ),
         ],
       ),
@@ -309,7 +286,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, right: 5),
+                margin: EdgeInsets.only(bottom: 20, right: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
@@ -336,7 +313,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
 
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, left: 5),
+                margin: EdgeInsets.only(bottom: 20, left: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
@@ -368,16 +345,18 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
     }
     else {
       return Container(
-        width: MediaQuery.of(context).size.width*.9,
-        margin: EdgeInsets.only(bottom: 10, right: 5),
+        width: MediaQuery.of(context).size.width * .9,
         height: 40,
+        margin: EdgeInsets.only(bottom: 20),
         child: TextButton(
           onPressed: () {
-            print("Show Calculate Screen");
+              Navigator.pop((context));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyNegotiations())
+              );
           },
-          child: Text(
-              "View Total Negotiation"
-          ),
+          child: Text("Exit Negotiation"),
           style: TextButton.styleFrom(
             backgroundColor: navyBlue,
             foregroundColor: Colors.white,

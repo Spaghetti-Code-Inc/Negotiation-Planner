@@ -141,9 +141,9 @@ class info_content_total_track_progress extends StatelessWidget{
         mainAxisSize: MainAxisSize.min,
         children: [
           Text("This slider represents the overall value of your negotiation so far and is automatically moved when your individual issues bars are moved.\n"),
-          if(aboveTarget) Text("Your current point value is $points, which is above your target! \n(Why the bar is green)"),
-          if(belowResistance) Text("Your current point value is $points, which is below your resistance. \n(Why the bar is red)"),
-          if(!belowResistance && !aboveTarget) Text("Your current point value is $points, which is inside your bargaining range. \n(Why the bar is blue)")
+          if(aboveTarget) Text("Your current point value is $points, which is above your target! \n"),
+          if(belowResistance) Text("Your current point value is $points, which is below your resistance. \n"),
+          if(!belowResistance && !aboveTarget) Text("Your current point value is $points, which is inside your bargaining range. \n")
         ],
       ),
     );
