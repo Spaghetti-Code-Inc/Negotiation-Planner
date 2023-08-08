@@ -2,6 +2,7 @@ Random quality of life changes:
 33. Info Buttons for all <MultiThumbSliders>
 36. Tradeoffs saved to negotiation [Plan Summary] - entered in by a list of bullets
 50. 3 Buttons on first page shouldn't be buttons
+51. Center "2. Bargaining Range fo Entire Negotiation" on [Plan Summary]
 
 What is needed before Launch:
 1. First page can not have buttons - TODO 50
@@ -14,6 +15,8 @@ What is needed before Launch:
 Lucas:
 TODO Tuesday: 3, 4, 6, 5
 TODO Wednesday: 2
+
+TODO Friday: Launch onto website/upload to app stores
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?

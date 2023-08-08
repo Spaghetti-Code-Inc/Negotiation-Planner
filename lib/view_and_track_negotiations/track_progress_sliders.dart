@@ -43,7 +43,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
 
     // Step 2: Find the distance from each of the closest letter values and assign real value - Run if != A
     String letter = "A";
-    double realValue = double.parse(widget.issue.issueVals["A"][1]);
+    double realValue = double.parse(widget.issue.issueVals["A"][1].toString());
     if(closestLetter != 0){
       int min = widget.issue.issueVals[letters[closestLetter]][0];
       int max = widget.issue.issueVals[letters[closestLetter-1]][0];
@@ -56,8 +56,8 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
       if(distance >= 0.5) letter = letters[closestLetter-1]!;
       else letter = letters[closestLetter]!;
 
-      double realMin = double.parse(widget.issue.issueVals[letters[closestLetter]][1]);
-      double realMax = double.parse(widget.issue.issueVals[letters[closestLetter-1]][1]);
+      double realMin = double.parse(widget.issue.issueVals[letters[closestLetter]][1].toString());
+      double realMax = double.parse(widget.issue.issueVals[letters[closestLetter-1]][1].toString());
 
 
 
@@ -116,14 +116,20 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
     );
   }
 
+  /// The point is to remove unnecessary .0 at the end of the display
   String issueName(String name, String value, String datatype){
-    if(value.substring(value.length-2, value.length) == ".0"){
+    try{
+      if(value.substring(value.length-2, value.length) == ".0"){
 
-      return name + ": " + value.substring(0, value.length-2) + " " + datatype;
-    } else {
+        return name + ": " + value.substring(0, value.length-2) + " " + datatype;
+      } else {
 
+        return name + ": " + value + " " + datatype;
+      }
+    } catch (e) {
       return name + ": " + value + " " + datatype;
     }
+
 
   }
 }
