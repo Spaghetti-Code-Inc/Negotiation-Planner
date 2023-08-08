@@ -373,7 +373,7 @@ class EnterValues extends StatelessWidget {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
-                                    title: Text("Real Value"),
+                                    title: Text("Real Value for $issueName"),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -584,7 +584,7 @@ class _InputRowState extends State<InputRow> {
           child: TextFormField(
             keyboardType: TextInputType.number,
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
               LengthLimitingTextInputFormatter(9)
             ],
             decoration: InputDecoration(

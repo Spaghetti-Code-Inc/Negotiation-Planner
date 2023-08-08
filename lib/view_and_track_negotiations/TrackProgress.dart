@@ -34,6 +34,8 @@ class _TrackProgressState extends State<TrackProgress> {
 
   @override
   void initState() {
+    if(negotiationSnap.currentAgreement == null) negotiationSnap.currentAgreement = 50;
+
     for (int i = 0; i < negotiationSnap.issues.length; i++) {
       // Checks if initiated value is too high
       if(negotiationSnap.issues[i].currentValue! >= negotiationSnap.issues[i].relativeValue){
@@ -59,6 +61,8 @@ class _TrackProgressState extends State<TrackProgress> {
       /// checks if the issue is currently being edited or not
       if(issueVals[i] != lastIssueVals[i]) editing = true;
     }
+
+    negotiationSnap.currentAgreement = userValue;
 
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing,),
@@ -122,7 +126,7 @@ class _TrackProgressState extends State<TrackProgress> {
                   )
                 ),
 
-                /// Contains "Total User and Counterpart Values"
+                /// Header for overall rating
                 Container(
                   width: MediaQuery.of(context).size.width * .85,
                   padding: EdgeInsets.only(top: 25, bottom: 20),
@@ -242,43 +246,6 @@ class _TrackProgressState extends State<TrackProgress> {
   }
 }
 
-/// Editable slider info
-class SliderInfo extends StatelessWidget {
-  double sliderValue;
-  String issueName;
-  Negotiation negotiationSnap;
-
-  SliderInfo(
-      {Key? key,
-      required this.sliderValue,
-      required this.issueName,
-      required this.negotiationSnap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        border: Border.all(color: navyBlue),
-        borderRadius: BorderRadius.circular(5.0),
-        color: Colors.transparent,
-      ),
-      child: IconButton(
-        icon: Icon(
-          Icons.info_outlined,
-          size: 28,
-          color: navyBlue,
-        ),
-        onPressed: () {
-          showInfoTrackProgress(context, issueName, sliderValue, negotiationSnap);
-        },
-        padding: EdgeInsets.all(0),
-      ),
-    );
-  }
-}
-
 /// Total Value slider info
 class TotalValueInfo extends StatelessWidget {
   double userValue;
@@ -306,7 +273,8 @@ class TotalValueInfo extends StatelessWidget {
           color: navyBlue,
         ),
         onPressed: () {
-          showTotalInfoTrackProgress(context, userValue, 0, negotiation);
+          showTotalInfoTrackProgress(context, negotiation);
+          print("Pressed");
         },
         padding: EdgeInsets.all(0),
       ),

@@ -23,10 +23,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
 
   @override
   Widget build(BuildContext context) {
-    sleep(Duration(milliseconds: 1000));
-    print(FirebaseFirestore.instance
-        .collection(FirebaseAuth.instance.currentUser!.uid)
-        .snapshots());
+
 
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -124,7 +121,6 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
 
   @override
   Widget build(BuildContext context) {
-    print(docId);
     Color _bottomColor = Color(0xff0A0A5B);
     Color _mainColor = Colors.white;
     Color _topTextColor = Color(0xff000000);

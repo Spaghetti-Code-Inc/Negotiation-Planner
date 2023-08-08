@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/NegotiationDetails.dart';
 import 'package:negotiation_tracker/multi_thumb_slider/multi_thumb_slider.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
-import 'TrackProgress.dart';
+import '../main.dart';
 
 class TrackSliderProgress extends StatefulWidget {
 
@@ -64,6 +65,8 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
       realValue = ((realMin + distance*(realMax-realMin))*1000).truncateToDouble()/1000;
     }
 
+    String name = issueName(realValue.toString(), widget.issue.datatype);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,7 +77,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
             /// Issue Name
             Expanded(
               child: Text(
-                issueName(widget.issue.name, realValue.toString(), widget.issue.datatype),
+                widget.issue.name + ": " + name,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
@@ -84,9 +87,11 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
               ),
             ),
             /// Info Button
-            TotalValueInfo(
-              userValue: 1.0,
-              negotiation: new Negotiation(title: "test", summary: '', issues: [], target: 8, resistance: 2, BATNA: null, ),
+            SliderInfo(
+              currentValue: name,
+              points: widget.vals[widget.index].truncate(),
+              letter: letter,
+              aboveResistance: (letter != "F"),
             )
           ],
         ),
@@ -117,20 +122,60 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
   }
 
   /// The point is to remove unnecessary .0 at the end of the display
-  String issueName(String name, String value, String datatype){
+  String issueName(String value, String datatype){
     try{
       if(value.substring(value.length-2, value.length) == ".0"){
 
-        return name + ": " + value.substring(0, value.length-2) + " " + datatype;
+        return value.substring(0, value.length-2) + " " + datatype;
       } else {
 
-        return name + ": " + value + " " + datatype;
+        return value + " " + datatype;
       }
     } catch (e) {
-      return name + ": " + value + " " + datatype;
+      return value + " " + datatype;
     }
 
 
+  }
+}
+
+/// Editable slider info
+class SliderInfo extends StatelessWidget {
+  String letter;
+  String currentValue;
+  bool aboveResistance;
+  int points;
+
+  SliderInfo(
+      {Key? key,
+        required this.letter,
+        required this.currentValue,
+        required this.aboveResistance,
+        required this.points
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        border: Border.all(color: navyBlue),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.transparent,
+      ),
+      child: IconButton(
+        icon: Icon(
+          Icons.info_outlined,
+          size: 28,
+          color: navyBlue,
+        ),
+        onPressed: () {
+          showInfoTrackProgress(context, currentValue, letter, points, aboveResistance);
+        },
+        padding: EdgeInsets.all(0),
+      ),
+    );
   }
 }
 

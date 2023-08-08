@@ -9,7 +9,7 @@ What is needed before Launch:
 2. Focussing on the correct form field when enter is pushed - TODO Backlog 1
 3. Create info buttons for track progress nad negotiation rubric - TODO 33
 4. Create "overview" of negotiation <View Total Negotiation> Button - TODO Backlog 2
-5. Figure out what to do with the "Trade Offs" Field - TODO 36
+5. Figure out what to do with the "Trade Offs" Field - TODO 36 - Get Rid?
 6. If only have one issue, no need to show "overall negotiation rating" - TODO Backlog 4
 
 Lucas:
