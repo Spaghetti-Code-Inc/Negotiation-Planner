@@ -6,6 +6,7 @@ import 'package:negotiation_tracker/view_and_track_negotiations/track_progress_s
 import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
 import '../NegotiationDetails.dart';
+import 'MyNegotiations.dart';
 import 'ViewNegotiation.dart';
 import '../main.dart';
 
@@ -204,6 +205,10 @@ class _TrackProgressState extends State<TrackProgress> {
                   checkExit(context);
                 } else {
                   Navigator.pop((context));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyNegotiations())
+                  );
                 }
               },
               child: Text("Exit Negotiation"),
@@ -460,6 +465,10 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                     FirebaseFirestore.instance.collection(id!).doc(docId).delete();
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyNegotiations())
+                    );
                   },
                 ),
                 TextButton(
@@ -541,6 +550,10 @@ checkExit(context){
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyNegotiations())
+            );
           },
           child: Text("Yes"),
         ),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/MyNegotiations.dart';
 import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
 import 'TrackProgress.dart';
@@ -103,9 +104,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     child: const Text('Yes'),
                     onPressed: () {
                       String? id = FirebaseAuth.instance.currentUser?.uid;
-                      db.collection(id!).doc(widget.negotiation.id).delete();
+                      print("Deleted: $id, ${widget.docId}");
+                      db.collection(id!).doc(widget.docId).delete();
                       Navigator.pop(context);
                       Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyNegotiations())
+                      );
                     },
                   ),
                   TextButton(
@@ -279,7 +285,13 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             child: TextButton(
               onPressed: () {
                 if(editing) checkExit(context);
-                else Navigator.pop((context));
+                else {
+                  Navigator.pop((context));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyNegotiations())
+                  );
+                }
               },
               child: Text("Exit Negotiation"),
               style: TextButton.styleFrom(

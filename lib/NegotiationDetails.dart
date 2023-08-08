@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Negotiation {
-  String? id;
   String title;
   String? summary;
   List<Issue> issues;
@@ -17,7 +16,7 @@ class Negotiation {
   // int cpResistance;
 
   Negotiation(
-      {this.id,
+      {
       required this.title,
       required this.summary,
       required this.issues,
@@ -32,7 +31,7 @@ class Negotiation {
       });
 
   Negotiation.fromNegotiation(
-      {this.id,
+      {
       required this.title,
       required this.issues,
       // required this.cpTarget,
@@ -60,7 +59,6 @@ class Negotiation {
     });
 
     return Negotiation(
-      id: snapshot.get("id"),
       title: snapshot.get("title"),
       summary: snapshot.get("summary"),
       issues: issuePlace,
@@ -86,7 +84,6 @@ class Negotiation {
     });
 
     return {
-      if (id != null) "id": id,
       if (title != null) "title": title,
       if (summary != null) "summary": summary,
       "issues": issueList,

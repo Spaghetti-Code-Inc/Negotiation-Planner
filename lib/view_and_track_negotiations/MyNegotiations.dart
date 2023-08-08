@@ -1,8 +1,7 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/create_negotiation/StartNewNegotiation.dart';
 
@@ -24,6 +23,11 @@ class _MyNegotiationsState extends State<MyNegotiations> {
 
   @override
   Widget build(BuildContext context) {
+    sleep(Duration(milliseconds: 1000));
+    print(FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots());
+
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
@@ -84,7 +88,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
               height: 40,
               child: TextButton(
                   onPressed: () {
-                    Navigator.popUntil(context, (route) => true);
+                    Navigator.pop(context);
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => StartNewNegotiation()));
                   },
@@ -120,6 +124,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
 
   @override
   Widget build(BuildContext context) {
+    print(docId);
     Color _bottomColor = Color(0xff0A0A5B);
     Color _mainColor = Colors.white;
     Color _topTextColor = Color(0xff000000);
@@ -262,6 +267,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                   flex: 1,
                   child: MaterialButton(
                     onPressed: () {
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiationSnap, docId: docId,))
@@ -294,6 +300,7 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                   flex: 1,
                   child: MaterialButton(
                     onPressed: () {
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -281,11 +281,6 @@ class PlanSummary extends StatelessWidget {
                           each.currentValue = (each.relativeValue/2).truncate();
                         }
 
-
-                        // Sets the user id to the negotiation instance
-                        currentNegotiation.id =
-                            FirebaseAuth.instance.currentUser?.uid;
-
                         // Adds the current negotiation to the correct user
                         db
                             .collection(FirebaseAuth.instance.currentUser!.uid)
