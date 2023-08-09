@@ -1,11 +1,20 @@
 Random quality of life changes:
-33. Info Buttons for all <MultiThumbSliders>
-36. Tradeoffs saved to negotiation [Plan Summary] - entered in by a list of bullets
-39. Allow commas when entering real values in [Issue Values]
-45. Show which letter is currently active on [Issue Values]
-48..
+50. 3 Buttons on first page shouldn't be buttons
+51. Center "2. Bargaining Range fo Entire Negotiation" on [Plan Summary]
+52. A way to change relative values after the negotiation is already made
+53. A way to change real values after the negotiation is already made
+54. Flip Overall Negotiation with Individual Issues on [Track Progress]
+55. Start a negotiation to keep at the top
+
+What is needed before Launch:
+1. First page can not have buttons - TODO 50
+2. Focussing on the correct form field when enter is pushed for mobile - TODO Backlog 1
+7. Star a negotiation to keep at the top - TODO 55
 
 Lucas:
+TODO Wednesday: 2
+TODO Thursday: Run code coverage
+TODO Friday-Weekend: Launch onto website/upload to app stores
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -30,11 +39,10 @@ Backlog:
 2. <View Total Negotiation> Shows current total points of negotiation
         - This is where trade offs should be shown
         - Give summary of each issue and what the value is
-3. If only one issue, do not have an "Overall Negotiation Rating" on [Track Progress]
+5. Allow commas when entering real values in [Issue Values]
+6. Create suggestions for what tradeoffs to do - Could be apart of <View Total Negotiation>
 
 Debugging:
 1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
-
-Notes:
-1. 3 Describers on the first page shouldn't be buttons
-2. Right now [Track Progress] Only shows real values for up to two decimals
+2. On [Issue Values] entering real values in ascending order than going back and changing relative values
+    makes the negotiation show an error - something to do with point system

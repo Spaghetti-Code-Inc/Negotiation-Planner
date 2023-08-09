@@ -21,35 +21,36 @@ class _IssueValuesState extends State<IssueValues> {
   List<String> letters = ["A", "B", "C", "D", "F"];
 
   @override
-  void initState(){
-
+  void initState() {
     /// Loads the current issue values to the text editing controllers
-    for(int i = 0; i < currentNegotiation.issues.length; i++){
+    for (int i = 0; i < currentNegotiation.issues.length; i++) {
       Map<String, dynamic> here = currentNegotiation.issues[i].issueVals;
-
 
       _controllers.add([]);
       _realValues.add([]);
 
-      for(String letter in letters){
-
-        if(here[letter] == null){
+      for (String letter in letters) {
+        if (here[letter] == null) {
           here[letter] = [0, ""];
         }
 
         // Letter represents the settlement
         // [0] is for points, [1] is for real value
-        _controllers[i].add(new TextEditingController(text: here[letter][0].toString()));
-        _realValues[i].add(new TextEditingController(text: here[letter][1].toString()));
+        _controllers[i]
+            .add(new TextEditingController(text: here[letter][0].toString()));
+        _realValues[i]
+            .add(new TextEditingController(text: here[letter][1].toString()));
       }
 
-      for(int j = 0; j < _controllers[i].length; j++){
-        if(_controllers[i][j].text == "null") _controllers[i][j].text = "0";
-        else if(_realValues[i][j].text == "null") _realValues[i][j].text = "0";
+      for (int j = 0; j < _controllers[i].length; j++) {
+        if (_controllers[i][j].text == "null")
+          _controllers[i][j].text = "0";
+        else if (_realValues[i][j].text == "null") _realValues[i][j].text = "0";
       }
 
       // Gets this issues, real value, cuts off the number and saves the data type
-      _realWorldDatatypes.add(new TextEditingController(text: currentNegotiation.issues[i].datatype));
+      _realWorldDatatypes.add(new TextEditingController(
+          text: currentNegotiation.issues[i].datatype));
     }
 
     super.initState();
@@ -57,8 +58,7 @@ class _IssueValuesState extends State<IssueValues> {
 
   @override
   Widget build(BuildContext context) {
-
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       _realValues[0][i].text;
       _realWorldDatatypes[0].text;
     }
@@ -120,7 +120,6 @@ class _IssueValuesState extends State<IssueValues> {
                         ),
                       ),
                     ])),
-
                 Padding(
                     padding: EdgeInsets.only(top: 8),
                     child: IconButton(
@@ -154,14 +153,16 @@ class _IssueValuesState extends State<IssueValues> {
                           ),
                         );
                       },
-                    )
-                ),
+                    )),
               ],
             ),
           ),
 
-          Divider(thickness: 2, color: Colors.black, height: 2,),
-
+          Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 2,
+          ),
 
           /// List of issues
           Expanded(
@@ -171,7 +172,8 @@ class _IssueValuesState extends State<IssueValues> {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                       child: EnterValues(
-                        issueName: currentNegotiation.issues.elementAt(index).name,
+                        issueName:
+                            currentNegotiation.issues.elementAt(index).name,
                         ctrl: _controllers[index],
                         index: index,
                         realCtrl: _realValues[index],
@@ -183,14 +185,12 @@ class _IssueValuesState extends State<IssueValues> {
 
           /// Next and Back Bar
           PrepareNegotiationNextBar(Next: Next, NextPage: TargetResistance()),
-
-
         ],
       ),
     );
   }
 
-  bool Next(){
+  bool Next() {
     bool moveOn = true;
     int length = currentNegotiation.issues.length;
     // Checks if all values are in right format
@@ -212,29 +212,37 @@ class _IssueValuesState extends State<IssueValues> {
             less = greater;
             realLow = realHigh;
           } else {
-            less = int.parse(_controllers[i][j+1].text);
-            realLow = double.parse(_realValues[i][j+1].text);
+            less = int.parse(_controllers[i][j + 1].text);
+            realLow = double.parse(_realValues[i][j + 1].text);
           }
           if (greater < less) {
             moveOn = false;
             Utils.showSnackBar(
                 "One of your issues does not have the right order of value.");
-          } else if (realHigh > realLow){
+          } else if (realHigh > realLow) {
             realDecreasing = false;
           } else if (realHigh < realLow) {
             realIncreasing = false;
           }
         } on FormatException {
           Utils.showSnackBar(
-              "One of your real values is not created properly.");
+              "One of your real values is not a number.");
           moveOn = false;
         }
 
-        if(!realDecreasing && !realIncreasing){
-          Utils.showSnackBar("Your real values for Issue: (" + currentNegotiation.issues[i].name + ") must be in ascending or descending order.");
+        if (!realDecreasing && !realIncreasing) {
+          Utils.showSnackBar("Your real values for Issue: (" +
+              currentNegotiation.issues[i].name +
+              ") must be in ascending or descending order.");
           moveOn = false;
         }
+      }
+    }
 
+    for(int i = 0; i < _realWorldDatatypes.length; i++){
+      if(_realWorldDatatypes[i].text == "") {
+        moveOn = false;
+        Utils.showSnackBar("You must enter a datatype for each issue.");
       }
     }
 
@@ -246,15 +254,16 @@ class _IssueValuesState extends State<IssueValues> {
         currentNegotiation.issues[i].datatype = _realWorldDatatypes[i].text;
 
         // Puts value in for all the possible settlements
-        for(int j = 0; j < letters.length; j++){
-          currentNegotiation.issues[i].issueVals[letters[j]][0] = int.parse(_controllers[i][j].text);
-          currentNegotiation.issues[i].issueVals[letters[j]][1] = double.parse(_realValues[i][j].text);
+        for (int j = 0; j < letters.length; j++) {
+          currentNegotiation.issues[i].issueVals[letters[j]][0] =
+              int.parse(_controllers[i][j].text);
+          currentNegotiation.issues[i].issueVals[letters[j]][1] =
+              double.parse(_realValues[i][j].text);
         }
       }
 
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -266,13 +275,19 @@ class EnterValues extends StatelessWidget {
   final List<TextEditingController> ctrl;
   final List<TextEditingController> realCtrl;
   final TextEditingController datatype;
-  EnterValues({Key? key, required this.issueName, required this.datatype, required this.ctrl, required this.index, required this.realCtrl})
+  EnterValues(
+      {Key? key,
+      required this.issueName,
+      required this.datatype,
+      required this.ctrl,
+      required this.index,
+      required this.realCtrl})
       : super(key: key);
 
   late final MaxPoints = currentNegotiation.issues[index].relativeValue;
 
-  late final Map<String, dynamic> issueVals = currentNegotiation.issues[index].issueVals;
-
+  late final Map<String, dynamic> issueVals =
+      currentNegotiation.issues[index].issueVals;
 
   @override
   Widget build(BuildContext context) {
@@ -286,15 +301,20 @@ class EnterValues extends StatelessWidget {
     issueVals["D"] = [int.tryParse(ctrl[3].text), realCtrl[3].text];
     issueVals["F"] = [0, realCtrl[4].text];
 
-    List<String> inputRowNames = ["A Settlement", "B Settlement", "C Settlement", "D Settlement", "F Settlement"];
+    List<String> inputRowNames = [
+      "A Settlement",
+      "B Settlement",
+      "C Settlement",
+      "D Settlement",
+      "F Settlement"
+    ];
     List<String> inputRowSummary = [
-      "This represents the settlement you will strive to obtain or beat. (Also known as your target on the issue)",
+      "This represents the settlement you will strive to obtain. (Also known as your target on the issue)",
       "This represents an acceptable settlement to you.",
       "This represents an okay settlement for you.",
-      "This represents a negative settlement for you.",
+      "This represents the resistance point. This is the least amount of points you're willing to accept.",
       "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
     ];
-
 
     return Column(
       children: [
@@ -318,6 +338,7 @@ class EnterValues extends StatelessWidget {
                 children: [
                   /// Issue Name
                   Expanded(
+                    flex: 5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -344,14 +365,93 @@ class EnterValues extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                      child: FilledButton(
-                        onPressed: () { EvenlyDistribute(); },
-                        child: Text("Distribute Evenly"),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
-                        ),
+                    flex: 3,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: Text("Real Value for $issueName"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                            "This will be the datatype associated with this letter of this issue. \n \n"
+                                            "Please enter a datatype, in the box below. (Example would be: Percent, Dollars, Months) \n \n"
+                                            "This datatype applies to all settlements of this issue. \n"),
+
+                                        /// Pts
+                                        Container(
+                                          child: TextFormField(
+                                            controller: datatype,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(0.0),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.white,
+                                                    width: 4),
+                                              ),
+                                              labelText: "Data Type",
+                                              labelStyle: const TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14,
+                                                color: Color(0xff000000),
+                                              ),
+                                              filled: true,
+                                              fillColor:
+                                                  const Color(0xfff2f2f3),
+                                              isDense: true,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 12),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('Okay'),
+                                        style: TextButton.styleFrom(
+                                          foregroundColor: Color(0xFF6DC090),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ));
+                        },
+                        child: Text("Datatype"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xff0A0A5B),
+                            side: BorderSide(
+                              color: Colors.white,
+                              width: 2.0,
+                            )),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          EvenlyDistribute();
+                        },
+                        child: Text("Distribute"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xff0A0A5B),
+                            side: BorderSide(
+                              color: Colors.white,
+                              width: 2.0,
+                            )),
                       ),
                     ),
                   ),
@@ -366,42 +466,48 @@ class EnterValues extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-            return Column( children: [
+            return Column(children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: InputRow(name: inputRowNames[index], datatype: datatype, buttonText: inputRowSummary[index], points: ctrl[index], realWorldValue: realCtrl[index])
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: InputRow(
+                      name: inputRowNames[index],
+                      datatype: datatype,
+                      buttonText: inputRowSummary[index],
+                      points: ctrl[index],
+                      realWorldValue: realCtrl[index])),
+              Divider(
+                thickness: 1,
+                color: Colors.black,
+                height: 0,
               ),
-              Divider(thickness: 1, color: Colors.black, height: 0,),
             ]);
           },
-
         ),
       ],
     );
   }
 
-  EvenlyDistribute(){
+  EvenlyDistribute() {
     int length = 4;
 
     // Gets how much the pts should change by in each step
     int total = int.parse(ctrl[0].text);
-    int step = (total/length).truncate();
+    int step = (total / length).truncate();
     // Keeps track of extra points needed to be passed
-    int extra = total%(step*length);
+    int extra = total % (step * length);
     // Keeps track of extra points given out
     int off = 0;
 
-    for(int i = 1; i < length; i++){
-      if(extra > 0){
+    for (int i = 1; i < length; i++) {
+      if (extra > 0) {
         off++;
-        ctrl[i].text = (total-step*i-off).toString();
+        ctrl[i].text = (total - step * i - off).toString();
         extra--;
       } else {
-        ctrl[i].text = (total-step*i-off).toString();
+        ctrl[i].text = (total - step * i - off).toString();
       }
     }
   }
-
 }
 
 class InputRow extends StatefulWidget {
@@ -411,32 +517,37 @@ class InputRow extends StatefulWidget {
   TextEditingController points;
   TextEditingController datatype;
 
-  InputRow({Key? key, required this.name, required this.buttonText, required this.realWorldValue, required this.points, required this.datatype}) : super(key: key);
-
+  InputRow(
+      {Key? key,
+      required this.name,
+      required this.buttonText,
+      required this.realWorldValue,
+      required this.points,
+      required this.datatype})
+      : super(key: key);
 
   @override
   State<InputRow> createState() => _InputRowState();
 }
 
 class _InputRowState extends State<InputRow> {
-
   late String name = widget.name;
-  late String buttonText = buttonText;
-
+  late String buttonText = widget.buttonText;
 
   @override
   Widget build(BuildContext context) {
-    return Row (
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
         /// A Settlement button
         Expanded(
-          flex: 2,
+          flex: 5,
           child: TextButton(
             onPressed: () {
-              showDialog(context: context,
+              showDialog(
+                  context: context,
                   builder: (BuildContext context) => AlertDialog(
                     title: Text(
                       this.name,
@@ -444,166 +555,66 @@ class _InputRowState extends State<InputRow> {
                     content: Text(
                       this.buttonText,
                     ),
-                  )
+
+                    actions: [
+                      TextButton(
+                        child: const Text('Okay'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Color(0xFF6DC090),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+
+                  ),
+
               );
+
             },
             style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-
             child: Text(this.name),
           ),
         ),
 
         /// Real World Value
         Expanded(
-          flex: 1,
-          child: OutlinedButton(
-              child: Text((widget.datatype.text.trim() == "") ? "Real Value" : widget.realWorldValue.text + " " + widget.datatype.text),
-              onPressed: () {
-                showDialog(context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: Text(
-                          "Real Value"
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                              "This will be the real value associated with this letter of this issue. \n \n"
-                                  "Please enter a number and a datatype, respectively, in the boxes below. \n \n"
-                                  "A change to the datatype changes datatype for all settlement values of this issue. \n"
-                          ),
+          flex: 3,
+          child: TextFormField(
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
+              LengthLimitingTextInputFormatter(9)
+            ],
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide:
+                const BorderSide(color: Color(0xff000000), width: 1),
+              ),
+              labelText: (widget.datatype.text == "") ? "Real Value" : widget.datatype.text,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                fontSize: 14,
+                color: Color(0xff000000),
+              ),
+              filled: true,
+              fillColor: const Color(0xfff2f2f3),
+              isDense: true,
+              contentPadding:
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            ),
 
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      // To add commas simply put a comma next to the period
-                                      FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
-                                    ],
-                                    controller: widget.realWorldValue,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(4.0),
-                                        borderSide: const BorderSide(
-                                            color: Color(0xff000000), width: 1),
-                                      ),
-                                      labelText: "Number",
-                                      labelStyle: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14,
-                                        color: Color(0xff000000),
-                                      ),
-                                      filled: true,
-                                      fillColor: const Color(0xfff2f2f3),
-                                      isDense: true,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 12),
-                                    ),
-                                  ),
-                                ),),
-                              /// Pts
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 5),
-                                  child: TextField(
-                                    controller: widget.datatype,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(4.0),
-                                        borderSide: const BorderSide(
-                                            color: Color(0xff000000), width: 1),
-                                      ),
-                                      labelText: "Data Type",
-                                      labelStyle: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14,
-                                        color: Color(0xff000000),
-                                      ),
-                                      filled: true,
-                                      fillColor: const Color(0xfff2f2f3),
-                                      isDense: true,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 12),
-                                    ),
-                                  ),
-                                ),),
+            controller: widget.realWorldValue,
 
-                            ],
-                          )
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Okay'),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Color(0xFF6DC090),
-                          ),
-                          onPressed: () {
-                            setState(() {
-
-                            });
-
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    )
-                );
-              },
-
-              style: OutlinedButton.styleFrom(
-                  foregroundColor: Color(0xff0A0A5B),
-                  side: BorderSide(width: 2, color: Color(0xff0A0A5B))
-              )
           ),
         ),
 
-        // Expanded(
-        //     flex: 1,
-        //     child: Container(
-        //       child: TextField(
-        //         controller: realWorldValue,
-        //         textAlign: TextAlign.start,
-        //         maxLines: 1,
-        //         style: const TextStyle(
-        //           fontWeight: FontWeight.w400,
-        //           fontStyle: FontStyle.normal,
-        //           fontSize: 14,
-        //           color: Color(0xff000000),
-        //         ),
-        //         decoration: InputDecoration(
-        //           border: OutlineInputBorder(
-        //             borderRadius: BorderRadius.circular(4.0),
-        //             borderSide: const BorderSide(
-        //                 color: Color(0xff000000), width: 1),
-        //           ),
-        //           labelText: "Real Value",
-        //           labelStyle: const TextStyle(
-        //             fontWeight: FontWeight.w400,
-        //             fontStyle: FontStyle.normal,
-        //             fontSize: 14,
-        //             color: Color(0xff000000),
-        //           ),
-        //           filled: true,
-        //           fillColor: const Color(0xfff2f2f3),
-        //           isDense: true,
-        //           contentPadding: const EdgeInsets.symmetric(
-        //               vertical: 8, horizontal: 12),
-        //         ),
-        //       ),
-        //     )
-        // ),
-
         /// Pts
         Expanded(
+          flex: 3,
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
@@ -613,9 +624,7 @@ class _InputRowState extends State<InputRow> {
             decoration: BoxDecoration(
               color: const Color(0xFFFFFF),
               shape: BoxShape.rectangle,
-
             ),
-
             child: TextField(
               keyboardType: TextInputType.number,
               inputFormatters: INTEGER_INPUTS,
@@ -633,10 +642,10 @@ class _InputRowState extends State<InputRow> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4.0),
-                  borderSide: const BorderSide(
-                      color: Color(0xff000000), width: 1),
+                  borderSide:
+                      const BorderSide(color: Color(0xff000000), width: 1),
                 ),
-                labelText: "Pts.",
+                labelText: "Points",
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
@@ -646,14 +655,13 @@ class _InputRowState extends State<InputRow> {
                 filled: true,
                 fillColor: const Color(0xfff2f2f3),
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 8, horizontal: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               ),
             ),
-          ),),
+          ),
+        ),
       ],
     );
   }
-
 }
-

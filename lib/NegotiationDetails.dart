@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Negotiation {
-  String? id;
   String title;
   String? summary;
   List<Issue> issues;
@@ -17,7 +16,7 @@ class Negotiation {
   // int cpResistance;
 
   Negotiation(
-      {this.id,
+      {
       required this.title,
       required this.summary,
       required this.issues,
@@ -32,7 +31,7 @@ class Negotiation {
       });
 
   Negotiation.fromNegotiation(
-      {this.id,
+      {
       required this.title,
       required this.issues,
       // required this.cpTarget,
@@ -44,7 +43,7 @@ class Negotiation {
     });
 
   String toString() {
-    return "Title: $title, Summary: $summary, Issues: ${issues.toString()}";
+    return "Title: $title, Summary: $summary, BATNA: $BATNA, Issues: ${issues.toString()}";
   }
 
   factory Negotiation.fromFirestore(
@@ -60,7 +59,6 @@ class Negotiation {
     });
 
     return Negotiation(
-      id: snapshot.get("id"),
       title: snapshot.get("title"),
       summary: snapshot.get("summary"),
       issues: issuePlace,
@@ -86,7 +84,6 @@ class Negotiation {
     });
 
     return {
-      if (id != null) "id": id,
       if (title != null) "title": title,
       if (summary != null) "summary": summary,
       "issues": issueList,
@@ -119,7 +116,7 @@ class Negotiation {
 class Issue{
   String name = "";
   int relativeValue = -1;
-  double? currentValue;
+  int? currentValue;
   String datatype = "";
 
   // An entry in this should be - Letter Grade: (Points, Real Value)
@@ -146,7 +143,7 @@ class Issue{
 
     here.relativeValue = ss["relativeValue"];
     here.issueVals = ss["issueVals"];
-    here.currentValue = ss["currentValue"];
+    here.currentValue = ss["currentValue"].truncate();
     here.datatype = ss["datatype"];
     return here;
   }

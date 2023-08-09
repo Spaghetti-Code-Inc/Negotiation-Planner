@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/NegotiationDetails.dart';
 import 'package:negotiation_tracker/multi_thumb_slider/multi_thumb_slider.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
-import 'TrackProgress.dart';
+import '../main.dart';
 
 class TrackSliderProgress extends StatefulWidget {
 
@@ -43,7 +44,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
 
     // Step 2: Find the distance from each of the closest letter values and assign real value - Run if != A
     String letter = "A";
-    double realValue = double.parse(widget.issue.issueVals["A"][1]);
+    double realValue = double.parse(widget.issue.issueVals["A"][1].toString());
     if(closestLetter != 0){
       int min = widget.issue.issueVals[letters[closestLetter]][0];
       int max = widget.issue.issueVals[letters[closestLetter-1]][0];
@@ -56,11 +57,15 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
       if(distance >= 0.5) letter = letters[closestLetter-1]!;
       else letter = letters[closestLetter]!;
 
-      double realMin = double.parse(widget.issue.issueVals[letters[closestLetter]][1]);
-      double realMax = double.parse(widget.issue.issueVals[letters[closestLetter-1]][1]);
+      double realMin = double.parse(widget.issue.issueVals[letters[closestLetter]][1].toString());
+      double realMax = double.parse(widget.issue.issueVals[letters[closestLetter-1]][1].toString());
 
-      realValue = ((realMin + distance*(realMax-realMin))*100).truncateToDouble()/100;
+
+
+      realValue = ((realMin + distance*(realMax-realMin))*1000).truncateToDouble()/1000;
     }
+
+    String name = issueName(realValue.toString(), widget.issue.datatype);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +77,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
             /// Issue Name
             Expanded(
               child: Text(
-                issueName(widget.issue.name, realValue.toString(), widget.issue.datatype),
+                widget.issue.name + ": " + name,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
@@ -82,10 +87,11 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
               ),
             ),
             /// Info Button
-            TotalValueInfo(
-              userValue: 1.0,
-              counterPartValue: 1.0,
-              negotiation: new Negotiation(title: "test", summary: '', issues: [], target: 8, resistance: 2, BATNA: null, ),
+            SliderInfo(
+              currentValue: name,
+              points: widget.vals[widget.index].truncate(),
+              letter: letter,
+              aboveResistance: (letter != "F"),
             )
           ],
         ),
@@ -115,15 +121,61 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
     );
   }
 
-  String issueName(String name, String value, String datatype){
-    if(value.substring(value.length-2, value.length) == ".0"){
+  /// The point is to remove unnecessary .0 at the end of the display
+  String issueName(String value, String datatype){
+    try{
+      if(value.substring(value.length-2, value.length) == ".0"){
 
-      return name + ": " + value.substring(0, value.length-2) + " " + datatype;
-    } else {
+        return value.substring(0, value.length-2) + " " + datatype;
+      } else {
 
-      return name + ": " + value + " " + datatype;
+        return value + " " + datatype;
+      }
+    } catch (e) {
+      return value + " " + datatype;
     }
 
+
+  }
+}
+
+/// Editable slider info
+class SliderInfo extends StatelessWidget {
+  String letter;
+  String currentValue;
+  bool aboveResistance;
+  int points;
+
+  SliderInfo(
+      {Key? key,
+        required this.letter,
+        required this.currentValue,
+        required this.aboveResistance,
+        required this.points
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        border: Border.all(color: navyBlue),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.transparent,
+      ),
+      child: IconButton(
+        icon: Icon(
+          Icons.info_outlined,
+          size: 28,
+          color: navyBlue,
+        ),
+        onPressed: () {
+          showInfoTrackProgress(context, currentValue, letter, points, aboveResistance);
+        },
+        padding: EdgeInsets.all(0),
+      ),
+    );
   }
 }
 
@@ -133,8 +185,10 @@ class IssueThumbs extends StatelessWidget {
   final double value;
   final double multiplier;
   final String letter;
+  final int target;
+  final int resistance;
 
-  IssueThumbs({Key? key, required this.index, required this.letter, required this.value, required this.multiplier}) : super(key: key);
+  IssueThumbs({Key? key, required this.index, required this.letter, required this.value, required this.multiplier, this.target=101, this.resistance=-1}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +197,7 @@ class IssueThumbs extends StatelessWidget {
       case 0:
         return FrontBack(front: true, value: realVal, name: "F");
       case 1:
-        return CurrentVal(value: realVal, name: letter);
+        return CurrentVal(value: realVal, name: letter, target: target, resistance: resistance);
       case 2:
         return FrontBack(front: false, value: realVal, name: "A");
       default:
@@ -156,8 +210,10 @@ class IssueThumbs extends StatelessWidget {
 class CurrentVal extends StatelessWidget {
   final double value;
   final String name;
+  final int target;
+  final int resistance;
 
-  const CurrentVal({required this.value, required this.name});
+  const CurrentVal({required this.value, required this.name, required this.target, required this.resistance});
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +230,8 @@ class CurrentVal extends StatelessWidget {
           width: 7.0,
           height: 30.0,
           decoration: BoxDecoration(
-            color: Colors.blue,
+            // Red if "F" or Below resistance, Green if above target, else blue
+            color: (name == "F" || value <= resistance) ? Colors.red : (value >= target) ? Colors.green : Colors.blue,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(.2),

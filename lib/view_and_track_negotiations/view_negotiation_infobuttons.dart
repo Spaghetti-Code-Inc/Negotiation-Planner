@@ -1,16 +1,25 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-
 import '../NegotiationDetails.dart';
 
-/// These two functions display the info buttons on the rubric page in my negotiations
-Future<void> showInfoRubric(context, String name, Map<String, int> values) {
+/// This functions display the info buttons on the rubric page in my negotiations
+Future<void> showInfoRubric({context, target, resistance}) {
   return showDialog(
     context: context,
     builder: (BuildContext context) =>
         AlertDialog(
-          title: Text(name),
-          content: info_content_rubric(name: name, values: values),
+          title: Text("Overall Rubric"),
+          content: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("This slider shows the overall rubric of the negotiation.\n"),
+                Text("Your Target is: $target"),
+                Text("Your Resistance is: $resistance"),
+                Text("Your Bargaining Range is: ${target-resistance}")
+              ]
+            ),
+          ),
           actions: [
             TextButton(
               child: const Text('Okay'),
@@ -22,43 +31,33 @@ Future<void> showInfoRubric(context, String name, Map<String, int> values) {
         ),
   );
 }
-class info_content_rubric extends StatelessWidget {
-  String name;
-  Map<String, int> values;
 
-  info_content_rubric({Key? key, required this.name, required this.values}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-
-    num bargainingRange = values["cpResistance"]!-values["resistance"]!;
-
-    return Container(
-      height: 171,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("This graph shows the rubric for the $name. \n"),
-          Text("Your Target is: ${values["target"]}"),
-          Text("Your Resistance is: ${values["resistance"]}"),
-          Text("Your Counterparts Target is: ${values["cpTarget"]}"),
-          Text("Your Counterparts Resistance is: ${values["cpResistance"]} \n"),
-          Text("Your Bargaining Range is: ${max(bargainingRange, 0)}")
-        ]
-      ),
-    );
-  }
-}
-
-
-/// These two functions display the issue info buttons for the issue slider on track progress page
-Future<void> showInfoTrackProgress(context, String name, double value, Negotiation negotiation){
+/// This function displays the info for Negotiation Rubric Issues
+Future<void> showInfoIssueRubric({context, required Map<String, dynamic> issueVals, required String datatype}){
   return showDialog(
     context: context,
     builder: (BuildContext context) =>
         AlertDialog(
-          title: Text(name),
-          content: info_content_track_progress(name: name, value: value, negotiation: negotiation),
+          title: Text("Overall Rubric"),
+          content: Container(
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("This slider shows the rubric for each negotiation issue.\n"),
+                  Text("Your A points (target) is: ${issueVals["A"][0]}. This holds the value: ${issueVals["A"][1]} $datatype"),
+                  Text("Your B points is: ${issueVals["B"][0]}. This holds the value: ${issueVals["B"][1]} $datatype"),
+                  Text("Your C points is: ${issueVals["C"][0]}. This holds the value: ${issueVals["C"][1]} $datatype"),
+                  Text("Your D points (resistance) is: ${issueVals["D"][0]}. This holds the value: ${issueVals["D"][1]} $datatype"),
+                  Text("Your F points is: ${issueVals["F"][0]}.This holds the value: ${issueVals["F"][1]} $datatype"),
+
+
+                  // Text("Your Target is: $target"),
+                  // Text("Your Resistance is: $resistance"),
+                  // Text("Your Bargaining Range is: ${target-resistance}")
+                ]
+            ),
+          ),
           actions: [
             TextButton(
               child: const Text('Okay'),
@@ -70,38 +69,52 @@ Future<void> showInfoTrackProgress(context, String name, double value, Negotiati
         ),
   );
 }
-class info_content_track_progress extends StatelessWidget{
 
-  String name;
-  double value;
-  Negotiation negotiation;
+/// function display the issue info buttons for the issue slider on track progress page
+Future<void> showInfoTrackProgress(context, String name, String letter, int points, bool aboveResistance){
 
-  info_content_track_progress({required this.name, required this.value, required this.negotiation});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 140,
-      child: Column(
-        children: [
-          Text("This is the current value of the issue $name: ${value.truncate()}\n"),
-          Text("This the letter grade for this is: TODOTODOTODO"),
-          Text("The weight of this issue for the user is a;dsfja, and for the cp: asd;jfa")
-        ],
-      ),
-    );
-  }
-
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) =>
+        AlertDialog(
+          title: Text("Issue Info"),
+          content: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("This slider represents the values of this issue.\n"),
+                Text("Your current value is $points points, or $name.\nThis is a $letter grade for this issue.\n"),
+                if(aboveResistance) Text("You are currently above your resistance."),
+                if(!aboveResistance) Text("You are current not above your resistance. This is an issue to focus on."),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+  );
 }
 
 /// These two functions display the issue info buttons for the total value sliders on track progress page
-Future<void> showTotalInfoTrackProgress(context, double userValue, double cpValue, Negotiation negotiation){
+Future<void> showTotalInfoTrackProgress(context, Negotiation negotiation){
+
+  bool aboveTarget = (negotiation.currentAgreement! >= negotiation.target);
+  bool belowResistance = (negotiation.currentAgreement! <= negotiation.resistance);
+  int points = negotiation.currentAgreement!;
+
   return showDialog(
     context: context,
     builder: (BuildContext context) =>
         AlertDialog(
-          title: Text("Total Value Info"),
-          content: info_content_total_track_progress(userValue: userValue, cpValue: cpValue, negotiation: negotiation,),
+          title: Text("Total Value"),
+          content: info_content_total_track_progress(aboveTarget: aboveTarget, belowResistance: belowResistance, points: points,),
           actions: [
             TextButton(
               child: const Text('Okay'),
@@ -115,20 +128,22 @@ Future<void> showTotalInfoTrackProgress(context, double userValue, double cpValu
 }
 class info_content_total_track_progress extends StatelessWidget{
 
-  double userValue;
-  double cpValue;
-  Negotiation negotiation;
+  final bool aboveTarget;
+  final bool belowResistance;
+  final int points;
 
-  info_content_total_track_progress({required this.userValue, required this.cpValue, required this.negotiation});
+  info_content_total_track_progress({required this.belowResistance, required this.aboveTarget, required this.points});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text("This is your total value on the negotiation: ${(userValue*100).truncate()}"),
-          Text("This is your counterparts total value on the negotiation: ${(cpValue*100).truncate()}"),
+          Text("This slider represents the overall value of your negotiation so far and is automatically moved when your individual issues bars are moved.\n"),
+          if(aboveTarget) Text("Your current point value is $points, which is above your target! \n"),
+          if(belowResistance) Text("Your current point value is $points, which is below your resistance. \n"),
+          if(!belowResistance && !aboveTarget) Text("Your current point value is $points, which is inside your bargaining range. \n")
         ],
       ),
     );

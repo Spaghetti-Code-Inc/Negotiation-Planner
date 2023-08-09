@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:negotiation_tracker/view_and_track_negotiations/MyNegotiations.dart';
 import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
 import 'TrackProgress.dart';
@@ -8,18 +9,21 @@ import '../NegotiationDetails.dart';
 import 'view_delivered_issue.dart';
 import 'view_whole_negotiation.dart';
 
-
-Map<int, String> alphabet = {0: "A", 1: "B", 2: "C", 3:"D", 4:"F"};
-
-
+Map<int, String> alphabet = {0: "A", 1: "B", 2: "C", 3: "D", 4: "F"};
 
 class ViewNegotiation extends StatefulWidget {
   Negotiation negotiation;
   String docId;
   // Keep track of the "Whole Negotiation" values
-  late List lastNegotiationVals = [0, negotiation.resistance, negotiation.target, 100];
+  late List lastNegotiationVals = [
+    0,
+    negotiation.resistance,
+    negotiation.target,
+    100
+  ];
 
-  ViewNegotiation({Key? key, required this.negotiation, required this.docId}) : super(key: key);
+  ViewNegotiation({Key? key, required this.negotiation, required this.docId})
+      : super(key: key);
 
   @override
   State<ViewNegotiation> createState() => _ViewNegotiationState();
@@ -35,13 +39,12 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
   @override
   void initState() {
-    for (int i = 0; i < negotiationSnap.issues.length; i++){
-
+    for (int i = 0; i < negotiationSnap.issues.length; i++) {
       issueVals.add([]);
 
       Map<String, dynamic> issue = negotiationSnap.issues[i].issueVals;
 
-      for(int j = 0; j < 5; j++){
+      for (int j = 0; j < 5; j++) {
         String letter = alphabet[j]!;
         issueVals[i].add(issue[letter][0]);
       }
@@ -52,24 +55,23 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
   @override
   Widget build(BuildContext context) {
-
     editing = false;
-    for (int i = 0; i < negotiationSnap.issues.length; i++){
+    for (int i = 0; i < negotiationSnap.issues.length; i++) {
       Map<String, dynamic> issue = negotiationSnap.issues[i].issueVals;
 
-      for(int j = 0; j < 5; j++){
+      for (int j = 0; j < 5; j++) {
         String letter = alphabet[j]!;
-        if(issueVals[i][j].toString() != issue[letter][0].toString()) {
+        if (issueVals[i][j].toString() != issue[letter][0].toString()) {
           editing = true;
         }
       }
     }
-    if(!editing){
-
-      if(widget.lastNegotiationVals[1] != negotiationSnap.resistance) editing = true;
-      if(widget.lastNegotiationVals[2] != negotiationSnap.target) editing = true;
+    if (!editing) {
+      if (widget.lastNegotiationVals[1] != negotiationSnap.resistance)
+        editing = true;
+      if (widget.lastNegotiationVals[2] != negotiationSnap.target)
+        editing = true;
     }
-
 
     var db = FirebaseFirestore.instance;
     return Scaffold(
@@ -103,9 +105,14 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     child: const Text('Yes'),
                     onPressed: () {
                       String? id = FirebaseAuth.instance.currentUser?.uid;
-                      db.collection(id!).doc(widget.negotiation.id).delete();
+                      print("Deleted: $id, ${widget.docId}");
+                      db.collection(id!).doc(widget.docId).delete();
                       Navigator.pop(context);
                       Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyNegotiations()));
                     },
                   ),
                   TextButton(
@@ -124,14 +131,17 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             icon: Icon(Icons.check_box_outlined, size: 24),
             color: Colors.white,
             onPressed: () {
-
-              if(editing){
+              if (editing) {
                 checkSwitch(context, negotiationSnap, widget.docId);
               } else {
                 Navigator.pop(context);
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) =>
-                      TrackProgress(negotiation: negotiationSnap, docId: widget.docId,)),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TrackProgress(
+                            negotiation: negotiationSnap,
+                            docId: widget.docId,
+                          )),
                 );
               }
             },
@@ -176,6 +186,30 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                           ),
                         ),
 
+                        /// Info Button - showInfoRubric
+                        Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: navyBlue),
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: Colors.transparent,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.info_outlined,
+                              size: 28,
+                              color: navyBlue,
+                            ),
+                            onPressed: () {
+                              showInfoRubric(
+                                  context: context,
+                                  target: negotiationSnap.target,
+                                  resistance: negotiationSnap.resistance);
+                            },
+                            padding: EdgeInsets.all(0),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -235,13 +269,29 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                 ),
                               ),
 
-                              /// Buttons on right side
-                              // ButtonAddons(
-                              //   editing: issueEdits[index],
-                              //   index: index,
-                              //   updateEdit: updateEdit,
-                              //   showInfo: showInfo,
-                              // ),
+                              Container(
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: navyBlue),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.transparent,
+                                ),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.info_outlined,
+                                    size: 28,
+                                    color: navyBlue,
+                                  ),
+                                  onPressed: () {
+                                    showInfoIssueRubric(
+                                        context: context,
+                                        issueVals: issueHere.issueVals,
+                                        datatype: issueHere.datatype);
+                                  },
+                                  padding: EdgeInsets.all(0),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -254,12 +304,10 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                       ]);
                     },
                   ),
-
                 ]),
               ),
             ),
           ),
-
 
           ViewSaveDiscardRubric(
             negotiationSnap: negotiationSnap,
@@ -269,84 +317,44 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
             save: save,
             lastFullVals: widget.lastNegotiationVals,
           ),
-
-
-          /// Exit the negotiation button
-          Container(
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            margin: EdgeInsets.only(bottom: 20),
-            child: TextButton(
-              onPressed: () {
-                if(editing) checkExit(context);
-                else Navigator.pop((context));
-              },
-              child: Text("Exit Negotiation"),
-              style: TextButton.styleFrom(
-                backgroundColor: navyBlue,
-                foregroundColor: Colors.white,
-                elevation: 5,
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  checkSwitch(context, negotiation, docId){
+  checkSwitch(context, negotiation, docId) {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text("You have unsaved values, are you sure you want to exit?"),
+        title: const Text(
+            "You have unsaved values, are you sure you want to exit?"),
         actions: [
           TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("No")
-          ),
+              child: Text("No")),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.pop(context);
 
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TrackProgress(negotiation: negotiation, docId: docId,)));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TrackProgress(
+                            negotiation: negotiation,
+                            docId: docId,
+                          )));
             },
             child: Text("Yes"),
           ),
         ],
       ),
-
     );
   }
 
-
-  /// Pass along info button call
-  showInfo(int index) {
-    if (index == -1) {
-      Map<String, int> values = {
-        "target": negotiationSnap.target,
-        "resistance": negotiationSnap.resistance,
-        // "cpTarget": negotiationSnap.cpTarget,
-        "cpResistance": negotiationSnap.resistance,
-      };
-      showInfoRubric(context, negotiationSnap.issues[index].name, values);
-    } else {
-      Issue thisIssue = negotiationSnap.issues[index];
-      // Create the correct map to send to the info button
-      Map<String, int> values = {
-        "target": thisIssue.issueVals["A"]!,
-        "resistance": thisIssue.issueVals["D"]!,
-      };
-
-      showInfoRubric(context, negotiationSnap.issues[index].name, values);
-    }
-  }
-
-  refresh(){
+  refresh() {
     setState(() {});
   }
 
@@ -369,8 +377,14 @@ class ViewSaveDiscardRubric extends StatefulWidget {
   List lastFullVals;
   Negotiation negotiationSnap;
 
-  ViewSaveDiscardRubric({Key? key, required this.editing, required this.lastFullVals, required this.save, required this.refresh,
-    required this.lastVals, required this.negotiationSnap,
+  ViewSaveDiscardRubric({
+    Key? key,
+    required this.editing,
+    required this.lastFullVals,
+    required this.save,
+    required this.refresh,
+    required this.lastVals,
+    required this.negotiationSnap,
   }) : super(key: key);
 
   @override
@@ -380,21 +394,24 @@ class ViewSaveDiscardRubric extends StatefulWidget {
 class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
   @override
   Widget build(BuildContext context) {
-    if(widget.editing){
+    if (widget.editing) {
       return Container(
         width: MediaQuery.of(context).size.width * .9,
         child: Row(
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, right: 5),
+                margin: EdgeInsets.only(bottom: 20, right: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
-                    for (int i = 0; i < widget.negotiationSnap.issues.length; i++){
-                      Map<String, dynamic> issue = widget.negotiationSnap.issues[i].issueVals;
+                    for (int i = 0;
+                        i < widget.negotiationSnap.issues.length;
+                        i++) {
+                      Map<String, dynamic> issue =
+                          widget.negotiationSnap.issues[i].issueVals;
 
-                      for(int j = 0; j < 5; j++){
+                      for (int j = 0; j < 5; j++) {
                         String letter = alphabet[j]!;
                         issue[letter][0] = widget.lastVals[i][j];
                       }
@@ -405,9 +422,7 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
 
                     widget.refresh();
                   },
-                  child: Text(
-                      "Discard Values"
-                  ),
+                  child: Text("Discard Values"),
                   style: TextButton.styleFrom(
                     backgroundColor: navyBlue,
                     foregroundColor: Colors.white,
@@ -416,17 +431,19 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
                 ),
               ),
             ),
-
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, left: 5),
+                margin: EdgeInsets.only(bottom: 20, left: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
-                    for (int i = 0; i < widget.negotiationSnap.issues.length; i++){
-                      Map<String, dynamic> issue = widget.negotiationSnap.issues[i].issueVals;
+                    for (int i = 0;
+                        i < widget.negotiationSnap.issues.length;
+                        i++) {
+                      Map<String, dynamic> issue =
+                          widget.negotiationSnap.issues[i].issueVals;
 
-                      for(int j = 0; j < 5; j++){
+                      for (int j = 0; j < 5; j++) {
                         String letter = alphabet[j]!;
                         widget.lastVals[i][j] = issue[letter][0];
                       }
@@ -438,9 +455,7 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
                     widget.save();
                     widget.refresh();
                   },
-                  child: Text(
-                      "Save Values"
-                  ),
+                  child: Text("Save Values"),
                   style: TextButton.styleFrom(
                     backgroundColor: navyBlue,
                     foregroundColor: Colors.white,
@@ -452,19 +467,19 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
           ],
         ),
       );
-    }
-    else {
+    } else {
+      /// Exit the negotiation button
       return Container(
-        width: MediaQuery.of(context).size.width*.9,
-        margin: EdgeInsets.only(bottom: 10, right: 5),
+        width: MediaQuery.of(context).size.width * .9,
         height: 40,
+        margin: EdgeInsets.only(bottom: 20),
         child: TextButton(
           onPressed: () {
-            print("Show Calculate Screen");
+            Navigator.pop((context));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MyNegotiations()));
           },
-          child: Text(
-              "View Total Negotiation"
-          ),
+          child: Text("Exit Negotiation"),
           style: TextButton.styleFrom(
             backgroundColor: navyBlue,
             foregroundColor: Colors.white,

@@ -6,6 +6,7 @@ import 'package:negotiation_tracker/view_and_track_negotiations/track_progress_s
 import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
 import '../NegotiationDetails.dart';
+import 'MyNegotiations.dart';
 import 'ViewNegotiation.dart';
 import '../main.dart';
 
@@ -22,49 +23,46 @@ class TrackProgress extends StatefulWidget {
 class _TrackProgressState extends State<TrackProgress> {
   late Negotiation negotiationSnap = widget.negotiation;
 
-  // Keeps track of new value for issue, .5 because that is half way in the slider
+  // Keeps track of new value for issue
   late List<double> issueVals = [];
-  // Keeps track of old value for issue, .5 because that is half way in the slider
+  // Keeps track of old value for issue
   late List<double> lastIssueVals = [];
 
   bool editing = false;
+  int userValue = 0;
 
 
   @override
   void initState() {
+    if(negotiationSnap.currentAgreement == null) negotiationSnap.currentAgreement = 50;
+
     for (int i = 0; i < negotiationSnap.issues.length; i++) {
       // Checks if initiated value is too high
       if(negotiationSnap.issues[i].currentValue! >= negotiationSnap.issues[i].relativeValue){
         issueVals.add(negotiationSnap.issues[i].relativeValue/2);
         lastIssueVals.add(negotiationSnap.issues[i].relativeValue/2);
       } else {
-        issueVals.add(negotiationSnap.issues[i].currentValue!);
-        lastIssueVals.add(negotiationSnap.issues[i].currentValue!);
+        issueVals.add(negotiationSnap.issues[i].currentValue!*1.0);
+        lastIssueVals.add(negotiationSnap.issues[i].currentValue!*1.0);
       }
 
     }
   }
 
-  late var totalValues = {"userValue": 0.0, "cpValue": 0.0};
-
   @override
   Widget build(BuildContext context) {
 
-    /// Builds the values for the slider that shows the entire negotiation values
-    /// And builds the values for the current issueVals
-    totalValues["userValue"] = 0.0;
-    totalValues["cpValue"] = 0.0;
     editing = false;
-
-    for (int i = 0; i < negotiationSnap.issues.length; i++) {
-      Issue thisIssue = negotiationSnap.issues[i];
+    userValue = 0;
+    for (int i = 0; i < issueVals.length; i++) {
       /// Calculates total values for user and cp based based on percentage of relative value filled
-      totalValues["userValue"] = issueVals[i] * thisIssue.relativeValue * .0001 + totalValues["userValue"]!;
-      totalValues["cpValue"] = (100 - issueVals[i]) * 0 * .0001 + totalValues["cpValue"]!;
+      userValue += (issueVals[i]).round();
 
       /// checks if the issue is currently being edited or not
       if(issueVals[i] != lastIssueVals[i]) editing = true;
     }
+
+    negotiationSnap.currentAgreement = userValue;
 
     return Scaffold(
       appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing,),
@@ -128,8 +126,10 @@ class _TrackProgressState extends State<TrackProgress> {
                   )
                 ),
 
-                /// Contains "Total User and Counterpart Values"
-                Container(
+
+                if(negotiationSnap.issues.length != 1)
+                  /// Header for overall rating
+                  Container(
                   width: MediaQuery.of(context).size.width * .85,
                   padding: EdgeInsets.only(top: 25, bottom: 20),
                   child: Align(
@@ -147,9 +147,9 @@ class _TrackProgressState extends State<TrackProgress> {
                     ),
                   ),
                 ),
-
-                /// Header for entire negotiation value for user
-                Container(
+                if(negotiationSnap.issues.length != 1)
+                  /// Header for entire negotiation value for user
+                  Container(
                   width: MediaQuery.of(context).size.width * .85,
                   margin: EdgeInsets.only(bottom: 10),
                   child: Row(
@@ -168,26 +168,26 @@ class _TrackProgressState extends State<TrackProgress> {
 
                       /// Info Button
                       TotalValueInfo(
-                        userValue: totalValues["userValue"]!,
-                        counterPartValue: totalValues["cpValue"]!,
+                        userValue: userValue*.01,
                         negotiation: negotiationSnap,
                       )
                     ],
                   ),
                 ),
-
-
-                Container(
+                if(negotiationSnap.issues.length != 1)
+                  /// Slider for overall negotiation
+                  Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: MultiThumbSlider(
                     valuesChanged: (List<double> values) {},
-                    initalSliderValues: [0, totalValues["userValue"]!, 1],
+                    initalSliderValues: [0, userValue*.01, 1],
                     thumbBuilder: (BuildContext context, int index, double value) {
-                      return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01);
+                      return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target, resistance: negotiationSnap.resistance,);
                     },
                     height: 70,
                   )
                 ),
+
               ]),
             ),
           ),
@@ -200,28 +200,6 @@ class _TrackProgressState extends State<TrackProgress> {
             refresh: refresh,
             save: save,
           ),
-
-          // Exit the negotiation button
-          Container(
-            width: MediaQuery.of(context).size.width * .9,
-            height: 40,
-            margin: EdgeInsets.only(bottom: 20),
-            child: TextButton(
-              onPressed: () {
-                if(editing){
-                  checkExit(context);
-                } else {
-                  Navigator.pop((context));
-                }
-              },
-              child: Text("Exit Negotiation"),
-              style: TextButton.styleFrom(
-                backgroundColor: navyBlue,
-                foregroundColor: Colors.white,
-                elevation: 5,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -233,8 +211,7 @@ class _TrackProgressState extends State<TrackProgress> {
   }
 
   save() {
-    negotiationSnap.currentAgreement = (totalValues["userValue"]!*100).truncate();
-    print(negotiationSnap.currentAgreement);
+    negotiationSnap.currentAgreement = (userValue).truncate();
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
     FirebaseFirestore.instance
@@ -246,53 +223,13 @@ class _TrackProgressState extends State<TrackProgress> {
   }
 }
 
-/// Editable slider info
-class SliderInfo extends StatelessWidget {
-  double sliderValue;
-  String issueName;
-  Negotiation negotiationSnap;
-
-  SliderInfo(
-      {Key? key,
-      required this.sliderValue,
-      required this.issueName,
-      required this.negotiationSnap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        border: Border.all(color: navyBlue),
-        borderRadius: BorderRadius.circular(5.0),
-        color: Colors.transparent,
-      ),
-      child: IconButton(
-        icon: Icon(
-          Icons.info_outlined,
-          size: 28,
-          color: navyBlue,
-        ),
-        onPressed: () {
-          showInfoTrackProgress(context, issueName, sliderValue, negotiationSnap);
-        },
-        padding: EdgeInsets.all(0),
-      ),
-    );
-  }
-}
-
 /// Total Value slider info
 class TotalValueInfo extends StatelessWidget {
   double userValue;
-  double counterPartValue;
   Negotiation negotiation;
-
   TotalValueInfo(
       {Key? key,
       required this.userValue,
-      required this.counterPartValue,
       required this.negotiation})
       : super(key: key);
 
@@ -313,7 +250,8 @@ class TotalValueInfo extends StatelessWidget {
           color: navyBlue,
         ),
         onPressed: () {
-          showTotalInfoTrackProgress(context, userValue, counterPartValue, negotiation);
+          showTotalInfoTrackProgress(context, negotiation);
+          print("Pressed");
         },
         padding: EdgeInsets.all(0),
       ),
@@ -348,7 +286,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, right: 5),
+                margin: EdgeInsets.only(bottom: 20, right: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
@@ -375,12 +313,12 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
 
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10, left: 5),
+                margin: EdgeInsets.only(bottom: 20, left: 5),
                 height: 40,
                 child: TextButton(
                   onPressed: () {
                     for(int i = 0; i < widget.negotiationSnap.issues.length; i++){
-                      widget.negotiationSnap.issues[i].currentValue = widget.issueVals[i];
+                      widget.negotiationSnap.issues[i].currentValue = widget.issueVals[i].truncate();
                       widget.lastIssueVals[i] = widget.issueVals[i];
                     }
 
@@ -407,16 +345,18 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
     }
     else {
       return Container(
-        width: MediaQuery.of(context).size.width*.9,
-        margin: EdgeInsets.only(bottom: 10, right: 5),
+        width: MediaQuery.of(context).size.width * .9,
         height: 40,
+        margin: EdgeInsets.only(bottom: 20),
         child: TextButton(
           onPressed: () {
-            print("Show Calculate Screen");
+              Navigator.pop((context));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyNegotiations())
+              );
           },
-          child: Text(
-              "View Total Negotiation"
-          ),
+          child: Text("Exit Negotiation"),
           style: TextButton.styleFrom(
             backgroundColor: navyBlue,
             foregroundColor: Colors.white,
@@ -468,9 +408,14 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   child: const Text('Yes'),
                   onPressed: () {
                     String? id = FirebaseAuth.instance.currentUser?.uid;
+                    print("Deleted: $id, $docId");
                     FirebaseFirestore.instance.collection(id!).doc(docId).delete();
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyNegotiations())
+                    );
                   },
                 ),
                 TextButton(
@@ -552,6 +497,10 @@ checkExit(context){
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyNegotiations())
+            );
           },
           child: Text("Yes"),
         ),
