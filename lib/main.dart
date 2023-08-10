@@ -13,6 +13,8 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+
+
   runApp(
       MaterialApp(
         scaffoldMessengerKey: Utils.messengerKey,
@@ -20,6 +22,8 @@ Future main() async {
         home: MainPage(),
         navigatorKey: navigatorKey,
         theme: ThemeData(
+          primaryColor: Color(0xff0A0A5B),
+          primarySwatch: Colors.lightGreen,
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: Color(0xFF6DC090),
             selectionColor: Color(0xFF6DC090),
