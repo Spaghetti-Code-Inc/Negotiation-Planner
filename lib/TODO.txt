@@ -1,16 +1,15 @@
 Random quality of life changes:
 
-50. 3 Buttons on first page shouldn't be buttons
+50. 3 Buttons on first page shouldn't be buttons - TODO
+55. Star a negotiation to keep at the top - TODO
 
-56. Make [Determine Issues] reload the issues from negotiation - TODO
-62. Make 0's disappear when entering a new value - TODO
-
-
-55. Star a negotiation to keep at the top
+56. Make [Determine Issues] reload the issues from negotiation
 59. Info buttons may have weird spacing
 60. Make buttons on [Issue values] more noticeable
 61. Make Info on [Target & Resistance] not pop every single new screen
-
+62. Make 0's disappear when entering a new value: Only finished with [Weight The Issues]
+63. Add max length to datatype name
+64..
 
 What is needed before Launch:
 1. First page can not have buttons - TODO 50
@@ -18,7 +17,7 @@ What is needed before Launch:
 
 Lucas:
 TODO Wednesday: 56, 62
-TODO Thursday: Run code coverage-7, Quality Changes
+TODO Thursday: Run code coverage, 7, Quality Changes
 TODO Friday-Weekend: Launch onto website/upload to app stores
 
 Ideas:
@@ -56,4 +55,4 @@ Debugging:
 5..
 
 Notes:
-1. On web, [Issue Values] "Enter Datatype" never switches - not sure if this is fixable or not
+For refreshing on web, the top most class that is showing must be refreshed.

@@ -265,7 +265,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                               borderSide: const BorderSide(
                                   color: Color(0xff000000), width: 1),
                             ),
-                            labelText: "Pts.",
+                            labelText: "Points",
                             labelStyle: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
@@ -369,22 +369,13 @@ class _TargetResistanceState extends State<TargetResistance> {
                                   color: Color(0xff000000),
                                 ),
                                 decoration: InputDecoration(
-                                  disabledBorder: OutlineInputBorder(
+                                  border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(4.0),
                                     borderSide: const BorderSide(
                                         color: Color(0xff000000), width: 1),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff000000), width: 1),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff000000), width: 1),
-                                  ),
-                                  labelText: "Pts.",
+
+                                  labelText: "Points",
                                   labelStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontStyle: FontStyle.normal,

@@ -27,8 +27,9 @@ class _WeightIssuesState extends State<WeightIssues> {
       _controllers.add(new TextEditingController());
       if(currentNegotiation.issues[i].relativeValue != -1){
         _controllers[i].text = currentNegotiation.issues[i].relativeValue.toString();
+        if(_controllers[i].text == "0") _controllers[i].text = "";
       }
-      else _controllers[i].text = "0";
+      else _controllers[i].text = "";
     }
     if(length == 1){
       _controllers[0].text = "100";
@@ -290,23 +291,25 @@ class _WeightIssuesState extends State<WeightIssues> {
                               textAlign: TextAlign.center,
                               textInputAction: TextInputAction.next,
                               cursorColor: Color(0xff0A0A5B),
-                          keyboardType: TextInputType.number,
-                          controller: _controllers[index],
-                          decoration: InputDecoration(
-                            enabledBorder: (
-                              OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-                                borderRadius: BorderRadius.circular(20),
-                              )
-                            ),
-                            focusedBorder: (
-                              OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B))
-                              )
-                            )
+                              keyboardType: TextInputType.number,
+                              controller: _controllers[index],
 
-                          ),
+                              decoration: InputDecoration(
+                                hintText: "0",
+                                enabledBorder: (
+                                  OutlineInputBorder(
+                                    borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
+                                    borderRadius: BorderRadius.circular(20),
+                                  )
+                                ),
+                                focusedBorder: (
+                                  OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B))
+                                  )
+                                )
+
+                              ),
                         )),
                       ),
                       //adds padding between input field and right side of screen
