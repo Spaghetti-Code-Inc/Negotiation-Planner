@@ -60,7 +60,6 @@ class PrepareBar extends StatelessWidget implements PreferredSizeWidget {
   }//widget
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(60.0);
 }
 
@@ -91,7 +90,6 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget{
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(60.0);
 
 }

@@ -48,10 +48,11 @@ class _IssueValuesState extends State<IssueValues> {
         else if (_realValues[i][j].text == "null") _realValues[i][j].text = "0";
       }
 
-      // Gets this issues, real value, cuts off the number and saves the data type
       _realWorldDatatypes.add(new TextEditingController(
           text: currentNegotiation.issues[i].datatype));
     }
+
+    _realWorldDatatypes.forEach((element) {print(element.text);});
 
     super.initState();
   }
@@ -137,7 +138,7 @@ class _IssueValuesState extends State<IssueValues> {
                                 'Set the possibilities for each issue.'),
                             content: const Text(
                                 "Identify possible outcomes on each and allocate a "
-                                "number of points for several potential settlement on each issue. "
+                                "number of points for several potential settlements on each issue. "
                                 "You should base your range on norms, industry standards market data, etc."),
                             actions: [
                               TextButton(
@@ -178,6 +179,7 @@ class _IssueValuesState extends State<IssueValues> {
                         index: index,
                         realCtrl: _realValues[index],
                         datatype: _realWorldDatatypes[index],
+                        reload: reload,
                       ),
                       height: 390);
                 }),
@@ -188,6 +190,17 @@ class _IssueValuesState extends State<IssueValues> {
         ],
       ),
     );
+  }
+
+  reload(){
+
+    for(int i = 0; i < currentNegotiation.issues.length; i++){
+      currentNegotiation.issues[i].datatype = _realWorldDatatypes[i].text;
+    }
+
+    setState(() {
+
+    });
   }
 
   bool Next() {
@@ -226,7 +239,7 @@ class _IssueValuesState extends State<IssueValues> {
           }
         } on FormatException {
           Utils.showSnackBar(
-              "One of your real values is not a number.");
+              "One of your real values is not entered correctly.");
           moveOn = false;
         }
 
@@ -275,13 +288,15 @@ class EnterValues extends StatelessWidget {
   final List<TextEditingController> ctrl;
   final List<TextEditingController> realCtrl;
   final TextEditingController datatype;
+  Function reload;
   EnterValues(
       {Key? key,
       required this.issueName,
       required this.datatype,
       required this.ctrl,
       required this.index,
-      required this.realCtrl})
+      required this.realCtrl,
+      required this.reload})
       : super(key: key);
 
   late final MaxPoints = currentNegotiation.issues[index].relativeValue;
@@ -315,6 +330,7 @@ class EnterValues extends StatelessWidget {
       "This represents the resistance point. This is the least amount of points you're willing to accept.",
       "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
     ];
+
 
     return Column(
       children: [
@@ -371,8 +387,10 @@ class EnterValues extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           showDialog(
+                            barrierDismissible: false,
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
+
                                     title: Text("Real Value for $issueName"),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -421,13 +439,14 @@ class EnterValues extends StatelessWidget {
                                           foregroundColor: Color(0xFF6DC090),
                                         ),
                                         onPressed: () {
+                                          reload();
                                           Navigator.pop(context);
                                         },
                                       ),
                                     ],
                                   ));
                         },
-                        child: Text("Datatype"),
+                        child: (datatype.text == "") ? Text("Enter Datatype") : Text(datatype.text),
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xff0A0A5B),
                             side: BorderSide(

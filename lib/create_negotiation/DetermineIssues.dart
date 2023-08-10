@@ -1,5 +1,3 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:negotiation_tracker/create_negotiation/WeightIssues.dart';
@@ -18,8 +16,9 @@ class DetermineIssues extends StatefulWidget {
 
 class _DetermineIssuesState extends State<DetermineIssues> {
   bool iconColor = false;
-  final _items = ['Issue 1', 'Issue 2'];
-  final _controllers = [TextEditingController(), TextEditingController()];
+  final _items = ['Issue 1'];
+  final _controllers = [TextEditingController()];
+  List<FocusNode> _focus = [FocusNode()];
 
   static final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
 
@@ -27,8 +26,10 @@ class _DetermineIssuesState extends State<DetermineIssues> {
     // Adds an issue and text editing controller for the list view
     _controllers.add(TextEditingController());
     _items.add('Issue ${_items.length + 1}');
+    _focus.add(FocusNode());
 
-    _key.currentState!.insertItem(0, duration: const Duration(milliseconds: 200));
+    print(_controllers.length);
+    _key.currentState!.insertItem(_controllers.length-1, duration: const Duration(milliseconds: 200));
     //meant to reset issue numbers inside text box in descending order
     for (int i = 0; i < _items.length; i++) {
       if (_items[i].contains("Issue")) {
@@ -42,7 +43,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
   void _removeIssue(int index) {
     // Removes the Controller for the index removed
     _controllers.removeAt(index);
-
+    _focus.removeAt(index);
     _key.currentState!.removeItem(index, (_, animation) {
       return SizeTransition(
         sizeFactor: animation,
@@ -178,6 +179,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                                 /// Determines max length of the Issue name
                                 LengthLimitingTextInputFormatter(MAX_ISSUE_NAME)
                               ],
+                              focusNode: _focus[index],
                               cursorColor: Color(0xff0A0A5B),
                               controller: _controllers[index],
                               decoration: InputDecoration(
@@ -222,7 +224,15 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                     backgroundColor: const Color(0x9BFFFFFF),
                     foregroundColor: const Color(0xff0A0A5B),
                   ),
-                  onPressed: _addIssues,
+                  onPressed: () {
+                    setState(() {
+                      _addIssues();
+                    });
+
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      FocusScope.of(context).requestFocus(_focus[_focus.length-1]);
+                    });
+                  },
                   child: const Text('Add Issue'),
                 ),
               ),
@@ -245,6 +255,19 @@ class _DetermineIssuesState extends State<DetermineIssues> {
 
   bool Next(){
 
+    /// Searches for duplicate issues
+    Set<String> check = Set();
+    List<String> dupes = [];
+    _controllers.forEach((TextEditingController t) => {
+      if(check.contains(t.text)){
+        dupes.add(t.text)
+      } else check.add(t.text)
+    });
+    if (dupes.length != 0) {
+      Utils.showSnackBar("No duplicate issue names are allowed: ${dupes[0]}");
+      return false;
+    }
+
     // List of indexes that already exist as determined issues
     List<int> exist = [];
     // Loops through issues backwards to delete the ones that do not have the same name
@@ -262,7 +285,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
       if(!exists) currentNegotiation.issues.removeAt(j);
     }
 
-    // For each issue add it to the currentNegotiation list
+    /// For each issue add it to the currentNegotiation list
     for (int i = 0; i < _controllers.length; i++) {
       // Adds the issue if the name is not empty
       bool exists = false;
@@ -275,6 +298,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
         currentNegotiation.issues.add(new Issue(name: _controllers[i].text));
       }
     }
+
     // If there are no named issues, return false
     if(currentNegotiation.issues.length == 0) {
       Utils.showSnackBar("Please enter in a name for at least one issue.");

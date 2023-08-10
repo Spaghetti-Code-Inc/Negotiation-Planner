@@ -1,19 +1,23 @@
 Random quality of life changes:
-50. 3 Buttons on first page shouldn't be buttons
-51. Center "2. Bargaining Range fo Entire Negotiation" on [Plan Summary]
-52. A way to change relative values after the negotiation is already made
-53. A way to change real values after the negotiation is already made
-54. Flip Overall Negotiation with Individual Issues on [Track Progress]
-55. Start a negotiation to keep at the top
+
+50. 3 Buttons on first page shouldn't be buttons - TODO
+55. Star a negotiation to keep at the top - TODO
+
+56. Make [Determine Issues] reload the issues from negotiation
+59. Info buttons may have weird spacing
+60. Make buttons on [Issue values] more noticeable
+61. Make Info on [Target & Resistance] not pop every single new screen
+62. Make 0's disappear when entering a new value: Only finished with [Weight The Issues]
+63. Add max length to datatype name
+64. Turn [Track Progress] issue sliders green when they are named "A"
 
 What is needed before Launch:
 1. First page can not have buttons - TODO 50
-2. Focussing on the correct form field when enter is pushed for mobile - TODO Backlog 1
 7. Star a negotiation to keep at the top - TODO 55
 
 Lucas:
-TODO Wednesday: 2
-TODO Thursday: Run code coverage
+TODO Wednesday: 56, 62
+TODO Thursday: Run code coverage, 7, Quality Changes
 TODO Friday-Weekend: Launch onto website/upload to app stores
 
 Ideas:
@@ -35,14 +39,20 @@ Cleaning Code:
 10..
 
 Backlog:
-1 + 4. Work on focussing the user input when enter is pressed + Make it possible to click out of keyboard screens
+4. Make it possible to click out of keyboard screens
 2. <View Total Negotiation> Shows current total points of negotiation
         - This is where trade offs should be shown
         - Give summary of each issue and what the value is
 5. Allow commas when entering real values in [Issue Values]
 6. Create suggestions for what tradeoffs to do - Could be apart of <View Total Negotiation>
+7. Add Focus Nodes to [Issue Values]
+8. A way to change relative values after the negotiation is already made
+9. A way to change real values after the negotiation is already made
 
 Debugging:
-1. Random Null Exception given on "Weight Issues" page but nothing bad happens?
 2. On [Issue Values] entering real values in ascending order than going back and changing relative values
     makes the negotiation show an error - something to do with point system
+5..
+
+Notes:
+For refreshing on web, the top most class that is showing must be refreshed.
