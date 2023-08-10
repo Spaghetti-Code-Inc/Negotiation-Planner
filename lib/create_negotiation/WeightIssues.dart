@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../NegotiationDetails.dart';
 import 'IssueValues.dart';
 import 'package:negotiation_tracker/Utils.dart';
 import '../main.dart';
@@ -222,7 +223,7 @@ class _WeightIssuesState extends State<WeightIssues> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  padding: EdgeInsets.fromLTRB(10, 5, 0, 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Total Points: " + totalVal.toString() + "/100",
@@ -234,7 +235,7 @@ class _WeightIssuesState extends State<WeightIssues> {
               ),
 
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(0, 5, 10, 0),
                 child: FilledButton(
                   onPressed: () { EvenlyDistribute(); },
                   child: Text("Distribute Evenly"),
@@ -277,7 +278,11 @@ class _WeightIssuesState extends State<WeightIssues> {
                         child: Center(
                             child: TextFormField(
                               onChanged: (newVal) {
-                                currentNegotiation.issues[index].relativeValue = int.parse(_controllers[index].text);
+                                try{
+                                  currentNegotiation.issues[index].relativeValue = int.parse(_controllers[index].text);
+                                } catch (e){
+                                  currentNegotiation.issues[index].relativeValue = 0;
+                                }
                                 total();
                               },
                               // Only allows digits 0-9, max length of 2

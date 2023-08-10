@@ -137,7 +137,7 @@ class _IssueValuesState extends State<IssueValues> {
                                 'Set the possibilities for each issue.'),
                             content: const Text(
                                 "Identify possible outcomes on each and allocate a "
-                                "number of points for several potential settlement on each issue. "
+                                "number of points for several potential settlements on each issue. "
                                 "You should base your range on norms, industry standards market data, etc."),
                             actions: [
                               TextButton(
@@ -226,7 +226,7 @@ class _IssueValuesState extends State<IssueValues> {
           }
         } on FormatException {
           Utils.showSnackBar(
-              "One of your real values is not a number.");
+              "One of your real values is not entered correctly.");
           moveOn = false;
         }
 
@@ -427,7 +427,7 @@ class EnterValues extends StatelessWidget {
                                     ],
                                   ));
                         },
-                        child: Text("Datatype"),
+                        child: (datatype.text == "") ? Text("Enter Datatype") : Text(datatype.text),
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xff0A0A5B),
                             side: BorderSide(

@@ -29,9 +29,6 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
     currentNegotiation.currentOffer = 0;
     currentNegotiation.target = 0;
     currentNegotiation.resistance = 0;
-    // currentNegotiation.cpTarget = 0;
-    // currentNegotiation.cpBATNA = 0;
-    // currentNegotiation.cpResistance = 0;
     super.initState();
   }
 

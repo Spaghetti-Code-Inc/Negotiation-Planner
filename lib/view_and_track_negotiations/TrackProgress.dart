@@ -83,13 +83,73 @@ class _TrackProgressState extends State<TrackProgress> {
                   thickness: 3,
                   color: Colors.black,
                 ),
-                /// Padding between divider and issues
-                Container(margin: EdgeInsets.only(bottom: 15)),
+
+
+                if(negotiationSnap.issues.length != 1)
+                /// Header for overall rating
+                  Container(
+                    width: MediaQuery.of(context).size.width * .85,
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Overall Negotiation Rating",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 24,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    ),
+                  ),
+                if(negotiationSnap.issues.length != 1)
+                /// Header for entire negotiation value for user
+                  Container(
+                    width: MediaQuery.of(context).size.width * .85,
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Your Total Value",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 22,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ),
+
+                        /// Info Button
+                        TotalValueInfo(
+                          userValue: userValue*.01,
+                          negotiation: negotiationSnap,
+                        )
+                      ],
+                    ),
+                  ),
+                if(negotiationSnap.issues.length != 1)
+                /// Slider for overall negotiation
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: MultiThumbSlider(
+                        valuesChanged: (List<double> values) {},
+                        initalSliderValues: [0, userValue*.01, 1],
+                        thumbBuilder: (BuildContext context, int index, double value) {
+                          return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target, resistance: negotiationSnap.resistance,);
+                        },
+                        height: 70,
+                      )
+                  ),
 
                 /// Contains "Bargaining Range for Individual Issues"
                 Container(
                   width: MediaQuery.of(context).size.width * .85,
-                  padding: EdgeInsets.only(bottom: 20),
+                  padding: EdgeInsets.only(bottom: 20, top: 20),
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -125,69 +185,6 @@ class _TrackProgressState extends State<TrackProgress> {
                     },
                   )
                 ),
-
-
-                if(negotiationSnap.issues.length != 1)
-                  /// Header for overall rating
-                  Container(
-                  width: MediaQuery.of(context).size.width * .85,
-                  padding: EdgeInsets.only(top: 25, bottom: 20),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Overall Negotiation Rating",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 24,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                ),
-                if(negotiationSnap.issues.length != 1)
-                  /// Header for entire negotiation value for user
-                  Container(
-                  width: MediaQuery.of(context).size.width * .85,
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "Your Total Value",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 22,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-
-                      /// Info Button
-                      TotalValueInfo(
-                        userValue: userValue*.01,
-                        negotiation: negotiationSnap,
-                      )
-                    ],
-                  ),
-                ),
-                if(negotiationSnap.issues.length != 1)
-                  /// Slider for overall negotiation
-                  Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  child: MultiThumbSlider(
-                    valuesChanged: (List<double> values) {},
-                    initalSliderValues: [0, userValue*.01, 1],
-                    thumbBuilder: (BuildContext context, int index, double value) {
-                      return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target, resistance: negotiationSnap.resistance,);
-                    },
-                    height: 70,
-                  )
-                ),
-
               ]),
             ),
           ),

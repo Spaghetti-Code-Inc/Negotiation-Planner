@@ -90,7 +90,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                                         'Understanding your rubric'
                                     ),
                                     content: const Text(
-                                        "If you were to receive an A+ on every deal you would score a 100 (a perfect score!)"
+                                        "If you were to receive an A on every deal you would score a 100 (a perfect score!)"
                                     ),
                                     actions: [
                                       TextButton(
@@ -107,7 +107,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                                                     'Understanding your rubric'
                                                 ),
                                                 content: Text(
-                                                    "If you were to get your A+ deal on the first issue and your least acceptable deal on the remaining issues, you would receive ${initPoints()} points."
+                                                    "If you were to get your A deal on the first issue and your least acceptable deal on the remaining issues, you would receive ${initPoints()} points."
                                                 ),
                                                 actions: [
                                                   TextButton(
@@ -141,7 +141,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                                                                             'Example'
                                                                         ),
                                                                         content: Text(
-                                                                            "Let’s say A+ deal on salary is \$50,000, and you gave that a value of 75 points. You get an offer of \$47,500 in salary, even though this value is not in the chart. The point to remember when using this tool is to pick numbers for your scoring system that reflect various levels of importance to you."
+                                                                            "Let’s say A deal on salary is \$50,000, and you gave that a value of 75 points. You get an offer of \$47,500 in salary, even though this value is not in the chart. The point to remember when using this tool is to pick numbers for your scoring system that reflect various levels of importance to you."
                                                                         ),
                                                                         actions: [
                                                                           TextButton(
@@ -235,6 +235,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                         child: TextFormField(
+                          textInputAction: TextInputAction.next,
                           inputFormatters: INTEGER_INPUTS,
                           keyboardType: TextInputType.number,
                           onChanged: (newVal) {
@@ -445,8 +446,7 @@ class _TargetResistanceState extends State<TargetResistance> {
     bool firstRun = true;
     for(int i = 0; i < currentNegotiation.issues.length; i++){
       if(!firstRun){
-        counter += int.parse(currentNegotiation.issues[i].issueVals["D"].toString())/100.0*
-            currentNegotiation.issues[i].relativeValue;
+        counter += int.parse(currentNegotiation.issues[i].issueVals["D"][0].toString());
       }
       else{
         counter += 1.0*currentNegotiation.issues[i].relativeValue;
