@@ -9,7 +9,7 @@ Random quality of life changes:
 61. Make Info on [Target & Resistance] not pop every single new screen
 62. Make 0's disappear when entering a new value: Only finished with [Weight The Issues]
 63. Add max length to datatype name
-64..
+64. Turn [Track Progress] issue sliders green when they are named "A"
 
 What is needed before Launch:
 1. First page can not have buttons - TODO 50

@@ -223,9 +223,9 @@ class PlanSummary extends StatelessWidget {
                           each.currentValue = (each.relativeValue/2).truncate();
                         }
 
-                        // Adds the current negotiation to the correct user
                         db
                             .collection(FirebaseAuth.instance.currentUser!.uid)
+                            .doc("data").collection("regular")
                             .add(currentNegotiation.toFirestore());
 
                         // Resets the current negotiation

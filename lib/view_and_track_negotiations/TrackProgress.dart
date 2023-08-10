@@ -13,8 +13,9 @@ import '../main.dart';
 class TrackProgress extends StatefulWidget {
   Negotiation negotiation;
   String docId;
+  bool pinned;
 
-  TrackProgress({Key? key, required this.docId, required this.negotiation}) : super(key: key);
+  TrackProgress({Key? key, required this.docId, required this.negotiation, required this.pinned}) : super(key: key);
 
   @override
   State<TrackProgress> createState() => _TrackProgressState();
@@ -65,7 +66,7 @@ class _TrackProgressState extends State<TrackProgress> {
     negotiationSnap.currentAgreement = userValue;
 
     return Scaffold(
-      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing,),
+      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing, pinned: widget.pinned,),
       body: Column(
         children: [
           Expanded(
@@ -211,10 +212,14 @@ class _TrackProgressState extends State<TrackProgress> {
     negotiationSnap.currentAgreement = (userValue).truncate();
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
-    FirebaseFirestore.instance
-        .collection(id!)
-        .doc(widget.docId)
-        .set(negotiationSnap.toFirestore());
+
+    if(widget.pinned){
+      FirebaseFirestore.instance.collection(id!)
+          .doc("data").collection("pinned").doc(widget.docId).set(negotiationSnap.toFirestore());
+    }  else {
+      FirebaseFirestore.instance.collection(id!)
+          .doc("data").collection("regular").doc(widget.docId).set(negotiationSnap.toFirestore());
+    }
 
     refresh();
   }
@@ -371,8 +376,9 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Negotiation negotiation;
   String docId;
   bool editing;
+  bool pinned;
 
-  TopBar({Key? key, required this.negotiation, required this.docId, required this.editing})
+  TopBar({Key? key, required this.negotiation, required this.docId, required this.editing, required this.pinned})
       : super(key: key);
 
   @override
@@ -405,8 +411,16 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   child: const Text('Yes'),
                   onPressed: () {
                     String? id = FirebaseAuth.instance.currentUser?.uid;
-                    print("Deleted: $id, $docId");
-                    FirebaseFirestore.instance.collection(id!).doc(docId).delete();
+
+                    if(pinned){
+                      print("$id, data, pinned, $docId");
+                      FirebaseFirestore.instance.collection(id!)
+                          .doc("data").collection("pinned").doc(docId).delete();
+                    } else {
+                      print("$id, data, regular, $docId");
+                      FirebaseFirestore.instance.collection(id!)
+                          .doc("data").collection("regular").doc(docId).delete();
+                    }
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.push(
@@ -433,11 +447,11 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
 
             if(editing){
-              checkSwitch(context, negotiation, docId);
+              checkSwitch(context, negotiation, docId, pinned);
             } else {
               Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId,)));
+                  MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId, pinned: pinned,)));
             }
           },
         ),
@@ -449,7 +463,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(60.0);
 }
 
-checkSwitch(context, negotiation, docId){
+checkSwitch(context, negotiation, docId, pinned){
   return showDialog(
     context: context,
     builder: (BuildContext context) => AlertDialog(
@@ -467,7 +481,7 @@ checkSwitch(context, negotiation, docId){
             Navigator.pop(context);
 
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId,)));
+                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId, pinned: pinned,)));
 
           },
           child: Text("Yes"),

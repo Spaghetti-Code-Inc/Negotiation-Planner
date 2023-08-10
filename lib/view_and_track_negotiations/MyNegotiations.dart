@@ -23,8 +23,6 @@ class _MyNegotiationsState extends State<MyNegotiations> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
@@ -53,32 +51,71 @@ class _MyNegotiationsState extends State<MyNegotiations> {
       body: Column(
         children: [
           // Makes the stream fill 80% of the screen at most
-          Expanded(
-            child: Container(
-              child: StreamBuilder(
-                // Gets the users collection with their negotiations.
-                stream: FirebaseFirestore.instance
-                    .collection(FirebaseAuth.instance.currentUser!.uid)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  // If there is no negotiations to the user
-                  if (!snapshot.hasData) {
-                    return const Center(child: Text('Add A New Negotiation'));
-                  }
-                  // Shows the users negotiations based, runs on the negotiation container widget
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data?.docs.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot? docSnapshot = snapshot.data?.docs[index];
+          Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: ListView(
+              shrinkWrap: true,
+      children: [
+                StreamBuilder(
+                  // Gets the users collection with their negotiations.
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseAuth.instance.currentUser!.uid)
+                      .doc("data")
+                      .collection("pinned")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    // If there is no negotiations to the user
+                    if (!snapshot.hasData) {
+                      return const Center(child: Text('Add A New Negotiation'));
+                    }
+                    // Shows the users negotiations based, runs on the negotiation container widget
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data?.docs.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot? docSnapshot =
+                        snapshot.data?.docs[index];
 
-                      return NegotiationContainer(negotiation: docSnapshot, docIndex: index);
-                    },
-                  );
-                },
-              ),
+                        return NegotiationContainer(
+                          negotiation: docSnapshot, docIndex: index, pinned: true,);
+                      },
+                    );
+                  },
+                ),
+
+                Divider(color: Colors.grey, thickness: 1,),
+
+                StreamBuilder(
+                  // Gets the users collection with their negotiations.
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseAuth.instance.currentUser!.uid)
+                      .doc("data")
+                      .collection("regular")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    // If there is no negotiations to the user
+                    if (!snapshot.hasData) {
+                      return const Center(child: Text('Add A New Negotiation'));
+                    }
+                    // Shows the users negotiations based, runs on the negotiation container widget
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data?.docs.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot? docSnapshot =
+                            snapshot.data?.docs[index];
+
+                        return NegotiationContainer(
+                            negotiation: docSnapshot, docIndex: index, pinned: false,);
+                      },
+                    );
+                  },
+                ),
+              ]),
             ),
-          ),
+
           Container(
               width: MediaQuery.of(context).size.width * .9,
               margin: EdgeInsets.only(bottom: 10),
@@ -87,14 +124,18 @@ class _MyNegotiationsState extends State<MyNegotiations> {
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => StartNewNegotiation()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StartNewNegotiation()));
                   },
                   child: Text("Prepare For New Negotiation"),
                   style: TextButton.styleFrom(
                     backgroundColor: navyBlue,
                     foregroundColor: Colors.white,
                     elevation: 2,
-                  )))
+                  ),
+              ),
+          ),
         ],
       ),
     );
@@ -109,15 +150,24 @@ class NegotiationContainer extends StatefulWidget {
   // User id of the doc
   final id = FirebaseAuth.instance.currentUser?.uid;
 
-  NegotiationContainer({Key? key, required this.negotiation, required this.docIndex})
+  final bool pinned;
+
+  NegotiationContainer(
+      {Key? key,
+      required this.negotiation,
+      required this.docIndex,
+      required this.pinned})
       : super(key: key);
   _NegotiationContainerState createState() => _NegotiationContainerState();
 }
 
 class _NegotiationContainerState extends State<NegotiationContainer> {
-
-  late Negotiation negotiationSnap = Negotiation.fromFirestore(widget.negotiation);
+  late Negotiation negotiationSnap =
+      Negotiation.fromFirestore(widget.negotiation);
   late String docId = widget.negotiation!.id;
+
+  var db = FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid);
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,13 +180,10 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
 
     // Converts the issueList into a List<Issue>
     List<Issue> issues = [];
-    issueList.forEach((map) => {
-      issues.add(Issue.fromMap(map))
-    });
+    issueList.forEach((map) => {issues.add(Issue.fromMap(map))});
 
     // Variable that holds the displayed names of top 3 issues
     List<String> names = Utils.findHighestValuedIssues(issues);
-
 
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -159,27 +206,63 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            // Title
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  widget.negotiation!["title"],
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 18,
-                    color: _topTextColor,
+            Row(children: [
+              // Title
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.negotiation!["title"],
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 18,
+                        color: _topTextColor,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              IconButton(
+                padding: EdgeInsets.only(right: 10),
+                constraints: BoxConstraints(),
+                onPressed: () {
+                  if(widget.pinned) {
+                    // delete old version
+                    db.doc("data").collection("pinned")
+                        .doc(widget.negotiation!.id).delete();
+
+                    db
+                        .doc("data").collection("regular")
+                        .add(negotiationSnap.toFirestore());
+                  } else {
+                    // delete old version
+                    db.doc("data").collection("regular")
+                      .doc(widget.negotiation!.id).delete();
+
+                    // Add new version to pinned
+                    db
+                        .doc("data").collection("pinned")
+                        .add(negotiationSnap.toFirestore());
+                  }
+                },
+                icon: Icon(
+                  (widget.pinned) ? Icons.remove : Icons.add,
+                  size: 28,
+                ),
+
+              ),
+            ]),
 
             // Summary
-            ShowSummary(summary: widget.negotiation!["summary"], color: _topTextColor,),
+            ShowSummary(
+              summary: widget.negotiation!["summary"],
+              color: _topTextColor,
+            ),
 
             // Listed Issues
             Padding(
@@ -265,9 +348,13 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiationSnap, docId: docId,))
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewNegotiation(
+                                    negotiation: negotiationSnap,
+                                    docId: docId,
+                                    pinned: widget.pinned,
+                                  )));
                     },
                     color: _bottomColor,
                     shape: const RoundedRectangleBorder(
@@ -300,8 +387,11 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                TrackProgress(negotiation: negotiationSnap, docId: docId,)),
+                            builder: (context) => TrackProgress(
+                                  negotiation: negotiationSnap,
+                                  docId: docId,
+                                  pinned: widget.pinned,
+                                )),
                       );
                     },
                     color: _bottomColor,
@@ -332,14 +422,14 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
   }
 }
 
-
 class ShowSummary extends StatelessWidget {
   final String? summary;
   final Color color;
-  const ShowSummary({Key? key, required this.summary, required this.color}) : super(key: key);
+  const ShowSummary({Key? key, required this.summary, required this.color})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if(summary != ""){
+    if (summary != "") {
       return Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Align(
@@ -359,6 +449,5 @@ class ShowSummary extends StatelessWidget {
       );
     }
     return Container();
-
   }
 }
