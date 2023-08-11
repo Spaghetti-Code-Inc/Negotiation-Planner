@@ -239,7 +239,7 @@ class _WeightIssuesState extends State<WeightIssues> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 5, 10, 0),
                 child: FilledButton(
                   onPressed: () { EvenlyDistribute(); },
-                  child: Text("Distribute Evenly"),
+                  child: Text("Distribute Evenly", style: TextStyle(color: Colors.white),),
                   style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff0A0A5B)),
                   ),

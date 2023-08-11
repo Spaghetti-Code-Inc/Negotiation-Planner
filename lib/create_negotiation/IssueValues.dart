@@ -324,11 +324,13 @@ class EnterValues extends StatelessWidget {
       "F Settlement"
     ];
     List<String> inputRowSummary = [
-      "This represents the settlement you will strive to obtain. (Also known as your target on the issue)",
+      "This represents the settlement you will strive to obtain. (Also known as your target on the issue) \n\n"
+          "This value is set to ${issueVals["A"][0]} because that is the maximum weight of the issue.",
       "This represents an acceptable settlement to you.",
       "This represents an okay settlement for you.",
       "This represents the resistance point. This is the least amount of points you're willing to accept.",
-      "This represents a negative settlement for you. Your F deal should be the least amount of points possible."
+      "This represents a negative settlement for you. Your F deal should be the least amount of points possible.\n\n"
+          "This value is set to 0 because that is the least amount of points possible."
     ];
 
 
@@ -404,6 +406,9 @@ class EnterValues extends StatelessWidget {
                                         Container(
                                           child: TextFormField(
                                             controller: datatype,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(25)
+                                            ],
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius:
@@ -412,7 +417,7 @@ class EnterValues extends StatelessWidget {
                                                     color: Colors.white,
                                                     width: 4),
                                               ),
-                                              labelText: "Data Type",
+                                              labelText: "Datatype",
                                               labelStyle: const TextStyle(
                                                 fontWeight: FontWeight.w400,
                                                 fontStyle: FontStyle.normal,
@@ -446,7 +451,7 @@ class EnterValues extends StatelessWidget {
                                     ],
                                   ));
                         },
-                        child: (datatype.text == "") ? Text("Enter Datatype") : Text(datatype.text),
+                        child: (datatype.text == "") ? Text("Enter Datatype", style: TextStyle(color: Colors.white),) : Text(datatype.text, style: TextStyle(color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xff0A0A5B),
                             side: BorderSide(
@@ -464,7 +469,7 @@ class EnterValues extends StatelessWidget {
                         onPressed: () {
                           EvenlyDistribute();
                         },
-                        child: Text("Distribute"),
+                        child: Text("Distribute", style: TextStyle(color: Colors.white),),
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xff0A0A5B),
                             side: BorderSide(
@@ -555,6 +560,8 @@ class _InputRowState extends State<InputRow> {
 
   @override
   Widget build(BuildContext context) {
+    if(widget.points.text == "0" && name != "F Settlement") widget.points.text = "";
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -563,37 +570,43 @@ class _InputRowState extends State<InputRow> {
         /// A Settlement button
         Expanded(
           flex: 5,
-          child: TextButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: Text(
-                      this.name,
-                    ),
-                    content: Text(
-                      this.buttonText,
-                    ),
-
-                    actions: [
-                      TextButton(
-                        child: const Text('Okay'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Color(0xFF6DC090),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+          child: Container(
+            margin: EdgeInsets.only(right: 10, left: 10),
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: Text(
+                        this.name,
                       ),
-                    ],
+                      content: Text(
+                        this.buttonText,
+                      ),
 
-                  ),
+                      actions: [
+                        TextButton(
+                          child: const Text('Okay'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Color(0xFF6DC090),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
 
-              );
+                    ),
 
-            },
-            style: TextButton.styleFrom(foregroundColor: Color(0xff0A0A5B)),
-            child: Text(this.name),
+                );
+
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Color(0xff0A0A5B),
+                side: BorderSide(color: Colors.black)
+              ),
+              child: Text(this.name),
+            ),
           ),
         ),
 
@@ -612,7 +625,7 @@ class _InputRowState extends State<InputRow> {
                 borderSide:
                 const BorderSide(color: Color(0xff000000), width: 1),
               ),
-              labelText: (widget.datatype.text == "") ? "Real Value" : widget.datatype.text,
+              labelText: (widget.datatype.text == "") ? "Value" : widget.datatype.text,
               labelStyle: const TextStyle(
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.normal,

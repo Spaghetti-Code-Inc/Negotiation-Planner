@@ -24,8 +24,8 @@ class _TargetResistanceState extends State<TargetResistance> {
     totalTarget = new TextEditingController(text: currentNegotiation.target.toString());
     totalResistance = new TextEditingController(text: currentNegotiation.resistance.toString());
 
-    if(currentNegotiation.target == -1) totalTarget.text = "0";
-    if(currentNegotiation.resistance == -1) totalResistance.text = "0";
+    if(currentNegotiation.target == -1 || currentNegotiation.target == 0) totalTarget.text = "";
+    if(currentNegotiation.resistance == -1 || currentNegotiation.resistance == 0) totalResistance.text = "";
 
     super.initState();
   }

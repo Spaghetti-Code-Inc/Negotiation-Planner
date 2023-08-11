@@ -231,7 +231,7 @@ class CurrentVal extends StatelessWidget {
           height: 30.0,
           decoration: BoxDecoration(
             // Red if "F" or Below resistance, Green if above target, else blue
-            color: (name == "F" || value <= resistance) ? Colors.red : (value >= target) ? Colors.green : Colors.blue,
+            color: (name == "F" || value <= resistance) ? Colors.red : (value >= target || name=="A") ? Colors.green : Colors.blue,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(.2),

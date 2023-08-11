@@ -121,6 +121,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                           currentNegotiation.summary = SummaryController.text;
                           currentNegotiation.title = newVal;
                         },
+                        onTapOutside: (e) => FocusManager.instance.primaryFocus?.unfocus(),
                         controller: TitleController,
                         obscureText: false,
                         textAlign: TextAlign.left,
@@ -192,6 +193,9 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                         currentNegotiation.title = TitleController.text;
                         currentNegotiation.summary = newVal;
                       },
+                      onTapOutside: (e) => FocusManager.instance.primaryFocus?.unfocus(),
+
+                      textInputAction: TextInputAction.done,
                       controller: SummaryController,
                       obscureText: false,
                       textAlign: TextAlign.start,
@@ -241,7 +245,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
 
   bool Next(){
     if (currentNegotiation.title == ""){
-      Utils.showSnackBar("Please enter value for the negotiations title and summary.");
+      Utils.showSnackBar("Please enter value for the negotiation title.");
       return false;
     }
 

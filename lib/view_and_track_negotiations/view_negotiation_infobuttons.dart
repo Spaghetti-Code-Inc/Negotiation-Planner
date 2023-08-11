@@ -72,8 +72,6 @@ Future<void> showInfoIssueRubric({context, required Map<String, dynamic> issueVa
 
 /// function display the issue info buttons for the issue slider on track progress page
 Future<void> showInfoTrackProgress(context, String name, String letter, int points, bool aboveResistance){
-
-
   return showDialog(
     context: context,
     builder: (BuildContext context) =>
@@ -81,11 +79,13 @@ Future<void> showInfoTrackProgress(context, String name, String letter, int poin
           title: Text("Issue Info"),
           content: Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text("This slider represents the values of this issue.\n"),
-                Text("Your current value is $points points, or $name.\nThis is a $letter grade for this issue.\n"),
-                if(aboveResistance) Text("You are currently above your resistance."),
+                Text("Your current value is $points points, or $name.\n"),
+                if(letter == "A") Text("You have hit your target for this issue!"),
+                if(aboveResistance && letter != "A") Text("You are currently above your resistance."),
                 if(!aboveResistance) Text("You are current not above your resistance. This is an issue to focus on."),
               ],
             ),
@@ -114,7 +114,7 @@ Future<void> showTotalInfoTrackProgress(context, Negotiation negotiation){
     builder: (BuildContext context) =>
         AlertDialog(
           title: Text("Total Value"),
-          content: info_content_total_track_progress(aboveTarget: aboveTarget, belowResistance: belowResistance, points: points,),
+          content: info_content_total_track_progress(BATNA: negotiation.BATNA!, aboveTarget: aboveTarget, belowResistance: belowResistance, points: points,),
           actions: [
             TextButton(
               child: const Text('Okay'),
@@ -131,19 +131,23 @@ class info_content_total_track_progress extends StatelessWidget{
   final bool aboveTarget;
   final bool belowResistance;
   final int points;
+  final int BATNA;
 
-  info_content_total_track_progress({required this.belowResistance, required this.aboveTarget, required this.points});
+  info_content_total_track_progress({required this.BATNA, required this.belowResistance, required this.aboveTarget, required this.points});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text("This slider represents the overall value of your negotiation so far and is automatically moved when your individual issues bars are moved.\n"),
           if(aboveTarget) Text("Your current point value is $points, which is above your target! \n"),
           if(belowResistance) Text("Your current point value is $points, which is below your resistance. \n"),
-          if(!belowResistance && !aboveTarget) Text("Your current point value is $points, which is inside your bargaining range. \n")
+          if(!belowResistance && !aboveTarget) Text("Your current point value is $points, which is inside your bargaining range. \n"),
+          if(BATNA > points) Text("Currently your BATNA ($BATNA), is greater than your negotiation value. Taking the BATNA deal is better than the deal you have for this negotiation."),
+          if(BATNA <= points) Text("Currently this negotiation is better for you than your BATNA ($BATNA)")
         ],
       ),
     );

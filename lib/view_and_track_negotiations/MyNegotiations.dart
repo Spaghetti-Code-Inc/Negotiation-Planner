@@ -42,20 +42,14 @@ class _MyNegotiationsState extends State<MyNegotiations> {
             color: Colors.white,
           ),
         ),
-        leading: const Icon(
-          Icons.sort,
-          color: Color(0xffffffff),
-          size: 24,
-        ),
       ),
       body: Column(
         children: [
           // Makes the stream fill 80% of the screen at most
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+          Expanded(
             child: ListView(
               shrinkWrap: true,
-      children: [
+              children: [
                 StreamBuilder(
                   // Gets the users collection with their negotiations.
                   stream: FirebaseFirestore.instance
@@ -66,7 +60,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
                   builder: (context, snapshot) {
                     // If there is no negotiations to the user
                     if (!snapshot.hasData) {
-                      return const Center(child: Text('Add A New Negotiation'));
+                      return const Center(child: Text('Loading Negotiations...'));
                     }
                     // Shows the users negotiations based, runs on the negotiation container widget
                     return ListView.builder(
@@ -96,7 +90,7 @@ class _MyNegotiationsState extends State<MyNegotiations> {
                   builder: (context, snapshot) {
                     // If there is no negotiations to the user
                     if (!snapshot.hasData) {
-                      return const Center(child: Text('Add A New Negotiation'));
+                      return const Center(child: Text('Loading Negotiations...'));
                     }
                     // Shows the users negotiations based, runs on the negotiation container widget
                     return ListView.builder(

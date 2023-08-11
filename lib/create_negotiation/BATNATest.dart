@@ -16,7 +16,7 @@ class BATNATestState extends State<BATNATest> {
   BATNATestState() : BATNA = new TextEditingController(text: currentNegotiation.BATNA.toString());
 
   Widget build(BuildContext context) {
-    if (currentNegotiation.BATNA == null) BATNA.text = "0";
+    if (currentNegotiation.BATNA == null || currentNegotiation.BATNA == "0") BATNA.text = "";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

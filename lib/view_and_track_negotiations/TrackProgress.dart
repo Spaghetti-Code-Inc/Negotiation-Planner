@@ -400,7 +400,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       leading: IconButton(
-        icon: Icon(Icons.delete_outline_outlined),
+        icon: Icon(Icons.delete_outline_outlined, color: Colors.white,),
         onPressed: () {
           showDialog(
             context: context,
