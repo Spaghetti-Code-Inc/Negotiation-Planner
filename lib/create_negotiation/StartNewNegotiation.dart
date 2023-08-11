@@ -1,4 +1,5 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Utils.dart';
@@ -29,6 +30,13 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
     currentNegotiation.currentOffer = 0;
     currentNegotiation.target = 0;
     currentNegotiation.resistance = 0;
+
+    /// Save this negotiations user
+    String email = FirebaseAuth.instance.currentUser!.email!;
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    FirebaseFirestore.instance.collection(uid).doc("data").set({"email": email});
+
     super.initState();
   }
 
@@ -60,7 +68,8 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                     margin: const EdgeInsets.fromLTRB(5, 5, 0, 5),
                     padding: const EdgeInsets.fromLTRB(8, 8, 2, 8),
                     child: Text(
-                      "This tool is designed to help you organize your plan for negotiation. ",
+                      "This tool is designed to help you organize your plan for negotiation. You will define your negotiation in the following steps,"
+                          " then you will be able to keep track of how your negotiation is going.",
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
@@ -75,8 +84,6 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
                   IconButton(
                       onPressed: () => removeText(),
                       icon: Icon(Icons.close),
-                      padding: const EdgeInsets.fromLTRB(0, 0, 8, 32),
-
                   )
                 ],
               ),

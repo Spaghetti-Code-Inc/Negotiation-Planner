@@ -45,11 +45,11 @@ Future<void> showInfoIssueRubric({context, required Map<String, dynamic> issueVa
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("This slider shows the rubric for each negotiation issue.\n"),
-                  Text("Your A points (target) is: ${issueVals["A"][0]}. This holds the value: ${issueVals["A"][1]} $datatype"),
-                  Text("Your B points is: ${issueVals["B"][0]}. This holds the value: ${issueVals["B"][1]} $datatype"),
-                  Text("Your C points is: ${issueVals["C"][0]}. This holds the value: ${issueVals["C"][1]} $datatype"),
-                  Text("Your D points (resistance) is: ${issueVals["D"][0]}. This holds the value: ${issueVals["D"][1]} $datatype"),
-                  Text("Your F points is: ${issueVals["F"][0]}.This holds the value: ${issueVals["F"][1]} $datatype"),
+                  Text("Your A points (target) is: ${issueVals["A"][0].round()}. This holds the value: ${issueVals["A"][1]} $datatype"),
+                  Text("Your B points is: ${issueVals["B"][0].round()}. This holds the value: ${issueVals["B"][1]} $datatype"),
+                  Text("Your C points is: ${issueVals["C"][0].round()}. This holds the value: ${issueVals["C"][1]} $datatype"),
+                  Text("Your D points (resistance) is: ${issueVals["D"][0].round()}. This holds the value: ${issueVals["D"][1]} $datatype"),
+                  Text("Your F points is: ${issueVals["F"][0].round()}.This holds the value: ${issueVals["F"][1]} $datatype"),
 
 
                   // Text("Your Target is: $target"),

@@ -46,8 +46,8 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
     String letter = "A";
     double realValue = double.parse(widget.issue.issueVals["A"][1].toString());
     if(closestLetter != 0){
-      int min = widget.issue.issueVals[letters[closestLetter]][0];
-      int max = widget.issue.issueVals[letters[closestLetter-1]][0];
+      int min = widget.issue.issueVals[letters[closestLetter]][0].round();
+      int max = widget.issue.issueVals[letters[closestLetter-1]][0].round();
       int here = widget.vals[widget.index].toInt();
 
       max -= min;
@@ -218,13 +218,11 @@ class CurrentVal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: (value >= 10) ? EdgeInsets.only(right: 10) : EdgeInsets.only(right: 12),
-      padding: EdgeInsets.only(left: 4),
+      margin: (value >= 10) ? EdgeInsets.only(right: 11, left: 7) : EdgeInsets.only(right: 13, left: 7),
       child: Column(children: [
         Container(
           margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
           child: Text(name),
-          color: Colors.white,
         ),
         Container(
           width: 7.0,
@@ -242,9 +240,7 @@ class CurrentVal extends StatelessWidget {
           ),
         ),
         Container(
-          //(value*100).toInt().toString() => value of the slider
           child: Text((value).toInt().toString()),
-          color: Colors.white,
         ),
       ]),
     );
@@ -261,7 +257,7 @@ class FrontBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: (value >= 10) ? EdgeInsets.only(right: 2) : EdgeInsets.only(right: 6),
+      margin: (value >= 10) ? EdgeInsets.only(right: 4) : EdgeInsets.only(right: 6),
       child: Column(children: [
         Container(
           margin: EdgeInsets.fromLTRB(0, 2, 0, 2),

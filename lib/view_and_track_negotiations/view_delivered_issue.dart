@@ -59,11 +59,11 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
             setState(() {
               _issueVals = values;
 
-              issue.issueVals["A"][0] = (_issueVals[4]/multiplier).round();
-              issue.issueVals["B"][0] = (_issueVals[3]/multiplier).round();
-              issue.issueVals["C"][0] = (_issueVals[2]/multiplier).round();
-              issue.issueVals["D"][0] = (_issueVals[1]/multiplier).round();
-              issue.issueVals["F"][0] = (_issueVals[0]/multiplier).round();
+              issue.issueVals["A"][0] = (_issueVals[4]/multiplier);
+              issue.issueVals["B"][0] = (_issueVals[3]/multiplier);
+              issue.issueVals["C"][0] = (_issueVals[2]/multiplier);
+              issue.issueVals["D"][0] = (_issueVals[1]/multiplier);
+              issue.issueVals["F"][0] = (_issueVals[0]/multiplier);
 
             });
 
@@ -167,45 +167,6 @@ class ChangeRelativeValues extends StatelessWidget {
               Container(
                 width: 20,
               ),
-
-              /// Counter part relative value change
-              // // Counter Part text
-              // Expanded(
-              //   flex: 3,
-              //   child: Center(
-              //     child: Text(
-              //       "Counter Part Weight: ",
-              //       style: TextStyle(
-              //         fontSize: 20,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // // Counter Part Weight input
-              // Expanded(
-              //   child: Center(
-              //       child: TextFormField(
-              //     onChanged: (newVal) {
-              //       // issue.cpRelativeValue = int.parse(cpCtrl.text);
-              //     },
-              //     textAlign: TextAlign.center,
-              //     textInputAction: TextInputAction.next,
-              //     cursorColor: Color(0xff0A0A5B),
-              //     keyboardType: TextInputType.number,
-              //     controller: cpCtrl,
-              //     decoration: InputDecoration(
-              //       contentPadding: EdgeInsetsDirectional.zero,
-              //       enabledBorder: (OutlineInputBorder(
-              //         borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-              //         borderRadius: BorderRadius.circular(20),
-              //       )),
-              //       focusedBorder: (OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(20),
-              //         borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
-              //       )),
-              //     ),
-              //   )),
-              // ),
             ]),
           ),
         ],
@@ -257,13 +218,12 @@ class UserSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: (value >= 10) ? EdgeInsets.only(right: 4) : EdgeInsets.only(right: 6),
-      padding: EdgeInsets.only(right: 8, left: 8),
+      margin: (value >= 10) ? EdgeInsets.only(right: 11, left: 7) : EdgeInsets.only(right: 13, left: 7),
+      // padding: EdgeInsets.only(right: 8, left: 8),
       child: Column(children: [
         Container(
           margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
           child: Text(name),
-          color: Colors.white,
         ),
         Container(
           width: 7.0,
@@ -280,9 +240,7 @@ class UserSlider extends StatelessWidget {
           ),
         ),
         Container(
-          //(value*100).toInt().toString() => value of the slider
           child: Text((value).toInt().toString()),
-          color: Colors.white,
         )
       ]),
     );
@@ -302,6 +260,7 @@ class FrontBackSlider extends StatelessWidget {
       margin: (value >= 10) ? EdgeInsets.only(right: 4) : EdgeInsets.only(right: 6),
       child: Column(children: [
         Container(
+          // Keeps the bar vertical correctly - makes Lefter equal to number height
           margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
           child: Text(name),
           color: Colors.white,

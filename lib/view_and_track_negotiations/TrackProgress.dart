@@ -141,7 +141,7 @@ class _TrackProgressState extends State<TrackProgress> {
                         valuesChanged: (List<double> values) {},
                         initalSliderValues: [0, userValue*.01, 1],
                         thumbBuilder: (BuildContext context, int index, double value) {
-                          return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target, resistance: negotiationSnap.resistance,);
+                          return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target.round(), resistance: negotiationSnap.resistance.round());
                         },
                         height: 70,
                       )
@@ -353,10 +353,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
         child: TextButton(
           onPressed: () {
               Navigator.pop((context));
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyNegotiations())
-              );
+
           },
           child: Text("Exit Negotiation"),
           style: TextButton.styleFrom(

@@ -239,7 +239,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                           inputFormatters: INTEGER_INPUTS,
                           keyboardType: TextInputType.number,
                           onChanged: (newVal) {
-                            currentNegotiation.target = int.parse(newVal);
+                            currentNegotiation.target = double.parse(newVal);
                           },
                           controller: totalTarget,
                           maxLines: 1,
@@ -355,7 +355,7 @@ class _TargetResistanceState extends State<TargetResistance> {
                                 keyboardType: TextInputType.number,
                                 onChanged: (newVal) {
                                   if(newVal == "") currentNegotiation.resistance = 0;
-                                  currentNegotiation.resistance = int.parse(newVal);
+                                  currentNegotiation.resistance = double.parse(newVal);
 
                                 },
                                 controller: totalResistance,

@@ -1,8 +1,4 @@
-///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'view_and_track_negotiations/MyNegotiations.dart';
@@ -94,8 +90,8 @@ class Start extends StatelessWidget {
             ),
 
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              padding: const EdgeInsets.all(0),
+              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.only(),
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 color: const Color(0x1f000000),
@@ -135,7 +131,7 @@ class Start extends StatelessWidget {
             ),
 
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               padding: const EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(

@@ -49,8 +49,8 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
                       });
 
                       // This sets the negotiationSnap in ViewNegotiation to the new value
-                      widget.negotiation.resistance = (_issueState[1]*100).round();
-                      widget.negotiation.target = (_issueState[2]*100).round();
+                      widget.negotiation.resistance = (_issueState[1]*100);
+                      widget.negotiation.target = (_issueState[2]*100);
 
                       widget.refresh();
                     },
@@ -136,12 +136,11 @@ class UserSlider extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(right: 8, left: 8),
+      padding: EdgeInsets.only(right: 7, left: 7),
       child: Column(children: [
         Container(
           margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
           child: Text(name),
-          color: Colors.white,
         ),
         Container(
           width: 7.0,
@@ -159,7 +158,6 @@ class UserSlider extends StatelessWidget{
           ),
         ),
         Container(
-          //(value*100).toInt().toString() => value of the slider
           margin: EdgeInsets.symmetric(vertical: 2),
           child: Text((value * 100).toInt().toString()),
         )

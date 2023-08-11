@@ -1,12 +1,12 @@
 Random quality of life changes:
-
 56. Make [Determine Issues] reload the issues from negotiation
-61. Make Info on [Target & Resistance] not pop every single new screen
+61. Make Info on [Target & Resistance] not pop every single new screen - Doesn't happen on web
 66. Pressing Enter on [Determine Issues] creates a new issue popup
-68. Add info buttons to SnackBar popups
+71. Make it so slider do not cover each other between D-B on [Negotiation Rubric]
 
 What is needed before Launch:
-TODO FIX ALL BUGS
+1. Create a different launch screen for web
+5. Run code coverage
 
 Lucas:
 TODO Friday-Weekend: Launch onto website/upload to app stores
@@ -14,13 +14,13 @@ TODO Friday-Weekend: Launch onto website/upload to app stores
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
 2. Have a separate page for completed and non completed negotiations
-2.1 Should they be able to pin a negotiation to top of the screen?
 3. Edit Negotiations After they are made? - Creating/Deleting Issues
 4. Save negotiation in the middle of creating one
 5. Add compatibility to show counter part values
 6. Changing the relative values needs to change the A value for negotiation rubric,
     and change other values if they are greater than the new max value - Should this be allowed?
-7..
+7. Add info buttons to SnackBar popups
+8. If there are no negotiations on [MyNegotiations] display something to the user
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes/listview.builder
@@ -30,8 +30,7 @@ Cleaning Code:
 10..
 
 Backlog:
-4. Make it possible to click out of keyboard screens
-2. <View Total Negotiation> Shows current total points of negotiation
+2. <View Total Negotiation> Button on [Track Progress] Shows current total points of negotiation
         - This is where trade offs should be shown
         - Give summary of each issue and what the value is
 5. Allow commas when entering real values in [Issue Values]
@@ -39,15 +38,7 @@ Backlog:
 7. Add Focus Nodes to [Issue Values]
 8. A way to change relative values after the negotiation is already made
 9. A way to change real values after the negotiation is already made
-10. Make the [My Negotiations] list view animated when adding and removing negotiations
-
+10. Make the [My Negotiations] list view animated when adding and removing negotiations to pinned area
+11. Should not have to save email every single time a new negotiation is created - causing waste of money
 
 Debugging:
-2. On [Issue Values] entering real values in ascending order than going back and changing relative values
-    makes the negotiation show an error - something to do with point system
-5. The app will sometimes duplicate all the values of one negotiation to a different negotiation
-    this changes the firestore database, so it is not fixable and needs to be removed.
-    This also randomly deleted all of the negotiations somehow - Picture on phone for error message
-
-Notes:
-For refreshing on web, the top most class that is showing must be refreshed.

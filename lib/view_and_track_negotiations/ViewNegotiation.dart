@@ -35,7 +35,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
   late Negotiation negotiationSnap = widget.negotiation;
 
   // Keeps track of old value for issue
-  late List<List<int>> issueVals = [];
+  late List<List<double>> issueVals = [];
 
   bool editing = false;
 
@@ -48,7 +48,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
       for (int j = 0; j < 5; j++) {
         String letter = alphabet[j]!;
-        issueVals[i].add(issue[letter][0]);
+        issueVals[i].add(double.parse(issue[letter][0].toString()));
       }
     }
   }
@@ -63,19 +63,18 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
       for (int j = 0; j < 5; j++) {
         String letter = alphabet[j]!;
-        if (issueVals[i][j].toString() != issue[letter][0].toString()) {
+        if (issueVals[i][j].truncate().toString() != issue[letter][0].truncate().toString()) {
           editing = true;
         }
       }
     }
     if (!editing) {
-      if (widget.lastNegotiationVals[1] != negotiationSnap.resistance)
+      if (widget.lastNegotiationVals[1].truncate() != negotiationSnap.resistance.truncate())
         editing = true;
-      if (widget.lastNegotiationVals[2] != negotiationSnap.target)
+      if (widget.lastNegotiationVals[2].truncate() != negotiationSnap.target.truncate())
         editing = true;
     }
 
-    var db = FirebaseFirestore.instance;
     return Scaffold(
       appBar: AppBar(
         elevation: 4,
@@ -460,7 +459,7 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
 
                       for (int j = 0; j < 5; j++) {
                         String letter = alphabet[j]!;
-                        widget.lastVals[i][j] = issue[letter][0];
+                        widget.lastVals[i][j] = double.parse(issue[letter][0].toString());
                       }
                     }
 
@@ -491,8 +490,6 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
         child: TextButton(
           onPressed: () {
             Navigator.pop((context));
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MyNegotiations()));
           },
           child: Text("Exit Negotiation"),
           style: TextButton.styleFrom(

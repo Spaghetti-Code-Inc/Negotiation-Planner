@@ -4,8 +4,8 @@ class Negotiation {
   String title;
   String? summary;
   List<Issue> issues;
-  int target;
-  int resistance;
+  double target;
+  double resistance;
   int? BATNA;
   int? currentOffer;
 

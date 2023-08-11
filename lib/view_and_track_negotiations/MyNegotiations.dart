@@ -116,7 +116,6 @@ class _MyNegotiationsState extends State<MyNegotiations> {
               height: 40,
               child: TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -340,7 +339,6 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                   flex: 1,
                   child: MaterialButton(
                     onPressed: () {
-                      Navigator.pop(context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -377,7 +375,6 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                   flex: 1,
                   child: MaterialButton(
                     onPressed: () {
-                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -71,7 +71,6 @@ class _LoginState extends State<Login> {
                   child: Align(
                     alignment: Alignment.center,
                     child:
-                    ///***If you have exported images you must have to copy those images in assets/images directory.
                     CircleAvatar(
                       backgroundColor: Color(0xff0A0A5B),
                       radius: 90,
@@ -95,17 +94,7 @@ class _LoginState extends State<Login> {
                     color: Color(0xff000000),
                   ),
                   decoration: InputDecoration(
-                    disabledBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
+                    border: UnderlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                       borderSide:
                           const BorderSide(color: Color(0xff000000), width: 1),
@@ -138,17 +127,7 @@ class _LoginState extends State<Login> {
                       color: Color(0xff000000),
                     ),
                     decoration: InputDecoration(
-                      disabledBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xff000000), width: 1),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xff000000), width: 1),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
+                      border: UnderlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
                         borderSide: const BorderSide(
                             color: Color(0xff000000), width: 1),

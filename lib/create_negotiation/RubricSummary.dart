@@ -12,7 +12,7 @@ class RubricSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var vals = Utils.findHighestValuedIssues(currentNegotiation.issues);
-    print(currentNegotiation);
+
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: const PrepareBar(),
@@ -54,7 +54,7 @@ class RubricSummary extends StatelessWidget {
                         padding: EdgeInsets.all(10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
@@ -71,7 +71,7 @@ class RubricSummary extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                               child: Text(
-                                "Based on your decisions on this tool, the most important issues to you are listed below.",
+                                "Based on your decisions on this tool, the most important issues to you are listed below.\n",
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(
@@ -103,7 +103,7 @@ class RubricSummary extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                               child: Text(
-                                "Strive to reach an agreement that improves upon your current offer, using your BATNA as a helpful frame of reference. You should be able to negotiate an agreement that exceeds the value of your BATNA and comes as close as you can to (or even eceeding) your target. ",
+                                "Strive to reach an agreement that improves upon your current offer, using your BATNA as a helpful frame of reference. You should be able to negotiate an agreement that exceeds the value of your BATNA and comes as close as you can to (or even exceeding) your target. ",
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(
@@ -200,6 +200,7 @@ class DisplayImportantIssues extends StatelessWidget {
     // Only 1 issue : Only use 1 line for display
     if (vals[1] == "") {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "1. " + vals[0],
@@ -218,6 +219,8 @@ class DisplayImportantIssues extends StatelessWidget {
     // Only 2 issues: Only use 2 lines for display
     else if (vals[2] == "") {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           Text(
             "1: " + vals[0],
@@ -247,6 +250,8 @@ class DisplayImportantIssues extends StatelessWidget {
     // All 3 main issues being used: Use 3 lines for display
     else {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           Text(
             "1. " + vals[0],

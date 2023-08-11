@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -14,24 +15,49 @@ Future main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
 
-
-  runApp(
-      MaterialApp(
-        scaffoldMessengerKey: Utils.messengerKey,
-        title: 'Negotiation Planner',
-        home: MainPage(),
-        navigatorKey: navigatorKey,
-        theme: ThemeData(
-          primaryColor: Color(0xff0A0A5B),
-          primarySwatch: Colors.lightGreen,
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: Color(0xFF6DC090),
-            selectionColor: Color(0xFF6DC090),
-            selectionHandleColor: Color(0xFF6DC090),
+  if(!kIsWeb){
+    runApp(
+        MaterialApp(
+          scaffoldMessengerKey: Utils.messengerKey,
+          title: 'Negotiation Planner',
+          home: MainPage(),
+          navigatorKey: navigatorKey,
+          theme: ThemeData(
+            primaryColor: Color(0xff0A0A5B),
+            primarySwatch: Colors.lightGreen,
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: Color(0xFF6DC090),
+              selectionColor: Color(0xFF6DC090),
+              selectionHandleColor: Color(0xFF6DC090),
+            ),
           ),
-        ),
+        )
+    );
+  } else {
+    runApp(Center(
+      child: ClipRect(
+        child: SizedBox(
+          width: 900,
+          child: MaterialApp(
+            scaffoldMessengerKey: Utils.messengerKey,
+            title: 'Negotiation Planner',
+            home: MainPage(),
+            navigatorKey: navigatorKey,
+            theme: ThemeData(
+              primaryColor: Color(0xff0A0A5B),
+              primarySwatch: Colors.lightGreen,
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: Color(0xFF6DC090),
+                selectionColor: Color(0xFF6DC090),
+                selectionHandleColor: Color(0xFF6DC090),
+              ),
+            ),
+          )
+        )
       )
-  );
+    ));
+  }
+
 }
 
 Negotiation currentNegotiation = Negotiation.fromNegotiation(title: '', issues: [], target: -1, resistance: -1);
