@@ -10,6 +10,8 @@ import 'Utils.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 Color navyBlue = Color(0xff0A0A5B);
 
+final double SIZE = 900;
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -37,7 +39,7 @@ Future main() async {
     runApp(Center(
       child: ClipRect(
         child: SizedBox(
-          width: 900,
+          width: SIZE,
           child: MaterialApp(
             scaffoldMessengerKey: Utils.messengerKey,
             title: 'Negotiation Planner',

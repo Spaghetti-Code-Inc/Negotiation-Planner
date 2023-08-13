@@ -21,7 +21,6 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final formKey = GlobalKey<FormState>();
-  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController check_passwordController = TextEditingController();
@@ -31,7 +30,6 @@ class _RegisterState extends State<Register> {
   @override
   void dispose() {
     emailController.dispose();
-    usernameController.dispose();
     _passwordController.dispose();
     check_passwordController.dispose();
     super.dispose();
@@ -75,53 +73,6 @@ class _RegisterState extends State<Register> {
                     fontStyle: FontStyle.normal,
                     fontSize: 14,
                     color: Color(0xff000000),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                child: TextFormField(
-                  controller: usernameController,
-                  obscureText: false,
-                  textAlign: TextAlign.start,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14,
-                    color: Color(0xff000000),
-                  ),
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide:
-                          const BorderSide(color: Color(0xff000000), width: 1),
-                    ),
-                    hintText: "Name",
-                    hintStyle: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      color: Color(0xff000000),
-                    ),
-                    filled: true,
-                    fillColor: const Color(0xffffffff),
-                    isDense: false,
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    prefixIcon: const Icon(Icons.person,
-                        color: Color(0xff212435), size: 24),
                   ),
                 ),
               ),

@@ -89,10 +89,10 @@ class _TrackProgressState extends State<TrackProgress> {
                 if(negotiationSnap.issues.length != 1)
                 /// Header for overall rating
                   Container(
-                    width: MediaQuery.of(context).size.width * .85,
+                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Align(
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.center,
                       child: Text(
                         "Overall Negotiation Rating",
                         textAlign: TextAlign.start,
@@ -109,7 +109,7 @@ class _TrackProgressState extends State<TrackProgress> {
                 if(negotiationSnap.issues.length != 1)
                 /// Header for entire negotiation value for user
                   Container(
-                    width: MediaQuery.of(context).size.width * .85,
+                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                     margin: EdgeInsets.only(bottom: 10),
                     child: Row(
                       children: [
@@ -136,7 +136,7 @@ class _TrackProgressState extends State<TrackProgress> {
                 if(negotiationSnap.issues.length != 1)
                 /// Slider for overall negotiation
                   Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
+                      width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                       child: MultiThumbSlider(
                         valuesChanged: (List<double> values) {},
                         initalSliderValues: [0, userValue*.01, 1],
@@ -149,7 +149,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
                 /// Contains "Bargaining Range for Individual Issues"
                 Container(
-                  width: MediaQuery.of(context).size.width * .85,
+                  width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                   padding: EdgeInsets.only(bottom: 20, top: 20),
                   child: Align(
                     alignment: Alignment.center,
@@ -169,7 +169,7 @@ class _TrackProgressState extends State<TrackProgress> {
 
                 /// New Sliders
                 Container(
-                  width: MediaQuery.of(context).size.width*.85,
+                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: negotiationSnap.issues.length,
@@ -283,7 +283,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
 
     if(widget.editing){
       return Container(
-        width: MediaQuery.of(context).size.width * .9,
+        width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.9: MediaQuery.of(context).size.width * .9,
         child: Row(
           children: [
             Expanded(
@@ -347,7 +347,7 @@ class _ViewSaveDiscardState extends State<ViewSaveDiscard> {
     }
     else {
       return Container(
-        width: MediaQuery.of(context).size.width * .9,
+        width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.9: MediaQuery.of(context).size.width * .9,
         height: 40,
         margin: EdgeInsets.only(bottom: 20),
         child: TextButton(

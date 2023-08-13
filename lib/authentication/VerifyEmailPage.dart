@@ -76,6 +76,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       : Scaffold(
           appBar: AppBar(
             title: const Text('Verify Email to continue'),
+            backgroundColor: Color(0xff0A0A5B),
+            foregroundColor: Colors.white,
           ),
           body: Padding(
               padding: const EdgeInsets.all(16),
@@ -90,11 +92,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
+                        backgroundColor: Color(0xff0A0A5B),
                       ),
-                      icon: const Icon(Icons.email, size: 32),
+                      icon: const Icon(Icons.email, size: 32, color: Colors.white,),
                       label: const Text(
                         'Resend Email',
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24, color: Colors.white),
                       ),
                       onPressed: (){
                         if(canResendEmail) sendVerificationEmail();
@@ -107,7 +110,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       ),
                       child: const Text(
                         'Cancel',
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24, color: Color(0xff0A0A5B)),
                       ),
                       onPressed: () => FirebaseAuth.instance.signOut(),
                     )

@@ -245,7 +245,10 @@ class _LoginState extends State<Login> {
       if (kDebugMode) {
         print(e);
       }
-      Utils.showSnackBar(e.message);
+
+      if(e.message == "A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred.")
+        Utils.showSnackBar("Please check your internet connection.");
+      else Utils.showSnackBar(e.message);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);

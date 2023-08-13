@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../NegotiationDetails.dart';
 
+import '../main.dart';
 import '../multi_thumb_slider/multi_thumb_slider.dart';
 import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 
@@ -39,7 +40,7 @@ class _ViewNegotiationCurrentState extends State<ViewNegotiationCurrent> {
     return Column(
         children: [
           Container(
-              width: MediaQuery.of(context).size.width * .85,
+              width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
               child: Column(children: [
                 MultiThumbSlider(
                     initalSliderValues: _issueState,

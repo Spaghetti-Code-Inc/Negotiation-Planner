@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:negotiation_tracker/view_and_track_negotiations/MyNegotiations.dart';
 import 'package:negotiation_tracker/view_and_track_negotiations/view_negotiation_infobuttons.dart';
 
+import '../main.dart';
 import 'TrackProgress.dart';
 import '../NegotiationDetails.dart';
 import 'view_delivered_issue.dart';
@@ -179,18 +180,33 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Column(children: [
                   /// Contains the "Whole Negotiation Rubric"
+
+                  /// Text
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Overall Negotiation",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 24,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ),
+
                   Container(
-                    width: MediaQuery.of(context).size.width * .85,
+                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
+
                     child: Row(
                       children: [
-                        /// Text
                         Expanded(
                           child: Text(
-                            "Overall Negotiation",
+                            "Your Overall Range",
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
-                              fontSize: 24,
+                              fontSize: 22,
                               color: Color(0xff000000),
                             ),
                           ),
@@ -232,7 +248,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
                   /// Contains "Bargaining Range for Individual Issues"
                   Container(
-                    width: MediaQuery.of(context).size.width * .85,
+                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                     padding: EdgeInsets.only(top: 30, bottom: 20),
                     child: Align(
                       alignment: Alignment.center,
@@ -263,7 +279,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                       return Column(children: [
                         /// Header for issue slider
                         Container(
-                          width: MediaQuery.of(context).size.width * .85,
+                          width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                           child: Row(
                             children: [
                               /// Issue Name Text
@@ -406,11 +422,14 @@ class ViewSaveDiscardRubric extends StatefulWidget {
 }
 
 class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
+
+  Color navyBlue = Color(0xff0A0A5B);
+
   @override
   Widget build(BuildContext context) {
     if (widget.editing) {
       return Container(
-        width: MediaQuery.of(context).size.width * .9,
+        width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.9: MediaQuery.of(context).size.width * .9,
         child: Row(
           children: [
             Expanded(
@@ -484,7 +503,7 @@ class _ViewSaveDiscardRubricState extends State<ViewSaveDiscardRubric> {
     } else {
       /// Exit the negotiation button
       return Container(
-        width: MediaQuery.of(context).size.width * .9,
+        width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.9: MediaQuery.of(context).size.width * .9,
         height: 40,
         margin: EdgeInsets.only(bottom: 20),
         child: TextButton(

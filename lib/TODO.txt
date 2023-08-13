@@ -3,12 +3,14 @@ Random quality of life changes:
 61. Make Info on [Target & Resistance] not pop every single new screen - Doesn't happen on web
 66. Pressing Enter on [Determine Issues] creates a new issue popup
 71. Make it so slider do not cover each other between D-B on [Negotiation Rubric]
+72. Small ring on login page surrounding loge
 
 What is needed before Launch:
-1. Create a different launch screen for web
-5. Run code coverage
+8. DEBUG
+10. Make users show up whenever they're created
 
 Lucas:
+TODO 8/13 - Remove bugs
 TODO Friday-Weekend: Launch onto website/upload to app stores
 
 Ideas:
@@ -27,7 +29,7 @@ Cleaning Code:
 7. Convert Rubric Summary, Display Important Issues to a list builder. The index should be the vals[i] shown
 8. Do an overall code coverage test
 9. How to refresh super class from lower class without passing a refresh function
-10..
+10. Create 'dispose' for all text editing controllers
 
 Backlog:
 2. <View Total Negotiation> Button on [Track Progress] Shows current total points of negotiation
@@ -42,3 +44,7 @@ Backlog:
 11. Should not have to save email every single time a new negotiation is created - causing waste of money
 
 Debugging:
+1. Added two negotiations to pinned, track progress, go to negotiation rubric without saving
+    - May happen due to passing the wrong docId
+    - happens when two negotiations are both pinned and the latter is picked
+    - adding and removing randomly eventually screws it up

@@ -146,7 +146,7 @@ class PlanSummary extends StatelessWidget {
                         return Column(children: [
                           /// Header for issue slider
                           Container(
-                            width: MediaQuery.of(context).size.width * .85,
+                            width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                             child: Row(
                               children: [
                                 /// Issue Name Text
