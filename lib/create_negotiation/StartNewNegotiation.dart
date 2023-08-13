@@ -35,7 +35,7 @@ class _StartNewNegotiation extends State<StartNewNegotiation>{
     String email = FirebaseAuth.instance.currentUser!.email!;
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
-    FirebaseFirestore.instance.collection(uid).doc("data").set({"email": email});
+    FirebaseFirestore.instance.collection(uid).doc("data").set({"email": email, "check": false});
 
     super.initState();
   }

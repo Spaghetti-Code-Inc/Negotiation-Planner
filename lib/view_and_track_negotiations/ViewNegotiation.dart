@@ -15,7 +15,6 @@ Map<int, String> alphabet = {0: "A", 1: "B", 2: "C", 3: "D", 4: "F"};
 class ViewNegotiation extends StatefulWidget {
   Negotiation negotiation;
   String docId;
-  bool pinned;
 
   // Keep track of the "Whole Negotiation" values
   late List lastNegotiationVals = [
@@ -25,7 +24,7 @@ class ViewNegotiation extends StatefulWidget {
     100
   ];
 
-  ViewNegotiation({Key? key, required this.negotiation, required this.docId, required this.pinned})
+  ViewNegotiation({Key? key, required this.negotiation, required this.docId})
       : super(key: key);
 
   @override
@@ -108,15 +107,11 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                     onPressed: () {
                       String? id = FirebaseAuth.instance.currentUser?.uid;
                       print("Deleted: $id, ${widget.docId}");
-                      if(widget.pinned){
-                        print("$id, data, pinned, ${widget.docId}");
-                        FirebaseFirestore.instance.collection(id!)
-                            .doc("data").collection("pinned").doc(widget.docId).delete();
-                      } else {
-                        print("$id, data, regular, ${widget.docId}");
-                        FirebaseFirestore.instance.collection(id!)
-                            .doc("data").collection("regular").doc(widget.docId).delete();
-                      }
+
+                      print("$id, data, pinned, ${widget.docId}");
+                      FirebaseFirestore.instance.collection(id!)
+                          .doc(widget.docId).delete();
+
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.push(
@@ -151,7 +146,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                       builder: (context) => TrackProgress(
                             negotiation: negotiationSnap,
                             docId: widget.docId,
-                            pinned: widget.pinned,
                           )),
                 );
               }
@@ -371,7 +365,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                       builder: (context) => TrackProgress(
                             negotiation: negotiation,
                             docId: docId,
-                            pinned: widget.pinned,
                           )));
             },
             child: Text("Yes"),
@@ -387,14 +380,9 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
 
   save() {
     String? id = FirebaseAuth.instance.currentUser?.uid;
+    FirebaseFirestore.instance.collection(id!)
+        .doc(widget.docId).set(negotiationSnap.toFirestore());
 
-    if(widget.pinned){
-      FirebaseFirestore.instance.collection(id!)
-          .doc("data").collection("pinned").doc(widget.docId).set(negotiationSnap.toFirestore());
-    }  else {
-      FirebaseFirestore.instance.collection(id!)
-          .doc("data").collection("regular").doc(widget.docId).set(negotiationSnap.toFirestore());
-    }
   }
 }
 

@@ -10,6 +10,7 @@ class Negotiation {
   int? currentOffer;
 
   int? currentAgreement = 0;
+  bool pinned = false;
 
   // int cpTarget;
   // int cpBATNA;
@@ -25,9 +26,8 @@ class Negotiation {
       required this.BATNA,
 
       this.currentAgreement,
-      // required this.cpTarget,
-      // required this.cpResistance,
-      // required this.cpBATNA,
+      this.pinned=false,
+
       });
 
   Negotiation.fromNegotiation(
@@ -66,6 +66,7 @@ class Negotiation {
       resistance: snapshot.get("resistance"),
       BATNA: snapshot.get("BATNA"),
       currentAgreement: snapshot.get("currentAgreement"),
+      pinned: snapshot.get("pinned"),
 
       // cpTarget: snapshot.get("cpTarget"),
       // cpBATNA: snapshot.get("cpBATNA"),
@@ -92,6 +93,7 @@ class Negotiation {
       if (BATNA != null) "BATNA": BATNA,
       if (currentOffer != null) "currentOffer": currentOffer,
       "currentAgreement": currentAgreement,
+      "pinned": pinned,
       // if (cpTarget != null) "cpTarget": cpTarget,
       // if (cpBATNA != null) "cpBATNA": cpBATNA,
       // if (cpResistance != null) "cpResistance": cpResistance,

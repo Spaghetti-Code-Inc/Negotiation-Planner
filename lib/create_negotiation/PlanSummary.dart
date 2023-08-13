@@ -225,7 +225,6 @@ class PlanSummary extends StatelessWidget {
 
                         db
                             .collection(FirebaseAuth.instance.currentUser!.uid)
-                            .doc("data").collection("regular")
                             .add(currentNegotiation.toFirestore());
 
                         // Resets the current negotiation

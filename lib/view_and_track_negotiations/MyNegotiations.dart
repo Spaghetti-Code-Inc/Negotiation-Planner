@@ -7,6 +7,7 @@ import 'package:negotiation_tracker/create_negotiation/StartNewNegotiation.dart'
 
 import '../NegotiationDetails.dart';
 import '../Utils.dart';
+import '../main.dart';
 import 'TrackProgress.dart';
 import 'ViewNegotiation.dart';
 
@@ -47,87 +48,93 @@ class _MyNegotiationsState extends State<MyNegotiations> {
         children: [
           // Makes the stream fill 80% of the screen at most
           Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                StreamBuilder(
-                  // Gets the users collection with their negotiations.
-                  stream: FirebaseFirestore.instance
-                      .collection(FirebaseAuth.instance.currentUser!.uid)
-                      .doc("data")
-                      .collection("pinned")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    // If there is no negotiations to the user
-                    if (!snapshot.hasData) {
-                      return const Center(child: Text('Loading Negotiations...'));
-                    }
-                    // Shows the users negotiations based, runs on the negotiation container widget
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data?.docs.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot? docSnapshot =
-                        snapshot.data?.docs[index];
+            child: ListView(shrinkWrap: true, children: [
+              StreamBuilder(
+                // Gets the users collection with their negotiations.
+                stream: FirebaseFirestore.instance
+                    .collection(FirebaseAuth.instance.currentUser!.uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // If there is no negotiations to the user
+                  if (!snapshot.hasData) {
+                    return const Center(child: Text('Loading Negotiations...'));
+                  }
+                  // Shows the users negotiations based, runs on the negotiation container widget
+                  return Column(
+                    children: [
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot? docSnapshot =
+                              snapshot.data?.docs[index];
 
-                        return NegotiationContainer(
-                          negotiation: docSnapshot, docIndex: index, pinned: true,);
-                      },
-                    );
-                  },
-                ),
+                          try {
+                            docSnapshot!.get("check");
+                            return Container(color: Colors.white,);
+                          } catch (e) {
+                            if (docSnapshot!.get("pinned") == true)
+                              return NegotiationContainer(
+                                  negotiation: docSnapshot,
+                                  docIndex: index,
+                                  pinned: true);
+                          }
+                          return Container(color: Colors.white,);
+                        },
+                      ),
+                      Divider(
+                        color: Colors.grey,
+                        thickness: 1,
+                      ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot? docSnapshot =
+                              snapshot.data?.docs[index];
 
-                Divider(color: Colors.grey, thickness: 1,),
-
-                StreamBuilder(
-                  // Gets the users collection with their negotiations.
-                  stream: FirebaseFirestore.instance
-                      .collection(FirebaseAuth.instance.currentUser!.uid)
-                      .doc("data")
-                      .collection("regular")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    // If there is no negotiations to the user
-                    if (!snapshot.hasData) {
-                      return const Center(child: Text('Loading Negotiations...'));
-                    }
-                    // Shows the users negotiations based, runs on the negotiation container widget
-                    return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data?.docs.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot? docSnapshot =
-                            snapshot.data?.docs[index];
-
-                        return NegotiationContainer(
-                            negotiation: docSnapshot, docIndex: index, pinned: false,);
-                      },
-                    );
-                  },
-                ),
-              ]),
-            ),
+                          try {
+                            docSnapshot!.get("check");
+                            return Container(color: Colors.white,);
+                          } catch (e) {
+                            if (docSnapshot!.get("pinned") == false)
+                              return NegotiationContainer(
+                                  negotiation: docSnapshot,
+                                  docIndex: index,
+                                  pinned: false);
+                          }
+                          return Container(color: Colors.white,);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ]),
+          ),
 
           Container(
-              width: MediaQuery.of(context).size.width * .9,
-              margin: EdgeInsets.only(bottom: 10),
-              height: 40,
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => StartNewNegotiation()));
-                  },
-                  child: Text("Prepare For New Negotiation"),
-                  style: TextButton.styleFrom(
-                    backgroundColor: navyBlue,
-                    foregroundColor: Colors.white,
-                    elevation: 2,
-                  ),
+            width: (MediaQuery.of(context).size.width >= SIZE)
+                ? SIZE * .9
+                : MediaQuery.of(context).size.width * .9,
+            margin: EdgeInsets.only(bottom: 10),
+            height: 40,
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StartNewNegotiation()));
+              },
+              child: Text("Prepare For New Negotiation"),
+              style: TextButton.styleFrom(
+                backgroundColor: navyBlue,
+                foregroundColor: Colors.white,
+                elevation: 2,
               ),
+            ),
           ),
         ],
       ),
@@ -142,15 +149,14 @@ class NegotiationContainer extends StatefulWidget {
   final int docIndex;
   // User id of the doc
   final id = FirebaseAuth.instance.currentUser?.uid;
-
   final bool pinned;
 
-  NegotiationContainer(
-      {Key? key,
-      required this.negotiation,
-      required this.docIndex,
-      required this.pinned})
-      : super(key: key);
+  NegotiationContainer({
+    Key? key,
+    required this.negotiation,
+    required this.docIndex,
+    required this.pinned,
+  }) : super(key: key);
   _NegotiationContainerState createState() => _NegotiationContainerState();
 }
 
@@ -159,8 +165,8 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
       Negotiation.fromFirestore(widget.negotiation);
   late String docId = widget.negotiation!.id;
 
-  var db = FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid);
-
+  var db = FirebaseFirestore.instance
+      .collection(FirebaseAuth.instance.currentUser!.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -220,34 +226,21 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                   ),
                 ),
               ),
+
               IconButton(
                 padding: EdgeInsets.only(right: 10),
                 constraints: BoxConstraints(),
                 onPressed: () {
-                  if(widget.pinned) {
-                    // delete old version
-                    db.doc("data").collection("pinned")
-                        .doc(widget.negotiation!.id).delete();
-
-                    db
-                        .doc("data").collection("regular")
-                        .add(negotiationSnap.toFirestore());
+                  if (widget.pinned) {
+                    db.doc(widget.negotiation!.id).update({"pinned": false});
                   } else {
-                    // delete old version
-                    db.doc("data").collection("regular")
-                      .doc(widget.negotiation!.id).delete();
-
-                    // Add new version to pinned
-                    db
-                        .doc("data").collection("pinned")
-                        .add(negotiationSnap.toFirestore());
+                    db.doc(widget.negotiation!.id).update({"pinned": true});
                   }
                 },
                 icon: Icon(
                   (widget.pinned) ? Icons.remove : Icons.add,
                   size: 28,
                 ),
-
               ),
             ]),
 
@@ -345,7 +338,6 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                               builder: (context) => ViewNegotiation(
                                     negotiation: negotiationSnap,
                                     docId: docId,
-                                    pinned: widget.pinned,
                                   )));
                     },
                     color: _bottomColor,
@@ -381,7 +373,6 @@ class _NegotiationContainerState extends State<NegotiationContainer> {
                             builder: (context) => TrackProgress(
                                   negotiation: negotiationSnap,
                                   docId: docId,
-                                  pinned: widget.pinned,
                                 )),
                       );
                     },

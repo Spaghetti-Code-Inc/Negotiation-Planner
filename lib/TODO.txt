@@ -4,13 +4,9 @@ Random quality of life changes:
 66. Pressing Enter on [Determine Issues] creates a new issue popup
 71. Make it so slider do not cover each other between D-B on [Negotiation Rubric]
 72. Small ring on login page surrounding loge
-
-What is needed before Launch:
-8. DEBUG
-10. Make users show up whenever they're created
+73. Fix issue slider spacing - Right side can't be determined by margins whenever the length of the bar can change.
 
 Lucas:
-TODO 8/13 - Remove bugs
 TODO Friday-Weekend: Launch onto website/upload to app stores
 
 Ideas:

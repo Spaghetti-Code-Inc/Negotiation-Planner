@@ -13,9 +13,8 @@ import '../main.dart';
 class TrackProgress extends StatefulWidget {
   Negotiation negotiation;
   String docId;
-  bool pinned;
 
-  TrackProgress({Key? key, required this.docId, required this.negotiation, required this.pinned}) : super(key: key);
+  TrackProgress({Key? key, required this.docId, required this.negotiation}) : super(key: key);
 
   @override
   State<TrackProgress> createState() => _TrackProgressState();
@@ -52,7 +51,6 @@ class _TrackProgressState extends State<TrackProgress> {
 
   @override
   Widget build(BuildContext context) {
-
     editing = false;
     userValue = 0;
     for (int i = 0; i < issueVals.length; i++) {
@@ -66,7 +64,7 @@ class _TrackProgressState extends State<TrackProgress> {
     negotiationSnap.currentAgreement = userValue;
 
     return Scaffold(
-      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing, pinned: widget.pinned,),
+      appBar: TopBar(negotiation: negotiationSnap, docId: widget.docId, editing: editing),
       body: Column(
         children: [
           Expanded(
@@ -85,67 +83,63 @@ class _TrackProgressState extends State<TrackProgress> {
                   color: Colors.black,
                 ),
 
-
-                if(negotiationSnap.issues.length != 1)
                 /// Header for overall rating
-                  Container(
-                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Overall Negotiation Rating",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 24,
-                          color: Color(0xff000000),
-                        ),
+                Container(
+                  width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Overall Negotiation Rating",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 24,
+                        color: Color(0xff000000),
                       ),
                     ),
                   ),
-                if(negotiationSnap.issues.length != 1)
+                ),
                 /// Header for entire negotiation value for user
-                  Container(
-                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Your Total Value",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 22,
-                              color: Color(0xff000000),
-                            ),
+                Container(
+                  width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Your Total Value",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 22,
+                            color: Color(0xff000000),
                           ),
                         ),
+                      ),
 
-                        /// Info Button
-                        TotalValueInfo(
-                          userValue: userValue*.01,
-                          negotiation: negotiationSnap,
-                        )
-                      ],
-                    ),
-                  ),
-                if(negotiationSnap.issues.length != 1)
-                /// Slider for overall negotiation
-                  Container(
-                      width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
-                      child: MultiThumbSlider(
-                        valuesChanged: (List<double> values) {},
-                        initalSliderValues: [0, userValue*.01, 1],
-                        thumbBuilder: (BuildContext context, int index, double value) {
-                          return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target.round(), resistance: negotiationSnap.resistance.round());
-                        },
-                        height: 70,
+                      /// Info Button
+                      TotalValueInfo(
+                        userValue: userValue*.01,
+                        negotiation: negotiationSnap,
                       )
+                    ],
                   ),
+                ),
+                /// Slider for overall negotiation
+                Container(
+                    width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
+                    child: MultiThumbSlider(
+                      valuesChanged: (List<double> values) {},
+                      initalSliderValues: [0, userValue*.01, 1],
+                      thumbBuilder: (BuildContext context, int index, double value) {
+                        return IssueThumbs(index: index, letter: "T", value: value, multiplier: .01, target: negotiationSnap.target.round(), resistance: negotiationSnap.resistance.round());
+                      },
+                      height: 70,
+                    )
+                ),
 
                 /// Contains "Bargaining Range for Individual Issues"
                 Container(
@@ -212,14 +206,8 @@ class _TrackProgressState extends State<TrackProgress> {
     negotiationSnap.currentAgreement = (userValue).truncate();
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
-
-    if(widget.pinned){
-      FirebaseFirestore.instance.collection(id!)
-          .doc("data").collection("pinned").doc(widget.docId).set(negotiationSnap.toFirestore());
-    }  else {
-      FirebaseFirestore.instance.collection(id!)
-          .doc("data").collection("regular").doc(widget.docId).set(negotiationSnap.toFirestore());
-    }
+    FirebaseFirestore.instance.collection(id!)
+        .doc(widget.docId).set(negotiationSnap.toFirestore());
 
     refresh();
   }
@@ -253,7 +241,6 @@ class TotalValueInfo extends StatelessWidget {
         ),
         onPressed: () {
           showTotalInfoTrackProgress(context, negotiation);
-          print("Pressed");
         },
         padding: EdgeInsets.all(0),
       ),
@@ -373,9 +360,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Negotiation negotiation;
   String docId;
   bool editing;
-  bool pinned;
 
-  TopBar({Key? key, required this.negotiation, required this.docId, required this.editing, required this.pinned})
+  TopBar({Key? key, required this.negotiation, required this.docId, required this.editing})
       : super(key: key);
 
   @override
@@ -409,15 +395,9 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     String? id = FirebaseAuth.instance.currentUser?.uid;
 
-                    if(pinned){
-                      print("$id, data, pinned, $docId");
-                      FirebaseFirestore.instance.collection(id!)
-                          .doc("data").collection("pinned").doc(docId).delete();
-                    } else {
-                      print("$id, data, regular, $docId");
-                      FirebaseFirestore.instance.collection(id!)
-                          .doc("data").collection("regular").doc(docId).delete();
-                    }
+                    FirebaseFirestore.instance.collection(id!)
+                        .doc(docId).delete();
+
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.push(
@@ -444,11 +424,11 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
 
             if(editing){
-              checkSwitch(context, negotiation, docId, pinned);
+              checkSwitch(context, negotiation, docId);
             } else {
               Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId, pinned: pinned,)));
+                  MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId)));
             }
           },
         ),
@@ -460,7 +440,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(60.0);
 }
 
-checkSwitch(context, negotiation, docId, pinned){
+checkSwitch(context, negotiation, docId){
   return showDialog(
     context: context,
     builder: (BuildContext context) => AlertDialog(
@@ -478,7 +458,7 @@ checkSwitch(context, negotiation, docId, pinned){
             Navigator.pop(context);
 
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId, pinned: pinned,)));
+                MaterialPageRoute(builder: (context) => ViewNegotiation(negotiation: negotiation, docId: docId)));
 
           },
           child: Text("Yes"),

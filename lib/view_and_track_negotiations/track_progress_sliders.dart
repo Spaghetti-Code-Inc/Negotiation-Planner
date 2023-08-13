@@ -30,17 +30,21 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
 
     // Step 1: Find the closest letter value below
     int closest = 100;
-    int closestLetter = -1;
+    int closestLetter = 0;
     int i = 0;
-    for(List each in widget.issue.issueVals.values){
-      double distance = widget.vals[widget.index]-each[0];
+
+    Map<int, String> letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "F"};
+    List<String> alpha = ["A", "B", "C", "D", "F"];
+
+    for(String each in alpha){
+      double points = widget.issue.issueVals[each][0];
+      double distance = widget.vals[widget.index]-points;
       if(distance >= 0 && distance < closest) {
         closest = distance.toInt();
         closestLetter = i;
       }
       i++;
     }
-    Map<int, String> letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "F"};
 
     // Step 2: Find the distance from each of the closest letter values and assign real value - Run if != A
     String letter = "A";

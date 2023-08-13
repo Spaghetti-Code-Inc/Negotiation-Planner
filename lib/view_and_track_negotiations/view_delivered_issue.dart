@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../NegotiationDetails.dart';
+import '../main.dart';
 import '../multi_thumb_slider/src/multi_thumb_slider.dart';
 import '../multi_thumb_slider/src/thumb_lock_behaviour.dart';
 import '../multi_thumb_slider/src/thumb_overdrag_behaviour.dart';
@@ -52,7 +53,7 @@ class _ViewCurrentIssuesState extends State<ViewCurrentIssues> {
     return Column(children: [
       Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
-        width: MediaQuery.of(context).size.width * .85,
+        width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85 : MediaQuery.of(context).size.width * .85,
         child: MultiThumbSlider(
           initalSliderValues: _issueVals,
           valuesChanged: (List<double> values) {

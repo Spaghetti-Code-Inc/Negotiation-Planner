@@ -137,7 +137,7 @@ class UserSlider extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(right: 7, left: 7),
+      margin: (value >= 10) ? EdgeInsets.only(right: 11, left: 7) : EdgeInsets.only(right: 13, left: 7),
       child: Column(children: [
         Container(
           margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
@@ -174,27 +174,30 @@ class FrontBackSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-        width: 7.0,
-        height: 30.0,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 6.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
+    return Container(
+      margin: EdgeInsets.only(right: 6),
+      child: Column(children: [
+        Container(
+          margin: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+          width: 7.0,
+          height: 30.0,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(.2),
+                blurRadius: 6.0,
+                spreadRadius: 2.0,
+                offset: const Offset(0.0, 0.0),
+              ),
+            ],
+          ),
         ),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
-        child: Text((!front) ? "100" : "0"),
-      ),
-    ]);
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+          child: Text((!front) ? "100" : "0"),
+        ),
+      ]),
+    );
   }
 }
