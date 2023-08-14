@@ -160,17 +160,11 @@ class SliderInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        border: Border.all(color: navyBlue),
-        borderRadius: BorderRadius.circular(5.0),
-        color: Colors.transparent,
-      ),
+    return Align(
+      alignment: Alignment.center,
       child: IconButton(
         icon: Icon(
-          Icons.info_outlined,
+          Icons.info_outline,
           size: 28,
           color: navyBlue,
         ),

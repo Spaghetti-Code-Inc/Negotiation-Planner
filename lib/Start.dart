@@ -126,115 +126,14 @@ class WebDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      child: Column(
-        children: [
-
-          Container(
-            margin: EdgeInsets.only(top: 30, left: 15, right: 15),
-            child: Text(
-              "The main purpose of this app is to help you:",
-              style: TextStyle(
-                shadows: [
-                  Shadow(
-                      color: Colors.black,
-                      offset: Offset(0, -5))
-                ],
-                decorationColor: Color(0xff0A0A5B),
-                decoration: TextDecoration.underline,
-                decorationThickness: 2,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.transparent,
-              ),
-            )
+      margin: EdgeInsets.all(30),
+      child: Padding(
+        padding: EdgeInsets.all(30),
+          child: Column(
+              children: [
+                Text("1. Prepare negotiation\n2. Track progress\n3. Evaluate agreement", style: TextStyle(fontSize: 40)),
+            ],
           ),
-
-
-          Container(
-            margin: const EdgeInsets.only(top: 20, bottom: 0),
-            padding: const EdgeInsets.all(20),
-            height: 150,
-            width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.8: MediaQuery.of(context).size.width * .8,
-            child: ElevatedButton.icon(
-              onPressed: () {
-
-              },
-              icon: const Icon(
-                Icons.add_to_photos,
-                size: 24.0,
-              ),
-              label: const Center(
-                  child: Text(
-                    'Prepare Negotiations',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  )),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Color(0xff0A0A5B),
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            height: 150,
-            width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.8: MediaQuery.of(context).size.width * .8,
-            child: ElevatedButton.icon(
-              onPressed: () {
-              },
-              icon: const Icon(
-                Icons.book,
-                size: 24.0,
-              ),
-              label: const Center(
-                  child: Text(
-                    'Track Progress',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  )),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Color(0xff0A0A5B),
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            height: 150,
-            width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.8: MediaQuery.of(context).size.width * .8,
-            child: ElevatedButton.icon(
-              onPressed: () {
-
-              },
-              icon: const Icon(
-                Icons.verified,
-                size: 24.0,
-              ),
-              label: const Center(
-                  child: Text(
-                    'Evaluate Agreements',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  )),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Color(0xff0A0A5B),
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
