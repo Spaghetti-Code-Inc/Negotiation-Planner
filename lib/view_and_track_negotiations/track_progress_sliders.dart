@@ -143,7 +143,7 @@ class _TrackSliderProgressState extends State<TrackSliderProgress> {
   }
 }
 
-/// Editable slider info
+/// Editable slider information
 class SliderInfo extends StatelessWidget {
   String letter;
   String currentValue;

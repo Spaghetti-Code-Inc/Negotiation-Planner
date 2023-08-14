@@ -131,7 +131,7 @@ class WebDisplay extends StatelessWidget {
         padding: EdgeInsets.all(30),
           child: Column(
               children: [
-                Text("1. Prepare negotiation\n2. Track progress\n3. Evaluate agreement", style: TextStyle(fontSize: 40)),
+                Text("1. Prepare negotiation \n2. Track progress \n3. Evaluate agreement", style: TextStyle(fontSize: 40)),
             ],
           ),
       ),
