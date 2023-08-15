@@ -395,7 +395,7 @@ class EnterValues extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
 
-                                      title: Text("Real Value for $issueName"),
+                                      title: Text("Real Value for: $issueName"),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -406,6 +406,7 @@ class EnterValues extends StatelessWidget {
 
                                           /// Pts
                                           Container(
+                                            height: 40,
                                             child: TextFormField(
                                               controller: datatype,
                                               inputFormatters: [
