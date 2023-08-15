@@ -454,7 +454,7 @@ class EnterValues extends StatelessWidget {
                                       ],
                                     ));
                           },
-                          child: (datatype.text == "") ? Text("Enter Datatype", style: TextStyle(color: Colors.white),) : Text(datatype.text, style: TextStyle(color: Colors.white)),
+                          child: Text("Enter Datatype", style: TextStyle(color: Colors.white),),
                           style: ElevatedButton.styleFrom(
                               primary: Color(0xff0A0A5B),
                               side: BorderSide(
