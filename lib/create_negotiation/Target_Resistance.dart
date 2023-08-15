@@ -62,6 +62,8 @@ class _TargetResistanceState extends State<TargetResistance> {
                       ),
                       child: Row(
                           children: [
+                            // Used to center 'Target and Resistance' by offsetting the icon button width
+                            Container(width: 40, color: Colors.white),
                             Expanded(
                               child: Text(
                                 "Target & Resistance",

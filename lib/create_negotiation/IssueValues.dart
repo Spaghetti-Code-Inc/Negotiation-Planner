@@ -334,180 +334,183 @@ class EnterValues extends StatelessWidget {
     ];
 
 
-    return Column(
-      children: [
-        /// Header for issue
-        Container(
-          margin: const EdgeInsets.all(0),
-          padding: const EdgeInsets.all(0),
-          width: MediaQuery.of(context).size.width,
-          height: 60,
-          decoration: BoxDecoration(
-            color: const Color(0xff1E2027),
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.zero,
-            border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
-          ),
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-              child: Row(
-                children: [
-                  /// Issue Name
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              issueName!,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18,
-                                color: Color(0xffffffff),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          /// Header for issue
+          Container(
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
+            width: MediaQuery.of(context).size.width,
+            height: 60,
+            decoration: BoxDecoration(
+              color: const Color(0xff1E2027),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.zero,
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Row(
+                  children: [
+                    /// Issue Name
+                    Expanded(
+                      flex: 5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 5),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                issueName!,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18,
+                                  color: Color(0xffffffff),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            barrierDismissible: false,
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        margin: EdgeInsets.only(right: 5),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
 
-                                    title: Text("Real Value for $issueName"),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                            "This will be the datatype associated with this letter of this issue. \n \n"
-                                            "Please enter a datatype, in the box below. (Example would be: Percent, Dollars, Months) \n \n"
-                                            "This datatype applies to all settlements of this issue. \n"),
+                                      title: Text("Real Value for $issueName"),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                              "This will be the datatype associated with this letter of this issue. \n \n"
+                                              "Please enter a datatype, in the box below. (Example would be: Percent, Dollars, Months) \n \n"
+                                              "This datatype applies to all settlements of this issue. \n"),
 
-                                        /// Pts
-                                        Container(
-                                          child: TextFormField(
-                                            controller: datatype,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(25)
-                                            ],
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(0.0),
-                                                borderSide: const BorderSide(
-                                                    color: Colors.white,
-                                                    width: 4),
+                                          /// Pts
+                                          Container(
+                                            child: TextFormField(
+                                              controller: datatype,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(MAX_DATATYPE_LENGTH)
+                                              ],
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(0.0),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.white,
+                                                      width: 4),
+                                                ),
+                                                labelText: "Datatype",
+                                                labelStyle: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 14,
+                                                  color: Color(0xff000000),
+                                                ),
+                                                filled: true,
+                                                fillColor:
+                                                    const Color(0xfff2f2f3),
+                                                isDense: true,
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 12),
                                               ),
-                                              labelText: "Datatype",
-                                              labelStyle: const TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 14,
-                                                color: Color(0xff000000),
-                                              ),
-                                              filled: true,
-                                              fillColor:
-                                                  const Color(0xfff2f2f3),
-                                              isDense: true,
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8,
-                                                      horizontal: 12),
                                             ),
                                           ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('Okay'),
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Color(0xFF6DC090),
+                                          ),
+                                          onPressed: () {
+                                            reload();
+                                            Navigator.pop(context);
+                                          },
                                         ),
                                       ],
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        child: const Text('Okay'),
-                                        style: TextButton.styleFrom(
-                                          foregroundColor: Color(0xFF6DC090),
-                                        ),
-                                        onPressed: () {
-                                          reload();
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
-                                  ));
-                        },
-                        child: (datatype.text == "") ? Text("Enter Datatype", style: TextStyle(color: Colors.white),) : Text(datatype.text, style: TextStyle(color: Colors.white)),
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xff0A0A5B),
-                            side: BorderSide(
-                              color: Colors.white,
-                              width: 2.0,
-                            )),
+                                    ));
+                          },
+                          child: (datatype.text == "") ? Text("Enter Datatype", style: TextStyle(color: Colors.white),) : Text(datatype.text, style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xff0A0A5B),
+                              side: BorderSide(
+                                color: Colors.white,
+                                width: 2.0,
+                              )),
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          EvenlyDistribute();
-                        },
-                        child: Text("Distribute", style: TextStyle(color: Colors.white),),
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xff0A0A5B),
-                            side: BorderSide(
-                              color: Colors.white,
-                              width: 2.0,
-                            )),
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            EvenlyDistribute();
+                          },
+                          child: Text("Distribute", style: TextStyle(color: Colors.white),),
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xff0A0A5B),
+                              side: BorderSide(
+                                color: Colors.white,
+                                width: 2.0,
+                              )),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
 
-        ListView.builder(
-          itemCount: 5,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            return Column(children: [
-              Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: InputRow(
-                      name: inputRowNames[index],
-                      datatype: datatype,
-                      buttonText: inputRowSummary[index],
-                      points: ctrl[index],
-                      realWorldValue: realCtrl[index])),
-              Divider(
-                thickness: 1,
-                color: Colors.black,
-                height: 0,
-              ),
-            ]);
-          },
-        ),
-      ],
+          ListView.builder(
+            itemCount: 5,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return Column(children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: InputRow(
+                        name: inputRowNames[index],
+                        datatype: datatype,
+                        buttonText: inputRowSummary[index],
+                        points: ctrl[index],
+                        realWorldValue: realCtrl[index])),
+                Divider(
+                  thickness: 1,
+                  color: Colors.black,
+                  height: 0,
+                ),
+              ]);
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -614,6 +617,7 @@ class _InputRowState extends State<InputRow> {
         Expanded(
           flex: 3,
           child: TextFormField(
+            onTapOutside: (e){},
             keyboardType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
@@ -658,6 +662,7 @@ class _InputRowState extends State<InputRow> {
               shape: BoxShape.rectangle,
             ),
             child: TextField(
+              onTapOutside: (e){},
               keyboardType: TextInputType.number,
               inputFormatters: INTEGER_INPUTS,
               controller: widget.points,

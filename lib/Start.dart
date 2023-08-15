@@ -73,7 +73,7 @@ class Start extends StatelessWidget {
               ),
 
               Container(
-                margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                 padding: const EdgeInsets.all(0),
                 width: (MediaQuery.of(context).size.width >= SIZE) ? SIZE*.85: MediaQuery.of(context).size.width * .85,
                 decoration: BoxDecoration(
@@ -131,7 +131,7 @@ class WebDisplay extends StatelessWidget {
         padding: EdgeInsets.all(30),
           child: Column(
               children: [
-                Text("1. Prepare negotiation \n2. Track progress \n3. Evaluate agreement", style: TextStyle(fontSize: 40)),
+                Text("1. Prepare Negotiations \n2. Track Progress \n3. Evaluate Agreements", style: TextStyle(fontSize: 32, color: Color(0xff0A0A5B))),
             ],
           ),
       ),

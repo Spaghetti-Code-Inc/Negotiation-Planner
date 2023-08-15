@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../NegotiationDetails.dart';
 import 'IssueValues.dart';
 import 'package:negotiation_tracker/Utils.dart';
 import '../main.dart';
@@ -295,8 +294,11 @@ class _WeightIssuesState extends State<WeightIssues> {
                               controller: _controllers[index],
 
                               decoration: InputDecoration(
-                                hintText: "0",
-                                enabledBorder: (
+                                  labelText: "Points",
+                                  labelStyle: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                  enabledBorder: (
                                   OutlineInputBorder(
                                     borderSide: BorderSide(width: 3, color: Color(0xff0A0A5B)),
                                     borderRadius: BorderRadius.circular(20),
