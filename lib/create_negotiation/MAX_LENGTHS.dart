@@ -3,8 +3,9 @@
 import 'package:flutter/services.dart';
 
 final int MAX_TITLE_LENGTH = 39;
-final int MAX_SUMMARY_LENGTH = 255;
+final int MAX_SUMMARY_LENGTH = 422;
 final int MAX_ISSUE_NAME = 27;
+final int MAX_DATATYPE_LENGTH = 48;
 
 // Because the max points is 100, any number entered by user can be at most 3 digits
 

@@ -138,7 +138,7 @@ class _DetermineIssuesState extends State<DetermineIssues> {
                           ),
                           content: const Text(
                               'An issue is something the negotiators will try to reach an agreement on. '
-                                  'Consider all the issues relevant to their negotiation. '
+                                  'Consider all the issues relevant to your negotiation. '
                                   'Be sure to include any issues that could make the deal better '
                                   'for you and/or your counterpart.'),
                           actions: [

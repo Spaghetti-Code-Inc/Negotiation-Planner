@@ -225,15 +225,7 @@ class TotalValueInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        border: Border.all(color: navyBlue),
-        borderRadius: BorderRadius.circular(5.0),
-        color: Colors.transparent,
-      ),
-      child: IconButton(
+    return IconButton(
         icon: Icon(
           Icons.info_outlined,
           size: 28,
@@ -243,8 +235,7 @@ class TotalValueInfo extends StatelessWidget {
           showTotalInfoTrackProgress(context, negotiation);
         },
         padding: EdgeInsets.all(0),
-      ),
-    );
+      );
   }
 }
 

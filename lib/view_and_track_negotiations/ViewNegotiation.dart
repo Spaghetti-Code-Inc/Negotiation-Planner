@@ -207,15 +207,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                         ),
 
                         /// Info Button - showInfoRubric
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: navyBlue),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.transparent,
-                          ),
-                          child: IconButton(
+                        IconButton(
                             icon: Icon(
                               Icons.info_outlined,
                               size: 28,
@@ -229,7 +221,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                             },
                             padding: EdgeInsets.all(0),
                           ),
-                        ),
+
                       ],
                     ),
                   ),
@@ -289,15 +281,7 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                 ),
                               ),
 
-                              Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: navyBlue),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.transparent,
-                                ),
-                                child: IconButton(
+                              IconButton(
                                   icon: Icon(
                                     Icons.info_outlined,
                                     size: 28,
@@ -311,7 +295,6 @@ class _ViewNegotiationState extends State<ViewNegotiation> {
                                   },
                                   padding: EdgeInsets.all(0),
                                 ),
-                              ),
                             ],
                           ),
                         ),

@@ -6,8 +6,12 @@ Random quality of life changes:
 72. Small ring on login page surrounding loge
 73. Fix issue slider spacing - Right side can't be determined by margins whenever the length of the bar can change.
 
-Lucas:
-TODO Friday-Weekend: Launch onto website/upload to app stores
+TODO Updates:
+1. Change Website Start Page
+5. Make the text boxes on [Target and Resistance] shorter
+7. Fix issue sliders end margins - Why Does left side stay there?
+12. Make url not show up on phone?
+
 
 Ideas:
 1. Make the negotiation save the start date to tell how long it has lasted?
@@ -19,6 +23,7 @@ Ideas:
     and change other values if they are greater than the new max value - Should this be allowed?
 7. Add info buttons to SnackBar popups
 8. If there are no negotiations on [MyNegotiations] display something to the user
+9. Show the rubric for the user to determine their BATNA?
 
 Cleaning Code:
 5. Make Scaffold's shorter - use more helper classes/listview.builder

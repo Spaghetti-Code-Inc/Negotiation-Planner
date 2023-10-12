@@ -40,7 +40,6 @@ class BATNATestState extends State<BATNATest> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-
                           padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
                           child: Text(
                             "Test Drive: Your BATNA",
@@ -79,7 +78,6 @@ class BATNATestState extends State<BATNATest> {
                           child: Text(
                             "Out of 100 points, what is the value of your BATNA?",
                             textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
@@ -89,7 +87,7 @@ class BATNATestState extends State<BATNATest> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 3, 0, 10),
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 10),
                           child: TextFormField(
                             keyboardType: TextInputType.number,
                             inputFormatters: INTEGER_INPUTS,
