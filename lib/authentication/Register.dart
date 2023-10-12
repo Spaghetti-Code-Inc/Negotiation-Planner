@@ -268,7 +268,7 @@ class _RegisterState extends State<Register> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: Text(
-                  "By creating an account or continuing to use  this app, you acknowledge and agree that you have accepted the Terms of  Services and  have reviewed the Privacy Policy.",
+                  "This is a web-based tool currently under development to help individuals prepare for a negotiation and track its progress. There is no warranty (express or implied) and the user assumes any and all risk with using this tool. By creating an account or continuing to use  this app, you acknowledge and agree that you have accepted the Terms of Services and  have reviewed the Privacy Policy.",
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
